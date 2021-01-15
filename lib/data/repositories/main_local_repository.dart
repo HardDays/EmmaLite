@@ -1,7 +1,7 @@
 import 'package:emma_mobile/di/service_locator.dart';
-import 'package:emma_mobile/domain/model/measurements/measurement.dart';
 import 'package:emma_mobile/domain/repositories/main_repository.dart';
 import 'package:emma_mobile/domain/repositories/measurement_repository.dart';
+import 'package:emma_mobile/models/measurements/measurement.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 

@@ -1,13 +1,12 @@
 import 'package:emma_mobile/bloc/main/main_cubit.dart';
 import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
 import 'package:emma_mobile/bloc/measurement/measurement_state.dart';
-import 'package:emma_mobile/domain/model/measurements/measurement_type.dart';
+import 'package:emma_mobile/models/measurements/measurement_type.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
 import 'package:emma_mobile/ui/components/bottom_sheet.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
 import 'package:emma_mobile/ui/components/space.dart';
 import 'package:emma_mobile/ui/components/textfields/emm_text_field.dart';
-import 'package:emma_mobile/ui/routing/navigator.dart';
 import 'package:emma_mobile/utils/date_utils.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,10 +19,26 @@ class MeasurementNewScreen extends StatefulWidget {
 }
 
 class _MeasurementNewScreenState extends State<MeasurementNewScreen> {
-  final TextEditingController _type = TextEditingController();
-  final TextEditingController _date = TextEditingController();
-  final TextEditingController _measures = TextEditingController();
+  TextEditingController _type;
+  TextEditingController _date;
+  TextEditingController _measures;
   bool _isFormValid = false;
+
+  @override
+  void initState() {
+    _type = TextEditingController();
+    _date = TextEditingController();
+    _measures = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _type.dispose();
+    _date.dispose();
+    _measures.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,12 +55,13 @@ class _MeasurementNewScreenState extends State<MeasurementNewScreen> {
   Widget _buildBody(BuildContext context) {
     return BlocConsumer<MeasurementCubit, MeasurementState>(
       listener: (context, state) {
-        if (state.isSaved?.payload == true) {
-          navigatorPop(context);
-        }
-        if (state.isSaved?.error != null) {
-          showError(context, state.isSaved?.error?.message);
-        }
+        //todo
+        // if (state.isSaved?.payload == true) {
+        //   navigatorPop(context);
+        // }
+        // if (state.isSaved?.error != null) {
+        //   showError(context, state.isSaved?.error?.message);
+        // }
       },
       listenWhen: (c, p) => p != c,
       builder: (context, state) {
@@ -61,7 +77,8 @@ class _MeasurementNewScreenState extends State<MeasurementNewScreen> {
                 labelText: 'Тип измерения',
                 onTap: () => showDataPicker<MeasurementType>(
                   context,
-                  state.measurementTypes?.payload?.toList(),
+                  [], //todo
+                  // state.measurementTypes?.payload?.toList(),
                   (measurement) => {
                     _validateForm(),
                     context
@@ -79,21 +96,18 @@ class _MeasurementNewScreenState extends State<MeasurementNewScreen> {
                 labelText: 'Дата и время',
                 onTap: () => showCustomDatePicker(
                   context,
-                  (date) =>
-                      {_validateForm(), _date.text = dateTimeToString(date)},
+                  (date) {
+                    _validateForm();
+                    _date.text = dateTimeToString(date);
+                  },
                   'Дата и время',
                 ),
               ),
               const HSpace(20),
               EmmaTextField(
                 textEditingController: _measures,
-                onChanged: (text) => {
-                  _validateForm(),
-                  _measures.value = TextEditingValue(
-                    text: text,
-                    selection: TextSelection(
-                        baseOffset: text.length, extentOffset: text.length),
-                  )
+                onChanged: (text) {
+                  _validateForm();
                 },
                 labelText: 'Показатели',
               ),

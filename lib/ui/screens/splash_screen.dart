@@ -13,10 +13,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final bloc = context.bloc<AppCommon>();
     return Scaffold(
       body: BlocListener<AppCommon, AppCommonState>(
         listener: (context, state) {
-          if (state.isLaunchFirstTime) {
+          if (bloc.isLaunchFirstTime) {
             // ignore: lines_longer_than_80_chars
             //todo: Убрать это дурацкую заглушку, имитация загрузки во время отображения splash screen
             Future.delayed(
@@ -24,7 +25,7 @@ class SplashScreen extends StatelessWidget {
               () => navigatorReplace(context, GreetingScreen()),
             );
           }
-          if (state.isRegistrationCompleted == true) {
+          if (bloc.isRegistrationCompleted == true) {
             navigatorReplace(context, PinEnterScreen());
           }
         },

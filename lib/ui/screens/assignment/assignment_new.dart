@@ -1,6 +1,6 @@
 import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
 import 'package:emma_mobile/bloc/measurement/measurement_state.dart';
-import 'package:emma_mobile/domain/model/measurements/measurement_type.dart';
+import 'package:emma_mobile/models/measurements/measurement_type.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
 import 'package:emma_mobile/ui/components/bottom_sheet.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
@@ -36,9 +36,10 @@ class _AssignmentNewScreenState extends State<AssignmentNewScreen> {
   Widget _buildBody(BuildContext context) {
     return BlocConsumer<MeasurementCubit, MeasurementState>(
       listener: (context, state) {
-        if (state.isSaved?.payload == true) {
-          navigatorPop(context);
-        }
+        //todo
+        // if (state.isSaved?.payload == true) {
+        //   navigatorPop(context);
+        // }
       },
       listenWhen: (current, previuos) => previuos != current,
       builder: (context, state) {
@@ -54,7 +55,8 @@ class _AssignmentNewScreenState extends State<AssignmentNewScreen> {
                 labelText: 'Тип измерения',
                 onTap: () => showDataPicker<MeasurementType>(
                   context,
-                  state.measurementTypes?.payload?.toList(),
+                  [],//todo
+                  // state.measurementTypes?.payload?.toList(),
                   (measurement) => {
                     _type.text = measurement.name,
                   },

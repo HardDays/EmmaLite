@@ -8,14 +8,14 @@ import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
 import '../data/repositories/app_local_repository.dart';
-import '../data/repositories/assignment_local_repository.dart';
-import '../data/repositories/main_local_repository.dart';
-import '../data/repositories/measurement_local_repository.dart';
-import '../data/repositories/profile_local_repository.dart';
 import '../domain/repositories/app_repository.dart';
+import '../data/repositories/assignment_local_repository.dart';
 import '../domain/repositories/assignment_repository.dart';
+import '../data/repositories/main_local_repository.dart';
 import '../domain/repositories/main_repository.dart';
+import '../data/repositories/measurement_local_repository.dart';
 import '../domain/repositories/measurement_repository.dart';
+import '../data/repositories/profile_local_repository.dart';
 import '../domain/repositories/profile_repository.dart';
 
 /// adds generated dependencies

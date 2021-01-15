@@ -48,7 +48,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   Widget _buildBody(BuildContext context) {
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
-        if (state.user?.hasData == true) {
+        if (true) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: ListView(

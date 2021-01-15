@@ -40,7 +40,6 @@ dependencies:
   intl: ^0.16.1
   #bloc
   flutter_bloc: any
-  hydrated_bloc: ^6.0.3
   #info
   package_info: any
   device_info: any

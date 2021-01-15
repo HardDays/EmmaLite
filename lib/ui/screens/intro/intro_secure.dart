@@ -4,8 +4,8 @@ import 'package:emma_mobile/ui/components/buttons/emma_flat_button.dart';
 import 'package:emma_mobile/ui/components/intro/intro_logo.dart';
 import 'package:emma_mobile/ui/components/space.dart';
 import 'package:emma_mobile/ui/routing/navigator.dart';
-import 'package:emma_mobile/ui/screens/home/root_screen.dart';
 import 'package:emma_mobile/ui/screens/login/pin_enter_screen.dart';
+import 'package:emma_mobile/ui/screens/navigator_screen.dart';
 import 'package:flutter/material.dart';
 
 class IntroSecure extends StatelessWidget {
@@ -35,7 +35,7 @@ class IntroSecure extends StatelessWidget {
             const HSpace(24),
             EmmaFlatButton(
               title: 'Сделаю позже в Настройках',
-              onTap: () => navigatorReplace(context, RootScreen()),
+              onTap: () => navigatorReplace(context, NavigatorScreen()),
             )
           ],
         ),

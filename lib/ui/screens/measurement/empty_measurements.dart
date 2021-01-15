@@ -18,7 +18,27 @@ class EmptyMeasurements extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const HSpace(72),
-          _buildIconBlock(context),
+          Container(
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: AppColors.cFFFFFF,
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.black12,
+                  offset: Offset(0, 3),
+                  blurRadius: 4,
+                  spreadRadius: 0,
+                ),
+              ],
+            ),
+            padding: const EdgeInsets.only(
+              top: 40,
+              right: 38,
+              left: 38,
+              bottom: 36,
+            ),
+            child: Assets.icons.measurementsInactive.svg(width: 44, height: 44),
+          ),
           const HSpace(24),
           Text(
             // ignore: lines_longer_than_80_chars
@@ -34,25 +54,6 @@ class EmptyMeasurements extends StatelessWidget {
           )
         ],
       ),
-    );
-  }
-
-  Widget _buildIconBlock(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        shape: BoxShape.circle,
-        color: AppColors.cFFFFFF,
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.black12,
-            offset: Offset(0, 3),
-            blurRadius: 4,
-            spreadRadius: 0,
-          ),
-        ],
-      ),
-      padding: const EdgeInsets.only(top: 40, right: 38, left: 38, bottom: 36),
-      child: Assets.icons.measurementsInactive.svg(width: 44, height: 44),
     );
   }
 }

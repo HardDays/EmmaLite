@@ -24,7 +24,7 @@ class _TestScreenState extends State<TestScreen> {
       child: Scaffold(
         body: BlocBuilder<MeasurementCubit, MeasurementState>(
           builder: (context, state) {
-            if (state.measurementTypes?.payload != null) {
+            if (true) {//todo
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: GridView.builder(

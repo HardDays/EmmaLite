@@ -1,4 +1,4 @@
-import 'package:emma_mobile/domain/model/measurements/measurement.dart';
+import 'package:emma_mobile/models/measurements/measurement.dart';
 import 'package:emma_mobile/ui/components/space.dart';
 import 'package:emma_mobile/ui/styles/test_styles.dart';
 import 'package:emma_mobile/utils/utils.dart';
@@ -13,7 +13,9 @@ class MeasurementHorizontalListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: AppColors.cFFFFFF, borderRadius: BorderRadius.circular(4)),
+        color: AppColors.cFFFFFF,
+        borderRadius: BorderRadius.circular(4),
+      ),
       padding: const EdgeInsets.all(12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

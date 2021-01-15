@@ -1,112 +1,85 @@
-import 'package:emma_mobile/data/serializers/serializers.dart';
 import 'package:emma_mobile/di/service_locator.dart';
-import 'package:emma_mobile/domain/common/async_field.dart';
-import 'package:emma_mobile/domain/model/common/error_model.dart';
+import 'package:emma_mobile/domain/model/user/user.dart';
 import 'package:emma_mobile/domain/repositories/app_repository.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local_auth/local_auth.dart';
 
 import 'app_common_state.dart';
 
-class AppCommon extends HydratedCubit<AppCommonState> {
-  AppCommon(this.repository) : super(AppCommonState()) {
+class AppCommon extends Cubit<AppCommonState> {
+  AppCommon(this.repository) : super(LoadingAppCommonState()) {
     locator.registerSingleton<AppCommon>(this);
+    init();
   }
 
   final localAuth = LocalAuthentication();
   final AppRepository repository;
 
-  void init() {
-    _checkBiometry();
+  BiometricType _biometricType;
+
+  BiometricType get currentBiometricType => _biometricType;
+
+  String _phone;
+
+  String get phone => _phone;
+
+  String _token;
+
+  String get token => _token;
+
+  bool _isLaunchFirstTime;
+
+  bool get isLaunchFirstTime => _isLaunchFirstTime;
+
+  bool get isRegistrationCompleted => true;
+
+  String _pinCode;
+
+  String get pinCode => _pinCode;
+
+  bool _biometryGranted;
+
+  bool get biometryGranted => _biometryGranted;
+
+  User _user;
+
+  User get user => _user;
+
+  Future<void> init() async {
+    await _checkBiometry();
     _checkLaunchFirstTimeOrNot();
   }
 
   Future<void> _checkBiometry() async {
     final availableBiometrics = await localAuth.getAvailableBiometrics();
     if (availableBiometrics.contains(BiometricType.face)) {
-      emit(state.rebuild((s) => s.currentBiometricType = BiometricType.face));
+      _biometricType = BiometricType.face;
     } else if (availableBiometrics.contains(BiometricType.fingerprint)) {
-      emit(
-        state
-            .rebuild((s) => s.currentBiometricType = BiometricType.fingerprint),
-      );
+      _biometricType = BiometricType.fingerprint;
     }
   }
 
   void _checkLaunchFirstTimeOrNot() {
-    emit(state.rebuild((s) => s.isLaunchFirstTime = true));
-    if (state.isLaunchFirstTime == true) {
-      //Заглушка
-      Future.delayed(
-        const Duration(seconds: 2),
-        () => emit(state.rebuild((s) => s.isLaunchFirstTime = false)),
-      );
-    } else {
-      emit(state.rebuild((s) => s.isLaunchFirstTime = false));
-    }
+    _isLaunchFirstTime = true;
   }
 
   void savePin(String pin) {
     if (pin.length == 4) {
-      emit(state.rebuild((s) => s.pinCode = pin));
+      _pinCode = pin;
     }
   }
 
-  void saveTemp(String pin) {
-    emit(state
-        .rebuild((s) => s.tempCode.replace(AsyncField<String>.inProgress())));
-    if (pin.length == 4) {
-      emit(state
-          .rebuild((s) => s.tempCode.replace(AsyncField<String>.success(pin))));
-    }
-  }
+  void saveTemp(String pin) {}
 
-  void checkTemp(String pin) {
-    if (pin.length == 4 && pin != state.tempCode.payload) {
-      emit(state.rebuild(
-          (s) => s.tempCode.replace(AsyncField<String>.error(ErrorModel((s) {
-                s.message = 'Пароли не совпадают';
-              })))));
-      //todo: Переделать этот момент, временное решение
-      Future.delayed(
-        const Duration(seconds: 1),
-        () => emit(state.rebuild((s) => s.tempCode = null)),
-      );
-    }
-    if (pin.length == 4 && pin == state.tempCode.payload) {
-      savePin(pin);
-    }
-  }
+  void checkTemp(String pin) {}
 
-  void checkPin(String pin) {
-    if (pin.length == 4) {
-      emit(state.rebuild((s) => s.isAuthorized = pin == s.pinCode));
-    }
-  }
+  void checkPin(String pin) {}
 
-  void completeRegistration() {
-    emit(state.rebuild((s) {
-      s.isRegistrationCompleted = true;
-    }));
-  }
+  void completeRegistration() {}
 
-  void logOut() {
-    emit(state.rebuild((s) {
-      s.isAuthorized = false;
-    }));
-  }
+  void logOut() {}
 
   void grantBiometry() {
-    emit(state.rebuild((s) => s.biometryGranted = true));
-  }
-
-  @override
-  AppCommonState fromJson(Map<String, dynamic> json) {
-    return deserialize<AppCommonState>(json);
-  }
-
-  @override
-  Map<String, dynamic> toJson(AppCommonState state) {
-    return serializers.serializeWith(AppCommonState.serializer, state);
+    _biometryGranted = true;
   }
 }

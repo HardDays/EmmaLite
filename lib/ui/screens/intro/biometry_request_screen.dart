@@ -5,7 +5,7 @@ import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_flat_button.dart';
 import 'package:emma_mobile/ui/components/space.dart';
 import 'package:emma_mobile/ui/routing/navigator.dart';
-import 'package:emma_mobile/ui/screens/home/root_screen.dart';
+import 'package:emma_mobile/ui/screens/navigator_screen.dart';
 import 'package:emma_mobile/ui/styles/test_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,28 +20,29 @@ class BiometryRequestScreen extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
+    final bloc = context.bloc<AppCommon>();
     return BlocConsumer<AppCommon, AppCommonState>(
       listener: (context, state) {
-        if (state.biometryGranted == true) {
-          navigatorReplace(context, RootScreen());
+        if (bloc.biometryGranted == true) {
+          navigatorReplace(context, NavigatorScreen());
         }
       },
       listenWhen: (previous, current) => previous != current,
       builder: (context, state) {
-        if (state.currentBiometricType != null) {
+        if (bloc.currentBiometricType != null) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               // mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                state.currentBiometricType == BiometricType.face
+                bloc.currentBiometricType == BiometricType.face
                     ? Assets.images.faceId.image()
                     : Assets.images.touchId.image(),
                 const HSpace(50),
                 Text(
                   // ignore: lines_longer_than_80_chars
-                  "Хотите использовать ${state.currentBiometricType == BiometricType.face ? "Face ID" : "Touch ID"}",
+                  "Хотите использовать ${bloc.currentBiometricType == BiometricType.face ? "Face ID" : "Touch ID"}",
                   style: CustomTextStyles.introLogoTitle,
                 ),
                 const HSpace(16),
@@ -54,13 +55,13 @@ class BiometryRequestScreen extends StatelessWidget {
                 EmmaFilledButton(
                   title:
                       // ignore: lines_longer_than_80_chars
-                      "Да, использовать ${state.currentBiometricType == BiometricType.face ? "Face" : "Touch"} ID",
+                      "Да, использовать ${bloc.currentBiometricType == BiometricType.face ? "Face" : "Touch"} ID",
                   onTap: () => context.read<AppCommon>().grantBiometry(),
                 ),
                 const HSpace(24),
                 EmmaFlatButton(
                   title: 'Позже',
-                  onTap: () => navigatorReplace(context, RootScreen()),
+                  onTap: () => navigatorReplace(context, NavigatorScreen()),
                 )
               ],
             ),

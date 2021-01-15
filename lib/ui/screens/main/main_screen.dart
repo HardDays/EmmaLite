@@ -1,12 +1,10 @@
 import 'package:emma_mobile/bloc/main/main_cubit.dart';
 import 'package:emma_mobile/bloc/main/main_state.dart';
-import 'package:emma_mobile/domain/model/measurements/measurement.dart';
 import 'package:emma_mobile/generated/assets.gen.dart';
+import 'package:emma_mobile/models/measurements/measurement.dart';
 import 'package:emma_mobile/ui/components/space.dart';
-import 'package:emma_mobile/ui/routing/navigator.dart';
 import 'package:emma_mobile/ui/screens/main/empty_block.dart';
 import 'package:emma_mobile/ui/screens/main/measurement_horizontal_list_item.dart';
-import 'package:emma_mobile/ui/screens/measurement/measurement_new.dart';
 import 'package:emma_mobile/ui/styles/test_styles.dart';
 import 'package:emma_mobile/utils/date_utils.dart';
 import 'package:flutter/material.dart';
@@ -56,19 +54,20 @@ class MainScreen extends StatelessWidget {
                 ),
               ),
               const SliverToBoxAdapter(child: HSpace(12)),
-              state.measurementList?.payload?.isNotEmpty == true
-                  ? _buildMeasureList(context, state?.measurementList?.payload)
-                  : SliverToBoxAdapter(
-                      child: EmptyBlockMain(
-                        icon: Assets.icons.measurementsInactive.svg(),
-                        title:
-                            // ignore: lines_longer_than_80_chars
-                            'Здесь будут показываться ваши последние значения по всем измерениям',
-                        buttonTitle: 'Добавить первое измерение',
-                        onTap: () =>
-                            navigatorPush(context, MeasurementNewScreen()),
-                      ),
-                    ),
+              //todo
+              // state.measurementList?.payload?.isNotEmpty == true
+              //     ? _buildMeasureList(context, state?.measurementList?.payload)
+              //     : SliverToBoxAdapter(
+              //         child: EmptyBlockMain(
+              //           icon: Assets.icons.measurementsInactive.svg(),
+              //           title:
+              //               // ignore: lines_longer_than_80_chars
+              //               'Здесь будут показываться ваши последние значения по всем измерениям',
+              //           buttonTitle: 'Добавить первое измерение',
+              //           onTap: () =>
+              //               navigatorPush(context, MeasurementNewScreen()),
+              //         ),
+              //       ),
               const SliverToBoxAdapter(child: HSpace(16)),
             ],
           ),

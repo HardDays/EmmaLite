@@ -1,5 +1,5 @@
-import 'package:emma_mobile/domain/model/measurements/measurement.dart';
 import 'package:emma_mobile/generated/assets.gen.dart';
+import 'package:emma_mobile/models/measurements/measurement.dart';
 import 'package:emma_mobile/ui/components/space.dart';
 import 'package:emma_mobile/ui/styles/test_styles.dart';
 import 'package:emma_mobile/utils/utils.dart';

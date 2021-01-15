@@ -14,9 +14,10 @@ class AssignmentsScreen extends StatelessWidget {
         return Scaffold(
           appBar: EmmaAppBarWithBottom(
             titleText: 'Назначения',
-            bottomWidget: state.assignChipTypes != null
-                ? _buildTypeChipList(context, state.assignChipTypes)
-                : Container(),
+            //todo
+            // bottomWidget: state.assignChipTypes != null
+            //     ? _buildTypeChipList(context, state.assignChipTypes)
+            //     : Container(),
           ),
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -28,15 +29,16 @@ class AssignmentsScreen extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
-    if (context
-            .watch<AssignmentCubit>()
-            .state
-            .assignmentList
-            ?.payload
-            ?.isNotEmpty ==
-        true) {
-      return Container();
-    }
+    //todo
+    // if (context
+    //         .watch<AssignmentCubit>()
+    //         .state
+    //         .assignmentList
+    //         ?.payload
+    //         ?.isNotEmpty ==
+    //     true) {
+    //   return Container();
+    // }
     return const EmptyAssignments();
   }
 
@@ -51,8 +53,10 @@ class AssignmentsScreen extends StatelessWidget {
             onTap: () => context.read<AssignmentCubit>(),
             child: AssignmentTypeChip(
               assignmentType: items.elementAt(index),
-              isActive: items.elementAt(index) ==
-                  context.watch<AssignmentCubit>().state.currentTypeChip,
+              isActive: false,
+              //todo
+              // isActive: items.elementAt(index) ==
+              //     context.watch<AssignmentCubit>().state.currentTypeChip,
             ),
           ),
         ),

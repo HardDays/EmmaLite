@@ -1,5 +1,5 @@
-import 'package:emma_mobile/domain/model/measurements/measurement.dart';
-import 'package:emma_mobile/domain/model/measurements/measurement_type.dart';
+import 'package:emma_mobile/models/measurements/measurement.dart';
+import 'package:emma_mobile/models/measurements/measurement_type.dart';
 
 abstract class MeasurementRepository {
   Future<Iterable<Measurement>> fetchMeasurementList();

@@ -48,12 +48,14 @@ class _EmmaTextFieldState extends State<EmmaTextField> {
       color: AppColors.cFFFFFF,
       borderRadius: BorderRadius.circular(widget.borderRadius),
       boxShadow: widget.boxShadows ??
-          const BoxShadow(
-            color: AppColors.c0D000000,
-            offset: Offset(0, 2),
-            spreadRadius: 0,
-            blurRadius: 4,
-          ),
+          const [
+            BoxShadow(
+              color: AppColors.c0D000000,
+              offset: Offset(0, 2),
+              spreadRadius: 0,
+              blurRadius: 4,
+            ),
+          ],
     );
 
     return Container(
