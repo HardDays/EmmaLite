@@ -1,0 +1,1 @@
+bool isNullOrEmpty(String source) => source == null || source.isEmpty;
