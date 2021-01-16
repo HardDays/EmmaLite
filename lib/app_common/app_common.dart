@@ -1,6 +1,6 @@
+import 'package:emma_mobile/data/repositories/app_local_repository.dart';
 import 'package:emma_mobile/di/service_locator.dart';
-import 'package:emma_mobile/domain/model/user/user.dart';
-import 'package:emma_mobile/domain/repositories/app_repository.dart';
+import 'package:emma_mobile/models/user/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local_auth/local_auth.dart';
 
@@ -13,7 +13,7 @@ class AppCommon extends Cubit<AppCommonState> {
   }
 
   final localAuth = LocalAuthentication();
-  final AppRepository repository;
+  final AppLocalRepository repository;
 
   BiometricType _biometricType;
 

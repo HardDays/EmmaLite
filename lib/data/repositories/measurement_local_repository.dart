@@ -1,13 +1,9 @@
-import 'package:emma_mobile/domain/repositories/measurement_repository.dart';
 import 'package:emma_mobile/generated/assets.gen.dart';
 import 'package:emma_mobile/models/measurements/measurement.dart';
 import 'package:emma_mobile/models/measurements/measurement_type.dart';
 import 'package:hive/hive.dart';
-import 'package:injectable/injectable.dart';
 
-@Injectable(as: MeasurementRepository)
-class MeasurementLocalRepository implements MeasurementRepository {
-  @override
+class MeasurementLocalRepository {
   Future<Iterable<Measurement>> fetchMeasurementList() async {
     final types = await fetchMeasurementTypeList();
     final measurements = <Measurement>[];
@@ -23,7 +19,6 @@ class MeasurementLocalRepository implements MeasurementRepository {
     return Future.value(measurements.where((element) => element != null));
   }
 
-  @override
   Future<Iterable<MeasurementType>> fetchMeasurementTypeList() async {
     final measurementsTypes = <MeasurementType>[
       MeasurementType(0, 'Пульс', 'уд/мин'),
@@ -35,7 +30,6 @@ class MeasurementLocalRepository implements MeasurementRepository {
     return measurementsTypes;
   }
 
-  @override
   Future<void> saveMeasure(
       String date, MeasurementType type, String title, String value) async {
     final box = await Hive.openBox<Measurement>('measurements');

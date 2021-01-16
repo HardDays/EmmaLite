@@ -1,16 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:emma_mobile/bloc/profile/profile_state.dart';
-import 'package:emma_mobile/domain/model/user/user.dart';
-import 'package:emma_mobile/domain/repositories/profile_repository.dart';
-
+import 'package:emma_mobile/data/repositories/profile_local_repository.dart';
 class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit(this.repository) : super(DataProfileState());
 
-  ProfileRepository repository;
+  ProfileLocalRepository repository;
 
   Future<void> fetchProfile() async {
     try {
-      final user = await repository.fetchProfile();
+      final user = repository.fetchProfile();
     } catch (e) {
       print(e);
       // emit(

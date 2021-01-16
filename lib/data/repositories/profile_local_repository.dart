@@ -1,12 +1,8 @@
-import 'package:emma_mobile/domain/model/user/user.dart';
-import 'package:emma_mobile/domain/repositories/profile_repository.dart';
-import 'package:injectable/injectable.dart';
+import 'package:emma_mobile/models/user/user.dart';
 
-@Injectable(as: ProfileRepository)
-class ProfileLocalRepository implements ProfileRepository {
+class ProfileLocalRepository {
 
-  @override
-  Future<User> fetchProfile() {
+  User fetchProfile() {
     final user = User(
     (s) {
       s.firstName = 'Иванов';
@@ -20,7 +16,7 @@ class ProfileLocalRepository implements ProfileRepository {
       s.sex = 'male';
     }
     );
-    return Future.value(user);
+    return user;
   }
 
 }

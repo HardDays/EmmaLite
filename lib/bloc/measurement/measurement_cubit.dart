@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:emma_mobile/bloc/measurement/measurement_state.dart';
-import 'package:emma_mobile/domain/repositories/measurement_repository.dart';
+import 'package:emma_mobile/data/repositories/measurement_local_repository.dart';
 import 'package:emma_mobile/models/measurements/measurement_type.dart';
 
 class MeasurementCubit extends Cubit<MeasurementState> {
@@ -8,7 +8,7 @@ class MeasurementCubit extends Cubit<MeasurementState> {
     init();
   }
 
-  final MeasurementRepository repository;
+  final MeasurementLocalRepository repository;
 
   void init() {
     fetchMeasurementTypedList();
@@ -44,8 +44,7 @@ class MeasurementCubit extends Cubit<MeasurementState> {
     }
   }
 
-  void setCurrentMeasurementType(MeasurementType type) {
-  }
+  void setCurrentMeasurementType(MeasurementType type) {}
 
   Future<void> saveMeasurement(String date, String title, String value) async {
     try {
@@ -62,6 +61,5 @@ class MeasurementCubit extends Cubit<MeasurementState> {
     }
   }
 
-  void dispose() {
-  }
+  void dispose() {}
 }
