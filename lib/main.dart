@@ -47,7 +47,7 @@ Future<void> main() async {
         create: (context) => AppCommon(AppLocalRepository()),
       ),
       BlocProvider(
-        lazy: true,
+        lazy: false,
         create: (context) =>
             MeasurementCubit(MeasurementLocalRepository()),
       ),

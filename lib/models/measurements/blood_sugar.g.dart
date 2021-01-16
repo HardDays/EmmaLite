@@ -19,7 +19,7 @@ class BloodSugarAdapter extends TypeAdapter<BloodSugar> {
     return BloodSugar()
       ..id = fields[0] as int
       ..date = fields[1] as String
-      ..value = fields[2] as double;
+      ..sugar = fields[2] as double;
   }
 
   @override
@@ -31,7 +31,7 @@ class BloodSugarAdapter extends TypeAdapter<BloodSugar> {
       ..writeByte(1)
       ..write(obj.date)
       ..writeByte(2)
-      ..write(obj.value);
+      ..write(obj.sugar);
   }
 
   @override

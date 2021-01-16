@@ -19,7 +19,7 @@ class TemperatureAdapter extends TypeAdapter<Temperature> {
     return Temperature()
       ..id = fields[0] as int
       ..date = fields[1] as String
-      ..value = fields[2] as double;
+      ..temperature = fields[2] as double;
   }
 
   @override
@@ -31,7 +31,7 @@ class TemperatureAdapter extends TypeAdapter<Temperature> {
       ..writeByte(1)
       ..write(obj.date)
       ..writeByte(2)
-      ..write(obj.value);
+      ..write(obj.temperature);
   }
 
   @override

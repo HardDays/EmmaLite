@@ -4,20 +4,24 @@ import 'package:emma_mobile/models/measurements/height_model.dart';
 import 'package:emma_mobile/models/measurements/pulse.dart';
 import 'package:emma_mobile/models/measurements/temperature.dart';
 import 'package:emma_mobile/utils/hive_boxes.dart';
+import 'package:emma_mobile/utils/utils.dart';
 
 class MeasurementLocalRepository {
   final _hiveBoxes = HiveBoxes();
 
   List<ArterialPressure> getArterialPressure() =>
-      _hiveBoxes.arterialPressureBox.values;
+      _hiveBoxes.arterialPressureBox.values.toList().getLastOrNull();
 
-  List<BloodSugar> getBloodSugar() => _hiveBoxes.bloodSugarBox.values;
+  List<BloodSugar> getBloodSugar() =>
+      _hiveBoxes.bloodSugarBox.values.toList().getLastOrNull();
 
-  List<HeightModel> getHeightModel() => _hiveBoxes.heightModelBox.values;
+  List<HeightModel> getHeightModel() =>
+      _hiveBoxes.heightModelBox.values.toList().getLastOrNull();
 
-  List<Pulse> getPulse() => _hiveBoxes.pulseBox.values;
+  List<Pulse> getPulse() => _hiveBoxes.pulseBox.values.toList().getLastOrNull();
 
-  List<Temperature> getTemperature() => _hiveBoxes.temperatureBox.values;
+  List<Temperature> getTemperature() =>
+      _hiveBoxes.temperatureBox.values.toList().getLastOrNull();
 
   void saveArterialPressure({ArterialPressure pulse}) {}
 

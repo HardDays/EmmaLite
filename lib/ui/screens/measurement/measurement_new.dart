@@ -52,7 +52,7 @@ class _MeasurementNewScreenState extends State<MeasurementNewScreen> {
 
   Widget _buildBody(BuildContext context) {
     return BlocConsumer<MeasurementCubit, MeasurementState>(
-      listener: (context, state) {
+      listener: (_, state) {
         //todo
         // if (state.isSaved?.payload == true) {
         //   navigatorPop(context);
@@ -115,10 +115,10 @@ class _MeasurementNewScreenState extends State<MeasurementNewScreen> {
                 child: EmmaFilledButton(
                   isActive: _isFormValid,
                   title: 'Сохранить',
-                  onTap: () => {
-                    context.read<MeasurementCubit>().saveMeasurement(
-                        _date.text, _type.text, _measures.text),
-                  },
+                  // onTap: () => {
+                  //   context.read<MeasurementCubit>().saveMeasurement(
+                  //       _date.text, _type.text, _measures.text),
+                  // },
                 ),
               )
             ],

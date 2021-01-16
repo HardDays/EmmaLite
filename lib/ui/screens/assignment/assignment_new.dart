@@ -6,7 +6,6 @@ import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
 import 'package:emma_mobile/ui/components/buttons/text_back_button.dart';
 import 'package:emma_mobile/ui/components/space.dart';
 import 'package:emma_mobile/ui/components/textfields/emm_text_field.dart';
-import 'package:emma_mobile/ui/routing/navigator.dart';
 import 'package:emma_mobile/utils/date_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -86,9 +85,9 @@ class _AssignmentNewScreenState extends State<AssignmentNewScreen> {
                 child: EmmaFilledButton(
                   // isActive: state.isFormValid,
                   title: 'Сохранить',
-                  onTap: () => context
-                      .read<MeasurementCubit>()
-                      .saveMeasurement(_date.text, _type.text, _measures.text),
+                  // onTap: () => context
+                  //     .read<MeasurementCubit>()
+                  //     .saveMeasurement(_date.text, _type.text, _measures.text),
                 ),
               )
             ],

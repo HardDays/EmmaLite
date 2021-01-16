@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class MeasurementScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final bloc = context.bloc<MeasurementCubit>();
     return Scaffold(
       appBar: EmmaAppBar(
         titleText: 'Измерения',
@@ -15,7 +16,6 @@ class MeasurementScreen extends StatelessWidget {
       ),
       body: BlocBuilder<MeasurementCubit, MeasurementState>(
         builder: (context, state) {
-          //todo
           return EmptyMeasurements();
           // if (state.measurementList?.payload?.isNotEmpty == true) {
           //   return ListView.builder(
