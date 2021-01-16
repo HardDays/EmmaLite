@@ -14,15 +14,15 @@ class HiveBoxes {
   Box<Pulse> _pulse;
   Box<Temperature> _temperature;
 
-  Box<ArterialPressure> get arterialPressure => _arterialPressure;
+  Box<Temperature> get temperatureBox => _temperature;
 
-  Box<BloodSugar> get bloodSugar => _bloodSugar;
+  Box<ArterialPressure> get arterialPressureBox => _arterialPressure;
 
-  Box<HeightModel> get heightModel => _heightModel;
+  Box<BloodSugar> get bloodSugarBox => _bloodSugar;
 
-  Box<Pulse> get pulse => _pulse;
+  Box<HeightModel> get heightModelBox => _heightModel;
 
-  Box<Temperature> get temperature => _temperature;
+  Box<Pulse> get pulseBox => _pulse;
 
   factory HiveBoxes() {
     _instance ??= HiveBoxes._();
@@ -36,7 +36,7 @@ class HiveBoxes {
         await Hive.openBox<ArterialPressure>('ArterialPressure');
     _bloodSugar = await Hive.openBox<BloodSugar>('BloodSugar');
     _heightModel = await Hive.openBox<HeightModel>('HeightModel');
-    _pulse = await Hive.openBox<Pulse>('pulse');
+    _pulse = await Hive.openBox<Pulse>('Pulse');
     _temperature = await Hive.openBox<Temperature>('Temperature');
   }
 }

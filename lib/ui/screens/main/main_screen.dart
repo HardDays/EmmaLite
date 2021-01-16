@@ -1,9 +1,8 @@
-import 'package:emma_mobile/bloc/main/main_cubit.dart';
-import 'package:emma_mobile/bloc/main/main_state.dart';
+import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
+import 'package:emma_mobile/bloc/measurement/measurement_state.dart';
 import 'package:emma_mobile/generated/assets.gen.dart';
 import 'package:emma_mobile/ui/components/space.dart';
 import 'package:emma_mobile/ui/screens/main/empty_block.dart';
-import 'package:emma_mobile/ui/screens/main/measurement_horizontal_list_item.dart';
 import 'package:emma_mobile/ui/styles/test_styles.dart';
 import 'package:emma_mobile/utils/date_utils.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +15,7 @@ class MainScreen extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
-    return BlocBuilder<MainCubit, MainState>(
+    return BlocBuilder<MeasurementCubit, MeasurementState>(
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),

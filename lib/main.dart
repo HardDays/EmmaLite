@@ -1,10 +1,6 @@
 import 'package:emma_mobile/app_common/app_common.dart';
-import 'package:emma_mobile/bloc/assignment/assignment_cubit.dart';
-import 'package:emma_mobile/bloc/main/main_cubit.dart';
 import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
 import 'package:emma_mobile/data/repositories/app_local_repository.dart';
-import 'package:emma_mobile/data/repositories/assignment_local_repository.dart';
-import 'package:emma_mobile/data/repositories/main_local_repository.dart';
 import 'package:emma_mobile/data/repositories/measurement_local_repository.dart';
 import 'package:emma_mobile/l10n/delegate.dart';
 import 'package:emma_mobile/models/measurements/arterial_pressure.dart';
@@ -49,15 +45,6 @@ Future<void> main() async {
       BlocProvider(
         lazy: false,
         create: (context) => AppCommon(AppLocalRepository()),
-      ),
-      BlocProvider(
-        lazy: true,
-        create: (context) => MainCubit(MainLocalRepository()),
-      ),
-      BlocProvider(
-        lazy: true,
-        create: (context) =>
-            AssignmentCubit(AssignmentLocalRepository()),
       ),
       BlocProvider(
         lazy: true,

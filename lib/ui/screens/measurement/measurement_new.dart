@@ -1,4 +1,3 @@
-import 'package:emma_mobile/bloc/main/main_cubit.dart';
 import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
 import 'package:emma_mobile/bloc/measurement/measurement_state.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
@@ -119,7 +118,6 @@ class _MeasurementNewScreenState extends State<MeasurementNewScreen> {
                   onTap: () => {
                     context.read<MeasurementCubit>().saveMeasurement(
                         _date.text, _type.text, _measures.text),
-                    context.read<MainCubit>().fetchMeasurementList()
                   },
                 ),
               )
