@@ -1,7 +1,6 @@
 import 'package:emma_mobile/bloc/main/main_cubit.dart';
 import 'package:emma_mobile/bloc/main/main_state.dart';
 import 'package:emma_mobile/generated/assets.gen.dart';
-import 'package:emma_mobile/models/measurements/measurement.dart';
 import 'package:emma_mobile/ui/components/space.dart';
 import 'package:emma_mobile/ui/screens/main/empty_block.dart';
 import 'package:emma_mobile/ui/screens/main/measurement_horizontal_list_item.dart';
@@ -75,21 +74,21 @@ class MainScreen extends StatelessWidget {
       },
     );
   }
-
-  Widget _buildMeasureList(
-      BuildContext context, Iterable<Measurement> measures) {
-    return SliverToBoxAdapter(
-      child: Container(
-        constraints: const BoxConstraints(minHeight: 50, maxHeight: 100),
-        child: ListView.separated(
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) => MeasurementHorizontalListItem(
-            measures.elementAt(index),
-          ),
-          separatorBuilder: (context, index) => const WSpace(8),
-          itemCount: measures.length,
-        ),
-      ),
-    );
-  }
+  //
+  // Widget _buildMeasureList(
+  //     BuildContext context, Iterable<Measurement> measures) {
+  //   return SliverToBoxAdapter(
+  //     child: Container(
+  //       constraints: const BoxConstraints(minHeight: 50, maxHeight: 100),
+  //       child: ListView.separated(
+  //         scrollDirection: Axis.horizontal,
+  //         itemBuilder: (context, index) => MeasurementHorizontalListItem(
+  //           measures.elementAt(index),
+  //         ),
+  //         separatorBuilder: (context, index) => const WSpace(8),
+  //         itemCount: measures.length,
+  //       ),
+  //     ),
+  //   );
+  // }
 }

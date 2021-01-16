@@ -1,6 +1,5 @@
 import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
 import 'package:emma_mobile/bloc/measurement/measurement_state.dart';
-import 'package:emma_mobile/models/measurements/measurement_type.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
 import 'package:emma_mobile/ui/components/bottom_sheet.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
@@ -53,15 +52,15 @@ class _AssignmentNewScreenState extends State<AssignmentNewScreen> {
                 textEditingController: _type,
                 withPicker: true,
                 labelText: 'Тип измерения',
-                onTap: () => showDataPicker<MeasurementType>(
-                  context,
-                  [],//todo
-                  // state.measurementTypes?.payload?.toList(),
-                  (measurement) => {
-                    _type.text = measurement.name,
-                  },
-                  'Тип измерения',
-                ),
+                // onTap: () => showDataPicker<MeasurementType>(
+                //   context,
+                //   [],//todo
+                //   // state.measurementTypes?.payload?.toList(),
+                //   (measurement) => {
+                //     _type.text = measurement.name,
+                //   },
+                //   'Тип измерения',
+                // ),
               ),
               const HSpace(20),
               EmmaTextField(

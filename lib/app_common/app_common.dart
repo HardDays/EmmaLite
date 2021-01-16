@@ -1,5 +1,4 @@
 import 'package:emma_mobile/data/repositories/app_local_repository.dart';
-import 'package:emma_mobile/di/service_locator.dart';
 import 'package:emma_mobile/models/user/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local_auth/local_auth.dart';
@@ -8,7 +7,6 @@ import 'app_common_state.dart';
 
 class AppCommon extends Cubit<AppCommonState> {
   AppCommon(this.repository) : super(LoadingAppCommonState()) {
-    locator.registerSingleton<AppCommon>(this);
     init();
   }
 

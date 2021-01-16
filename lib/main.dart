@@ -6,13 +6,16 @@ import 'package:emma_mobile/data/repositories/app_local_repository.dart';
 import 'package:emma_mobile/data/repositories/assignment_local_repository.dart';
 import 'package:emma_mobile/data/repositories/main_local_repository.dart';
 import 'package:emma_mobile/data/repositories/measurement_local_repository.dart';
-import 'package:emma_mobile/di/injectable.dart';
-import 'package:emma_mobile/di/service_locator.dart';
 import 'package:emma_mobile/l10n/delegate.dart';
-import 'package:emma_mobile/models/measurements/measurement.dart';
+import 'package:emma_mobile/models/measurements/arterial_pressure.dart';
+import 'package:emma_mobile/models/measurements/blood_sugar.dart';
+import 'package:emma_mobile/models/measurements/height_model.dart';
+import 'package:emma_mobile/models/measurements/pulse.dart';
+import 'package:emma_mobile/models/measurements/temperature.dart';
 import 'package:emma_mobile/ui/routing/router.dart';
 import 'package:emma_mobile/ui/screens/navigator_screen.dart';
 import 'package:emma_mobile/ui/styles/themes.dart';
+import 'package:emma_mobile/utils/hive_boxes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -21,8 +24,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  configureDependencies();
   await initHive();
+  await HiveBoxes().init();
   AppRouter.current.rootNavigatorKey = GlobalKey<NavigatorState>();
   final app = MaterialApp(
     title: 'Emma Mobile',
@@ -45,21 +48,21 @@ Future<void> main() async {
     providers: [
       BlocProvider(
         lazy: false,
-        create: (context) => AppCommon(locator.get<AppLocalRepository>()),
+        create: (context) => AppCommon(AppLocalRepository()),
       ),
       BlocProvider(
         lazy: true,
-        create: (context) => MainCubit(locator.get<MainLocalRepository>()),
-      ),
-      BlocProvider(
-        lazy: true,
-        create: (context) =>
-            AssignmentCubit(locator.get<AssignmentLocalRepository>()),
+        create: (context) => MainCubit(MainLocalRepository()),
       ),
       BlocProvider(
         lazy: true,
         create: (context) =>
-            MeasurementCubit(locator.get<MeasurementLocalRepository>()),
+            AssignmentCubit(AssignmentLocalRepository()),
+      ),
+      BlocProvider(
+        lazy: true,
+        create: (context) =>
+            MeasurementCubit(MeasurementLocalRepository()),
       ),
     ],
     child: app,
@@ -69,5 +72,9 @@ Future<void> main() async {
 
 Future<void> initHive() async {
   await Hive.initFlutter();
-  Hive.registerAdapter(MeasurementAdapter());
+  Hive.registerAdapter(ArterialPressureAdapter());
+  Hive.registerAdapter(BloodSugarAdapter());
+  Hive.registerAdapter(HeightModelAdapter());
+  Hive.registerAdapter(PulseAdapter());
+  Hive.registerAdapter(TemperatureAdapter());
 }
