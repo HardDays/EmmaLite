@@ -2,16 +2,16 @@ import 'package:emma_mobile/app_common/app_common.dart';
 import 'package:emma_mobile/bloc/assignment/assignment_cubit.dart';
 import 'package:emma_mobile/bloc/main/main_cubit.dart';
 import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
+import 'package:emma_mobile/data/repositories/app_local_repository.dart';
+import 'package:emma_mobile/data/repositories/assignment_local_repository.dart';
+import 'package:emma_mobile/data/repositories/main_local_repository.dart';
+import 'package:emma_mobile/data/repositories/measurement_local_repository.dart';
 import 'package:emma_mobile/di/injectable.dart';
 import 'package:emma_mobile/di/service_locator.dart';
-import 'package:emma_mobile/domain/repositories/app_repository.dart';
-import 'package:emma_mobile/domain/repositories/assignment_repository.dart';
-import 'package:emma_mobile/domain/repositories/main_repository.dart';
-import 'package:emma_mobile/domain/repositories/measurement_repository.dart';
 import 'package:emma_mobile/l10n/delegate.dart';
 import 'package:emma_mobile/models/measurements/measurement.dart';
 import 'package:emma_mobile/ui/routing/router.dart';
-import 'file:///E:/Flutter_projets/EmmaLite/lib/ui/screens/navigator_screen.dart';
+import 'package:emma_mobile/ui/screens/navigator_screen.dart';
 import 'package:emma_mobile/ui/styles/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,28 +38,28 @@ Future<void> main() async {
     supportedLocales: appL10nDelegate.supportedLocales,
     themeMode: ThemeMode.light,
     // routes: AppRoutes.appRouteBuilder,
-    home: RootScreen(),
+    home: NavigatorScreen(),
   );
 
   final providedApp = MultiBlocProvider(
     providers: [
       BlocProvider(
         lazy: false,
-        create: (context) => AppCommon(locator.get<AppRepository>()),
+        create: (context) => AppCommon(locator.get<AppLocalRepository>()),
       ),
       BlocProvider(
         lazy: true,
-        create: (context) => MainCubit(locator.get<MainRepository>()),
-      ),
-      BlocProvider(
-        lazy: true,
-        create: (context) =>
-            AssignmentCubit(locator.get<AssignmentRepository>()),
+        create: (context) => MainCubit(locator.get<MainLocalRepository>()),
       ),
       BlocProvider(
         lazy: true,
         create: (context) =>
-            MeasurementCubit(locator.get<MeasurementRepository>()),
+            AssignmentCubit(locator.get<AssignmentLocalRepository>()),
+      ),
+      BlocProvider(
+        lazy: true,
+        create: (context) =>
+            MeasurementCubit(locator.get<MeasurementLocalRepository>()),
       ),
     ],
     child: app,
