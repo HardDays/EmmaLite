@@ -1,5 +1,5 @@
-import 'package:emma_mobile/data/repositories/app_local_repository.dart';
 import 'package:emma_mobile/models/user/user.dart';
+import 'package:emma_mobile/repositories/app_local_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local_auth/local_auth.dart';
 

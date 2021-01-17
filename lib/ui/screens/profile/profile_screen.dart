@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:emma_mobile/bloc/profile/profile_cubit.dart';
 import 'package:emma_mobile/bloc/profile/profile_state.dart';
-import 'package:emma_mobile/data/repositories/profile_local_repository.dart';
+import 'package:emma_mobile/repositories/profile_local_repository.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
 import 'package:emma_mobile/ui/components/bottom_sheet.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
