@@ -1,5 +1,5 @@
-import 'package:emma_mobile/generated/assets.gen.dart';
 import 'package:emma_mobile/ui/components/space.dart';
+import 'package:emma_mobile/ui/images.dart';
 import 'package:emma_mobile/ui/styles/test_styles.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +16,7 @@ class IntroLogo extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Flexible(child: Assets.images.intro.image()),
+        Flexible(child: AppImages.intro()),
         const HSpace(32),
         Text(
           title,

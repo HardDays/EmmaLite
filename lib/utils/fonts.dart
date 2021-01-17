@@ -69,6 +69,13 @@ class AppTypography {
     fontSize: Constants.textSize22,
   );
 
+  static final font24 = TextStyle(
+    fontFamily: _textStyle,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.normal,
+    fontSize: Constants.textSize24,
+  );
+
   static final font34 = TextStyle(
     fontFamily: _textStyle,
     fontStyle: FontStyle.normal,

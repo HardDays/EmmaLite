@@ -1,5 +1,5 @@
-import 'package:emma_mobile/generated/assets.gen.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
+import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/components/space.dart';
 import 'package:emma_mobile/ui/routing/navigator.dart';
 import 'package:emma_mobile/ui/screens/measurement/measurement_new.dart';
@@ -52,7 +52,7 @@ class EmptyAssignments extends StatelessWidget {
         ],
       ),
       padding: const EdgeInsets.only(top: 40, right: 38, left: 38, bottom: 36),
-      child: Assets.icons.prescriptionsInactive.svg(width: 44, height: 44),
+      child: AppIcons.prescriptionsInactive(width: 44, height: 44),
     );
   }
 }

@@ -1,12 +1,12 @@
 import 'package:emma_mobile/app_common/app_common.dart';
 import 'package:emma_mobile/app_common/app_common_state.dart';
-import 'package:emma_mobile/generated/assets.gen.dart';
 import 'package:emma_mobile/ui/components/animated/pulse_animated_image.dart';
 import 'package:emma_mobile/ui/components/space.dart';
 import 'package:emma_mobile/ui/routing/navigator.dart';
 import 'package:emma_mobile/ui/screens/intro/greeting_screen.dart';
 import 'package:emma_mobile/ui/screens/login/pin_enter_screen.dart';
-import 'package:emma_mobile/ui/styles/test_styles.dart';
+import 'package:emma_mobile/utils/fonts.dart';
+import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,11 +34,13 @@ class SplashScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              PulseAnimatedImage(assetName: Assets.images.logoSymbol.assetName),
+              const PulseAnimatedImage(
+                assetName: 'assets/images/logo_symbol.png',
+              ),
               const HSpace(54),
-              const Text(
+              Text(
                 'Мы повышаем эффективность Вашего общения с врачом',
-                style: CustomTextStyles.splashScreen,
+                style: AppTypography.font24.copyWith(color: AppColors.c3B4047),
                 textAlign: TextAlign.center,
               ),
             ],

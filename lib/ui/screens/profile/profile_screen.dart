@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:emma_mobile/bloc/profile/profile_cubit.dart';
 import 'package:emma_mobile/bloc/profile/profile_state.dart';
 import 'package:emma_mobile/data/repositories/profile_local_repository.dart';
-import 'package:emma_mobile/generated/assets.gen.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
 import 'package:emma_mobile/ui/components/bottom_sheet.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
@@ -124,7 +123,7 @@ class ProfileScreenState extends State<ProfileScreen> {
         border: Border.all(width: 4, color: AppColors.cFFFFFF),
         image: DecorationImage(
           image: isNullOrEmpty(imageUrl)
-              ? AssetImage(Assets.images.emptyAvatar.path)
+              ? const AssetImage('assets/images/empty_avatar.png')
               : CachedNetworkImageProvider(imageUrl),
         ),
       ),

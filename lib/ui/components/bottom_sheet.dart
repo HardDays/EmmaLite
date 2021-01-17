@@ -1,4 +1,4 @@
-import 'package:emma_mobile/generated/assets.gen.dart';
+import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/routing/navigator.dart';
 import 'package:emma_mobile/ui/styles/test_styles.dart';
 import 'package:emma_mobile/utils/utils.dart';
@@ -109,11 +109,11 @@ Widget _buildToolBar(BuildContext context, String title, {double height = 44}) {
       children: [
         GestureDetector(
             onTap: () => Navigator.pop(context),
-            child: Assets.icons.close.svg()),
+            child: AppIcons.close()),
         Text(title, style: CustomTextStyles.generalAppBarTitle),
         GestureDetector(
           onTap: () => Navigator.pop(context),
-          child: Assets.icons.accept.svg(),
+          child: AppIcons.accept(),
         ),
       ],
     ),

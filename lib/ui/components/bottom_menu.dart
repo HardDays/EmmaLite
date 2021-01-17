@@ -1,4 +1,4 @@
-import 'package:emma_mobile/generated/assets.gen.dart';
+import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/components/space.dart';
 import 'package:emma_mobile/ui/routing/navigator.dart';
 import 'package:emma_mobile/ui/screens/assignment/assignments_screen.dart';
@@ -31,14 +31,14 @@ class BottomMenu extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   BottomMenuItem(
-                    icon: Assets.icons.measurementsInactive.svg(),
+                    icon: AppIcons.measurementsInactive(),
                     title: 'Добавить измерение',
                     width: width,
                     onTap: () => navigatorPush(context, MeasurementNewScreen()),
                   ),
                   const WSpace(8),
                   BottomMenuItem(
-                    icon: Assets.icons.prescriptionsInactive.svg(),
+                    icon:  AppIcons.prescriptionsInactive(),
                     title: 'Добавить назначение',
                     width: width,
                     onTap: () => navigatorPush(context, AssignmentsScreen()),
@@ -47,7 +47,7 @@ class BottomMenu extends StatelessWidget {
               ),
               const HSpace(16),
               BottomMenuItem(
-                  icon: Assets.icons.report.svg(), title: 'Сформировать отчет'),
+                  icon: AppIcons.report(), title: 'Сформировать отчет'),
             ],
           ),
         );
@@ -59,14 +59,14 @@ class BottomMenu extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 BottomMenuItem(
-                  icon: Assets.icons.profile.svg(),
+                  icon: AppIcons.profile(),
                   title: 'Профиль',
                   width: width,
                   onTap: () => navigatorPush(context, ProfileScreen()),
                 ),
                 const WSpace(8),
                 BottomMenuItem(
-                  icon: Assets.icons.doctors.svg(),
+                  icon: AppIcons.doctors(),
                   title: 'Мои врачи',
                   width: width,
                 )
@@ -75,7 +75,7 @@ class BottomMenu extends StatelessWidget {
             ),
             const HSpace(16),
             BottomMenuItem(
-              icon: Assets.icons.settings.svg(),
+              icon: AppIcons.settings(),
               title: 'Настройки',
             ),
           ],

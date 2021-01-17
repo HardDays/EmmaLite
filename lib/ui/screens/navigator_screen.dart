@@ -1,6 +1,6 @@
-import 'package:emma_mobile/generated/assets.gen.dart';
 import 'package:emma_mobile/ui/components/bottom_navigation/custom_bottom_nav_bar_item.dart';
 import 'package:emma_mobile/ui/components/bottom_navigation/custom_bottom_navigation_bar.dart';
+import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/screens/main/main_screen.dart';
 import 'package:emma_mobile/ui/screens/measurement/measurements_screen.dart';
 import 'package:emma_mobile/ui/styles/test_styles.dart';
@@ -19,6 +19,7 @@ class _NavigatorScreenState extends State<NavigatorScreen>
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context, designSize: const Size(320, 704));
     return Scaffold(
       body: Column(
         children: [
@@ -49,32 +50,32 @@ class _NavigatorScreenState extends State<NavigatorScreen>
         onTap: (index) => {setState(() => _currentIndex = index)},
         items: [
           CustomBottomNavigationBarItem(
-            activeIcon: Assets.icons.graphActive.svg(),
-            inactiveIcon: Assets.icons.graphInactive.svg(),
+            activeIcon: AppIcons.graphActive(),
+            inactiveIcon: AppIcons.graphInactive(),
             title: '',
             isActive: _currentIndex == 0,
           ),
           CustomBottomNavigationBarItem(
-            activeIcon: Assets.icons.measurementsActive.svg(),
-            inactiveIcon: Assets.icons.measurementsInactive.svg(),
+            activeIcon: AppIcons.measurementsActive(),
+            inactiveIcon: AppIcons.measurementsInactive(),
             title: '',
             isActive: _currentIndex == 1,
           ),
           CustomBottomNavigationBarItem(
-            activeIcon: Assets.icons.menuAdd.svg(),
-            inactiveIcon: Assets.icons.menuAdd.svg(),
+            activeIcon: AppIcons.menuAdd(),
+            inactiveIcon: AppIcons.menuAdd(),
             title: '',
             isActive: _currentIndex == 2,
           ),
           CustomBottomNavigationBarItem(
-            activeIcon: Assets.icons.prescriptionsActive.svg(),
-            inactiveIcon: Assets.icons.prescriptionsInactive.svg(),
+            activeIcon: AppIcons.prescriptionsActive(),
+            inactiveIcon: AppIcons.prescriptionsInactive(),
             title: '',
             isActive: _currentIndex == 3,
           ),
           CustomBottomNavigationBarItem(
-            activeIcon: Assets.icons.menuActive.svg(),
-            inactiveIcon: Assets.icons.menuInactive.svg(),
+            activeIcon: AppIcons.menuActive(),
+            inactiveIcon: AppIcons.menuInactive(),
             title: '',
             isActive: _currentIndex == 4,
           )

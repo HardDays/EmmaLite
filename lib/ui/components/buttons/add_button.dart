@@ -1,5 +1,6 @@
 import 'dart:math';
-import 'package:emma_mobile/generated/assets.gen.dart';
+
+import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:flutter/material.dart';
 
 class AddButton extends StatefulWidget {
@@ -23,7 +24,7 @@ class _AddButtonState extends State<AddButton>
       duration: const Duration(milliseconds: 1000),
       vsync: this,
     );
-    _animation = Tween(begin: 0.0, end: - pi/4).animate(_controller);
+    _animation = Tween(begin: 0.0, end: -pi / 4).animate(_controller);
     super.initState();
   }
 
@@ -35,9 +36,13 @@ class _AddButtonState extends State<AddButton>
 
   @override
   Widget build(BuildContext context) {
-    return Transform.rotate(angle: _animation.value, child: GestureDetector(
-      onTap: widget.onTap?.call, 
-      child: Assets.icons.menuAdd.svg()));
+    return Transform.rotate(
+      angle: _animation.value,
+      child: GestureDetector(
+        onTap: widget.onTap?.call,
+        child: AppIcons.menuAdd(),
+      ),
+    );
   }
 
   void animateIcon() {

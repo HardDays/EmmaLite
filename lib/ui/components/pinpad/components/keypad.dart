@@ -1,4 +1,4 @@
-import 'package:emma_mobile/generated/assets.gen.dart';
+import 'package:emma_mobile/ui/images.dart';
 import 'package:emma_mobile/ui/styles/test_styles.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
@@ -120,7 +120,7 @@ class KeyPad extends StatelessWidget {
           child: SizedBox(
             width: 75,
             height: 75,
-            child: Assets.images.delete.image(),
+            child: AppImages.delete(),
           ),
         )
       ],

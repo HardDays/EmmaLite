@@ -1,6 +1,6 @@
 import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
 import 'package:emma_mobile/bloc/measurement/measurement_state.dart';
-import 'package:emma_mobile/generated/assets.gen.dart';
+import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
@@ -39,7 +39,7 @@ class _TestScreenState extends State<TestScreen> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Assets.icons.measurementsInactive.svg(),
+                          AppIcons.measurementsInactive(),
                           const Text('Добавить измерени')
                         ],
                       ),

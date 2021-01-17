@@ -1,9 +1,9 @@
 import 'package:emma_mobile/app_common/app_common.dart';
 import 'package:emma_mobile/app_common/app_common_state.dart';
-import 'package:emma_mobile/generated/assets.gen.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_flat_button.dart';
 import 'package:emma_mobile/ui/components/space.dart';
+import 'package:emma_mobile/ui/images.dart';
 import 'package:emma_mobile/ui/routing/navigator.dart';
 import 'package:emma_mobile/ui/screens/navigator_screen.dart';
 import 'package:emma_mobile/ui/styles/test_styles.dart';
@@ -37,8 +37,8 @@ class BiometryRequestScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 bloc.currentBiometricType == BiometricType.face
-                    ? Assets.images.faceId.image()
-                    : Assets.images.touchId.image(),
+                    ? AppImages.faceId()
+                    : AppImages.touchId(),
                 const HSpace(50),
                 Text(
                   // ignore: lines_longer_than_80_chars

@@ -1,4 +1,3 @@
-import 'package:emma_mobile/ui/styles/test_styles.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -36,7 +35,13 @@ class EmmaFilledButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(borderRadius),
         ),
         child: Center(
-          child: Text(title, style: CustomTextStyles.filledButtonTitle),
+          child: Text(
+            title,
+            style: AppTypography.font17.copyWith(
+              fontWeight: FontWeight.w500,
+              color: AppColors.cFFFFFF,
+            ),
+          ),
         ),
       ),
     );

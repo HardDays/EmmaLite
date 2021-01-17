@@ -1,4 +1,3 @@
-import 'package:emma_mobile/ui/styles/test_styles.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +14,13 @@ class EmmaFlatButton extends StatelessWidget {
       splashColor: AppColors.transparent,
       highlightColor: AppColors.transparent,
       focusColor: AppColors.transparent,
-      child: Text(title, style: CustomTextStyles.flatButtonTitle),
+      child: Text(
+        title,
+        style: AppTypography.font14.copyWith(
+          fontWeight: FontWeight.w500,
+          color: AppColors.c00ACE3,
+        ),
+      ),
     );
   }
 }

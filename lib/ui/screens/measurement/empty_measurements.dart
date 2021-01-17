@@ -1,5 +1,5 @@
-import 'package:emma_mobile/generated/assets.gen.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
+import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/components/space.dart';
 import 'package:emma_mobile/ui/routing/navigator.dart';
 import 'package:emma_mobile/ui/screens/measurement/measurement_new.dart';
@@ -37,7 +37,7 @@ class EmptyMeasurements extends StatelessWidget {
               left: 38,
               bottom: 36,
             ),
-            child: Assets.icons.measurementsInactive.svg(width: 44, height: 44),
+            child: AppIcons.measurementsInactive(width: 44, height: 44),
           ),
           const HSpace(24),
           Text(

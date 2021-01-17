@@ -1,8 +1,8 @@
-import 'package:emma_mobile/generated/assets.gen.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_flat_button.dart';
 import 'package:emma_mobile/ui/components/intro/intro_logo.dart';
 import 'package:emma_mobile/ui/components/space.dart';
+import 'package:emma_mobile/ui/images.dart';
 import 'package:emma_mobile/ui/routing/navigator.dart';
 import 'package:emma_mobile/ui/screens/login/pin_enter_screen.dart';
 import 'package:emma_mobile/ui/screens/navigator_screen.dart';
@@ -21,7 +21,7 @@ class IntroSecure extends StatelessWidget {
         child: Column(
           children: [
             IntroLogo(
-              logo: Assets.images.introSecure.image(),
+              logo: AppImages.introSecure(),
               title: 'Защитите свои данные',
               subTitle:
                   // ignore: lines_longer_than_80_chars

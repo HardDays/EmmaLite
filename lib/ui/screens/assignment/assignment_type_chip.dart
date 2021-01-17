@@ -1,4 +1,3 @@
-import 'package:emma_mobile/ui/styles/test_styles.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -22,9 +21,14 @@ class AssignmentTypeChip extends StatelessWidget {
       child: Text(
         assignmentType,
         style: isActive
-            ? CustomTextStyles.flatButtonTitle
-            : CustomTextStyles.flatButtonTitle
-                .copyWith(color: AppColors.cFFFFFF),
+            ? AppTypography.font14.copyWith(
+                fontWeight: FontWeight.w500,
+                color: AppColors.c00ACE3,
+              )
+            : AppTypography.font14.copyWith(
+                fontWeight: FontWeight.w500,
+                color: AppColors.cFFFFFF,
+              ),
       ),
     );
   }

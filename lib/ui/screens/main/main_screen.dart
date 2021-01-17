@@ -1,6 +1,6 @@
 import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
 import 'package:emma_mobile/bloc/measurement/measurement_state.dart';
-import 'package:emma_mobile/generated/assets.gen.dart';
+import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/components/space.dart';
 import 'package:emma_mobile/ui/routing/navigator.dart';
 import 'package:emma_mobile/ui/screens/main/empty_block.dart';
@@ -39,7 +39,7 @@ class MainScreen extends StatelessWidget {
                 const SliverToBoxAdapter(child: HSpace(12)),
                 SliverToBoxAdapter(
                   child: EmptyBlockMain(
-                    icon: Assets.icons.prescriptionsInactive.svg(),
+                    icon: AppIcons.prescriptionsInactive(),
                     title: 'Здесь будут показываться ваши ближайшие назначения',
                     buttonTitle: 'Добавить первое назначение',
                     onTap: () => print('Was called'),
@@ -57,7 +57,7 @@ class MainScreen extends StatelessWidget {
                 bloc.isEmptyData == true
                     ? SliverToBoxAdapter(
                         child: EmptyBlockMain(
-                          icon: Assets.icons.measurementsInactive.svg(),
+                          icon: AppIcons.measurementsInactive(),
                           title:
                               // ignore: lines_longer_than_80_chars
                               'Здесь будут показываться ваши последние значения по всем измерениям',
