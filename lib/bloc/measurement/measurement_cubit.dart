@@ -7,6 +7,7 @@ import 'package:emma_mobile/models/measurements/height_model.dart';
 import 'package:emma_mobile/models/measurements/measurement.dart';
 import 'package:emma_mobile/models/measurements/pulse.dart';
 import 'package:emma_mobile/models/measurements/temperature.dart';
+import 'package:emma_mobile/utils/utils.dart';
 
 class MeasurementCubit extends Cubit<MeasurementState> {
   MeasurementCubit(this._repository) : super(LoadingMeasurementState()) {
@@ -39,22 +40,22 @@ class MeasurementCubit extends Cubit<MeasurementState> {
       _temperature == null;
 
   List<Measurement> get data => [
-        arterialPressure,
-        bloodSugar,
-        heightModel,
-        pulse,
-        temperature,
-      ].where((e) => e != null).toList();
+        _arterialPressure,
+        _bloodSugar,
+        _heightModel,
+        _pulse,
+        _temperature,
+      ].where((e) => e != null).map((e) => e as Measurement).toList();
 
   void _init() {
     _getLastValues();
   }
 
   void _getLastValues() {
-    _arterialPressure = _repository.getArterialPressure()?.last;
-    _bloodSugar = _repository.getBloodSugar()?.last;
-    _heightModel = _repository.getHeightModel()?.last;
-    _pulse = _repository.getPulse()?.last;
-    _temperature = _repository.getTemperature()?.last;
+    _arterialPressure = _repository.getArterialPressure()?.getLastOrNull();
+    _bloodSugar = _repository.getBloodSugar()?.getLastOrNull();
+    _heightModel = _repository.getHeightModel()?.getLastOrNull();
+    _pulse = _repository.getPulse()?.getLastOrNull();
+    _temperature = _repository.getTemperature()?.getLastOrNull();
   }
 }

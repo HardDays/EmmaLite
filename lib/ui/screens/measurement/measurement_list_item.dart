@@ -1,13 +1,14 @@
 import 'package:emma_mobile/generated/assets.gen.dart';
+import 'package:emma_mobile/models/measurements/measurement.dart';
 import 'package:emma_mobile/ui/components/space.dart';
 import 'package:emma_mobile/ui/styles/test_styles.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class MeasurementListItem extends StatelessWidget {
-  // const MeasurementListItem(this.item);
-  //
-  // final Measurement item;
+  const MeasurementListItem({this.item});
+
+  final Measurement item;
 
   @override
   Widget build(BuildContext context) {
@@ -27,17 +28,17 @@ class MeasurementListItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Text(
-                //   item.title,
-                //   style: CustomTextStyles.textFieldText,
-                //   maxLines: 2,
-                //   overflow: TextOverflow.ellipsis,
-                // ),
-                // Text(
-                //   item.date,
-                //   style: CustomTextStyles.inactiveGenderBlock
-                //       .copyWith(fontSize: 12),
-                // )
+                Text(
+                  item.title,
+                  style: CustomTextStyles.textFieldText,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  item.getDate(),
+                  style: CustomTextStyles.inactiveGenderBlock
+                      .copyWith(fontSize: 12),
+                )
               ],
             ),
             const Spacer(),
@@ -45,12 +46,12 @@ class MeasurementListItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Text(item.value, style: CustomTextStyles.introLogoTitle),
-                // Text(
-                //   item.measureType,
-                //   style: CustomTextStyles.inactiveGenderBlock
-                //       .copyWith(fontSize: 12),
-                // )
+                Text(item.value(), style: CustomTextStyles.introLogoTitle),
+                Text(
+                  item.units,
+                  style: CustomTextStyles.inactiveGenderBlock
+                      .copyWith(fontSize: 12),
+                )
               ],
             ),
           ],

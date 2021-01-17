@@ -1,5 +1,5 @@
-import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
-import 'package:emma_mobile/bloc/measurement/measurement_state.dart';
+import 'package:emma_mobile/bloc/new_measurement_bloc/new_measurement_bloc.dart';
+import 'package:emma_mobile/bloc/new_measurement_bloc/new_measurement_state.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
 import 'package:emma_mobile/ui/components/bottom_sheet.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
@@ -46,85 +46,78 @@ class _MeasurementNewScreenState extends State<MeasurementNewScreen> {
         centerTitle: true,
         leading: const BackButton(color: AppColors.c00ACE3),
       ),
-      body: _buildBody(context),
-    );
-  }
-
-  Widget _buildBody(BuildContext context) {
-    return BlocConsumer<MeasurementCubit, MeasurementState>(
-      listener: (_, state) {
-        //todo
-        // if (state.isSaved?.payload == true) {
-        //   navigatorPop(context);
-        // }
-        // if (state.isSaved?.error != null) {
-        //   showError(context, state.isSaved?.error?.message);
-        // }
-      },
-      listenWhen: (c, p) => p != c,
-      builder: (context, state) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const HSpace(20),
-              EmmaTextField(
-                textEditingController: _type,
-                withPicker: true,
-                labelText: 'Тип измерения',
-                // onTap: () => showDataPicker<MeasurementType>(
-                //   context,
-                //   [], //todo
-                //   // state.measurementTypes?.payload?.toList(),
-                //   (measurement) => {
-                //     _validateForm(),
-                //     context
-                //         .read<MeasurementCubit>()
-                //         .setCurrentMeasurementType(measurement),
-                //     _type.text = measurement.name,
-                //   },
-                //   'Тип измерения',
-                // ),
-              ),
-              const HSpace(20),
-              EmmaTextField(
-                textEditingController: _date,
-                withPicker: true,
-                labelText: 'Дата и время',
-                onTap: () => showCustomDatePicker(
-                  context,
-                  (date) {
-                    _validateForm();
-                    _date.text = dateTimeToString(date);
-                  },
-                  'Дата и время',
-                ),
-              ),
-              const HSpace(20),
-              EmmaTextField(
-                textEditingController: _measures,
-                onChanged: (text) {
-                  _validateForm();
-                },
-                labelText: 'Показатели',
-              ),
-              const Spacer(),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 30),
-                child: EmmaFilledButton(
-                  isActive: _isFormValid,
-                  title: 'Сохранить',
-                  // onTap: () => {
-                  //   context.read<MeasurementCubit>().saveMeasurement(
-                  //       _date.text, _type.text, _measures.text),
-                  // },
-                ),
-              )
-            ],
-          ),
-        );
-      },
+      body: BlocProvider(
+        create: (_) => NewMeasurementBloc(),
+        child: Builder(
+          builder: (context) {
+            return BlocBuilder<NewMeasurementBloc, NewMeasurementState>(
+              builder: (_, state) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const HSpace(20),
+                      EmmaTextField(
+                        textEditingController: _type,
+                        withPicker: true,
+                        labelText: 'Тип измерения',
+                        // onTap: () => showDataPicker<MeasurementType>(
+                        //   context,
+                        //   [], //todo
+                        //   // state.measurementTypes?.payload?.toList(),
+                        //   (measurement) => {
+                        //     _validateForm(),
+                        //     context
+                        //         .read<MeasurementCubit>()
+                        //         .setCurrentMeasurementType(measurement),
+                        //     _type.text = measurement.name,
+                        //   },
+                        //   'Тип измерения',
+                        // ),
+                      ),
+                      const HSpace(20),
+                      EmmaTextField(
+                        textEditingController: _date,
+                        withPicker: true,
+                        labelText: 'Дата и время',
+                        onTap: () => showCustomDatePicker(
+                          context,
+                              (date) {
+                            _validateForm();
+                            _date.text = dateTimeToString(date);
+                          },
+                          'Дата и время',
+                        ),
+                      ),
+                      const HSpace(20),
+                      EmmaTextField(
+                        textEditingController: _measures,
+                        onChanged: (text) {
+                          _validateForm();
+                        },
+                        labelText: 'Показатели',
+                      ),
+                      const Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 30),
+                        child: EmmaFilledButton(
+                          isActive: _isFormValid,
+                          title: 'Сохранить',
+                          // onTap: () => {
+                          //   context.read<MeasurementCubit>().saveMeasurement(
+                          //       _date.text, _type.text, _measures.text),
+                          // },
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              },
+            );
+          }
+        ),
+      ),
     );
   }
 
