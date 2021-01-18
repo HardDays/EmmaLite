@@ -87,17 +87,24 @@ class _TopRow extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.only(
                   top: 11.h,
-                  left: 18.w,
-                  right: 6.w,
                   bottom: 13.h,
+                  left: 11.w,
+                  right: 8.w,
                 ),
-                child: AppIcons.chevronLeft(),
-              ),
-            ),
-            Text(
-              'Измерения',
-              style: AppTypography.font15.copyWith(
-                color: AppColors.c00ACE3,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(right: 6.w),
+                      child: AppIcons.chevronLeft(),
+                    ),
+                    Text(
+                      'Измерения',
+                      style: AppTypography.font15.copyWith(
+                        color: AppColors.c00ACE3,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             const Spacer(),
@@ -205,11 +212,11 @@ class _DatesSelect extends StatelessWidget {
   }
 }
 
-
 class _TimeRangeView extends StatelessWidget {
   final TimeRange timeRange;
 
   const _TimeRangeView({Key key, this.timeRange}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final bloc = context.bloc<MeasurementDetailBloc>();
@@ -226,9 +233,7 @@ class _TimeRangeView extends StatelessWidget {
             timeRange.toString(),
             style: AppTypography.font12.copyWith(
               fontWeight: isActive ? FontWeight.w700 : FontWeight.w400,
-              color: isActive
-                  ? AppColors.c00ACE3
-                  : AppColors.cBFBFBF,
+              color: isActive ? AppColors.c00ACE3 : AppColors.cBFBFBF,
             ),
           ),
         ),
