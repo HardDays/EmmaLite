@@ -21,9 +21,22 @@ class AppIcons {
   static Widget calendar() {
     return SvgPicture.asset(
       'assets/icons/calendar.svg',
+    );
+  }
+
+  static Widget calendarActive() {
+    return SvgPicture.asset(
+      'assets/icons/calendar_active.svg',
+    );
+  }
+
+  static Widget plus() {
+    return SvgPicture.asset(
+      'assets/icons/plus.svg',
       fit: BoxFit.fill,
     );
   }
+
 
   static Widget chevronLeft() {
     return SvgPicture.asset(

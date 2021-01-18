@@ -16,10 +16,11 @@ class BloodSugarAdapter extends TypeAdapter<BloodSugar> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return BloodSugar()
-      ..id = fields[0] as int
-      ..date = fields[1] as String
-      ..sugar = fields[2] as double;
+    return BloodSugar(
+      id: fields[0] as int,
+      date: fields[1] as String,
+      sugar: fields[2] as double,
+    );
   }
 
   @override

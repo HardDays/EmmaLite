@@ -43,6 +43,7 @@ analyzer:
     avoid_catches_without_on_clauses: ignore
     avoid_setters_without_getters: ignore
     overridden_fields: ignore
+    avoid_as: ignore
   exclude:
     - 'bin/cache/**'
     # the following two are relative to the stocks example and the flutter package respectively

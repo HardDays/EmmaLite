@@ -25,6 +25,7 @@ class Constants {
   static final double textSize16 = dynamicSize.setSp(16);
   static final double textSize17 = dynamicSize.setSp(17);
   static final double textSize18 = dynamicSize.setSp(18);
+  static final double textSize19 = dynamicSize.setSp(19);
   static final double textSize20 = dynamicSize.setSp(20);
   static final double textSize22 = dynamicSize.setSp(22);
   static final double textSize24 = dynamicSize.setSp(24);

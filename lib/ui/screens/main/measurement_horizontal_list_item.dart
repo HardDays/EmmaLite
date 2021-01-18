@@ -41,7 +41,7 @@ class MeasurementHorizontalListItem extends StatelessWidget {
           ),
           const HSpace(8),
           Text(
-            item.getDate(),
+            item.getFormattedDate(),
             style: CustomTextStyles.inactiveGenderBlock.copyWith(fontSize: 10),
           )
         ],

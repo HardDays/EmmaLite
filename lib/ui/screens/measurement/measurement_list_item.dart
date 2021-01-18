@@ -20,7 +20,7 @@ class MeasurementListItem extends StatelessWidget {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (_) {
-                return MeasurementDetailScreen();
+                return MeasurementDetailScreen(item: item);
               },
             ),
           );
@@ -46,7 +46,7 @@ class MeasurementListItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    item.getDate(),
+                    item.getFormattedDate(),
                     style: CustomTextStyles.inactiveGenderBlock
                         .copyWith(fontSize: 12),
                   )

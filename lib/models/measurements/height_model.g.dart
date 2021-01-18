@@ -16,10 +16,11 @@ class HeightModelAdapter extends TypeAdapter<HeightModel> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return HeightModel()
-      ..id = fields[0] as int
-      ..date = fields[1] as String
-      ..height = fields[2] as double;
+    return HeightModel(
+      id: fields[0] as int,
+      date: fields[1] as String,
+      height: fields[2] as double,
+    );
   }
 
   @override

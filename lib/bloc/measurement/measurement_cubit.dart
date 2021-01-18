@@ -52,10 +52,10 @@ class MeasurementCubit extends Cubit<MeasurementState> {
   }
 
   void _getLastValues() {
-    _arterialPressure = _repository.getArterialPressure()?.getLastOrNull();
-    _bloodSugar = _repository.getBloodSugar()?.getLastOrNull();
-    _heightModel = _repository.getHeightModel()?.getLastOrNull();
-    _pulse = _repository.getPulse()?.getLastOrNull();
-    _temperature = _repository.getTemperature()?.getLastOrNull();
+    _arterialPressure = _repository.getArterialPressure()?.getLastByDate();
+    _bloodSugar = _repository.getBloodSugar()?.getLastByDate();
+    _heightModel = _repository.getHeightModel()?.getLastByDate();
+    _pulse = _repository.getPulse()?.getLastByDate();
+    _temperature = _repository.getTemperature()?.getLastByDate();
   }
 }

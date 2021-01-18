@@ -1,3 +1,4 @@
+import 'package:emma_mobile/models/measurements/measurement_enum.dart';
 import 'package:hive/hive.dart';
 
 import 'measurement.dart';
@@ -6,20 +7,28 @@ part 'arterial_pressure.g.dart';
 
 @HiveType(typeId: 1)
 class ArterialPressure extends HiveObject implements Measurement {
+
+  ArterialPressure({this.id, this.date, this.top, this.under}) {
+    dateTime = DateTime.parse(date);
+  }
+
   @HiveField(0)
-  int id;
+  final int id;
 
   @HiveField(1)
-  String date;
+  final String date;
 
   @HiveField(2)
-  int top;
+  final int top;
 
   @HiveField(3)
-  int under;
+  final int under;
 
   @override
   String title = 'Давление';
+
+  @override
+  String longTitle = 'Артериальное далвение';
 
   @override
   String units = 'мм.рт.ст.';
@@ -28,6 +37,12 @@ class ArterialPressure extends HiveObject implements Measurement {
   String value() => '$top/$under';
 
   @override
-  String getDate() => 'дата';
+  String getFormattedDate() => 'дата';
+
+  @override
+  MeasurementEnum type = MeasurementEnum.arterialPressure;
+
+  @override
+  DateTime dateTime;
 
 }

@@ -16,10 +16,11 @@ class TemperatureAdapter extends TypeAdapter<Temperature> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Temperature()
-      ..id = fields[0] as int
-      ..date = fields[1] as String
-      ..temperature = fields[2] as double;
+    return Temperature(
+      id: fields[0] as int,
+      date: fields[1] as String,
+      temperature: fields[2] as double,
+    );
   }
 
   @override

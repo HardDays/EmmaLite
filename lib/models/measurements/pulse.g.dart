@@ -16,10 +16,11 @@ class PulseAdapter extends TypeAdapter<Pulse> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Pulse()
-      ..id = fields[0] as int
-      ..date = fields[1] as String
-      ..pulse = fields[2] as int;
+    return Pulse(
+      id: fields[0] as int,
+      date: fields[1] as String,
+      pulse: fields[2] as int,
+    );
   }
 
   @override

@@ -32,7 +32,6 @@ class HiveBoxes {
   HiveBoxes._();
 
   Future<void> init() async {
-
     // final z = await Hive.openBox<Pulse>('Pulse');
     // final a = z.values;
     // print(a);
