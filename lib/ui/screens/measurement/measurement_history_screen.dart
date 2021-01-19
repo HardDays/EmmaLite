@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
 import 'package:emma_mobile/bloc/measurement_detail_bloc/measurement_detail_bloc.dart';
 import 'package:emma_mobile/bloc/measurement_detail_bloc/measurement_detail_state.dart';
@@ -77,6 +78,18 @@ class _Item extends StatelessWidget {
                   .lastIndexWhere((e) => e.dateTime == measurement.dateTime),
             );
             detailBloc.deleteItem(measurement: measurement);
+            BotToast.showText(
+              text: 'Запись удалена',
+              borderRadius: const BorderRadius.all(Radius.circular(25)),
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 24.w,
+                vertical: 8.h,
+              ),
+              contentColor: AppColors.c000000.withOpacity(0.8),
+              textStyle: AppTypography.font14.copyWith(
+                color: AppColors.cFFFFFF,
+              ),
+            );
           },
           child: ColoredBox(
             color: AppColors.cFF3B30,
