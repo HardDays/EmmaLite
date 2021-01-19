@@ -64,6 +64,11 @@ class MeasurementDetailBloc extends Cubit<MeasurementDetailState> {
     _activeTimeRange = _ranges.first;
   }
 
+  void deleteItem({Measurement measurement}) {
+    _data = _data.where((e) => e.dateTime != measurement.dateTime).toList();
+    emit(MeasurementDetailState());
+  }
+
   void setDateType(DateTimeType type) {
     _type = type;
     _updateTimeRange();

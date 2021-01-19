@@ -1,10 +1,12 @@
 import 'package:emma_mobile/models/measurements/arterial_pressure.dart';
 import 'package:emma_mobile/models/measurements/blood_sugar.dart';
 import 'package:emma_mobile/models/measurements/height_model.dart';
+import 'package:emma_mobile/models/measurements/measurement.dart';
 import 'package:emma_mobile/models/measurements/pulse.dart';
 import 'package:emma_mobile/models/measurements/temperature.dart';
 import 'package:emma_mobile/utils/hive_boxes.dart';
 
+//SOLID где-то плачет в сторонке, но жизнь такова и больше никакова
 class MeasurementLocalRepository {
   final _hiveBoxes = HiveBoxes();
 
@@ -26,21 +28,38 @@ class MeasurementLocalRepository {
   List<Temperature> getTemperature() =>
       _hiveBoxes.temperatureBox.values.map((e) => e as Temperature).toList();
 
-  void saveArterialPressure({ArterialPressure pulse}) {}
-
-  void savePulse({Pulse pulse}) {}
-
-  void bloodBloodSugar({BloodSugar pulse}) {}
-
-  void saveTemperature({Temperature pulse}) {}
-
-  fetchMeasurementList() {
-    return [];
+  void saveArterialPressure({ArterialPressure pressure}) {
+    _hiveBoxes.arterialPressureBox.add(pressure);
   }
 
-  Iterable<int> fetchMeasurementTypeList() {
-    return [];
+  void savePulse({Pulse pulse}) {
+    _hiveBoxes.pulseBox.add(pulse);
   }
 
-  void saveMeasure() {}
+  void saveBloodSugar({BloodSugar bloodSugar}) {
+    _hiveBoxes.bloodSugarBox.add(bloodSugar);
+  }
+
+  void saveHeightModel({HeightModel height}) {
+    _hiveBoxes.heightModelBox.add(height);
+  }
+
+  void saveTemperature({Temperature temperature}) {
+    _hiveBoxes.temperatureBox.add(temperature);
+  }
+
+  void deleteByIndex({Measurement meas, int index}) {
+    final date = DateTime.now().toString();
+    if (meas.runtimeType == ArterialPressure(date: date).runtimeType) {
+      _hiveBoxes.arterialPressureBox.deleteAt(index);
+    } else if (meas.runtimeType == BloodSugar(date: date).runtimeType) {
+      _hiveBoxes.bloodSugarBox.deleteAt(index);
+    } else if (meas.runtimeType == Pulse(date: date).runtimeType) {
+      _hiveBoxes.pulseBox.deleteAt(index);
+    } else if (meas.runtimeType == HeightModel(date: date).runtimeType) {
+      _hiveBoxes.heightModelBox.deleteAt(index);
+    } else if (meas.runtimeType == Temperature(date: date).runtimeType) {
+      _hiveBoxes.temperatureBox.deleteAt(index);
+    }
+  }
 }

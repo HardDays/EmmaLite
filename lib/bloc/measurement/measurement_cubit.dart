@@ -57,11 +57,18 @@ class MeasurementCubit extends Cubit<MeasurementState> {
     _getLastValues();
   }
 
+  void deleteItem({Measurement measurement, int index}) {
+    _repository.deleteByIndex(index: index, meas: measurement);
+    updateLastValueByMeasurementType(measurement);
+  }
+
   void updateLastValueByMeasurementType(Measurement type) {
-    _getLastValueByIndex(
-      _rawData.lastIndexWhere((e) => e.runtimeType == type.runtimeType),
-    );
+    _getLastValueByIndex(_getIndex(m: type));
     emit(DataMeasurementState());
+  }
+
+  int _getIndex({Measurement m}) {
+    return _rawData.lastIndexWhere((e) => e.runtimeType == m.runtimeType);
   }
 
   void _getLastValues() {

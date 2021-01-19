@@ -17,20 +17,12 @@ class NavigatorScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _NavigatorScreenState();
 }
 
-class _NavigatorScreenState extends State<NavigatorScreen>
-    with TickerProviderStateMixin {
+class _NavigatorScreenState extends State<NavigatorScreen>{
   int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context, designSize: const Size(320, 704));
-    HiveBoxes().pulseBox.add(
-          Pulse(
-            id: DateTime.now().millisecondsSinceEpoch,
-            date: DateTime.now().toString(),
-            pulse: Random().nextInt(160),
-          ),
-        );
     return Scaffold(
       body: Column(
         children: [

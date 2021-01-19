@@ -1,3 +1,4 @@
+import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -14,6 +15,13 @@ class AppIcons {
   static Widget arrowRight() {
     return SvgPicture.asset(
       'assets/icons/arrow_right.svg',
+      fit: BoxFit.fill,
+    );
+  }
+
+  static Widget trash() {
+    return SvgPicture.asset(
+      'assets/icons/trash.svg',
       fit: BoxFit.fill,
     );
   }
