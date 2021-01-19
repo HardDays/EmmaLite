@@ -1,11 +1,12 @@
 import 'package:emma_mobile/models/measurements/measurement.dart';
 import 'package:emma_mobile/models/measurements/measurement_enum.dart';
+import 'package:emma_mobile/utils/utils.dart';
 import 'package:hive/hive.dart';
+
 part 'pulse.g.dart';
 
 @HiveType(typeId: 4)
 class Pulse extends HiveObject implements Measurement {
-
   Pulse({this.id, this.date, this.pulse}) {
     dateTime = DateTime.parse(date);
   }
@@ -32,7 +33,10 @@ class Pulse extends HiveObject implements Measurement {
   String value() => pulse.toString();
 
   @override
-  String getFormattedDate() => 'дата';
+  String getFormattedDate({bool showTimeIfToday = false}) =>
+      dateTime.measurementDateFormatter(
+        showTimeIfToday: showTimeIfToday,
+      );
 
   @override
   MeasurementEnum type = MeasurementEnum.pulse;

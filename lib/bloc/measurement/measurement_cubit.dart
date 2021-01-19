@@ -39,23 +39,48 @@ class MeasurementCubit extends Cubit<MeasurementState> {
       _pulse == null &&
       _temperature == null;
 
-  List<Measurement> get data => [
+  List<Measurement> get data =>
+      _rawData.where((e) => e != null).map((e) => e as Measurement).toList()
+        ..sort(
+          (i, j) => j.dateTime.compareTo(i.dateTime),
+        );
+
+  List<Measurement> get _rawData => [
         _arterialPressure,
         _bloodSugar,
         _heightModel,
         _pulse,
         _temperature,
-      ].where((e) => e != null).map((e) => e as Measurement).toList();
+      ];
 
   void _init() {
     _getLastValues();
   }
 
+  void updateLastValueByMeasurementType(Measurement type) {
+    _getLastValueByIndex(
+      _rawData.lastIndexWhere((e) => e.runtimeType == type.runtimeType),
+    );
+    emit(DataMeasurementState());
+  }
+
   void _getLastValues() {
-    _arterialPressure = _repository.getArterialPressure()?.getLastByDate();
-    _bloodSugar = _repository.getBloodSugar()?.getLastByDate();
-    _heightModel = _repository.getHeightModel()?.getLastByDate();
-    _pulse = _repository.getPulse()?.getLastByDate();
-    _temperature = _repository.getTemperature()?.getLastByDate();
+    for (var i = 0; i < _rawData.length; i++) {
+      _getLastValueByIndex(i);
+    }
+  }
+
+  void _getLastValueByIndex(int index) {
+    if (index == 0) {
+      _arterialPressure = _repository.getArterialPressure()?.getLastByDate();
+    } else if (index == 1) {
+      _bloodSugar = _repository.getBloodSugar()?.getLastByDate();
+    } else if (index == 2) {
+      _heightModel = _repository.getHeightModel()?.getLastByDate();
+    } else if (index == 3) {
+      _pulse = _repository.getPulse()?.getLastByDate();
+    } else if (index == 3) {
+      _temperature = _repository.getTemperature()?.getLastByDate();
+    }
   }
 }

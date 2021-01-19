@@ -1,4 +1,5 @@
 import 'package:emma_mobile/models/measurements/measurement.dart';
+import 'package:intl/intl.dart';
 
 extension ListExtention on List {
   dynamic getLastOrNull() {
@@ -18,4 +19,21 @@ extension ListExtention on List {
       return null;
     }
   }
+}
+
+extension DateTimeExtentions on DateTime {
+
+  String measurementDateFormatter({bool showTimeIfToday = false}) {
+    final now = DateTime.now();
+    if (now.year == year && now.month == month && now.day == day) {
+      const baseString = 'Сегодня';
+      if (showTimeIfToday) {
+        return '$baseString ${DateFormat.Hm().format(this)}';
+      }
+      return baseString;
+    } else {
+      return DateFormat('dd.MM.yyyy HH:mm').format(this);
+    }
+  }
+
 }

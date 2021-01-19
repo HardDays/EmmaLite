@@ -1,12 +1,12 @@
 import 'package:emma_mobile/models/measurements/measurement.dart';
 import 'package:emma_mobile/models/measurements/measurement_enum.dart';
+import 'package:emma_mobile/utils/utils.dart';
 import 'package:hive/hive.dart';
 
 part 'temperature.g.dart';
 
 @HiveType(typeId: 5)
 class Temperature extends HiveObject implements Measurement {
-
   Temperature({this.id, this.date, this.temperature}) {
     dateTime = DateTime.parse(date);
   }
@@ -33,7 +33,10 @@ class Temperature extends HiveObject implements Measurement {
   String value() => temperature.toString();
 
   @override
-  String getFormattedDate() => 'дата';
+  String getFormattedDate({bool showTimeIfToday = false}) =>
+      dateTime.measurementDateFormatter(
+        showTimeIfToday: showTimeIfToday,
+      );
 
   @override
   MeasurementEnum type = MeasurementEnum.temperature;

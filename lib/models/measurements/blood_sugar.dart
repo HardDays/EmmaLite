@@ -1,12 +1,12 @@
 import 'package:emma_mobile/models/measurements/measurement.dart';
 import 'package:emma_mobile/models/measurements/measurement_enum.dart';
+import 'package:emma_mobile/utils/utils.dart';
 import 'package:hive/hive.dart';
 
 part 'blood_sugar.g.dart';
 
 @HiveType(typeId: 2)
 class BloodSugar extends HiveObject implements Measurement {
-
   BloodSugar({this.id, this.date, this.sugar}) {
     dateTime = DateTime.parse(date);
   }
@@ -33,7 +33,10 @@ class BloodSugar extends HiveObject implements Measurement {
   String value() => sugar.toString();
 
   @override
-  String getFormattedDate() => 'дата';
+  String getFormattedDate({bool showTimeIfToday = false}) =>
+      dateTime.measurementDateFormatter(
+        showTimeIfToday: showTimeIfToday,
+      );
 
   @override
   MeasurementEnum type = MeasurementEnum.bloodSugar;

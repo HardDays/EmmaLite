@@ -1,12 +1,12 @@
 import 'package:emma_mobile/models/measurements/measurement.dart';
 import 'package:emma_mobile/models/measurements/measurement_enum.dart';
+import 'package:emma_mobile/utils/utils.dart';
 import 'package:hive/hive.dart';
 
 part 'height_model.g.dart';
 
 @HiveType(typeId: 3)
 class HeightModel extends HiveObject implements Measurement {
-
   HeightModel({this.id, this.date, this.height}) {
     dateTime = DateTime.parse(date);
   }
@@ -33,16 +33,14 @@ class HeightModel extends HiveObject implements Measurement {
   String value() => height.toString();
 
   @override
-  String getFormattedDate() => 'дата';
+  String getFormattedDate({bool showTimeIfToday = false}) =>
+      dateTime.measurementDateFormatter(
+        showTimeIfToday: showTimeIfToday,
+      );
 
   @override
   MeasurementEnum type = MeasurementEnum.heightModel;
 
   @override
   DateTime dateTime;
-
-  @override
-  void parse() {
-    dateTime = DateTime.parse(date);
-  }
 }

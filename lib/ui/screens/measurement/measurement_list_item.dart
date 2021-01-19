@@ -46,7 +46,7 @@ class MeasurementListItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    item.getFormattedDate(),
+                    item.getFormattedDate(showTimeIfToday: true),
                     style: CustomTextStyles.inactiveGenderBlock
                         .copyWith(fontSize: 12),
                   )

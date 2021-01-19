@@ -22,6 +22,8 @@ class MeasurementDetailBloc extends Cubit<MeasurementDetailState> {
 
   final _repository = MeasurementLocalRepository();
 
+  Measurement get item => _measurement;
+
   List<Measurement> _data;
 
   DateTimeType _type = DateTimeType.day;
@@ -32,7 +34,11 @@ class MeasurementDetailBloc extends Cubit<MeasurementDetailState> {
 
   DateTimeType get type => _type;
 
-  List<Measurement> get data => _data;
+  List<Measurement> get data => _data
+      .where((e) =>
+          e.dateTime.isAfter(_activeTimeRange.timeFrom) &&
+          e.dateTime.isBefore(_activeTimeRange.timeTo))
+      .toList();
 
   TimeRange get activeTimeRange => _activeTimeRange;
 

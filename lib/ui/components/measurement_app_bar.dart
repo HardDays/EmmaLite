@@ -10,6 +10,7 @@ class MeasurementDetailAppBar extends StatelessWidget {
   final String title;
   final DateTimeType initialType;
   final bool showHour;
+  final String arrowText;
   final Function(DateTimeType type) onChange;
 
   const MeasurementDetailAppBar({
@@ -17,59 +18,70 @@ class MeasurementDetailAppBar extends StatelessWidget {
     this.title,
     this.initialType,
     this.showHour,
+    this.arrowText,
     this.onChange,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const _TopRow(),
-        Padding(
-          padding: EdgeInsets.only(left: 16.w, bottom: 11.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: AppTypography.font19.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.c3B4047,
+    return ColoredBox(
+      color: AppColors.cFFFFFF,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _TopRow(arrowText: arrowText),
+          Padding(
+            padding: EdgeInsets.only(left: 16.w, bottom: 11.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: AppTypography.font19.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.c3B4047,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: 16.w, right: 8.w),
-          child: Row(
-            children: [
-              for (var i in DateTimeType.values)
-                if (i.index == 0) ...[
-                  if (showHour)
+          Padding(
+            padding: EdgeInsets.only(left: 16.w, right: 8.w),
+            child: Row(
+              children: [
+                for (var i in DateTimeType.values)
+                  if (i.index == 0) ...[
+                    if (showHour)
+                      _TimeItem(
+                        title: timeValues[i.index],
+                        isActive: i == initialType,
+                        onTap: () => onChange(i),
+                      )
+                  ] else
                     _TimeItem(
                       title: timeValues[i.index],
                       isActive: i == initialType,
                       onTap: () => onChange(i),
-                    )
-                ] else
-                  _TimeItem(
-                    title: timeValues[i.index],
-                    isActive: i == initialType,
-                    onTap: () => onChange(i),
-                  ),
-            ],
+                    ),
+              ],
+            ),
           ),
-        ),
-        _DatesSelect(type: initialType),
-      ],
+          _DatesSelect(type: initialType),
+          Container(
+            height: 1.h,
+            width: MediaQuery.of(context).size.width,
+            color: AppColors.cE6E9EB,
+          ),
+        ],
+      ),
     );
   }
 }
 
 class _TopRow extends StatelessWidget {
-  const _TopRow({Key key}) : super(key: key);
+  final String arrowText;
+
+  const _TopRow({this.arrowText, Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +110,7 @@ class _TopRow extends StatelessWidget {
                       child: AppIcons.chevronLeft(),
                     ),
                     Text(
-                      'Измерения',
+                      arrowText ?? 'Измерения',
                       style: AppTypography.font15.copyWith(
                         color: AppColors.c00ACE3,
                       ),
@@ -193,7 +205,6 @@ class _DatesSelect extends StatelessWidget {
         reverse: true,
         itemCount: countPages.ceil(),
         itemBuilder: (_, i) {
-          print(i);
           final s = <Widget>[];
           for (var j = 0; j < countOnTypePage[bloc.type.index]; j++) {
             final index = i == 0 ? j : j + (i * countOnPage);

@@ -8,7 +8,7 @@ abstract class Measurement {
 
   String value();
 
-  String getFormattedDate();
+  String getFormattedDate({bool showTimeIfToday = false});
 
   String units;
 
