@@ -14,8 +14,12 @@ class NewMeasurementBloc extends Cubit<NewMeasurementState> {
   int _artPressureMin;
   int _artPressureMax;
 
-  void setArtPressureMin(String v) {}
-  void setArtPressureMax(String v) {}
+  void setArtPressureMin(String v) {
+    _artPressureMin = int.parse(v);
+  }
+  void setArtPressureMax(String v) {
+    _artPressureMax = int.parse(v);
+  }
 
   void save() {}
 }

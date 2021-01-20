@@ -1,8 +1,7 @@
 import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/components/space.dart';
 import 'package:emma_mobile/ui/routing/navigator.dart';
-import 'package:emma_mobile/ui/screens/assignment/assignments_screen.dart';
-import 'package:emma_mobile/ui/screens/measurement/measurement_new.dart';
+import 'package:emma_mobile/ui/screens/measurement/select_measurement.dart';
 import 'package:emma_mobile/ui/screens/profile/profile_screen.dart';
 import 'package:emma_mobile/ui/styles/test_styles.dart';
 import 'package:emma_mobile/utils/utils.dart';
@@ -34,14 +33,14 @@ class BottomMenu extends StatelessWidget {
                     icon: AppIcons.measurementsInactive(),
                     title: 'Добавить измерение',
                     width: width,
-                    onTap: () => navigatorPush(context, MeasurementNewScreen()),
+                    onTap: () => navigatorPush(context, SelectMeasurement()),
                   ),
                   const WSpace(8),
                   BottomMenuItem(
-                    icon:  AppIcons.prescriptionsInactive(),
+                    icon: AppIcons.prescriptionsInactive(),
                     title: 'Добавить назначение',
                     width: width,
-                    onTap: () => navigatorPush(context, AssignmentsScreen()),
+                    // onTap: () => navigatorPush(context, AssignmentsScreen()),
                   )
                 ],
               ),
@@ -104,19 +103,31 @@ class BottomMenuItem extends StatelessWidget {
     return GestureDetector(
       onTap: () => onTap?.call(),
       child: Container(
-          width: width,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8), color: AppColors.cF1F5F9),
-          padding: const EdgeInsets.only(
-              left: 26.5, right: 26.5, top: 24, bottom: 16),
-          child: Column(mainAxisSize: MainAxisSize.min, children: [
+        width: width,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: AppColors.cF1F5F9,
+        ),
+        padding: const EdgeInsets.only(
+          left: 26.5,
+          right: 26.5,
+          top: 24,
+          bottom: 16,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
             icon,
             const HSpace(16),
-            Text(title,
-                textAlign: TextAlign.center,
-                style: CustomTextStyles.activeGenderBlock
-                    .copyWith(color: AppColors.c3B4047))
-          ])),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: CustomTextStyles.activeGenderBlock
+                  .copyWith(color: AppColors.c3B4047),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

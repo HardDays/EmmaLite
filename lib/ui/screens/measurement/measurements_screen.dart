@@ -11,22 +11,25 @@ class MeasurementScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = context.bloc<MeasurementCubit>();
     return Scaffold(
-      appBar: EmmaAppBar(
-        titleText: 'Измерения',
-        centerTitle: true,
-      ),
-      body: BlocBuilder<MeasurementCubit, MeasurementState>(
-        builder: (_, state) {
-          if (bloc.data.isNotEmpty) {
-            return ListView.builder(
-              itemBuilder: (_, i) {
-                return MeasurementListItem(item: bloc.data[i]);
-              },
-              itemCount: bloc.data.length,
-            );
-          }
-          return const EmptyMeasurements();
-        },
+      body: Column(
+        children: [
+          const EmmaAppBar(
+            title: 'Измерения',
+          ),
+          BlocBuilder<MeasurementCubit, MeasurementState>(
+            builder: (_, state) {
+              if (bloc.data.isNotEmpty) {
+                return ListView.builder(
+                  itemBuilder: (_, i) {
+                    return MeasurementListItem(item: bloc.data[i]);
+                  },
+                  itemCount: bloc.data.length,
+                );
+              }
+              return const EmptyMeasurements();
+            },
+          ),
+        ],
       ),
     );
   }

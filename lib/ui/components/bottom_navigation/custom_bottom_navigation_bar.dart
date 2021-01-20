@@ -102,8 +102,9 @@ class _BottomNavigationBarCustomState extends State<BottomNavigationBarCustom>
                       _test()
                     },
                     child: Transform.translate(
-                        offset: Offset(0, animation.value),
-                        child: widget.items[index].inactiveIcon),
+                      offset: Offset(0, animation.value),
+                      child: widget.items[index].inactiveIcon,
+                    ),
                   );
                 }
                 return GestureDetector(

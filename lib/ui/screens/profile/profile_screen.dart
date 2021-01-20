@@ -31,15 +31,17 @@ class ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: EmmaAppBar(
-        titleText: 'Профиль',
-        leading: const BackButton(color: AppColors.c00ACE3),
-        centerTitle: true,
-      ),
-      body: BlocProvider<ProfileCubit>(
-        create: (context) =>
-            ProfileCubit(ProfileLocalRepository())..fetchProfile(),
-        child: _buildBody(context),
+      body: Column(
+        children: [
+          EmmaAppBar(
+            title: 'Профиль',
+          ),
+          BlocProvider<ProfileCubit>(
+            create: (context) =>
+                ProfileCubit(ProfileLocalRepository())..fetchProfile(),
+            child: _buildBody(context),
+          ),
+        ],
       ),
     );
   }
@@ -108,7 +110,6 @@ class ProfileScreenState extends State<ProfileScreen> {
             ),
           );
         }
-        return const Center(child: CircularProgressIndicator());
       },
     );
   }

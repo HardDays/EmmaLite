@@ -1,9 +1,7 @@
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
-import 'package:emma_mobile/ui/components/space.dart';
 import 'package:emma_mobile/ui/routing/navigator.dart';
-import 'package:emma_mobile/ui/screens/measurement/measurement_new.dart';
-import 'package:emma_mobile/ui/styles/test_styles.dart';
+import 'package:emma_mobile/ui/screens/measurement/select_measurement.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +15,9 @@ class EmptyMeasurements extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const HSpace(72),
+          Padding(
+            padding: EdgeInsets.only(top: 72.h),
+          ),
           Container(
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
@@ -31,26 +31,30 @@ class EmptyMeasurements extends StatelessWidget {
                 ),
               ],
             ),
-            padding: const EdgeInsets.only(
-              top: 40,
-              right: 38,
-              left: 38,
-              bottom: 36,
+            width: 120.w,
+            height: 120.w,
+            child: Center(
+              child: AppIcons.measurementsInactive(width: 44.w, height: 44.w),
             ),
-            child: AppIcons.measurementsInactive(width: 44, height: 44),
           ),
-          const HSpace(24),
-          Text(
-            // ignore: lines_longer_than_80_chars
-            'Здесь будут показываться ваши последние значения по всем измерениям',
-            style: CustomTextStyles.introLogoSubtitle
-                .copyWith(color: AppColors.c9B9B9B),
-            textAlign: TextAlign.center,
+          Padding(
+            padding: EdgeInsets.only(top: 24.h),
+            child: SizedBox(
+              width: 256.w,
+              child: Text(
+                // ignore: lines_longer_than_80_chars
+                'Здесь будут показываться ваши последние значения по всем измерениям',
+                style: AppTypography.font14.copyWith(color: AppColors.c9B9B9B),
+                textAlign: TextAlign.center,
+              ),
+            ),
           ),
-          const HSpace(55),
-          EmmaFilledButton(
-            title: 'Добавить первое измерение',
-            onTap: () => navigatorPush(context, MeasurementNewScreen()),
+          Padding(
+            padding: EdgeInsets.only(top: 55.h),
+            child: EmmaFilledButton(
+              title: 'Добавить первое измерение',
+              onTap: () => navigatorPush(context, SelectMeasurement()),
+            ),
           )
         ],
       ),

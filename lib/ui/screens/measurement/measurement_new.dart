@@ -5,6 +5,7 @@ import 'package:emma_mobile/models/measurements/height_model.dart';
 import 'package:emma_mobile/models/measurements/measurement.dart';
 import 'package:emma_mobile/models/measurements/pulse.dart';
 import 'package:emma_mobile/models/measurements/temperature.dart';
+import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
 import 'package:emma_mobile/ui/components/bottom_sheet.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
@@ -33,53 +34,30 @@ class MeasurementNewScreen extends StatelessWidget {
             backgroundColor: AppColors.cF5F7FA,
             body: Column(
               children: [
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  constraints: BoxConstraints(minHeight: 100.h),
-                  color: AppColors.cFFFFFF,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SafeArea(
-                        bottom: false,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                          behavior: HitTestBehavior.opaque,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              top: 10.h,
-                              bottom: 8.h,
-                              left: 16.w,
-                              right: 16.w,
-                            ),
-                            child: Text(
-                              'Отменить',
-                              style: AppTypography.font12.copyWith(
-                                color: AppColors.c00ACE3,
-                              ),
-                            ),
+                EmmaAppBar(
+                  title: 'Добавление ${item.inNewScreen}',
+                  leading:  SafeArea(
+                    bottom: false,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      behavior: HitTestBehavior.opaque,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          top: 10.h,
+                          bottom: 8.h,
+                          left: 16.w,
+                          right: 16.w,
+                        ),
+                        child: Text(
+                          'Отменить',
+                          style: AppTypography.font12.copyWith(
+                            color: AppColors.c00ACE3,
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 10.h, left: 16.w),
-                        child: Text(
-                          'Добавление ${item.inNewScreen}',
-                          style: AppTypography.font22.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                ColoredBox(
-                  color: AppColors.cE6E9EB,
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: 1.h,
+                    ),
                   ),
                 ),
                 Padding(
