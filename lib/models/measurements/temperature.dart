@@ -45,7 +45,6 @@ class Temperature extends HiveObject implements Measurement {
   DateTime dateTime;
 
   @override
-  void parse() {
-    dateTime = DateTime.parse(date);
-  }
+  String inNewScreen = 'температуры';
+
 }

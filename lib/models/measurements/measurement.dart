@@ -12,6 +12,8 @@ abstract class Measurement {
 
   String units;
 
+  String inNewScreen;
+
   MeasurementEnum type;
 
   DateTime dateTime;

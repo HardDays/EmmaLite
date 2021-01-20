@@ -44,6 +44,11 @@ analyzer:
     avoid_setters_without_getters: ignore
     overridden_fields: ignore
     avoid_as: ignore
+    omit_local_variable_types: ignore
+    lines_longer_than_80_chars: ignore
+    curly_braces_in_flow_control_structures: ignore
+    avoid_types_on_closure_parameters: ignore
+    sort_child_properties_last: ignore
   exclude:
     - 'bin/cache/**'
     # the following two are relative to the stocks example and the flutter package respectively

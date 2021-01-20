@@ -1,129 +1,390 @@
 import 'package:emma_mobile/bloc/new_measurement_bloc/new_measurement_bloc.dart';
-import 'package:emma_mobile/bloc/new_measurement_bloc/new_measurement_state.dart';
-import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
+import 'package:emma_mobile/models/measurements/arterial_pressure.dart';
+import 'package:emma_mobile/models/measurements/blood_sugar.dart';
+import 'package:emma_mobile/models/measurements/height_model.dart';
+import 'package:emma_mobile/models/measurements/measurement.dart';
+import 'package:emma_mobile/models/measurements/pulse.dart';
+import 'package:emma_mobile/models/measurements/temperature.dart';
 import 'package:emma_mobile/ui/components/bottom_sheet.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
-import 'package:emma_mobile/ui/components/space.dart';
-import 'package:emma_mobile/ui/components/textfields/emm_text_field.dart';
-import 'package:emma_mobile/utils/date_utils.dart';
+import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/utils/utils.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart'
+    hide CupertinoDatePicker, CupertinoDatePickerMode, CupertinoPicker;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
-class MeasurementNewScreen extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _MeasurementNewScreenState();
-}
+class MeasurementNewScreen extends StatelessWidget {
+  final Measurement item;
 
-class _MeasurementNewScreenState extends State<MeasurementNewScreen> {
-  TextEditingController _type;
-  TextEditingController _date;
-  TextEditingController _measures;
-  bool _isFormValid = false;
-
-  @override
-  void initState() {
-    _type = TextEditingController();
-    _date = TextEditingController();
-    _measures = TextEditingController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _type.dispose();
-    _date.dispose();
-    _measures.dispose();
-    super.dispose();
-  }
+  const MeasurementNewScreen({Key key, this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: EmmaAppBar(
-        titleText: 'Измерение',
-        centerTitle: true,
-        leading: const BackButton(color: AppColors.c00ACE3),
-      ),
-      body: BlocProvider(
-        create: (_) => NewMeasurementBloc(),
-        child: Builder(
-          builder: (context) {
-            return BlocBuilder<NewMeasurementBloc, NewMeasurementState>(
-              builder: (_, state) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+    return BlocProvider(
+      create: (_) => NewMeasurementBloc(type: item),
+      lazy: false,
+      child: Builder(
+        builder: (context) {
+          final bloc = context.bloc<NewMeasurementBloc>();
+          return Scaffold(
+            backgroundColor: AppColors.cF5F7FA,
+            body: Column(
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  constraints: BoxConstraints(minHeight: 100.h),
+                  color: AppColors.cFFFFFF,
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const HSpace(20),
-                      EmmaTextField(
-                        textEditingController: _type,
-                        withPicker: true,
-                        labelText: 'Тип измерения',
-                        // onTap: () => showDataPicker<MeasurementType>(
-                        //   context,
-                        //   [], //todo
-                        //   // state.measurementTypes?.payload?.toList(),
-                        //   (measurement) => {
-                        //     _validateForm(),
-                        //     context
-                        //         .read<MeasurementCubit>()
-                        //         .setCurrentMeasurementType(measurement),
-                        //     _type.text = measurement.name,
-                        //   },
-                        //   'Тип измерения',
-                        // ),
-                      ),
-                      const HSpace(20),
-                      EmmaTextField(
-                        textEditingController: _date,
-                        withPicker: true,
-                        labelText: 'Дата и время',
-                        onTap: () => showCustomDatePicker(
-                          context,
-                              (date) {
-                            _validateForm();
-                            _date.text = dateTimeToString(date);
+                      SafeArea(
+                        bottom: false,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pop();
                           },
-                          'Дата и время',
+                          behavior: HitTestBehavior.opaque,
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                              top: 10.h,
+                              bottom: 8.h,
+                              left: 16.w,
+                              right: 16.w,
+                            ),
+                            child: Text(
+                              'Отменить',
+                              style: AppTypography.font12.copyWith(
+                                color: AppColors.c00ACE3,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                      const HSpace(20),
-                      EmmaTextField(
-                        textEditingController: _measures,
-                        onChanged: (text) {
-                          _validateForm();
-                        },
-                        labelText: 'Показатели',
-                      ),
-                      const Spacer(),
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 30),
-                        child: EmmaFilledButton(
-                          isActive: _isFormValid,
-                          title: 'Сохранить',
-                          // onTap: () => {
-                          //   context.read<MeasurementCubit>().saveMeasurement(
-                          //       _date.text, _type.text, _measures.text),
-                          // },
+                        padding: EdgeInsets.only(bottom: 10.h, left: 16.w),
+                        child: Text(
+                          'Добавление ${item.inNewScreen}',
+                          style: AppTypography.font22.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       )
                     ],
                   ),
-                );
-              },
-            );
-          }
+                ),
+                ColoredBox(
+                  color: AppColors.cE6E9EB,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 1.h,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20.h),
+                  child: _DateTimeTextField(
+                    value: DateTime.now(),
+                    title: 'Дата и время измерения',
+                    hintText: 'Дата и время измерения',
+                  ),
+                ),
+                if (item is ArterialPressure) ...[
+                  _DefaultContainer(
+                    child: Column(
+                      children: [
+                        _IntTextField(
+                          label: 'Систолическое давление ,${item.units}',
+                          onChange: bloc.setArtPressureMin,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 16.w),
+                          child: ColoredBox(
+                            color: AppColors.cE6E9EB,
+                            child: SizedBox(
+                              height: 1.h,
+                              width: MediaQuery.of(context).size.width,
+                            ),
+                          ),
+                        ),
+                        _IntTextField(
+                          label: 'Систолическое давление ,${item.units}',
+                          onChange: bloc.setArtPressureMin,
+                        ),
+                      ],
+                    ),
+                  ),
+                ] else if (item is HeightModel) ...[
+                  _DefaultContainer(
+                    child: _IntTextField(
+                      label: item.units,
+                    ),
+                  )
+                ] else if (item is BloodSugar) ...[
+                  _DoubleTextField(
+                    title: item.title,
+                    units: item.units,
+                    isSugar: true,
+                    value: 4,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 20.h),
+                    child: _DateTimeTextField(
+                      title: 'Время приема пищи',
+                      hintText: 'Время приема пищи (необязательно)',
+                    ),
+                  )
+                ] else if (item is Temperature) ...[
+                  _DoubleTextField(
+                    title: item.title,
+                    units: item.units,
+                    isSugar: false,
+                    value: 36.6,
+                  ),
+                ] else if (item is Pulse) ...[
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        EmmaFilledButton(
+                          child: AppIcons.divan(color: AppColors.cFFFFFF),
+                          width: 135.w,
+                          height: 62.h,
+                          inactiveColor: AppColors.cFFFFFF,
+                          reverseTap: true,
+                          borderRadius: 4,
+                        ),
+                        EmmaFilledButton(
+                          child: AppIcons.run(),
+                          width: 135.w,
+                          height: 62.h,
+                          inactiveColor: AppColors.cFFFFFF,
+                          isActive: false,
+                          reverseTap: true,
+                          borderRadius: 4,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 20.h),
+                    child: _DefaultContainer(
+                      child: _IntTextField(
+                        label: '${item.title}, ${item.units}',
+                      ),
+                    ),
+                  )
+                ],
+                const Spacer(),
+                EmmaFilledButton(
+                  title: 'Сохранить',
+                  width: 288.w,
+                  activeColor: AppColors.c00ACE3,
+                  isActive: true,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 25.h),
+                )
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _DefaultContainer extends StatelessWidget {
+  final Widget child;
+  final Function onTap;
+
+  const _DefaultContainer({Key key, this.child, this.onTap}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        constraints: BoxConstraints(
+          minWidth: 288.w,
+          maxWidth: 288.w,
+          minHeight: 62.h,
+        ),
+        decoration: BoxDecoration(
+          color: AppColors.cFFFFFF,
+          borderRadius: const BorderRadius.all(Radius.circular(4)),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.c000000.withOpacity(0.08),
+              blurRadius: 4,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: child,
+      ),
+    );
+  }
+}
+
+class _DateTimeTextField extends StatelessWidget {
+  final String title;
+  final String hintText;
+  final DateTime value;
+  final Function(DateTime time) onChange;
+
+  const _DateTimeTextField({
+    Key key,
+    this.title,
+    this.value,
+    this.hintText,
+    this.onChange,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return _DefaultContainer(
+      onTap: () async {
+        final res = await showDateTimeModalBottom(
+          context: context,
+          pickerTitle: title,
+        );
+        if (res != null) {
+          onChange?.call(res);
+        }
+      },
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+        child: Row(
+          children: [
+            if (value != null)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: AppTypography.font12.copyWith(
+                      color: AppColors.c9B9B9B,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 4.h),
+                    child: Text(
+                      DateFormat('dd MMMM yyyy, HH:mm').format(value),
+                      style: AppTypography.font16.copyWith(
+                        color: AppColors.c4A4A4A,
+                      ),
+                    ),
+                  )
+                ],
+              )
+            else
+              Text(
+                hintText,
+                style: AppTypography.font14.copyWith(
+                  color: AppColors.cA7AFB8,
+                ),
+              ),
+            const Spacer(),
+            AppIcons.arrowRight(),
+          ],
         ),
       ),
     );
   }
+}
 
-  void _validateForm() {
-    setState(() => _isFormValid = _date.text.isNotEmpty &&
-        _type.text.isNotEmpty &&
-        _measures.text.isNotEmpty);
+class _IntTextField extends StatelessWidget {
+  final String label;
+  final Function(String s) onChange;
+
+  const _IntTextField({Key key, this.label, this.onChange}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: 16.w),
+      child: Container(
+        constraints: BoxConstraints(
+          minHeight: 63.h,
+          maxWidth: 288.w,
+        ),
+        child: TextField(
+          keyboardType: TextInputType.number,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          style: AppTypography.font16.copyWith(color: AppColors.c4A4A4A),
+          onChanged: onChange,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            labelStyle: AppTypography.font14.copyWith(color: AppColors.c9B9B9B),
+            labelText: label,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _DoubleTextField extends StatelessWidget {
+  final String title;
+  final String units;
+  final double value;
+  final bool isSugar;
+
+  const _DoubleTextField({
+    Key key,
+    this.title,
+    this.units,
+    this.value,
+    this.isSugar,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return _DefaultContainer(
+      onTap: () async {
+        final res = await showDoublePicker(
+          context: context,
+          title: '$title, $units',
+          firstMaxValue: isSugar ? 20 : 40,
+          firstIndex: isSugar ? 2 : 4,
+          firstStartValue: isSugar ? 2 : 32,
+          secondMaxValue: 9,
+          secondIndex: 0,
+          secondStartValue: 0,
+        );
+      },
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+        child: Row(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '$title, $units',
+                  style: AppTypography.font12.copyWith(
+                    color: AppColors.c9B9B9B,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 4.h),
+                  child: Text(
+                    '${value.toString()}   $units',
+                    style: AppTypography.font16.copyWith(
+                      color: AppColors.c4A4A4A,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const Spacer(),
+            AppIcons.arrowRight(),
+          ],
+        ),
+      ),
+    );
   }
 }

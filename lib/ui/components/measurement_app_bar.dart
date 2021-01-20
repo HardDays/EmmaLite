@@ -1,7 +1,9 @@
 import 'package:emma_mobile/bloc/measurement_detail_bloc/measurement_detail_bloc.dart';
+import 'package:emma_mobile/models/measurements/pulse.dart';
 import 'package:emma_mobile/models/time_enum.dart';
 import 'package:emma_mobile/models/time_range.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
+import 'package:emma_mobile/ui/screens/measurement/measurement_new.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -129,14 +131,30 @@ class _TopRow extends StatelessWidget {
               ),
               child: AppIcons.calendarActive(),
             ),
-            Padding(
-              padding: EdgeInsets.only(
-                left: 8.w,
-                right: 16.w,
-                top: 10.h,
-                bottom: 10.h,
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) {
+                      return MeasurementNewScreen(
+                        item: Pulse(
+                          date: DateTime.now().toString(),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+              behavior: HitTestBehavior.opaque,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: 8.w,
+                  right: 16.w,
+                  top: 10.h,
+                  bottom: 10.h,
+                ),
+                child: AppIcons.plus(),
               ),
-              child: AppIcons.plus(),
             )
           ],
         ),

@@ -63,8 +63,13 @@ class MainScreen extends StatelessWidget {
                               // ignore: lines_longer_than_80_chars
                               'Здесь будут показываться ваши последние значения по всем измерениям',
                           buttonTitle: 'Добавить первое измерение',
-                          onTap: () =>
-                              navigatorPush(context, MeasurementNewScreen()),
+                          onTap: () => navigatorPush(
+                              context,
+                              MeasurementNewScreen(
+                                item: Pulse(
+                                  date: DateTime.now().toString(),
+                                ),
+                              )),
                         ),
                       )
                     : SliverToBoxAdapter(

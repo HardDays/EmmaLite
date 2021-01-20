@@ -44,8 +44,7 @@ class Pulse extends HiveObject implements Measurement {
   @override
   DateTime dateTime;
 
+
   @override
-  void parse() {
-    dateTime = DateTime.parse(date);
-  }
+  String inNewScreen = 'пульса';
 }

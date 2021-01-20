@@ -1,13 +1,9 @@
-import 'dart:math';
-
-import 'package:emma_mobile/models/measurements/pulse.dart';
 import 'package:emma_mobile/ui/components/bottom_navigation/custom_bottom_nav_bar_item.dart';
 import 'package:emma_mobile/ui/components/bottom_navigation/custom_bottom_navigation_bar.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/screens/main/main_screen.dart';
 import 'package:emma_mobile/ui/screens/measurement/measurements_screen.dart';
 import 'package:emma_mobile/ui/styles/test_styles.dart';
-import 'package:emma_mobile/utils/hive_boxes.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

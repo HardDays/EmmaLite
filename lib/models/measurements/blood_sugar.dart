@@ -43,4 +43,7 @@ class BloodSugar extends HiveObject implements Measurement {
 
   @override
   DateTime dateTime;
+
+  @override
+  String inNewScreen = 'сахара\nв крови';
 }

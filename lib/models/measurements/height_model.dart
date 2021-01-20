@@ -43,4 +43,7 @@ class HeightModel extends HiveObject implements Measurement {
 
   @override
   DateTime dateTime;
+
+  @override
+  String inNewScreen = 'веса';
 }

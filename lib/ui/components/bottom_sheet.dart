@@ -1,8 +1,10 @@
 import 'package:emma_mobile/ui/components/icons.dart';
+import 'package:emma_mobile/ui/components/measurement/measurement.dart';
+import 'package:emma_mobile/ui/components/pickers/date_picker.dart';
 import 'package:emma_mobile/ui/routing/navigator.dart';
 import 'package:emma_mobile/ui/styles/test_styles.dart';
 import 'package:emma_mobile/utils/utils.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart' hide CupertinoDatePicker;
 import 'package:flutter/material.dart';
 
 PersistentBottomSheetController<T> showMainBottomSheet<T>(
@@ -31,41 +33,6 @@ Future<void> showError(BuildContext context, String message,
         ],
       );
     },
-  );
-}
-
-Future<T> showDataPicker<T>(BuildContext context, List<T> data,
-    void Function(T) onItemChanged, String toolBarTitle) {
-  onItemChanged?.call(data[0]);
-  return showCupertinoModalPopup(
-    context: context,
-    builder: (context) => Material(
-      child: SizedBox(
-        height: 250,
-        child: Column(
-          children: [
-            _buildToolBar(context, toolBarTitle),
-            Expanded(
-              child: CupertinoPicker(
-                itemExtent: 30,
-                backgroundColor: AppColors.cF5F7FA,
-                onSelectedItemChanged: (value) {
-                  onItemChanged?.call(data[value]);
-                },
-                children: data
-                    .map(
-                      (item) => Text(
-                        item.toString(),
-                        style: CustomTextStyles.pickerChildrenTitle,
-                      ),
-                    )
-                    .toList(),
-              ),
-            ),
-          ],
-        ),
-      ),
-    ),
   );
 }
 
@@ -108,8 +75,7 @@ Widget _buildToolBar(BuildContext context, String title, {double height = 44}) {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         GestureDetector(
-            onTap: () => Navigator.pop(context),
-            child: AppIcons.close()),
+            onTap: () => Navigator.pop(context), child: AppIcons.close()),
         Text(title, style: CustomTextStyles.generalAppBarTitle),
         GestureDetector(
           onTap: () => Navigator.pop(context),
@@ -118,4 +84,137 @@ Widget _buildToolBar(BuildContext context, String title, {double height = 44}) {
       ],
     ),
   );
+}
+
+Future<DateTime> showDateTimeModalBottom({
+  BuildContext context,
+  String pickerTitle,
+}) {
+  return showModalBottomSheet(
+    context: context,
+    builder: (_) {
+      DateTime dateTime;
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          MeasurementPickerTop(
+            title: pickerTitle,
+            completeTap: () {
+              Navigator.of(context).pop(dateTime ?? DateTime.now());
+            },
+          ),
+          SizedBox(
+            height: 199.h,
+            child: CupertinoDatePicker(
+              onDateTimeChanged: (value) {
+                dateTime = value;
+              },
+              use24hFormat: true,
+              mode: CupertinoDatePickerMode.dateAndTime,
+              initialDateTime: DateTime.now()
+                ..subtract(
+                  const Duration(minutes: 1),
+                ),
+              maximumDate: DateTime.now(),
+              backgroundColor: AppColors.cF5F7FA,
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Future<double> showDoublePicker({
+  BuildContext context,
+  String title,
+  int firstIndex,
+  int firstMaxValue,
+  int firstStartValue,
+  int secondIndex,
+  int secondMaxValue,
+  int secondStartValue,
+}) async {
+  int firstValue = firstIndex;
+  int secondValue = secondIndex;
+  final firstItems = _pickerWidgets(
+    context: context,
+    start: firstStartValue,
+    max: firstMaxValue,
+  );
+  final secondItems = _pickerWidgets(
+    context: context,
+    start: secondStartValue,
+    max: secondMaxValue,
+  );
+
+  return showModalBottomSheet(
+    context: context,
+    builder: (context) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          MeasurementPickerTop(
+            title: title,
+            completeTap: () {
+              final start = firstStartValue + firstValue;
+              final end = secondStartValue + secondValue;
+              final value = start + end / 10;
+              Navigator.of(context).pop(value);
+            },
+          ),
+          SizedBox(
+            height: 199.h,
+            child: Row(
+              children: [
+                Expanded(
+                  child: CupertinoPicker(
+                    itemExtent: 30.h,
+                    useMagnifier: true,
+                    scrollController:
+                        FixedExtentScrollController(initialItem: firstValue),
+                    onSelectedItemChanged: (i) {
+                      firstValue = i;
+                    },
+                    children: firstItems,
+                  ),
+                ),
+                Expanded(
+                  child: CupertinoPicker(
+                    itemExtent: 30.h,
+                    useMagnifier: true,
+                    scrollController:
+                        FixedExtentScrollController(initialItem: secondValue),
+                    onSelectedItemChanged: (i) {
+                      secondValue = i;
+                    },
+                    children: secondItems,
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      );
+    },
+  );
+}
+
+List<Widget> _pickerWidgets({BuildContext context, int start, int max}) {
+  final items = <Widget>[];
+
+  for (var i = start; i <= max; i++) {
+    items.add(
+      Center(
+        child: Text(
+          i.toString(),
+          style: CupertinoTheme.of(context).textTheme.dateTimePickerTextStyle,
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
+  return items;
 }

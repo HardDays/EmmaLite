@@ -47,4 +47,7 @@ class ArterialPressure extends HiveObject implements Measurement {
 
   @override
   DateTime dateTime;
+
+  @override
+  String inNewScreen = 'давления';
 }

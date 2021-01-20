@@ -1,8 +1,6 @@
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/components/space.dart';
-import 'package:emma_mobile/ui/routing/navigator.dart';
-import 'package:emma_mobile/ui/screens/measurement/measurement_new.dart';
 import 'package:emma_mobile/ui/styles/test_styles.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +28,7 @@ class EmptyAssignments extends StatelessWidget {
           const HSpace(55),
           EmmaFilledButton(
             title: 'Добавить первое назначение',
-            onTap: () => navigatorPush(context, MeasurementNewScreen()),
+            // onTap: () => navigatorPush(context, MeasurementNewScreen()),
           )
         ],
       ),

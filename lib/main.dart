@@ -29,7 +29,7 @@ Future<void> main() async {
     navigatorKey: AppRouter.current.rootNavigatorKey,
     debugShowCheckedModeBanner: false,
     theme: mainThemeData,
-    builder: BotToastInit(), //1. call BotToastInit
+    builder: BotToastInit(),
     navigatorObservers: [BotToastNavigatorObserver()],
     localizationsDelegates: const [
       appL10nDelegate,
