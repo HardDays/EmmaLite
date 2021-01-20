@@ -35,7 +35,8 @@ class EmmaFilledButton extends StatelessWidget {
       child: ClipRRect(
         clipBehavior: Clip.antiAlias,
         borderRadius: BorderRadius.circular(borderRadius),
-        child: ColoredBox(
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 200),
           color: isActive ? activeColor : inactiveColor,
           child: SizedBox(
             width: width,

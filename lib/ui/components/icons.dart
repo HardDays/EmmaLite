@@ -26,10 +26,11 @@ class AppIcons {
     );
   }
 
-  static Widget run() {
+  static Widget run({Color color}) {
     return SvgPicture.asset(
       'assets/icons/run.svg',
       fit: BoxFit.fill,
+      color: color,
     );
   }
 

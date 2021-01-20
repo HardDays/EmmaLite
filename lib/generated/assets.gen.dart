@@ -19,6 +19,7 @@ class $AssetsIconsGen {
   SvgGenImage get chevronLeft =>
       const SvgGenImage('assets/icons/chevron_left.svg');
   SvgGenImage get close => const SvgGenImage('assets/icons/close.svg');
+  SvgGenImage get divan => const SvgGenImage('assets/icons/divan.svg');
   SvgGenImage get doctors => const SvgGenImage('assets/icons/doctors.svg');
   SvgGenImage get graphActive =>
       const SvgGenImage('assets/icons/graph_active.svg');
@@ -42,7 +43,9 @@ class $AssetsIconsGen {
       const SvgGenImage('assets/icons/prescriptions_inactive.svg');
   SvgGenImage get profile => const SvgGenImage('assets/icons/profile.svg');
   SvgGenImage get report => const SvgGenImage('assets/icons/report.svg');
+  SvgGenImage get run => const SvgGenImage('assets/icons/run.svg');
   SvgGenImage get settings => const SvgGenImage('assets/icons/settings.svg');
+  SvgGenImage get trash => const SvgGenImage('assets/icons/trash.svg');
 }
 
 class $AssetsImagesGen {

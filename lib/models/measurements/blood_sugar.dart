@@ -7,8 +7,11 @@ part 'blood_sugar.g.dart';
 
 @HiveType(typeId: 2)
 class BloodSugar extends HiveObject implements Measurement {
-  BloodSugar({this.id, this.date, this.sugar}) {
+  BloodSugar({this.id, this.date, this.sugar, this.eatTime}) {
     dateTime = DateTime.parse(date);
+    if (eatTime != null) {
+      eatDateTime = DateTime.parse(eatTime);
+    }
   }
 
   @HiveField(0)
@@ -19,6 +22,9 @@ class BloodSugar extends HiveObject implements Measurement {
 
   @HiveField(2)
   final double sugar;
+
+  @HiveField(3)
+  final String eatTime;
 
   @override
   String title = 'Сахар в крови';
@@ -31,6 +37,8 @@ class BloodSugar extends HiveObject implements Measurement {
 
   @override
   String value() => sugar.toString();
+
+  DateTime eatDateTime;
 
   @override
   String getFormattedDate({bool showTimeIfToday = false}) =>

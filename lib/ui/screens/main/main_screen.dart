@@ -1,12 +1,11 @@
 import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
 import 'package:emma_mobile/bloc/measurement/measurement_state.dart';
-import 'package:emma_mobile/models/measurements/pulse.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/components/space.dart';
 import 'package:emma_mobile/ui/routing/navigator.dart';
 import 'package:emma_mobile/ui/screens/main/empty_block.dart';
 import 'package:emma_mobile/ui/screens/main/measurement_horizontal_list_item.dart';
-import 'package:emma_mobile/ui/screens/measurement/measurement_new.dart';
+import 'package:emma_mobile/ui/screens/measurement/select_measurement.dart';
 import 'package:emma_mobile/ui/styles/test_styles.dart';
 import 'package:emma_mobile/utils/date_utils.dart';
 import 'package:flutter/material.dart';
@@ -64,12 +63,9 @@ class MainScreen extends StatelessWidget {
                               'Здесь будут показываться ваши последние значения по всем измерениям',
                           buttonTitle: 'Добавить первое измерение',
                           onTap: () => navigatorPush(
-                              context,
-                              MeasurementNewScreen(
-                                item: Pulse(
-                                  date: DateTime.now().toString(),
-                                ),
-                              )),
+                            context,
+                            SelectMeasurement(),
+                          ),
                         ),
                       )
                     : SliverToBoxAdapter(

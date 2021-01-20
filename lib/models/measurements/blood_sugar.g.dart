@@ -20,19 +20,22 @@ class BloodSugarAdapter extends TypeAdapter<BloodSugar> {
       id: fields[0] as int,
       date: fields[1] as String,
       sugar: fields[2] as double,
+      eatTime: fields[3] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, BloodSugar obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
       ..write(obj.date)
       ..writeByte(2)
-      ..write(obj.sugar);
+      ..write(obj.sugar)
+      ..writeByte(3)
+      ..write(obj.eatTime);
   }
 
   @override

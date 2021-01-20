@@ -20,19 +20,22 @@ class PulseAdapter extends TypeAdapter<Pulse> {
       id: fields[0] as int,
       date: fields[1] as String,
       pulse: fields[2] as int,
+      pulseType: fields[3] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, Pulse obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
       ..write(obj.date)
       ..writeByte(2)
-      ..write(obj.pulse);
+      ..write(obj.pulse)
+      ..writeByte(3)
+      ..write(obj.pulseType);
   }
 
   @override
