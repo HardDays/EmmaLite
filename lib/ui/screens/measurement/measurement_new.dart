@@ -362,7 +362,7 @@ class __IntTextFieldState extends State<_IntTextField> {
             widget.isInt
                 ? FilteringTextInputFormatter.digitsOnly
                 : FilteringTextInputFormatter.allow(
-                    RegExp(r'^\d+(\.\d{0,}){0,1}$'),
+                    RegExp(r'\d+(\.{0,1}\d{0,})'),
                   )
           ],
           style: AppTypography.font16.copyWith(color: AppColors.c4A4A4A),
