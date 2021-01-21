@@ -38,7 +38,7 @@ class BottomMenu extends StatelessWidget {
                   if (isName) {
                     navigatorPush(context, SelectMeasurement());
                   } else {
-                    navigatorPush(context, ProfileScreen());
+                    // navigatorPush(context, ProfileScreen());
                   }
                 },
               ),

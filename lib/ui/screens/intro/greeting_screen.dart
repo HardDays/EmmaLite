@@ -30,7 +30,7 @@ class GreetingScreen extends StatelessWidget {
             const HSpace(32),
             EmmaFilledButton(
               title: 'Заполнить профиль',
-              onTap: () => navigatorReplace(context, ProfileScreen()),
+              // onTap: () => navigatorReplace(context, ProfileScreen()),
             ),
             const HSpace(24),
             EmmaFlatButton(
