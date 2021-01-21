@@ -1,7 +1,6 @@
 import 'package:emma_mobile/bloc/measurement_detail_bloc/measurement_detail_bloc.dart';
 import 'package:emma_mobile/bloc/measurement_detail_bloc/measurement_detail_state.dart';
 import 'package:emma_mobile/models/measurements/measurement.dart';
-import 'package:emma_mobile/models/measurements/pulse.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/components/measurement_app_bar.dart';
 import 'package:emma_mobile/ui/screens/measurement/measurement_history_screen.dart';
@@ -32,14 +31,57 @@ class MeasurementDetailScreen extends StatelessWidget {
                   children: [
                     MeasurementDetailAppBar(
                       title: item.longTitle,
-                      showHour: item is Pulse,
                       initialType: bloc.type,
+                      item: item,
                       onChange: bloc.setDateType,
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width,
                       height: 400.h,
-                      color: Colors.red,
+                      color: AppColors.cFFFFFF,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Spacer(),
+                          if (bloc.data.isEmpty)
+                            Padding(
+                              padding: EdgeInsets.only(
+                                left: 11.w,
+                                bottom: 16.h,
+                              ),
+                              child: Text(
+                                'Нет данных',
+                                style: AppTypography.font18.copyWith(
+                                  color: AppColors.c9B9B9B,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            )
+                          else
+                            Padding(
+                              padding: EdgeInsets.only(
+                                left: 11.w,
+                                bottom: 16.h,
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: _ColumnItem(
+                                      title: 'Мин.',
+                                      subtitle: '',
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: _ColumnItem(
+                                      title: 'Макс.',
+                                      subtitle: '',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                        ],
+                      ),
                     ),
                     _History(),
                   ],
@@ -49,6 +91,36 @@ class MeasurementDetailScreen extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+}
+
+class _ColumnItem extends StatelessWidget {
+  final String title;
+  final String subtitle;
+
+  const _ColumnItem({Key key, this.title, this.subtitle}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: AppTypography.font14.copyWith(
+            color: AppColors.c3B4047,
+            fontWeight: FontWeight.w300,
+          ),
+        ),
+        Text(
+          subtitle,
+          style: AppTypography.font17.copyWith(
+            color: AppColors.c3B4047,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ],
     );
   }
 }

@@ -28,8 +28,8 @@ class MeasurementHistoryScreen extends StatelessWidget {
               MeasurementDetailAppBar(
                 title: 'История измерений',
                 arrowText: bloc.item.title,
-                showHour: bloc.item is Pulse,
                 initialType: bloc.type,
+                item: bloc.item,
                 onChange: bloc.setDateType,
               ),
               Expanded(
@@ -102,9 +102,7 @@ class _Item extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         child: Container(
-          constraints: BoxConstraints(
-            minHeight: 68.h,
-          ),
+          constraints: BoxConstraints(minHeight: 68.h, maxHeight: 69.h),
           color: AppColors.cFFFFFF,
           child: Padding(
             padding: EdgeInsets.only(top: 12.h, bottom: 12.h, left: 16.w),
@@ -117,24 +115,40 @@ class _Item extends StatelessWidget {
                     height: 44.h,
                   ),
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${measurement.value()} ${measurement.units}',
-                      style: AppTypography.font16.copyWith(
-                        color: AppColors.c3B4047,
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Text(
+                              '${measurement.value()} ${measurement.units}',
+                              style: AppTypography.font16.copyWith(
+                                color: AppColors.c3B4047,
+                              ),
+                            ),
+                            const Spacer(),
+                            if (measurement is Pulse) ...[
+                              Padding(
+                                padding: EdgeInsets.only(right: 16.w),
+                                child: (measurement as Pulse).pulseType == 0
+                                    ? AppIcons.divan()
+                                    : AppIcons.run(),
+                              )
+                            ]
+                          ],
+                        ),
                       ),
-                    ),
-                    Text(
-                      // ignore: lines_longer_than_80_chars
-                      '${measurement.getFormattedDate()}, ручной ввод',
-                      style: AppTypography.font12.copyWith(
-                        color: AppColors.c9B9B9B,
+                      Text(
+                        '${measurement.getFormattedDate()}, ручной ввод',
+                        style: AppTypography.font12.copyWith(
+                          color: AppColors.c9B9B9B,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 )
               ],
             ),

@@ -1,4 +1,5 @@
 import 'package:emma_mobile/bloc/measurement_detail_bloc/measurement_detail_bloc.dart';
+import 'package:emma_mobile/models/measurements/measurement.dart';
 import 'package:emma_mobile/models/measurements/pulse.dart';
 import 'package:emma_mobile/models/time_enum.dart';
 import 'package:emma_mobile/models/time_range.dart';
@@ -11,16 +12,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class MeasurementDetailAppBar extends StatelessWidget {
   final String title;
   final DateTimeType initialType;
-  final bool showHour;
   final String arrowText;
+  final Measurement item;
   final Function(DateTimeType type) onChange;
 
   const MeasurementDetailAppBar({
     Key key,
     this.title,
     this.initialType,
-    this.showHour,
     this.arrowText,
+    this.item,
     this.onChange,
   }) : super(key: key);
 
@@ -31,7 +32,7 @@ class MeasurementDetailAppBar extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _TopRow(arrowText: arrowText),
+          _TopRow(arrowText: arrowText, item: item),
           Padding(
             padding: EdgeInsets.only(left: 16.w, bottom: 11.h),
             child: Column(
@@ -53,7 +54,7 @@ class MeasurementDetailAppBar extends StatelessWidget {
               children: [
                 for (var i in DateTimeType.values)
                   if (i.index == 0) ...[
-                    if (showHour)
+                    if (item is Pulse)
                       _TimeItem(
                         title: timeValues[i.index],
                         isActive: i == initialType,
@@ -82,8 +83,9 @@ class MeasurementDetailAppBar extends StatelessWidget {
 
 class _TopRow extends StatelessWidget {
   final String arrowText;
+  final Measurement item;
 
-  const _TopRow({this.arrowText, Key key}) : super(key: key);
+  const _TopRow({this.arrowText, this.item, Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -137,9 +139,10 @@ class _TopRow extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (_) {
                       return MeasurementNewScreen(
-                        item: Pulse(
-                          date: DateTime.now().toString(),
-                        ),
+                        item: item,
+                        onSave: () {
+                          context.bloc<MeasurementDetailBloc>().reload();
+                        },
                       );
                     },
                   ),

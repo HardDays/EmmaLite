@@ -79,4 +79,9 @@ class MeasurementDetailBloc extends Cubit<MeasurementDetailState> {
     _activeTimeRange = timeRange;
     emit(MeasurementDetailState());
   }
+
+  void reload() {
+    _init();
+    emit(MeasurementDetailState());
+  }
 }
