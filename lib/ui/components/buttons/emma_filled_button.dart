@@ -7,13 +7,14 @@ class EmmaFilledButton extends StatelessWidget {
     this.title = '',
     this.onTap,
     this.width = double.infinity,
-    this.height = 50,
+    this.height,
     this.isActive = true,
     this.activeColor = AppColors.c00ACE3,
     this.inactiveColor = AppColors.cCED3DB,
     this.borderRadius = 32,
     this.child,
     this.reverseTap = false,
+    this.fontSize,
   }) : super(key: key);
 
   final double width;
@@ -26,31 +27,46 @@ class EmmaFilledButton extends StatelessWidget {
   final VoidCallback onTap;
   final String title;
   final Widget child;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
     final isReverseTap = reverseTap ? !isActive : isActive;
     return GestureDetector(
       onTap: isReverseTap ? onTap : null,
-      child: ClipRRect(
-        clipBehavior: Clip.antiAlias,
-        borderRadius: BorderRadius.circular(borderRadius),
-        child: AnimatedContainer(
-          duration: Duration(milliseconds: 200),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        decoration: BoxDecoration(
           color: isActive ? activeColor : inactiveColor,
-          child: SizedBox(
-            width: width,
-            height: height,
-            child: Center(
-              child: child ??
-                  Text(
-                    title,
-                    style: AppTypography.font17.copyWith(
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.cFFFFFF,
-                    ),
+          boxShadow: [
+            if (isActive)
+              const BoxShadow(
+                color: Color.fromRGBO(0, 172, 227, 0.3),
+                blurRadius: 4,
+                offset: Offset(0, 2),
+              )
+            else
+              const BoxShadow(
+                color: Color.fromRGBO(0, 0, 0, 0.08),
+                blurRadius: 4,
+                offset: Offset(0, 2),
+              )
+          ],
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+        child: SizedBox(
+          width: width,
+          height: height ?? 44.h,
+          child: Center(
+            child: child ??
+                Text(
+                  title,
+                  style: AppTypography.font17.copyWith(
+                    fontWeight: FontWeight.w500,
+                    fontSize: fontSize,
+                    color: AppColors.cFFFFFF,
                   ),
-            ),
+                ),
           ),
         ),
       ),

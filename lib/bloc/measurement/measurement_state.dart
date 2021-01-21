@@ -1,5 +1,2 @@
-abstract class MeasurementState {}
+ class MeasurementState {}
 
-class LoadingMeasurementState extends MeasurementState {}
-
-class DataMeasurementState extends MeasurementState {}

@@ -53,9 +53,12 @@ class AppIcons {
     );
   }
 
-  static Widget plus() {
+  static Widget plus({Color color, double size}) {
     return SvgPicture.asset(
       'assets/icons/plus.svg',
+      color: color,
+      width: size,
+      height: size,
       fit: BoxFit.fill,
     );
   }
@@ -124,13 +127,6 @@ class AppIcons {
   static Widget menuActive() {
     return SvgPicture.asset(
       'assets/icons/menu_active.svg',
-      fit: BoxFit.fill,
-    );
-  }
-
-  static Widget menuAdd() {
-    return SvgPicture.asset(
-      'assets/icons/menu_add.svg',
       fit: BoxFit.fill,
     );
   }

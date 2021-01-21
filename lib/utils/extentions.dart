@@ -22,18 +22,12 @@ extension ListExtention on List {
 }
 
 extension DateTimeExtentions on DateTime {
-
-  String measurementDateFormatter({bool showTimeIfToday = false}) {
+  String measurementDateFormatter() {
     final now = DateTime.now();
     if (now.year == year && now.month == month && now.day == day) {
-      const baseString = 'Сегодня';
-      if (showTimeIfToday) {
-        return '$baseString ${DateFormat.Hm().format(this)}';
-      }
-      return baseString;
+      return 'Сегодня ${DateFormat.Hm().format(this)}';
     } else {
       return DateFormat('dd.MM.yyyy HH:mm').format(this);
     }
   }
-
 }

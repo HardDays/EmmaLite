@@ -1,9 +1,7 @@
 import 'package:emma_mobile/ui/components/icons.dart';
-import 'package:emma_mobile/ui/components/space.dart';
 import 'package:emma_mobile/ui/routing/navigator.dart';
 import 'package:emma_mobile/ui/screens/measurement/select_measurement.dart';
 import 'package:emma_mobile/ui/screens/profile/profile_screen.dart';
-import 'package:emma_mobile/ui/styles/test_styles.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -17,77 +15,59 @@ class BottomMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = (MediaQuery.of(context).size.width - 48) / 2;
-
-    switch (type) {
-      case BottomMenuType.main:
-        return Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
+    final isName = type == BottomMenuType.main;
+    return Padding(
+      padding: EdgeInsets.only(
+        top: 20.h,
+        left: 20.w,
+        right: 20.w,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  BottomMenuItem(
-                    icon: AppIcons.measurementsInactive(),
-                    title: 'Добавить измерение',
-                    width: width,
-                    onTap: () => navigatorPush(context, SelectMeasurement()),
-                  ),
-                  const WSpace(8),
-                  BottomMenuItem(
-                    icon: AppIcons.prescriptionsInactive(),
-                    title: 'Добавить назначение',
-                    width: width,
-                    // onTap: () => navigatorPush(context, AssignmentsScreen()),
-                  )
-                ],
+              _BottomMenuItem(
+                icon: isName
+                    ? AppIcons.measurementsInactive()
+                    : AppIcons.profile(),
+                title: isName ? 'Добавить\nизмерение' : 'Профиль',
+                width: 137.w,
+                onTap: () {
+                  if (isName) {
+                    navigatorPush(context, SelectMeasurement());
+                  } else {
+                    navigatorPush(context, ProfileScreen());
+                  }
+                },
               ),
-              const HSpace(16),
-              BottomMenuItem(
-                  icon: AppIcons.report(), title: 'Сформировать отчет'),
+              const Spacer(),
+              _BottomMenuItem(
+                icon: isName
+                    ? AppIcons.prescriptionsInactive()
+                    : AppIcons.doctors(),
+                title: isName ? 'Добавить\nназначение' : 'Мои врачи',
+                width: 137.w,
+                // onTap: () => navigatorPush(context, AssignmentsScreen()),
+              )
             ],
           ),
-        );
-        break;
-      case BottomMenuType.profile:
-        return Column(
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                BottomMenuItem(
-                  icon: AppIcons.profile(),
-                  title: 'Профиль',
-                  width: width,
-                  onTap: () => navigatorPush(context, ProfileScreen()),
-                ),
-                const WSpace(8),
-                BottomMenuItem(
-                  icon: AppIcons.doctors(),
-                  title: 'Мои врачи',
-                  width: width,
-                )
-                // onTap: () => navigatorPush(context, AssignmentsScreen()))
-              ],
+          Padding(
+            padding: EdgeInsets.only(top: 16.h),
+            child: _BottomMenuItem(
+              icon: isName ? AppIcons.report() : AppIcons.settings(),
+              title: isName ? 'Сформировать отчет' : 'Настройки',
             ),
-            const HSpace(16),
-            BottomMenuItem(
-              icon: AppIcons.settings(),
-              title: 'Настройки',
-            ),
-          ],
-        );
-        break;
-      default:
-        return Container();
-    }
+          ),
+        ],
+      ),
+    );
   }
 }
 
-class BottomMenuItem extends StatelessWidget {
-  const BottomMenuItem(
+class _BottomMenuItem extends StatelessWidget {
+  const _BottomMenuItem(
       {@required this.icon,
       @required this.title,
       this.width = double.infinity,
@@ -101,31 +81,33 @@ class BottomMenuItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => onTap?.call(),
+      onTap: onTap,
       child: Container(
         width: width,
+        height: 109.h,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: AppColors.cF1F5F9,
         ),
-        padding: const EdgeInsets.only(
-          left: 26.5,
-          right: 26.5,
-          top: 24,
-          bottom: 16,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            icon,
-            const HSpace(16),
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: CustomTextStyles.activeGenderBlock
-                  .copyWith(color: AppColors.c3B4047),
-            )
-          ],
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              icon,
+              Padding(
+                padding: EdgeInsets.only(top: 16.h),
+                child: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: AppTypography.font16.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.c3B4047,
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

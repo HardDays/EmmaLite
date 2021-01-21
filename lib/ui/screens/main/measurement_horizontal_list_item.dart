@@ -11,40 +11,56 @@ class MeasurementHorizontalListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.cFFFFFF,
-        borderRadius: BorderRadius.circular(4),
-      ),
-      padding: const EdgeInsets.all(12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(item.title, style: CustomTextStyles.textFieldText),
-          const HSpace(8),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                item.value(),
-                style: CustomTextStyles.pickerChildrenTitle
-                    .copyWith(fontWeight: FontWeight.w700),
+    return Center(
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.cFFFFFF,
+          borderRadius: BorderRadius.circular(4),
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(bottom: 8.h),
+              child: Text(
+                item.title,
+                style: AppTypography.font14.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.c3B4047,
+                ),
               ),
-              const WSpace(4),
-              Text(
-                item.units,
-                style:
-                    CustomTextStyles.inactiveGenderBlock.copyWith(fontSize: 12),
-              )
-            ],
-          ),
-          const HSpace(8),
-          Text(
-            item.getFormattedDate(),
-            style: CustomTextStyles.inactiveGenderBlock.copyWith(fontSize: 10),
-          )
-        ],
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  item.value(),
+                  style: AppTypography.font20.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.c3B4047,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 8.w),
+                  child: Text(
+                    item.units,
+                    style:
+                        AppTypography.font12.copyWith(color: AppColors.c9B9B9B),
+                  ),
+                )
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 8.h),
+              child: Text(
+                item.getFormattedDate(),
+                style: AppTypography.font10.copyWith(color: AppColors.c9B9B9B),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

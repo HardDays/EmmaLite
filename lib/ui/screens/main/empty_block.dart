@@ -1,6 +1,4 @@
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
-import 'package:emma_mobile/ui/components/space.dart';
-import 'package:emma_mobile/ui/styles/test_styles.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +21,12 @@ class EmptyBlockMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 32, bottom: 24, left: 16, right: 16),
+      padding: EdgeInsets.only(
+        top: 32.h,
+        bottom: 24.h,
+        left: 16.w,
+        right: 16.w,
+      ),
       decoration: BoxDecoration(
         color: AppColors.cFFFFFF,
         boxShadow: shadows ??
@@ -40,14 +43,19 @@ class EmptyBlockMain extends StatelessWidget {
       child: Column(
         children: [
           icon,
-          const HSpace(12),
-          Text(
-            title,
-            style: CustomTextStyles.introLogoSubtitle
-                .copyWith(fontSize: 12, color: AppColors.c9B9B9B),
+          Padding(
+            padding: EdgeInsets.only(top: 12.h, bottom: 16.h),
+            child: Text(
+              title,
+              style: AppTypography.font12.copyWith(color: AppColors.c9B9B9B),
+              textAlign: TextAlign.center,
+            ),
           ),
-          const HSpace(16),
-          EmmaFilledButton(title: buttonTitle, onTap: onTap?.call)
+          EmmaFilledButton(
+            title: buttonTitle,
+            onTap: onTap?.call,
+            fontSize: Constants.textSize14,
+          )
         ],
       ),
     );

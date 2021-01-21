@@ -41,10 +41,7 @@ class BloodSugar extends HiveObject implements Measurement {
   DateTime eatDateTime;
 
   @override
-  String getFormattedDate({bool showTimeIfToday = false}) =>
-      dateTime.measurementDateFormatter(
-        showTimeIfToday: showTimeIfToday,
-      );
+  String getFormattedDate() => dateTime.measurementDateFormatter();
 
   @override
   MeasurementEnum type = MeasurementEnum.bloodSugar;

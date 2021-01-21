@@ -1,3 +1,4 @@
+import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
 import 'package:emma_mobile/bloc/new_measurement_bloc/new_measurement_bloc.dart';
 import 'package:emma_mobile/bloc/new_measurement_bloc/new_measurement_state.dart';
 import 'package:emma_mobile/models/measurements/arterial_pressure.dart';
@@ -20,8 +21,13 @@ import 'package:intl/intl.dart';
 
 class MeasurementNewScreen extends StatelessWidget {
   final Measurement item;
+  final Function onSave;
 
-  const MeasurementNewScreen({Key key, this.item}) : super(key: key);
+  const MeasurementNewScreen({
+    Key key,
+    this.item,
+    this.onSave,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -103,6 +109,7 @@ class MeasurementNewScreen extends StatelessWidget {
                         child: _IntTextField(
                           label: item.units,
                           onChange: bloc.setHeight,
+                          isInt: false,
                         ),
                       )
                     ] else if (item is BloodSugar) ...[
@@ -179,6 +186,12 @@ class MeasurementNewScreen extends StatelessWidget {
                       width: 288.w,
                       activeColor: AppColors.c00ACE3,
                       isActive: bloc.enable,
+                      onTap: () {
+                        bloc.save();
+                        context.bloc<MeasurementCubit>().reload();
+                        onSave?.call();
+                        Navigator.of(context).pop();
+                      },
                     ),
                     Padding(
                       padding: EdgeInsets.only(bottom: 25.h),
@@ -301,8 +314,14 @@ class _DateTimeTextField extends StatelessWidget {
 class _IntTextField extends StatefulWidget {
   final String label;
   final Function(String s) onChange;
+  final bool isInt;
 
-  const _IntTextField({Key key, this.label, this.onChange}) : super(key: key);
+  const _IntTextField({
+    Key key,
+    this.label,
+    this.onChange,
+    this.isInt = true,
+  }) : super(key: key);
 
   @override
   __IntTextFieldState createState() => __IntTextFieldState();
@@ -339,7 +358,13 @@ class __IntTextFieldState extends State<_IntTextField> {
         child: TextField(
           keyboardType: TextInputType.number,
           controller: _controller,
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          inputFormatters: [
+            widget.isInt
+                ? FilteringTextInputFormatter.digitsOnly
+                : FilteringTextInputFormatter.allow(
+                    RegExp(r'^\d+(\.\d{0,}){0,1}$'),
+                  )
+          ],
           style: AppTypography.font16.copyWith(color: AppColors.c4A4A4A),
           // onChanged: widget.onChange,
           decoration: InputDecoration(

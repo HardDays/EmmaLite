@@ -10,7 +10,7 @@ import 'package:emma_mobile/repositories/measurement_local_repository.dart';
 import 'package:emma_mobile/utils/utils.dart';
 
 class MeasurementCubit extends Cubit<MeasurementState> {
-  MeasurementCubit(this._repository) : super(LoadingMeasurementState()) {
+  MeasurementCubit(this._repository) : super(MeasurementState()) {
     _init();
   }
 
@@ -57,6 +57,11 @@ class MeasurementCubit extends Cubit<MeasurementState> {
     _getLastValues();
   }
 
+  void reload() {
+    _getLastValues();
+    emit(MeasurementState());
+  }
+
   void deleteItem({Measurement measurement, int index}) {
     _repository.deleteByIndex(index: index, meas: measurement);
     updateLastValueByMeasurementType(measurement);
@@ -64,7 +69,7 @@ class MeasurementCubit extends Cubit<MeasurementState> {
 
   void updateLastValueByMeasurementType(Measurement type) {
     _getLastValueByIndex(_getIndex(m: type));
-    emit(DataMeasurementState());
+    emit(MeasurementState());
   }
 
   int _getIndex({Measurement m}) {

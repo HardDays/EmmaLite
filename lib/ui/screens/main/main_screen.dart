@@ -1,13 +1,13 @@
 import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
 import 'package:emma_mobile/bloc/measurement/measurement_state.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
-import 'package:emma_mobile/ui/components/space.dart';
 import 'package:emma_mobile/ui/routing/navigator.dart';
 import 'package:emma_mobile/ui/screens/main/empty_block.dart';
 import 'package:emma_mobile/ui/screens/main/measurement_horizontal_list_item.dart';
 import 'package:emma_mobile/ui/screens/measurement/select_measurement.dart';
 import 'package:emma_mobile/ui/styles/test_styles.dart';
 import 'package:emma_mobile/utils/date_utils.dart';
+import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,75 +18,114 @@ class MainScreen extends StatelessWidget {
     return Scaffold(
       body: BlocBuilder<MeasurementCubit, MeasurementState>(
         builder: (context, state) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: CustomScrollView(
-              slivers: [
-                const SliverToBoxAdapter(child: HSpace(25)),
-                SliverToBoxAdapter(
-                  child: Text(
-                    greetingStringBasedOn(DateTime.now()),
-                    style: CustomTextStyles.keypadItem,
-                  ),
-                ),
-                const SliverToBoxAdapter(child: HSpace(16)),
-                const SliverToBoxAdapter(
-                  child: Text(
-                    'Ваши ближайшие назначения',
-                    style: CustomTextStyles.textFieldText,
-                  ),
-                ),
-                const SliverToBoxAdapter(child: HSpace(12)),
-                SliverToBoxAdapter(
-                  child: EmptyBlockMain(
-                    icon: AppIcons.prescriptionsInactive(),
-                    title: 'Здесь будут показываться ваши ближайшие назначения',
-                    buttonTitle: 'Добавить первое назначение',
-                    onTap: () => print('Was called'),
-                  ),
-                ),
-                const SliverToBoxAdapter(child: HSpace(24)),
-                const SliverToBoxAdapter(
-                  child: Text(
-                    'Текущие измерения',
-                    style: CustomTextStyles.textFieldText,
-                  ),
-                ),
-                const SliverToBoxAdapter(child: HSpace(12)),
-                //todo
-                bloc.isEmptyData == true
-                    ? SliverToBoxAdapter(
-                        child: EmptyBlockMain(
-                          icon: AppIcons.measurementsInactive(),
-                          title:
-                              // ignore: lines_longer_than_80_chars
-                              'Здесь будут показываться ваши последние значения по всем измерениям',
-                          buttonTitle: 'Добавить первое измерение',
-                          onTap: () => navigatorPush(
-                            context,
-                            SelectMeasurement(),
-                          ),
-                        ),
-                      )
-                    : SliverToBoxAdapter(
-                        child: Container(
-                          constraints: const BoxConstraints(
-                            minHeight: 50,
-                            maxHeight: 100,
-                          ),
-                          child: ListView.separated(
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (_, i) =>
-                                MeasurementHorizontalListItem(
-                              item: bloc.data[i],
-                            ),
-                            separatorBuilder: (_, __) => const WSpace(8),
-                            itemCount: bloc.data.length,
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SafeArea(
+                        bottom: false,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 24.h, bottom: 16.h),
+                          child: Text(
+                            greetingStringBasedOn(DateTime.now()),
+                            style: CustomTextStyles.keypadItem,
                           ),
                         ),
                       ),
-
-                const SliverToBoxAdapter(child: HSpace(16)),
+                      Text(
+                        'Ваши ближайшие назначения',
+                        style: AppTypography.font16.copyWith(
+                          color: AppColors.c3B4047,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 12.h, bottom: 12.h),
+                        child: EmptyBlockMain(
+                          icon: AppIcons.prescriptionsInactive(),
+                          title:
+                              'Здесь будут показываться ваши\nближайшие назначения',
+                          buttonTitle: 'Добавить первое назначение',
+                          onTap: () => print('Was called'),
+                        ),
+                      ),
+                      Container(
+                        constraints: BoxConstraints(minHeight: 98.h),
+                        decoration: BoxDecoration(
+                          color: AppColors.cFFFFFF,
+                          boxShadow: const [
+                            BoxShadow(
+                              offset: Offset(0, 2),
+                              spreadRadius: 0,
+                              blurRadius: 4,
+                              color: AppColors.c0D000000,
+                            )
+                          ],
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 32.w,
+                          vertical: 22.h,
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Как только вы начнете выполнять назначения, здесь появится ваш прогресс выполнения.',
+                            style: AppTypography.font12.copyWith(
+                              color: AppColors.c9B9B9B,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 12.h, top: 24.h),
+                        child: Text(
+                          'Текущие измерения',
+                          style: AppTypography.font16.copyWith(
+                            color: AppColors.c3B4047,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                if (bloc.isEmptyData == true)
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: EmptyBlockMain(
+                      icon: AppIcons.measurementsInactive(),
+                      title:
+                          'Здесь будут показываться ваши\nпоследние значения по всем измерениям',
+                      buttonTitle: 'Добавить первое измерение',
+                      onTap: () => navigatorPush(
+                        context,
+                        SelectMeasurement(),
+                      ),
+                    ),
+                  )
+                else
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: 90.h,
+                      maxHeight: 120.h,
+                    ),
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      itemBuilder: (_, i) => MeasurementHorizontalListItem(
+                        item: bloc.data[i],
+                      ),
+                      separatorBuilder: (_, __) => Padding(
+                        padding: EdgeInsets.only(left: 8.w),
+                      ),
+                      itemCount: bloc.data.length,
+                    ),
+                  ),
               ],
             ),
           );

@@ -36,17 +36,13 @@ class Pulse extends HiveObject implements Measurement {
   String value() => pulse.toString();
 
   @override
-  String getFormattedDate({bool showTimeIfToday = false}) =>
-      dateTime.measurementDateFormatter(
-        showTimeIfToday: showTimeIfToday,
-      );
+  String getFormattedDate() => dateTime.measurementDateFormatter();
 
   @override
   MeasurementEnum type = MeasurementEnum.pulse;
 
   @override
   DateTime dateTime;
-
 
   @override
   String inNewScreen = 'пульса';

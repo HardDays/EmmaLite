@@ -37,10 +37,7 @@ class ArterialPressure extends HiveObject implements Measurement {
   String value() => '$top/$under';
 
   @override
-  String getFormattedDate({bool showTimeIfToday = false}) =>
-      dateTime.measurementDateFormatter(
-        showTimeIfToday: showTimeIfToday,
-      );
+  String getFormattedDate() => dateTime.measurementDateFormatter();
 
   @override
   MeasurementEnum type = MeasurementEnum.arterialPressure;

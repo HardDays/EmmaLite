@@ -33,10 +33,7 @@ class Temperature extends HiveObject implements Measurement {
   String value() => temperature.toString();
 
   @override
-  String getFormattedDate({bool showTimeIfToday = false}) =>
-      dateTime.measurementDateFormatter(
-        showTimeIfToday: showTimeIfToday,
-      );
+  String getFormattedDate() => dateTime.measurementDateFormatter();
 
   @override
   MeasurementEnum type = MeasurementEnum.temperature;
@@ -46,5 +43,4 @@ class Temperature extends HiveObject implements Measurement {
 
   @override
   String inNewScreen = 'температуры';
-
 }

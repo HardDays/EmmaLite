@@ -33,10 +33,7 @@ class HeightModel extends HiveObject implements Measurement {
   String value() => height.toString();
 
   @override
-  String getFormattedDate({bool showTimeIfToday = false}) =>
-      dateTime.measurementDateFormatter(
-        showTimeIfToday: showTimeIfToday,
-      );
+  String getFormattedDate() => dateTime.measurementDateFormatter();
 
   @override
   MeasurementEnum type = MeasurementEnum.heightModel;

@@ -129,7 +129,7 @@ class _Item extends StatelessWidget {
                     ),
                     Text(
                       // ignore: lines_longer_than_80_chars
-                      '${measurement.getFormattedDate(showTimeIfToday: true)}, ручной ввод',
+                      '${measurement.getFormattedDate()}, ручной ввод',
                       style: AppTypography.font12.copyWith(
                         color: AppColors.c9B9B9B,
                       ),

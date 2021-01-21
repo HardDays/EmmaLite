@@ -5,6 +5,7 @@ import 'package:emma_mobile/models/measurements/height_model.dart';
 import 'package:emma_mobile/models/measurements/measurement.dart';
 import 'package:emma_mobile/models/measurements/pulse.dart';
 import 'package:emma_mobile/models/measurements/temperature.dart';
+import 'package:emma_mobile/repositories/measurement_local_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NewMeasurementBloc extends Cubit<NewMeasurementState> {
@@ -14,6 +15,8 @@ class NewMeasurementBloc extends Cubit<NewMeasurementState> {
     _dateTime = DateTime.now();
     _enable = _type is BloodSugar || _type is Temperature;
   }
+
+  final _repository = MeasurementLocalRepository();
 
   final Measurement _type;
 
@@ -35,7 +38,7 @@ class NewMeasurementBloc extends Cubit<NewMeasurementState> {
 
   int get pulseType => _pulseType;
 
-  int _height;
+  double _height;
 
   double _sugar = 4.0;
   DateTime _eatTime;
@@ -52,7 +55,6 @@ class NewMeasurementBloc extends Cubit<NewMeasurementState> {
     _dateTime = dateTime;
     emit(NewMeasurementState());
   }
-
 
   void setArtPressureMin(String v) {
     if (v.isNotEmpty) {
@@ -89,7 +91,7 @@ class NewMeasurementBloc extends Cubit<NewMeasurementState> {
 
   void setHeight(String v) {
     if (v.isNotEmpty) {
-      _height = int.parse(v);
+      _height = double.parse(v);
     } else {
       _height = null;
     }
@@ -110,7 +112,6 @@ class NewMeasurementBloc extends Cubit<NewMeasurementState> {
     _temperature = v;
     emit(NewMeasurementState());
   }
-
 
   void _checkEnable() {
     bool enable = false;
@@ -140,5 +141,49 @@ class NewMeasurementBloc extends Cubit<NewMeasurementState> {
     }
   }
 
-  void save() {}
+  void save() {
+    if (type is ArterialPressure) {
+      _repository.saveArterialPressure(
+        pressure: ArterialPressure(
+          top: _artPressureMax,
+          under: _artPressureMin,
+          date: _dateTime.toString(),
+          id: _dateTime.millisecondsSinceEpoch,
+        ),
+      );
+    } else if (type is HeightModel) {
+      _repository.saveHeightModel(
+        height: HeightModel(
+          height: _height,
+          date: _dateTime.toString(),
+          id: _dateTime.millisecondsSinceEpoch,
+        ),
+      );
+    } else if (type is Pulse) {
+      _repository.savePulse(
+        pulse: Pulse(
+          pulse: _pulse,
+          pulseType: _pulseType,
+          date: _dateTime.toString(),
+          id: _dateTime.millisecondsSinceEpoch,
+        ),
+      );
+    } else if (type is BloodSugar) {
+      _repository.saveBloodSugar(
+        bloodSugar: BloodSugar(
+          sugar: _sugar,
+          date: _dateTime.toString(),
+          id: _dateTime.millisecondsSinceEpoch,
+        ),
+      );
+    } else if (type is Temperature) {
+      _repository.saveTemperature(
+        temperature: Temperature(
+          temperature: _temperature,
+          date: _dateTime.toString(),
+          id: _dateTime.millisecondsSinceEpoch,
+        ),
+      );
+    }
+  }
 }

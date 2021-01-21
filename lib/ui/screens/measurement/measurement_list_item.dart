@@ -28,10 +28,8 @@ class MeasurementListItem extends StatelessWidget {
           );
         },
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          decoration: const BoxDecoration(
-            color: AppColors.cFFFFFF,
-          ),
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+          color: AppColors.cFFFFFF,
           child: Row(
             mainAxisSize: MainAxisSize.max,
             children: [
@@ -52,9 +50,7 @@ class MeasurementListItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    isSelectScreen
-                        ? item.units
-                        : item.getFormattedDate(showTimeIfToday: true),
+                    isSelectScreen ? item.units : item.getFormattedDate(),
                     style: AppTypography.font12.copyWith(
                       color: AppColors.c9B9B9B,
                     ),
