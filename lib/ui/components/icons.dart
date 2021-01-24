@@ -1,12 +1,16 @@
+import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AppIcons {
   const AppIcons._();
 
-  static Widget accept() {
+  static Widget accept({double width, double height, Color color}) {
     return SvgPicture.asset(
       'assets/icons/accept.svg',
+      width: width,
+      height: height,
+      color: color,
       fit: BoxFit.fill,
     );
   }
@@ -14,6 +18,13 @@ class AppIcons {
   static Widget arrowRight() {
     return SvgPicture.asset(
       'assets/icons/arrow_right.svg',
+      fit: BoxFit.fill,
+    );
+  }
+
+  static Widget paperClip() {
+    return SvgPicture.asset(
+      'assets/icons/paper_clip.svg',
       fit: BoxFit.fill,
     );
   }
@@ -34,9 +45,12 @@ class AppIcons {
     );
   }
 
-  static Widget trash() {
+  static Widget trash({Color color}) {
     return SvgPicture.asset(
       'assets/icons/trash.svg',
+      color: color,
+      width: 24.w,
+      height: 24.w,
       fit: BoxFit.fill,
     );
   }

@@ -2,6 +2,7 @@ import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
 import 'package:emma_mobile/bloc/measurement/measurement_state.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/routing/navigator.dart';
+import 'package:emma_mobile/ui/screens/main/assign_data.dart';
 import 'package:emma_mobile/ui/screens/main/empty_block.dart';
 import 'package:emma_mobile/ui/screens/main/measurement_horizontal_list_item.dart';
 import 'package:emma_mobile/ui/screens/measurement/select_measurement.dart';
@@ -43,44 +44,7 @@ class MainScreen extends StatelessWidget {
                           color: AppColors.c3B4047,
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 12.h, bottom: 12.h),
-                        child: EmptyBlockMain(
-                          icon: AppIcons.prescriptionsInactive(),
-                          title:
-                              'Здесь будут показываться ваши\nближайшие назначения',
-                          buttonTitle: 'Добавить первое назначение',
-                          onTap: () => print('Was called'),
-                        ),
-                      ),
-                      Container(
-                        constraints: BoxConstraints(minHeight: 98.h),
-                        decoration: BoxDecoration(
-                          color: AppColors.cFFFFFF,
-                          boxShadow: const [
-                            BoxShadow(
-                              offset: Offset(0, 2),
-                              spreadRadius: 0,
-                              blurRadius: 4,
-                              color: AppColors.c0D000000,
-                            )
-                          ],
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 32.w,
-                          vertical: 22.h,
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Как только вы начнете выполнять назначения, здесь появится ваш прогресс выполнения.',
-                            style: AppTypography.font12.copyWith(
-                              color: AppColors.c9B9B9B,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
+                      AssignData(),
                       Padding(
                         padding: EdgeInsets.only(bottom: 12.h, top: 24.h),
                         child: Text(

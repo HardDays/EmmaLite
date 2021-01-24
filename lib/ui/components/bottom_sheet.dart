@@ -86,6 +86,55 @@ Widget _buildToolBar(BuildContext context, String title, {double height = 44}) {
   );
 }
 
+Future<int> showDefaultPicker({
+  BuildContext context,
+  String pickerTitle,
+  List<String> values,
+}) {
+  int index;
+  final children = <Widget>[];
+
+  for (var i in values) {
+    final child = Center(
+      child: Text(
+        i,
+        style: AppTypography.font20.copyWith(color: AppColors.c4A4A4A),
+      ),
+    );
+    children.add(child);
+  }
+
+  return showModalBottomSheet(
+    context: context,
+    builder: (_) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          MeasurementPickerTop(
+            title: pickerTitle,
+            completeTap: () {
+              Navigator.of(context).pop(index);
+            },
+          ),
+          SizedBox(
+            height: 199.h,
+            child: CupertinoPicker(
+              itemExtent: 40.h,
+              onSelectedItemChanged: (i) {
+                index = i;
+              },
+              backgroundColor: AppColors.cF5F7FA,
+              useMagnifier: true,
+              children: children,
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 Future<DateTime> showDateTimeModalBottom({
   BuildContext context,
   String pickerTitle,

@@ -1,7 +1,7 @@
 import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/routing/navigator.dart';
+import 'package:emma_mobile/ui/screens/assignment/assignment_new.dart';
 import 'package:emma_mobile/ui/screens/measurement/select_measurement.dart';
-import 'package:emma_mobile/ui/screens/profile/profile_screen.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -49,7 +49,11 @@ class BottomMenu extends StatelessWidget {
                     : AppIcons.doctors(),
                 title: isName ? 'Добавить\nназначение' : 'Мои врачи',
                 width: 137.w,
-                // onTap: () => navigatorPush(context, AssignmentsScreen()),
+                onTap: () {
+                  if (isName) {
+                    navigatorPush(context, AssignmentNewScreen());
+                  }
+                },
               )
             ],
           ),

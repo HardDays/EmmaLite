@@ -1,96 +1,250 @@
-import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
-import 'package:emma_mobile/bloc/measurement/measurement_state.dart';
-import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
-import 'package:emma_mobile/ui/components/bottom_sheet.dart';
+import 'dart:io';
+
+import 'package:emma_mobile/bloc/new_assing_bloc/new_assign_bloc.dart';
+import 'package:emma_mobile/bloc/new_assing_bloc/new_assign_state.dart';
+import 'package:emma_mobile/models/assignment/assign_type.dart';
+import 'package:emma_mobile/models/assignment/assign_unit.dart';
+import 'package:emma_mobile/ui/components/app_bar/small_app_bar.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
-import 'package:emma_mobile/ui/components/space.dart';
-import 'package:emma_mobile/ui/components/textfields/emm_text_field.dart';
-import 'package:emma_mobile/utils/date_utils.dart';
+import 'package:emma_mobile/ui/components/icons.dart';
+import 'package:emma_mobile/ui/components/measurement/date_time_text_field.dart';
+import 'package:emma_mobile/ui/components/measurement/default_container.dart';
+import 'package:emma_mobile/ui/components/measurement/default_picker_field.dart';
+import 'package:emma_mobile/ui/components/measurement/int_text_field.dart';
+import 'package:emma_mobile/ui/screens/detail_photo_screen.dart';
+import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
-class AssignmentNewScreen extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _AssignmentNewScreenState();
-}
-
-class _AssignmentNewScreenState extends State<AssignmentNewScreen> {
-  final TextEditingController _type = TextEditingController();
-  final TextEditingController _date = TextEditingController();
-  final TextEditingController _measures = TextEditingController();
-
+class AssignmentNewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
+    return BlocProvider(
+      create: (_) => NewAssignBloc(),
+      child: Scaffold(
+        backgroundColor: AppColors.cF5F7FA,
+        body: Column(
+          children: [
+            SmallAppBar(
+              title: 'Новое назначение',
+              leadingText: 'Отменить',
+            ),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: _NewAssign(),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _NewAssign extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final bloc = context.bloc<NewAssignBloc>();
+    return BlocBuilder<NewAssignBloc, NewAssignState>(builder: (_, state) {
+      return Column(
         children: [
-          EmmaAppBar(
-            title: 'Новое измерение',
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 20.h),
+            child: DefaultPickerField(
+              title: 'Тип назначения:',
+              index: 0,
+              values: assignTypes,
+            ),
           ),
-          BlocConsumer<MeasurementCubit, MeasurementState>(
-            listener: (context, state) {
-              //todo
-              // if (state.isSaved?.payload == true) {
-              //   navigatorPop(context);
-              // }
-            },
-            listenWhen: (current, previuos) => previuos != current,
-            builder: (context, state) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
+          Padding(
+            padding: EdgeInsets.only(bottom: 20.h),
+            child: DefaultContainer(
+              child: InputTextField(
+                formatter: LengthLimitingTextInputFormatter(27),
+                label: 'Название назначения',
+              ),
+            ),
+          ),
+          DefaultContainer(
+            child: Column(
+              children: [
+                InputTextField(
+                  isInt: true,
+                  label: 'Дозировка',
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 16.w),
+                  child: Container(
+                    height: 1.h,
+                    width: MediaQuery.of(context).size.width,
+                    color: AppColors.cE6E9EB,
+                  ),
+                ),
+                DefaultPickerField(
+                  title: 'Единица измерения:',
+                  index: 0,
+                  values: assignUnits,
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 20.h),
+            child: DefaultContainer(
+              child: Column(
+                children: [
+                  DateTimeTextField(
+                    title: 'Дата начала',
+                    hintText: 'Дата начала',
+                    dateFormat: DateFormat('dd MMMM yyyy'),
+                    value: DateTime.now(),
+                    haveDecoration: false,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 16.w),
+                    child: Container(
+                      height: 1.h,
+                      width: MediaQuery.of(context).size.width,
+                      color: AppColors.cE6E9EB,
+                    ),
+                  ),
+                  DateTimeTextField(
+                    title: 'Дата окончания',
+                    hintText: 'Дата окончания',
+                    dateFormat: DateFormat('dd MMMM yyyy'),
+                    value: DateTime.now(),
+                    haveDecoration: false,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          if (bloc.photos.isNotEmpty)
+            Padding(
+              padding: EdgeInsets.only(top: 20.h),
+              child: SizedBox(
+                height: 134.w,
+                width: MediaQuery.of(context).size.width,
+                child: ListView.separated(
+                  itemCount: bloc.photos.length,
+                  padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (_, i) {
+                    return _Photo(index: i);
+                  },
+                  separatorBuilder: (_, __) {
+                    return Padding(padding: EdgeInsets.only(left: 20.w));
+                  },
+                ),
+              ),
+            ),
+          Padding(
+            padding: EdgeInsets.only(top: 20.h),
+            child: GestureDetector(
+              onTap: bloc.pickImage,
+              behavior: HitTestBehavior.opaque,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  right: 16.w,
+                  top: 12.h,
+                  bottom: 12.h,
+                ),
+                child: Row(
                   children: [
-                    const HSpace(20),
-                    EmmaTextField(
-                      textEditingController: _type,
-                      withPicker: true,
-                      labelText: 'Тип измерения',
-                      // onTap: () => showDataPicker<MeasurementType>(
-                      //   context,
-                      //   [],//todo
-                      //   // state.measurementTypes?.payload?.toList(),
-                      //   (measurement) => {
-                      //     _type.text = measurement.name,
-                      //   },
-                      //   'Тип измерения',
-                      // ),
-                    ),
-                    const HSpace(20),
-                    EmmaTextField(
-                      textEditingController: _date,
-                      withPicker: true,
-                      labelText: 'Дата и время',
-                      onTap: () => showCustomDatePicker(
-                          context,
-                          (date) => {
-                                _date.text = dateTimeToString(date),
-                              },
-                          'Дата и время'),
-                    ),
-                    const HSpace(20),
-                    EmmaTextField(
-                      textEditingController: _measures,
-                      onChanged: (text) => _measures.text = text,
-                      labelText: 'Показатели',
-                    ),
-                    const Spacer(),
+                    AppIcons.paperClip(),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 30),
-                      child: EmmaFilledButton(
-                        // isActive: state.isFormValid,
-                        title: 'Сохранить',
-                        // onTap: () => context
-                        //     .read<MeasurementCubit>()
-                        //     .saveMeasurement(_date.text, _type.text, _measures.text),
+                      padding: EdgeInsets.only(left: 8.w),
+                      child: Text(
+                        'Добавить изображение',
+                        style: AppTypography.font16.copyWith(
+                          color: AppColors.c00ACE3,
+                        ),
                       ),
                     )
                   ],
                 ),
-              );
-            },
+              ),
+            ),
           ),
+          Padding(
+            padding: EdgeInsets.only(top: 20.h, bottom: 32.h),
+            child: EmmaFilledButton(
+              title: 'Сохранить',
+            ),
+          )
         ],
+      );
+    });
+  }
+}
+
+class _Photo extends StatelessWidget {
+  final int index;
+
+  const _Photo({Key key, this.index}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = context.bloc<NewAssignBloc>();
+    return Center(
+      child: GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) {
+                return DetailPhotoScreen(
+                  photos: bloc.photos,
+                  initIndex: index,
+                  onDelete: (i) => bloc.deletePhoto(index: i),
+                );
+              },
+            ),
+          );
+        },
+        child: Stack(
+          children: [
+            SizedBox(
+              width: 134.w,
+              height: 134.w,
+            ),
+            Image.file(
+              File(bloc.photos[index]),
+              width: 134.w,
+              height: 134.w,
+              fit: BoxFit.cover,
+            ),
+            Positioned(
+              bottom: 0,
+              child: Container(
+                width: 137.w,
+                height: 40.h,
+                color: AppColors.cFFFFFF.withOpacity(0.7),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: GestureDetector(
+                    onTap: () {
+                      bloc.deletePhoto(index: index);
+                    },
+                    behavior: HitTestBehavior.opaque,
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 9.w, bottom: 1.h),
+                      child: AppIcons.trash(
+                        color: AppColors.c3B4047,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

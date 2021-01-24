@@ -33,7 +33,6 @@ class $AssetsIconsGen {
       const SvgGenImage('assets/icons/measurements_inactive.svg');
   SvgGenImage get menuActive =>
       const SvgGenImage('assets/icons/menu_active.svg');
-  SvgGenImage get menuAdd => const SvgGenImage('assets/icons/menu_add.svg');
   SvgGenImage get menuInactive =>
       const SvgGenImage('assets/icons/menu_inactive.svg');
   SvgGenImage get plus => const SvgGenImage('assets/icons/plus.svg');

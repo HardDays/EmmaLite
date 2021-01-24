@@ -41,13 +41,16 @@ class MeasurementListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    item.longTitle,
-                    style: AppTypography.font16.copyWith(
-                      color: AppColors.c3B4047,
+                  SizedBox(
+                    width: !isSelectScreen ? 131.w : null,
+                    child: Text(
+                      item.longTitle,
+                      style: AppTypography.font16.copyWith(
+                        color: AppColors.c3B4047,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
                   ),
                   Text(
                     isSelectScreen ? item.units : item.getFormattedDate(),

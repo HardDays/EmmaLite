@@ -1,56 +1,37 @@
-import 'package:emma_mobile/utils/date_utils.dart';
 import 'package:hive/hive.dart';
 
+part 'assignment.g.dart';
+
 @HiveType(typeId: 0)
-class Assignment {
+class Assignment extends HiveObject {
   Assignment({
     this.id,
-    this.type,
-    this.count,
-    this.dosage,
-    this.endDate,
-    this.frequency,
-    this.isDone,
-    this.periodicity,
-    this.startDate,
-    this.title,
-    this.unit,
+    this.typeId,
   });
 
-  @HiveField(0)
   int id;
 
-  @HiveField(1)
-  String type;
+  int typeId;
 
-  @HiveField(2)
-  String title;
+  String name;
 
-  @HiveField(3)
-  num dosage;
+  int dosage;
 
-  @HiveField(4)
-  String unit;
+  int unitId;
 
-  @HiveField(5)
-  String frequency;
+  int frequency;
 
-  @HiveField(6)
-  String count;
+  List<int> frequencyCounts;
 
-  @HiveField(7)
-  DateTime startDate;
+  List<double> frequencyValues;
 
-  @HiveField(8)
-  DateTime endDate;
+  String startTime;
 
-  @HiveField(9)
-  String periodicity;
+  String endTime;
+  
+  int periodId;
 
-  @HiveField(10)
-  bool isDone = false;
+  List<String> photos;
 
-  String get startDateString => formatDateToString(startDate);
-
-  String get endDateString => formatDateToString(endDate);
+  bool isStop;
 }

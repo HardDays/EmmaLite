@@ -11,13 +11,14 @@ import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
 import 'package:emma_mobile/ui/components/bottom_sheet.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
+import 'package:emma_mobile/ui/components/measurement/date_time_text_field.dart';
+import 'package:emma_mobile/ui/components/measurement/default_container.dart';
+import 'package:emma_mobile/ui/components/measurement/int_text_field.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/cupertino.dart'
     hide CupertinoDatePicker, CupertinoDatePickerMode, CupertinoPicker;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
 class MeasurementNewScreen extends StatelessWidget {
   final Measurement item;
@@ -72,7 +73,7 @@ class MeasurementNewScreen extends StatelessWidget {
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 20.h),
-                      child: _DateTimeTextField(
+                      child: DateTimeTextField(
                         value: bloc.dateTime,
                         onChange: bloc.setDateTime,
                         title: 'Дата и время измерения',
@@ -80,10 +81,10 @@ class MeasurementNewScreen extends StatelessWidget {
                       ),
                     ),
                     if (item is ArterialPressure) ...[
-                      _DefaultContainer(
+                      DefaultContainer(
                         child: Column(
                           children: [
-                            _IntTextField(
+                            InputTextField(
                               label: 'Систолическое давление ,${item.units}',
                               onChange: bloc.setArtPressureMin,
                             ),
@@ -97,7 +98,7 @@ class MeasurementNewScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            _IntTextField(
+                            InputTextField(
                               label: 'Систолическое давление ,${item.units}',
                               onChange: bloc.setArtPressureMax,
                             ),
@@ -105,8 +106,8 @@ class MeasurementNewScreen extends StatelessWidget {
                         ),
                       ),
                     ] else if (item is HeightModel) ...[
-                      _DefaultContainer(
-                        child: _IntTextField(
+                      DefaultContainer(
+                        child: InputTextField(
                           label: item.units,
                           onChange: bloc.setHeight,
                           isInt: false,
@@ -122,7 +123,7 @@ class MeasurementNewScreen extends StatelessWidget {
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 20.h),
-                        child: _DateTimeTextField(
+                        child: DateTimeTextField(
                           value: bloc.eatTime,
                           onChange: bloc.setEatTime,
                           title: 'Время приема пищи',
@@ -172,8 +173,8 @@ class MeasurementNewScreen extends StatelessWidget {
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 20.h),
-                        child: _DefaultContainer(
-                          child: _IntTextField(
+                        child: DefaultContainer(
+                          child: InputTextField(
                             label: '${item.title}, ${item.units}',
                             onChange: bloc.setPulse,
                           ),
@@ -211,173 +212,6 @@ class MeasurementNewScreen extends StatelessWidget {
   }
 }
 
-class _DefaultContainer extends StatelessWidget {
-  final Widget child;
-  final Function onTap;
-
-  const _DefaultContainer({Key key, this.child, this.onTap}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        constraints: BoxConstraints(
-          minWidth: 288.w,
-          maxWidth: 288.w,
-          minHeight: 62.h,
-        ),
-        decoration: BoxDecoration(
-          color: AppColors.cFFFFFF,
-          borderRadius: const BorderRadius.all(Radius.circular(4)),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.c000000.withOpacity(0.08),
-              blurRadius: 4,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: child,
-      ),
-    );
-  }
-}
-
-class _DateTimeTextField extends StatelessWidget {
-  final String title;
-  final String hintText;
-  final DateTime value;
-  final Function(DateTime time) onChange;
-
-  const _DateTimeTextField({
-    Key key,
-    this.title,
-    this.value,
-    this.hintText,
-    this.onChange,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return _DefaultContainer(
-      onTap: () async {
-        final res = await showDateTimeModalBottom(
-          context: context,
-          pickerTitle: title,
-        );
-        if (res != null) {
-          onChange?.call(res);
-        }
-      },
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-        child: Row(
-          children: [
-            if (value != null)
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: AppTypography.font12.copyWith(
-                      color: AppColors.c9B9B9B,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 4.h),
-                    child: Text(
-                      DateFormat('dd MMMM yyyy, HH:mm').format(value),
-                      style: AppTypography.font16.copyWith(
-                        color: AppColors.c4A4A4A,
-                      ),
-                    ),
-                  )
-                ],
-              )
-            else
-              Text(
-                hintText,
-                style: AppTypography.font14.copyWith(
-                  color: AppColors.cA7AFB8,
-                ),
-              ),
-            const Spacer(),
-            AppIcons.arrowRight(),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _IntTextField extends StatefulWidget {
-  final String label;
-  final Function(String s) onChange;
-  final bool isInt;
-
-  const _IntTextField({
-    Key key,
-    this.label,
-    this.onChange,
-    this.isInt = true,
-  }) : super(key: key);
-
-  @override
-  __IntTextFieldState createState() => __IntTextFieldState();
-}
-
-class __IntTextFieldState extends State<_IntTextField> {
-  TextEditingController _controller;
-
-  @override
-  void initState() {
-    _controller = TextEditingController()..addListener(_listener);
-    super.initState();
-  }
-
-  void _listener() {
-    widget.onChange(_controller.text);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: 16.w),
-      child: Container(
-        constraints: BoxConstraints(
-          minHeight: 63.h,
-          maxWidth: 288.w,
-        ),
-        child: TextField(
-          keyboardType: TextInputType.number,
-          controller: _controller,
-          inputFormatters: [
-            widget.isInt
-                ? FilteringTextInputFormatter.digitsOnly
-                : FilteringTextInputFormatter.allow(
-                    RegExp(r'\d+(\.{0,1}\d{0,})'),
-                  )
-          ],
-          style: AppTypography.font16.copyWith(color: AppColors.c4A4A4A),
-          // onChanged: widget.onChange,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            labelStyle: AppTypography.font14.copyWith(color: AppColors.c9B9B9B),
-            labelText: widget.label,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class _DoubleTextField extends StatelessWidget {
   final String title;
   final String units;
@@ -396,7 +230,7 @@ class _DoubleTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _DefaultContainer(
+    return DefaultContainer(
       onTap: () async {
         final res = await showDoublePicker(
           context: context,

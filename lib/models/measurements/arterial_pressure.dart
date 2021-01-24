@@ -34,7 +34,7 @@ class ArterialPressure extends HiveObject implements Measurement {
   String units = 'мм.рт.ст.';
 
   @override
-  String value() => '$top/$under';
+  String value() => '$under/$top';
 
   @override
   String getFormattedDate() => dateTime.measurementDateFormatter();
