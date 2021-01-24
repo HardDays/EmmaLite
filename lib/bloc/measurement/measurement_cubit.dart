@@ -91,7 +91,7 @@ class MeasurementCubit extends Cubit<MeasurementState> {
       _heightModel = _repository.getHeightModel()?.getLastByDate();
     } else if (index == 3) {
       _pulse = _repository.getPulse()?.getLastByDate();
-    } else if (index == 3) {
+    } else if (index == 4) {
       _temperature = _repository.getTemperature()?.getLastByDate();
     }
   }

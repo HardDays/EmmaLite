@@ -1,5 +1,7 @@
 import 'package:emma_mobile/bloc/measurement_detail_bloc/measurement_detail_bloc.dart';
 import 'package:emma_mobile/bloc/measurement_detail_bloc/measurement_detail_state.dart';
+import 'package:emma_mobile/models/measurements/arterial_pressure.dart';
+import 'package:emma_mobile/models/measurements/height_model.dart';
 import 'package:emma_mobile/models/measurements/measurement.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/components/measurement_app_bar.dart';
@@ -60,7 +62,7 @@ class MeasurementDetailScreen extends StatelessWidget {
                           else
                             Padding(
                               padding: EdgeInsets.only(
-                                left: 11.w,
+                                left: 8.w,
                                 bottom: 16.h,
                               ),
                               child: Row(
@@ -68,13 +70,13 @@ class MeasurementDetailScreen extends StatelessWidget {
                                   Expanded(
                                     child: _ColumnItem(
                                       title: 'Мин.',
-                                      subtitle: '',
+                                      subtitle: '${bloc.item is ArterialPressure ? '\n' : ''} ${bloc.min}',
                                     ),
                                   ),
                                   Expanded(
                                     child: _ColumnItem(
                                       title: 'Макс.',
-                                      subtitle: '',
+                                      subtitle: '${bloc.item is ArterialPressure ? '\n' : ''} ${bloc.max}',
                                     ),
                                   ),
                                 ],
@@ -103,6 +105,28 @@ class _ColumnItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = context.bloc<MeasurementDetailBloc>();
+    return RichText(
+      maxLines: 2,
+      text: TextSpan(
+        children: [
+          TextSpan(
+            text: '$title:',
+            style: AppTypography.font14.copyWith(
+              color: AppColors.c3B4047,
+              fontWeight: FontWeight.w300,
+            ),
+          ),
+          TextSpan(
+            text: '$subtitle ${subtitle.isEmpty ? '' : bloc.item.units}',
+            style: AppTypography.font17.copyWith(
+              color: AppColors.c3B4047,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ]
+      ),
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
