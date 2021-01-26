@@ -170,7 +170,7 @@ abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
   @override
   double getXMax() {
     // todo отступ
-    return _xMax + 0.1;
+    return _xMax;
   }
 
   @override
