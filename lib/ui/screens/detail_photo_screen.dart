@@ -88,7 +88,6 @@ class _DetailPhotoScreenState extends State<DetailPhotoScreen> {
               child: GestureDetector(
                 onTap: () {
                   photos.removeAt(page);
-                  print('1111 $page');
                   widget?.onDelete(page);
                   if (photos.isEmpty) {
                     Navigator.of(context).pop();

@@ -18,7 +18,6 @@ class NewAssignBloc extends Cubit<NewAssignState> {
   }
 
   void deletePhoto({int index}) {
-    print('xxx ${photos.length} eeee $index');
     photos.removeAt(index);
     emit(NewAssignState());
   }

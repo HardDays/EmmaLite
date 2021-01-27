@@ -154,12 +154,12 @@ abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
 
   @override
   double getYMin() {
-    return _yMin;
+    return _yMin - _yMin * 0.03;
   }
 
   @override
   double getYMax() {
-    return _yMax;
+    return _yMax + _yMin * 0.03;
   }
 
   @override

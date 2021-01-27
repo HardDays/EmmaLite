@@ -72,4 +72,6 @@ mixin ILineDataSet implements ILineRadarDataSet<Entry> {
   ///
   /// @return
   IFillFormatter getFillFormatter();
+
+  int getStartPaintIndex();
 }

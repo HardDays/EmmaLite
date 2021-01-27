@@ -32,14 +32,6 @@ class HiveBoxes {
   HiveBoxes._();
 
   Future<void> init() async {
-    // final z = await Hive.openBox<Pulse>('Pulse');
-    // final a = z.values;
-    // print(a);
-    // z.add(Pulse()..id = 1..date = DateTime.now().toString()..pulse = 200);
-    // List<Pulse> w = a.map((e) => e as Pulse).toList();
-    // for (var i in a) {
-    //   print(i);
-    // }
     _arterialPressure =
         await Hive.openBox<ArterialPressure>('ArterialPressure');
     _bloodSugar = await Hive.openBox<BloodSugar>('BloodSugar');

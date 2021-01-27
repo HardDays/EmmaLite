@@ -62,7 +62,7 @@ class Static {
   static List<TimeRange> getTimeRange({DateTimeType type}) {
     var times = <TimeRange>[];
     var date = DateTime.now();
-    if (type == DateTimeType.hour) {
+    if (type is HourDateTime) {
       date = date.add(const Duration(hours: 1));
       for (var i = 0; i < date.hour + 1; i++) {
         times.add(
@@ -74,7 +74,7 @@ class Static {
         );
       }
       times = times.reversed.toList();
-    } else if (type == DateTimeType.day) {
+    } else if (type is DayDateTime) {
       var roundDate = date;
       final currentDay = date.day;
       final prevMonth = DateTime(date.year, date.month, 0).month;
@@ -99,7 +99,7 @@ class Static {
               roundDate.year, roundDate.month, roundDate.day, 23, 59, 59),
         ),
       );
-    } else if (type == DateTimeType.week) {
+    } else if (type is WeekDateTime) {
       var roundDate = date;
       roundDate = roundDate.add(const Duration(hours: 3));
       while (roundDate.isAfter(DateTime(date.year - 1, date.month, date.day))) {
@@ -121,7 +121,7 @@ class Static {
         );
         roundDate = roundDate.subtract(const Duration(days: 8));
       }
-    } else if (type == DateTimeType.month) {
+    } else if (type is MonthDateTime) {
       for (var i = 0; i <= 12; i++) {
         times.add(
           TimeRange(
@@ -133,7 +133,7 @@ class Static {
           ),
         );
       }
-    } else if (type == DateTimeType.year) {
+    } else if (type is YearDateTime) {
       for (var i = 0; i < 2; i++) {
         times.add(
           TimeRange(

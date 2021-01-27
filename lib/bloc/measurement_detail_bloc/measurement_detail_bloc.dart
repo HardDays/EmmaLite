@@ -26,7 +26,7 @@ class MeasurementDetailBloc extends Cubit<MeasurementDetailState> {
 
   List<Measurement> _data;
 
-  DateTimeType _type = DateTimeType.day;
+  DateTimeType _type = dateTimeTypes[1];
 
   TimeRange _activeTimeRange;
 

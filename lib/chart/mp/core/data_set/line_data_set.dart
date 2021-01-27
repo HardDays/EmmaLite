@@ -42,7 +42,11 @@ class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet {
 
   bool mDrawCircleHole = true;
 
+  //todo мое
   bool _isDrawOnlyLastCircle = false;
+
+  // todo мое
+  int _startPaintIndex = 0;
 
   LineDataSet(List<Entry> yVals, String label) : super(yVals, label) {
     // _circleRadius = Utils.convertDpToPixel(4f);
@@ -282,8 +286,17 @@ class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet {
     return _isDrawOnlyLastCircle;
   }
 
-  void setOnlyLastPaintCircle(bool value) {
+  set setOnlyLastPaintCircle(bool value) {
     _isDrawOnlyLastCircle = value;
+  }
+
+  @override
+  int getStartPaintIndex() {
+    return _startPaintIndex;
+  }
+
+  set setStartPaintIndex(int value) {
+    _startPaintIndex = value + 1;
   }
 
   /// Sets a custom IFillFormatter to the chart that handles the position of the

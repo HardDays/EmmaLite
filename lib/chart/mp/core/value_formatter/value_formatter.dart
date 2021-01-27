@@ -31,6 +31,18 @@ abstract class ValueFormatter {
     return '777';
   }
 
+  bool isOther(int index) {
+    return true;
+  }
+
+  bool isMax(int index) {
+    return false;
+  }
+
+  bool isMin(int index) {
+    return false;
+  }
+
   String getBarLabel(BarEntry barEntry) {
     return getFormattedValue1(barEntry.y);
   }

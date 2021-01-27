@@ -33,7 +33,7 @@ abstract class PainterUtils {
   static TextPainter _create(String text, Color color, double fontSize,
       {String fontFamily, FontWeight fontWeight = FontWeight.w400}) {
     return TextPainter(
-        textAlign: TextAlign.right,
+        textAlign: TextAlign.center,
         textDirection: TextDirection.ltr,
         text: TextSpan(
             text: text,

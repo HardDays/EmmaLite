@@ -70,7 +70,7 @@ class YAxisRenderer extends AxisRenderer {
       }
     } else {
       if (labelPosition == YAxisLabelPosition.OUTSIDE_CHART) {
-        xPos = viewPortHandler.contentRight();
+        xPos = viewPortHandler.contentRight() + 6.w; // todo подписи справа
       } else {
         xPos = viewPortHandler.contentRight();
       }

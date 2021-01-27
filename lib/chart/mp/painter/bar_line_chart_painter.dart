@@ -262,7 +262,8 @@ abstract class BarLineChartBasePainter<
     _axisRendererLeft.renderAxisLine(canvas);
     _axisRendererRight.renderAxisLine(canvas);
 
-    if (xAxis.drawGridLinesBehindData) _xAxisRenderer.renderGridLines(canvas);
+    if (xAxis.drawGridLinesBehindData)
+      _xAxisRenderer.renderGridLines(canvas);
 
     if (_axisLeft.drawGridLinesBehindData)
       _axisRendererLeft.renderGridLines(canvas);
@@ -288,7 +289,8 @@ abstract class BarLineChartBasePainter<
     renderer.drawExtras(canvas);
 
 
-    if (!xAxis.drawGridLinesBehindData) _xAxisRenderer.renderGridLines(canvas);
+    if (!xAxis.drawGridLinesBehindData)
+      _xAxisRenderer.renderGridLines(canvas);
 
     if (!_axisLeft.drawGridLinesBehindData)
       _axisRendererLeft.renderGridLines(canvas);

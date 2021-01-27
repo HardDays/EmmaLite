@@ -12,7 +12,7 @@ import 'package:emma_mobile/chart/mp/core/utils/screen_utils.dart';
 import 'package:emma_mobile/chart/mp/core/value_formatter/default_value_formatter.dart';
 import 'package:emma_mobile/chart/mp/core/value_formatter/value_formatter.dart';
 import 'package:emma_mobile/chart/mp/core/view_port.dart';
-
+// ignore: avoid_classes_with_only_static_members
 abstract class Utils {
   // ignore: non_constant_identifier_names
   static double DEG2RAD = pi / 180.0;
@@ -65,7 +65,7 @@ abstract class Utils {
       c.restore();
     } else {
       drawOffsetX += x;
-      drawOffsetY += y + 8.h; // todo изменение высоты отступа подписей от графика
+      drawOffsetY += y + 16.h; // todo изменение высоты отступа подписей от графика
 
       paint.text = TextSpan(text: text, style: paint.text.style);
       paint.layout();

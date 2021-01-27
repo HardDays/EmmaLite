@@ -52,19 +52,19 @@ class MeasurementDetailAppBar extends StatelessWidget {
             padding: EdgeInsets.only(left: 16.w, right: 8.w),
             child: Row(
               children: [
-                for (var i in DateTimeType.values)
-                  if (i.index == 0) ...[
+                for (var i = 0; i < dateTimeTypes.length; i++)
+                  if (i == 0) ...[
                     if (item is Pulse)
                       _TimeItem(
-                        title: timeValues[i.index],
-                        isActive: i == initialType,
-                        onTap: () => onChange(i),
+                        title: dateTimeTypes[i].timeValue,
+                        isActive: dateTimeTypes[i] == initialType,
+                        onTap: () => onChange(dateTimeTypes[i]),
                       )
                   ] else
                     _TimeItem(
-                      title: timeValues[i.index],
-                      isActive: i == initialType,
-                      onTap: () => onChange(i),
+                      title: dateTimeTypes[i].timeValue,
+                      isActive: dateTimeTypes[i] == initialType,
+                      onTap: () => onChange(dateTimeTypes[i]),
                     ),
               ],
             ),
@@ -215,7 +215,7 @@ class _DatesSelect extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = context.bloc<MeasurementDetailBloc>();
     final list = bloc.ranges;
-    final countOnPage = countOnTypePage[bloc.type.index];
+    final countOnPage = bloc.type.countOnPage;
     final countPages = bloc.ranges.length / countOnPage;
     return SizedBox(
       height: 34.h,
@@ -227,7 +227,7 @@ class _DatesSelect extends StatelessWidget {
         itemCount: countPages.ceil(),
         itemBuilder: (_, i) {
           final s = <Widget>[];
-          for (var j = 0; j < countOnTypePage[bloc.type.index]; j++) {
+          for (var j = 0; j < bloc.type.countOnPage; j++) {
             final index = i == 0 ? j : j + (i * countOnPage);
             if (index >= list.length) {
               s.insert(0, const Expanded(child: SizedBox()));

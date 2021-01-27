@@ -6,14 +6,10 @@ import 'package:emma_mobile/chart/mp/core/limit_line.dart';
 import 'package:emma_mobile/chart/mp/core/utils/color_utils.dart';
 import 'package:emma_mobile/chart/mp/core/value_formatter/default_axis_value_formatter.dart';
 import 'package:emma_mobile/chart/mp/core/value_formatter/value_formatter.dart';
-import 'package:emma_mobile/models/chart/line_chart_model.dart';
-import 'package:intl/intl.dart';
 
 abstract class AxisBase extends ComponentBase {
   /// custom formatter that is used instead of the auto-formatter if set
   ValueFormatter _axisValueFormatter;
-
-  List<LineChartModel> _times;
 
   Color _gridColor = ColorUtils.GRAY;
 
@@ -100,14 +96,6 @@ abstract class AxisBase extends ComponentBase {
     xOffset = 5;
     yOffset = 5;
     this._limitLines = List<LimitLine>();
-  }
-
-  // ignore: unnecessary_getters_setters
-  List<LineChartModel> get times => _times;
-
-  // ignore: unnecessary_getters_setters
-  set times(List<LineChartModel> value) {
-    _times = value;
   }
 
   // ignore: unnecessary_getters_setters

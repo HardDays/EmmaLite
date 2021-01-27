@@ -2,7 +2,6 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
 
-import 'package:flutter/painting.dart';
 import 'package:emma_mobile/chart/mp/core/adapter_android_mp.dart';
 import 'package:emma_mobile/chart/mp/core/animator.dart';
 import 'package:emma_mobile/chart/mp/core/bounds.dart';
@@ -23,6 +22,8 @@ import 'package:emma_mobile/chart/mp/core/utils/painter_utils.dart';
 import 'package:emma_mobile/chart/mp/core/utils/utils.dart';
 import 'package:emma_mobile/chart/mp/core/value_formatter/value_formatter.dart';
 import 'package:emma_mobile/chart/mp/core/view_port.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 
 class LineChartRenderer extends LineRadarRenderer {
   LineDataProvider _provider;
@@ -85,7 +86,6 @@ class LineChartRenderer extends LineRadarRenderer {
 //    drawBitmap.eraseColor(Color.TRANSPARENT);
 
     LineData lineData = _provider.getLineData();
-
     for (ILineDataSet set in lineData.dataSets) {
       if (set.isVisible()) drawDataSet(c, set);
     }
@@ -414,10 +414,11 @@ class LineChartRenderer extends LineRadarRenderer {
       Entry e1, e2;
 
       e1 = dataSet.getEntryForIndex(xBounds.min);
+      final startIndex = dataSet.getStartPaintIndex(); // todo мое
 
       if (e1 != null) {
         int j = 0;
-        for (int x = xBounds.min; x <= xBounds.range + xBounds.min; x++) {
+        for (int x = startIndex; x <= xBounds.range; x++) {
           e1 = dataSet.getEntryForIndex(x == 0 ? 0 : (x - 1));
           e2 = dataSet.getEntryForIndex(x);
 
@@ -445,7 +446,15 @@ class LineChartRenderer extends LineRadarRenderer {
               2;
 
           renderPaint..color = dataSet.getColor1();
-
+          j = 0; // todo мое
+          for (int x = startIndex; x <= xBounds.range; x++) {
+            e1 = dataSet.getEntryForIndex(x == 0 ? 0 : (x - 1));
+            e2 = dataSet.getEntryForIndex(x);
+            mLineBuffer[j++] = e1.mData as double;
+            j++;
+            mLineBuffer[j++] = e2.mData as double;
+            j++;
+          }
           CanvasUtils.drawLines(canvas, mLineBuffer, 0, size, renderPaint,
               effect: dataSet.getDashPathEffect());
         }
@@ -562,7 +571,7 @@ class LineChartRenderer extends LineRadarRenderer {
   }
 
   @override
-  void drawValues(Canvas c) {
+  void drawValues(Canvas c) {//todo
     if (isDrawingValuesAllowed(_provider)) {
       List<ILineDataSet> dataSets = _provider.getLineData().dataSets;
 
@@ -608,14 +617,18 @@ class LineChartRenderer extends LineRadarRenderer {
           Entry entry = dataSet.getEntryForIndex(j ~/ 2 + xBounds.min);
 
           if (dataSet.isDrawValuesEnabled()) {
-            drawValue(
-                c,
-                formatter.getIndexAxisLabel(j ~/ 2 + xBounds.min),
-                x,
-                y - valOffset,
-                dataSet.getValueTextColor2(j ~/ 2),
-                dataSet.getValueTextSize(),
-                dataSet.getValueTypeface());
+            drawValue( // todo мое
+              c,
+              formatter.getIndexAxisLabel(j ~/ 2 + xBounds.min),
+              entry.mData as double,
+              y - valOffset,
+              dataSet.getValueTextColor2(j ~/ 2),
+              dataSet.getValueTextSize(),
+              dataSet.getValueTypeface(),
+              isMax: formatter.isMax(j ~/ 2 + xBounds.min),
+              isMin: formatter.isMin(j ~/ 2 + xBounds.min),
+              isOther: formatter.isOther(j ~/ 2 + xBounds.min),
+            );
           }
 
           if (entry.mIcon != null && dataSet.isDrawIconsEnabled()) {
@@ -635,12 +648,20 @@ class LineChartRenderer extends LineRadarRenderer {
 
   @override
   void drawValue(Canvas c, String valueText, double x, double y, Color color,
-      double textSize, TypeFace typeFace) {
+      double textSize, TypeFace typeFace,
+      {bool isMax = false, bool isMin = false, bool isOther = true}) {
     valuePaint = PainterUtils.create(valuePaint, valueText, color, textSize,
         fontFamily: typeFace?.fontFamily, fontWeight: typeFace?.fontWeight);
     valuePaint.layout();
     valuePaint.paint(
-        c, Offset(x - valuePaint.width / 2, y - valuePaint.height));
+      c,
+      Offset(
+        x - valuePaint.width / 2,
+        (isMax || isOther)
+            ? y - valuePaint.height / 1.2
+            : y + valuePaint.height / 2.5,
+      ),
+    ); //todo мое
   }
 
   @override
@@ -690,7 +711,9 @@ class LineChartRenderer extends LineRadarRenderer {
 
       int boundsRangeCount = xBounds.range + xBounds.min;
 
-      for (int j = xBounds.min; j <= boundsRangeCount; j++) {
+      final startIndex = dataSets[i].getStartPaintIndex(); // todo мое
+
+      for (int j = startIndex-1; j <= boundsRangeCount; j++) {
         if (dataSet.getIsOnlyLastPaintCircle() && j != boundsRangeCount)
           continue;
         Entry e = dataSet.getEntryForIndex(j);
@@ -711,6 +734,7 @@ class LineChartRenderer extends LineRadarRenderer {
 
         renderPaint..color = dataSet.getCircleColor(i % colorCount);
 
+        mCirclesBuffer[0] = e.mData as double; // todo мое
         if (drawTransparentCircleHole) {
           c.drawCircle(Offset(mCirclesBuffer[0], mCirclesBuffer[1]),
               circleRadius, renderPaint);
