@@ -7,6 +7,7 @@ class InputTextField extends StatefulWidget {
   final Function(String s) onChange;
   final bool isInt;
   final TextInputFormatter formatter;
+  final TextInputType type;
 
   const InputTextField({
     Key key,
@@ -14,6 +15,7 @@ class InputTextField extends StatefulWidget {
     this.onChange,
     this.isInt = true,
     this.formatter,
+    this.type,
   }) : super(key: key);
 
   @override
@@ -30,7 +32,9 @@ class _InputTextFieldState extends State<InputTextField> {
   }
 
   void _listener() {
-    if (widget.onChange != null) widget?.onChange(_controller.text);
+    if (widget.onChange != null) {
+      widget?.onChange(_controller.text);
+    }
   }
 
   @override
@@ -49,7 +53,7 @@ class _InputTextFieldState extends State<InputTextField> {
           maxWidth: 288.w,
         ),
         child: TextField(
-          keyboardType: TextInputType.number,
+          keyboardType: widget.type ?? TextInputType.number,
           controller: _controller,
           inputFormatters: widget.formatter == null
               ? [

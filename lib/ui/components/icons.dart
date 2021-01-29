@@ -61,6 +61,12 @@ class AppIcons {
     );
   }
 
+  static Widget minus() {
+    return SvgPicture.asset(
+      'assets/icons/minus.svg',
+    );
+  }
+
   static Widget calendarActive() {
     return SvgPicture.asset(
       'assets/icons/calendar_active.svg',

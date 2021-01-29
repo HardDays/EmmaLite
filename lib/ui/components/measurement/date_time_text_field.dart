@@ -12,6 +12,8 @@ class DateTimeTextField extends StatelessWidget {
   final DateFormat dateFormat;
   final Function(DateTime time) onChange;
   final bool haveDecoration;
+  final DateTime minimumDate;
+  final DateTime maximumDate;
 
   const DateTimeTextField({
     Key key,
@@ -21,6 +23,8 @@ class DateTimeTextField extends StatelessWidget {
     this.onChange,
     this.dateFormat,
     this.haveDecoration = true,
+    this.minimumDate,
+    this.maximumDate,
   }) : super(key: key);
 
   @override
@@ -31,6 +35,8 @@ class DateTimeTextField extends StatelessWidget {
         final res = await showDateTimeModalBottom(
           context: context,
           pickerTitle: title,
+          minimumDate: minimumDate,
+          maximumDate: maximumDate,
         );
         if (res != null) {
           onChange?.call(res);

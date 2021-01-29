@@ -269,7 +269,13 @@ class _MeasurementDetailScreenState extends State<MeasurementDetailScreen> {
                             child: Padding(
                               padding: EdgeInsets.only(right: 15.w),
                               child: renderLinearChart
-                                  ? LineChart(controller)
+                                  ? Stack(
+                                      children: [
+                                        LineChart(controller),
+                                        if (bloc.data.isEmpty)
+                                          _EmptyChartDataPlaceholder(),
+                                      ],
+                                    )
                                   : const SizedBox(),
                             ),
                           ),
@@ -356,6 +362,35 @@ class _MeasurementDetailScreenState extends State<MeasurementDetailScreen> {
               },
             );
           },
+        ),
+      ),
+    );
+  }
+}
+
+class _EmptyChartDataPlaceholder extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.only(right: 15.w),
+        child: Container(
+          width: 80.w,
+          height: 80.w,
+          decoration: BoxDecoration(
+            color: AppColors.cFFFFFF,
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: AppColors.cE1E4E9,
+              width: 1.w,
+            ),
+          ),
+          child: Center(
+            child: AppIcons.measurementsInactive(
+              width: 32.w,
+              height: 32.w,
+            ),
+          ),
         ),
       ),
     );

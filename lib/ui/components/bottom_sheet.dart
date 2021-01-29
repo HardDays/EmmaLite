@@ -1,10 +1,14 @@
+import 'package:emma_mobile/models/assignment/assignment.dart';
+import 'package:emma_mobile/ui/components/count_change_row.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/components/measurement/measurement.dart';
 import 'package:emma_mobile/ui/components/pickers/date_picker.dart';
+import 'package:emma_mobile/ui/components/pickers/picker.dart';
 import 'package:emma_mobile/ui/routing/navigator.dart';
 import 'package:emma_mobile/ui/styles/test_styles.dart';
 import 'package:emma_mobile/utils/utils.dart';
-import 'package:flutter/cupertino.dart' hide CupertinoDatePicker;
+import 'package:flutter/cupertino.dart'
+    hide CupertinoDatePicker, CupertinoPicker;
 import 'package:flutter/material.dart';
 
 PersistentBottomSheetController<T> showMainBottomSheet<T>(
@@ -86,23 +90,98 @@ Widget _buildToolBar(BuildContext context, String title, {double height = 44}) {
   );
 }
 
+Future<TaskTime> showCustomTimePicker({
+  BuildContext context,
+  TaskTime time,
+  PickerTimeRange timeRange,
+}) {
+  final initialHour = time.time.hour - timeRange.minHour;
+  final hour = _pickerWidgets(
+    context: context,
+    start: timeRange.minHour,
+    max: timeRange.maxHour,
+  );
+
+  final minutes = _pickerWidgets(context: context, max: 59);
+
+  return showModalBottomSheet(
+    context: context,
+    builder: (_) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          MeasurementPickerTop(
+            title: 'Количество',
+            completeTap: () {
+              Navigator.of(context).pop(time);
+            },
+          ),
+          SizedBox(
+            height: 199.h,
+            child: Row(
+              children: [
+                Expanded(
+                  child: CupertinoPicker(
+                    itemExtent: 40.h,
+                    scrollController: FixedExtentScrollController(
+                      initialItem: initialHour ?? 0,
+                    ),
+                    onSelectedItemChanged: (i) {
+                      time = time.copyWith(
+                        time: Time(
+                          hour: i + timeRange.minHour,
+                          minutes: time.time.minutes,
+                        ),
+                      );
+                    },
+                    backgroundColor: AppColors.cF5F7FA,
+                    useMagnifier: true,
+                    children: hour,
+                  ),
+                ),
+                Expanded(
+                  child: CupertinoPicker(
+                    itemExtent: 40.h,
+                    scrollController: FixedExtentScrollController(
+                      initialItem: time.time.minutes ?? 0,
+                    ),
+                    onSelectedItemChanged: (i) {
+                      time = time.copyWith(
+                        time: Time(hour: time.time.hour, minutes: i),
+                      );
+                    },
+                    backgroundColor: AppColors.cF5F7FA,
+                    useMagnifier: true,
+                    children: minutes,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          CountChangeRow(
+            initialValue: time.count,
+            onChange: (v) {
+              time = time.copyWith(count: v);
+            },
+          )
+        ],
+      );
+    },
+  );
+}
+
 Future<int> showDefaultPicker({
   BuildContext context,
   String pickerTitle,
   List<String> values,
 }) {
-  int index;
-  final children = <Widget>[];
-
-  for (var i in values) {
-    final child = Center(
-      child: Text(
-        i,
-        style: AppTypography.font20.copyWith(color: AppColors.c4A4A4A),
-      ),
-    );
-    children.add(child);
-  }
+  int index = 0;
+  final children = _pickerWidgets(
+    context: context,
+    max: values.length,
+    values: values,
+  );
 
   return showModalBottomSheet(
     context: context,
@@ -138,6 +217,8 @@ Future<int> showDefaultPicker({
 Future<DateTime> showDateTimeModalBottom({
   BuildContext context,
   String pickerTitle,
+  DateTime minimumDate,
+  DateTime maximumDate,
 }) {
   return showModalBottomSheet(
     context: context,
@@ -160,12 +241,13 @@ Future<DateTime> showDateTimeModalBottom({
                 dateTime = value;
               },
               use24hFormat: true,
+              minimumDate: minimumDate,
               mode: CupertinoDatePickerMode.dateAndTime,
               initialDateTime: DateTime.now()
                 ..subtract(
                   const Duration(minutes: 1),
                 ),
-              maximumDate: DateTime.now(),
+              maximumDate: maximumDate,
               backgroundColor: AppColors.cF5F7FA,
             ),
           ),
@@ -251,14 +333,22 @@ Future<double> showDoublePicker({
   );
 }
 
-List<Widget> _pickerWidgets({BuildContext context, int start, int max}) {
+List<Widget> _pickerWidgets({
+  BuildContext context,
+  int start = 0,
+  int max,
+  List<String> values,
+}) {
   final items = <Widget>[];
 
   for (var i = start; i <= max; i++) {
+    if (values != null && i >= values.length) {
+      break;
+    }
     items.add(
       Center(
         child: Text(
-          i.toString(),
+          values == null ? i.toString() : values[i],
           style: CupertinoTheme.of(context).textTheme.dateTimePickerTextStyle,
           textAlign: TextAlign.center,
         ),

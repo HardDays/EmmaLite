@@ -76,6 +76,7 @@ class MeasurementNewScreen extends StatelessWidget {
                       child: DateTimeTextField(
                         value: bloc.dateTime,
                         onChange: bloc.setDateTime,
+                        maximumDate: DateTime.now(),
                         title: 'Дата и время измерения',
                         hintText: 'Дата и время измерения',
                       ),
@@ -126,6 +127,7 @@ class MeasurementNewScreen extends StatelessWidget {
                         child: DateTimeTextField(
                           value: bloc.eatTime,
                           onChange: bloc.setEatTime,
+                          maximumDate: DateTime.now(),
                           title: 'Время приема пищи',
                           hintText: 'Время приема пищи (необязательно)',
                         ),

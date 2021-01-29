@@ -42,7 +42,7 @@ class DefaultPickerField extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    title,
+                    '$title:',
                     style: AppTypography.font12.copyWith(
                       color: AppColors.c9B9B9B,
                     ),

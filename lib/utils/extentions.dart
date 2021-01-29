@@ -31,3 +31,11 @@ extension DateTimeExtentions on DateTime {
     }
   }
 }
+
+extension IntExtention on int {
+  String get twoDigits {
+    if (this >= 10)
+      return toString();
+    return '0$this';
+  }
+}

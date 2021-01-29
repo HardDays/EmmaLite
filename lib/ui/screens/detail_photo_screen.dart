@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:emma_mobile/ui/components/app_bar/small_app_bar.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
+import 'package:emma_mobile/ui/components/modal_widget.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -87,14 +88,25 @@ class _DetailPhotoScreenState extends State<DetailPhotoScreen> {
               alignment: Alignment.centerRight,
               child: GestureDetector(
                 onTap: () {
-                  photos.removeAt(page);
-                  widget?.onDelete(page);
-                  if (photos.isEmpty) {
-                    Navigator.of(context).pop();
-                  } else {
-                    setState(() {});
-                  }
-
+                  showCupertinoWith2Button(
+                      context,
+                      leftText: 'Да',
+                      rightText: 'Нет',
+                      subtitle: 'Удалить изображение?',
+                      leftTap: (context) {
+                        Navigator.of(context).pop();
+                        photos.removeAt(page);
+                        widget?.onDelete(page);
+                        if (photos.isEmpty) {
+                          Navigator.of(context).pop();
+                        } else {
+                          setState(() {});
+                        }
+                      },
+                      rightTap: (context) {
+                        Navigator.of(context).pop();
+                      }
+                  );
                 },
                 behavior: HitTestBehavior.opaque,
                 child: Padding(
