@@ -18,6 +18,7 @@ import 'package:emma_mobile/models/measurements/blood_sugar.dart';
 import 'package:emma_mobile/models/measurements/height_model.dart';
 import 'package:emma_mobile/models/measurements/measurement.dart';
 import 'package:emma_mobile/models/measurements/pulse.dart';
+import 'package:emma_mobile/models/measurements/temperature.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/components/measurement_app_bar.dart';
 import 'package:emma_mobile/ui/screens/measurement/measurement_history_screen.dart';
@@ -244,7 +245,7 @@ class _MeasurementDetailScreenState extends State<MeasurementDetailScreen> {
               builder: (_, __) {
                 final type = bloc.item;
                 final renderLinearChart =
-                    type is HeightModel || type is Pulse || type is BloodSugar;
+                    type is HeightModel || type is Temperature || type is BloodSugar;
                 if (renderLinearChart) {
                   initValues(bloc);
                   initController(bloc);

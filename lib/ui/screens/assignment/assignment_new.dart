@@ -74,6 +74,7 @@ class _NewAssign extends StatelessWidget {
               child: DefaultContainer(
                 child: InputTextField(
                   formatter: LengthLimitingTextInputFormatter(27),
+                  type: TextInputType.text,
                   label: 'Название назначения',
                 ),
               ),
@@ -129,6 +130,7 @@ class _NewAssign extends StatelessWidget {
                       hintText: 'Дата окончания',
                       dateFormat: DateFormat('dd MMMM yyyy'),
                       value: bloc.assignment.endTime,
+                      minimumDate: DateTime.now(),
                       onChange: bloc.setEndTime,
                       haveDecoration: false,
                     ),

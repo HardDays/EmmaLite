@@ -109,7 +109,7 @@ class WeekDateTime implements DateTimeType {
   List<String> numbers({DateTime timeFrom}) {
     final List<String> data = [];
     for (var i = 0; i <= 7; i++) {
-      data.add(DateFormat('E').format(timeFrom.subtract(Duration(days: i))));
+      data.add(DateFormat('E').format(timeFrom.add(Duration(days: i))));
     }
     return data;
   }
