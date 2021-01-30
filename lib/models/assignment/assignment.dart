@@ -1,9 +1,10 @@
 import 'package:emma_mobile/models/assignment/assign_frequency.dart';
+import 'package:emma_mobile/models/assignment/assign_type.dart';
 
 class Assignment {
   int id;
 
-  int typeId;
+  AssignEnum typeId;
 
   String name;
 
@@ -17,11 +18,15 @@ class Assignment {
 
   DateTime endTime;
 
+  DateTime otherTaskDateTime;
+
   List<String> photos;
 
   bool isRegular;
 
   List<SingleTask> singleTasks;
+
+
 
   PeriodicTask periodicTask;
 
@@ -40,6 +45,7 @@ class Assignment {
     this.isRegular,
     this.singleTasks,
     this.periodicTask,
+    this.otherTaskDateTime,
   }) {
     photos = [];
     singleTasks = [
@@ -53,11 +59,12 @@ class Assignment {
         dayNumber: 0,
       ),
     ];
-    typeId = 0;
+    typeId = AssignEnum.medicines;
     unitId = 0;
     frequency = 0;
     startTime = DateTime.now();
     endTime = DateTime.now();
+    otherTaskDateTime = DateTime.now();
     isRegular = true;
     periodicTask = PeriodicTask(
       taskTimes: [

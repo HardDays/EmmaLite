@@ -1,5 +1,6 @@
 import 'package:emma_mobile/bloc/new_assing_bloc/new_assign_state.dart';
 import 'package:emma_mobile/models/assignment/assign_frequency.dart';
+import 'package:emma_mobile/models/assignment/assign_type.dart';
 import 'package:emma_mobile/models/assignment/assignment.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -26,7 +27,15 @@ class NewAssignBloc extends Cubit<NewAssignState> {
   }
 
   void setType(int typeId) {
-    _assignment.typeId = typeId;
+    _assignment.typeId = AssignEnum.values[typeId];
+    if (_assignment.typeId == AssignEnum.other ||
+        _assignment.typeId == AssignEnum.analyze) {
+      _assignment.isRegular = false;
+      _assignment.singleTasks = [];
+      _assignment.singleTasks.add(
+        SingleTask(taskTimes: [TaskTime()]),
+      );
+    }
     _update();
   }
 
@@ -115,6 +124,18 @@ class NewAssignBloc extends Cubit<NewAssignState> {
 
   void setPeriodicTime({TaskTime taskTime, int index}) {
     _assignment.periodicTask.taskTimes[index] = taskTime;
+    _update();
+  }
+
+  void setOthersTime(TaskTime time) {
+    final prev = _assignment.otherTaskDateTime;
+    _assignment.otherTaskDateTime = DateTime(
+      prev.year,
+      prev.month,
+      prev.day,
+      time.time.hour,
+      time.time.minutes,
+    );
     _update();
   }
 

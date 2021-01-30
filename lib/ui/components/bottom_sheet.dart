@@ -94,6 +94,7 @@ Future<TaskTime> showCustomTimePicker({
   BuildContext context,
   TaskTime time,
   PickerTimeRange timeRange,
+  bool showCount = true,
 }) {
   final initialHour = time.time.hour - timeRange.minHour;
   final hour = _pickerWidgets(
@@ -159,12 +160,13 @@ Future<TaskTime> showCustomTimePicker({
               ],
             ),
           ),
-          CountChangeRow(
-            initialValue: time.count,
-            onChange: (v) {
-              time = time.copyWith(count: v);
-            },
-          )
+          if (showCount)
+            CountChangeRow(
+              initialValue: time.count,
+              onChange: (v) {
+                time = time.copyWith(count: v);
+              },
+            )
         ],
       );
     },

@@ -61,16 +61,16 @@ class _NewAssign extends StatelessWidget {
         return Column(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 20.h),
+              padding: EdgeInsets.only(top: 20.h),
               child: DefaultPickerField(
                 title: 'Тип назначения',
-                index: bloc.assignment.typeId,
+                index: bloc.assignment.typeId.index,
                 values: assignTypes,
                 onChange: bloc.setType,
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(bottom: 20.h),
+              padding: EdgeInsets.only(top: 20.h),
               child: DefaultContainer(
                 child: InputTextField(
                   formatter: LengthLimitingTextInputFormatter(27),
@@ -79,7 +79,99 @@ class _NewAssign extends StatelessWidget {
                 ),
               ),
             ),
-            DefaultContainer(
+            if (bloc.assignment.typeId == AssignEnum.analyze ||
+                bloc.assignment.typeId == AssignEnum.other) ...[
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 20.h),
+                child: DateTimeTextField(
+                  minimumDate: DateTime.now(),
+                  value: bloc.assignment.otherTaskDateTime,
+                  dateFormat: DateFormat('dd MMMM yyyy'),
+                  title: 'Дата',
+                  hintText: 'Дата',
+                ),
+              ),
+              DefaultContainer(
+                onTap: () async {
+                  final time = bloc.assignment.otherTaskDateTime;
+                  final res = await showCustomTimePicker(
+                    context: context,
+                    time: TaskTime(
+                      time: Time(hour: time.hour, minutes: time.minute),
+                    ),
+                    showCount: false,
+                    timeRange: const PickerTimeRange(maxHour: 23, minHour: 0),
+                  );
+                  if (res != null) {
+                    bloc.setOthersTime(res);
+                  }
+                },
+                child: InputTextField(
+                  label: 'Время:',
+                  type: TextInputType.text,
+                  value:
+                      DateFormat.Hm().format(bloc.assignment.otherTaskDateTime),
+                  haveFormatter: false,
+                  enable: false,
+                ),
+              )
+            ] else
+              _FullTypeWidgets(),
+            if (bloc.assignment.typeId != AssignEnum.other)
+              Padding(
+                padding: EdgeInsets.only(top: 20.h),
+                child: DefaultContainer(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: InputTextField(
+                          label: 'Кто назначил',
+                          isInt: false,
+                          formatter: LengthLimitingTextInputFormatter(27),
+                          type: TextInputType.text,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: Container(
+                          width: 44.h,
+                          height: 44.h,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: AppColors.cEBEEF3,
+                          ),
+                          child: Center(child: AppIcons.doctors()),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            if (bloc.assignment.typeId == AssignEnum.medicines) _Photos(),
+            Padding(
+              padding: EdgeInsets.only(top: 20.h, bottom: 32.h),
+              child: EmmaFilledButton(
+                title: 'Сохранить',
+              ),
+            )
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _FullTypeWidgets extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final bloc = context.bloc<NewAssignBloc>();
+    return Column(
+      children: [
+        if (bloc.assignment.typeId == AssignEnum.medicines)
+          Padding(
+            padding: EdgeInsets.only(top: 20.h),
+            child: DefaultContainer(
               child: Column(
                 children: [
                   InputTextField(
@@ -104,186 +196,148 @@ class _NewAssign extends StatelessWidget {
                 ],
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 20.h),
-              child: DefaultContainer(
-                child: Column(
-                  children: [
-                    DateTimeTextField(
-                      title: 'Дата начала',
-                      hintText: 'Дата начала',
-                      dateFormat: DateFormat('dd MMMM yyyy'),
-                      value: bloc.assignment.startTime,
-                      onChange: bloc.setStartTime,
-                      haveDecoration: false,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 16.w),
-                      child: Container(
-                        height: 1.h,
-                        width: MediaQuery.of(context).size.width,
-                        color: AppColors.cE6E9EB,
-                      ),
-                    ),
-                    DateTimeTextField(
-                      title: 'Дата окончания',
-                      hintText: 'Дата окончания',
-                      dateFormat: DateFormat('dd MMMM yyyy'),
-                      value: bloc.assignment.endTime,
-                      minimumDate: DateTime.now(),
-                      onChange: bloc.setEndTime,
-                      haveDecoration: false,
-                    ),
-                  ],
+          ),
+        Padding(
+          padding: EdgeInsets.only(top: 20.h),
+          child: DefaultContainer(
+            child: Column(
+              children: [
+                DateTimeTextField(
+                  title: 'Дата начала',
+                  hintText: 'Дата начала',
+                  dateFormat: DateFormat('dd MMMM yyyy'),
+                  value: bloc.assignment.startTime,
+                  onChange: bloc.setStartTime,
+                  haveDecoration: false,
                 ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 20.h),
-              child: DefaultPickerField(
-                title: 'Частота',
-                index: bloc.assignment.frequency,
-                onChange: bloc.setFrequency,
-                hintText: 'Частота',
-                values: assignFrequency,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 20.h),
-              child: DefaultContainer(
-                minHeight: 94.h,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    left: 16.w,
-                    right: 13.w,
-                    top: 8.h,
-                    bottom: 4.h,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Периодичность:',
-                        style: AppTypography.font12.copyWith(
-                          color: AppColors.c9B9B9B,
-                        ),
-                      ),
-                      _RadioButton(
-                        title: 'Регулярно',
-                        onTap: () => bloc.setIsRegular(regular: true),
-                        value: bloc.assignment.isRegular,
-                      ),
-                      _RadioButton(
-                        title: 'Единоразово',
-                        onTap: () => bloc.setIsRegular(regular: false),
-                        value: !bloc.assignment.isRegular,
-                      ),
-                    ],
+                Padding(
+                  padding: EdgeInsets.only(left: 16.w),
+                  child: Container(
+                    height: 1.h,
+                    width: MediaQuery.of(context).size.width,
+                    color: AppColors.cE6E9EB,
                   ),
                 ),
+                DateTimeTextField(
+                  title: 'Дата окончания',
+                  hintText: 'Дата окончания',
+                  dateFormat: DateFormat('dd MMMM yyyy'),
+                  value: bloc.assignment.endTime,
+                  minimumDate: DateTime.now(),
+                  onChange: bloc.setEndTime,
+                  haveDecoration: false,
+                ),
+              ],
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 20.h),
+          child: DefaultPickerField(
+            title: 'Частота',
+            index: bloc.assignment.frequency,
+            onChange: bloc.setFrequency,
+            hintText: 'Частота',
+            values: assignFrequency,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 20.h),
+          child: DefaultContainer(
+            minHeight: 94.h,
+            child: Padding(
+              padding: EdgeInsets.only(
+                left: 16.w,
+                right: 13.w,
+                top: 8.h,
+                bottom: 4.h,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Периодичность:',
+                    style: AppTypography.font12.copyWith(
+                      color: AppColors.c9B9B9B,
+                    ),
+                  ),
+                  _RadioButton(
+                    title: 'Регулярно',
+                    onTap: () => bloc.setIsRegular(regular: true),
+                    value: bloc.assignment.isRegular,
+                  ),
+                  _RadioButton(
+                    title: 'Единоразово',
+                    onTap: () => bloc.setIsRegular(regular: false),
+                    value: !bloc.assignment.isRegular,
+                  ),
+                ],
               ),
             ),
-            if (!bloc.assignment.isRegular) ...[
-              ListView.builder(
-                itemCount: bloc.assignment.singleTasks.length,
-                padding: EdgeInsets.zero,
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (_, i) {
-                  return Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 20.h),
-                        child: DefaultPickerField(
-                          title: 'День недели',
-                          index: bloc.assignment.singleTasks[i].dayNumber,
-                          hintText: 'День недели',
-                          onChange: (value) => bloc.setWeekday(
-                            dayNumber: value,
-                            taskNumber: i,
-                          ),
-                          values: assignFrequencyWeekday,
-                        ),
-                      ),
-                      _TimesGrid(
-                        taskTimes: bloc.assignment.singleTasks[i].taskTimes,
-                        onChange: (time, index) {
-                          bloc.setSingleTime(
-                            index: index,
-                            taskTime: time,
-                            taskIndex: i,
-                          );
-                        },
-                      ),
-                    ],
-                  );
-                },
-              ),
-              _NewAndDeleteRow(),
-            ] else ...[
-              Column(
+          ),
+        ),
+        if (!bloc.assignment.isRegular) ...[
+          ListView.builder(
+            itemCount: bloc.assignment.singleTasks.length,
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemBuilder: (_, i) {
+              return Column(
                 children: [
                   Padding(
                     padding: EdgeInsets.only(top: 20.h),
                     child: DefaultPickerField(
-                      title: 'Регулярность',
-                      index: bloc.assignment.periodicTask.type.index,
-                      hintText: 'Регулярность',
-                      onChange: (value) => bloc.setRegularTypeCount(
-                        AssignFrequencyInWeekEnum.values[value],
+                      title: 'День недели',
+                      index: bloc.assignment.singleTasks[i].dayNumber,
+                      hintText: 'День недели',
+                      onChange: (value) => bloc.setWeekday(
+                        dayNumber: value,
+                        taskNumber: i,
                       ),
-                      values: assignFrequencyInWeek,
+                      values: assignFrequencyWeekday,
                     ),
                   ),
                   _TimesGrid(
-                    taskTimes: bloc.assignment.periodicTask.taskTimes,
+                    taskTimes: bloc.assignment.singleTasks[i].taskTimes,
                     onChange: (time, index) {
-                      bloc.setPeriodicTime(taskTime: time, index: index);
+                      bloc.setSingleTime(
+                        index: index,
+                        taskTime: time,
+                        taskIndex: i,
+                      );
                     },
                   ),
                 ],
-              )
-            ],
-            Padding(
-              padding: EdgeInsets.only(top: 20.h),
-              child: DefaultContainer(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: InputTextField(
-                        label: 'Кто назначил',
-                        isInt: false,
-                        formatter: LengthLimitingTextInputFormatter(27),
-                        type: TextInputType.text,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      child: Container(
-                        width: 44.h,
-                        height: 44.h,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: AppColors.cEBEEF3,
-                        ),
-                        child: Center(child: AppIcons.doctors()),
-                      ),
-                    ),
-                  ],
+              );
+            },
+          ),
+          _NewAndDeleteRow(),
+        ] else ...[
+          Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 20.h),
+                child: DefaultPickerField(
+                  title: 'Регулярность',
+                  index: bloc.assignment.periodicTask.type.index,
+                  hintText: 'Регулярность',
+                  onChange: (value) => bloc.setRegularTypeCount(
+                    AssignFrequencyInWeekEnum.values[value],
+                  ),
+                  values: assignFrequencyInWeek,
                 ),
               ),
-            ),
-            _Photos(),
-            Padding(
-              padding: EdgeInsets.only(top: 20.h, bottom: 32.h),
-              child: EmmaFilledButton(
-                title: 'Сохранить',
+              _TimesGrid(
+                taskTimes: bloc.assignment.periodicTask.taskTimes,
+                onChange: (time, index) {
+                  bloc.setPeriodicTime(taskTime: time, index: index);
+                },
               ),
-            )
-          ],
-        );
-      },
+            ],
+          )
+        ]
+      ],
     );
   }
 }
@@ -611,19 +665,16 @@ class _Photo extends StatelessWidget {
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
                       onTap: () {
-                        showCupertinoWith2Button(
-                          context,
-                          leftText: 'Да',
-                          rightText: 'Нет',
-                          subtitle: 'Удалить изображение?',
-                          leftTap: (context) {
-                            bloc.deletePhoto(index: index);
-                            Navigator.of(context).pop();
-                          },
-                          rightTap: (context) {
-                            Navigator.of(context).pop();
-                          }
-                        );
+                        showCupertinoWith2Button(context,
+                            leftText: 'Да',
+                            rightText: 'Нет',
+                            subtitle: 'Удалить изображение?',
+                            leftTap: (context) {
+                          bloc.deletePhoto(index: index);
+                          Navigator.of(context).pop();
+                        }, rightTap: (context) {
+                          Navigator.of(context).pop();
+                        });
                       },
                       behavior: HitTestBehavior.opaque,
                       child: Padding(

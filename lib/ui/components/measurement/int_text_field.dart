@@ -8,6 +8,9 @@ class InputTextField extends StatefulWidget {
   final bool isInt;
   final TextInputFormatter formatter;
   final TextInputType type;
+  final String value;
+  final bool haveFormatter;
+  final bool enable;
 
   const InputTextField({
     Key key,
@@ -16,6 +19,9 @@ class InputTextField extends StatefulWidget {
     this.isInt = true,
     this.formatter,
     this.type,
+    this.value,
+    this.haveFormatter = true,
+    this.enable = true,
   }) : super(key: key);
 
   @override
@@ -27,7 +33,8 @@ class _InputTextFieldState extends State<InputTextField> {
 
   @override
   void initState() {
-    _controller = TextEditingController()..addListener(_listener);
+    _controller = TextEditingController(text: widget.value)
+      ..addListener(_listener);
     super.initState();
   }
 
@@ -35,6 +42,14 @@ class _InputTextFieldState extends State<InputTextField> {
     if (widget.onChange != null) {
       widget?.onChange(_controller.text);
     }
+  }
+
+  @override
+  void didUpdateWidget(covariant InputTextField oldWidget) {
+    if (widget.value != _controller.text) {
+      _controller.text = widget.value;
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -55,15 +70,18 @@ class _InputTextFieldState extends State<InputTextField> {
         child: TextField(
           keyboardType: widget.type ?? TextInputType.number,
           controller: _controller,
-          inputFormatters: widget.formatter == null
-              ? [
-                  widget.isInt
-                      ? FilteringTextInputFormatter.digitsOnly
-                      : FilteringTextInputFormatter.allow(
-                          RegExp(r'\d+(\.{0,1}\d{0,})'),
-                        )
-                ]
-              : [widget.formatter],
+          enabled: widget.enable,
+          inputFormatters: widget.haveFormatter
+              ? widget.formatter == null
+                  ? [
+                      widget.isInt
+                          ? FilteringTextInputFormatter.digitsOnly
+                          : FilteringTextInputFormatter.allow(
+                              RegExp(r'\d+(\.{0,1}\d{0,})'),
+                            )
+                    ]
+                  : [widget.formatter]
+              : [],
           style: AppTypography.font16.copyWith(color: AppColors.c4A4A4A),
           // onChanged: widget.onChange,
           decoration: InputDecoration(
