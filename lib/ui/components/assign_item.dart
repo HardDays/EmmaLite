@@ -44,29 +44,31 @@ class AssignItem extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    GestureDetector(
-                      onTap: () => context.bloc<AssignBloc>().completeTask(task),
-                      child: SizedBox(
-                        width: 52.w,
-                        height: 32.h,
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            border:
-                            Border.all(color: AppColors.cD1D1D6, width: 1.w),
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(16),
+                    if (!task.completed)
+                      GestureDetector(
+                        onTap: () =>
+                            context.bloc<AssignBloc>().completeTask(task),
+                        child: SizedBox(
+                          width: 52.w,
+                          height: 32.h,
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: AppColors.cD1D1D6, width: 1.w),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(16),
+                              ),
                             ),
-                          ),
-                          child: Center(
-                            child: AppIcons.accept(
-                              width: 20.w,
-                              height: 14.h,
-                              color: AppColors.cD1D1D6,
+                            child: Center(
+                              child: AppIcons.accept(
+                                width: 20.w,
+                                height: 14.h,
+                                color: AppColors.cD1D1D6,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    )
+                      )
                   ],
                 ),
               ),
@@ -84,8 +86,13 @@ class AssignItem extends StatelessWidget {
                   : AppColors.cFFFFFF,
               child: Center(
                 child: Text(
-                  '${DateFormat.Hm().format(task.dateTime)} (${task.mainText(isExpired)})',
-                  style: AppTypography.font12.copyWith(color: AppColors.cFF3B30),
+                  '${DateFormat.Hm().format(task.dateTime)} (${task.mainText(
+                    isExpired: isExpired,
+                    completeDate: task.completedDate,
+                  )})',
+                  style: AppTypography.font12.copyWith(
+                    color: isExpired ? AppColors.cFF3B30 : AppColors.c9B9B9B,
+                  ),
                 ),
               ),
             )

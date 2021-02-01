@@ -71,6 +71,7 @@ class _InputTextFieldState extends State<InputTextField> {
           keyboardType: widget.type ?? TextInputType.number,
           controller: _controller,
           enabled: widget.enable,
+          autofocus: false,
           inputFormatters: widget.haveFormatter
               ? widget.formatter == null
                   ? [

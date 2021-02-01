@@ -9,9 +9,10 @@ import 'package:flutter/material.dart';
 enum BottomMenuType { main, profile }
 
 class BottomMenu extends StatelessWidget {
-  const BottomMenu({this.type = BottomMenuType.main});
+  const BottomMenu({this.type = BottomMenuType.main, this.onTap});
 
   final BottomMenuType type;
+  final Function onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +38,7 @@ class BottomMenu extends StatelessWidget {
                 onTap: () {
                   if (isName) {
                     navigatorPush(context, SelectMeasurement());
+                    onTap?.call();
                   } else {
                     // navigatorPush(context, ProfileScreen());
                   }
@@ -52,6 +54,7 @@ class BottomMenu extends StatelessWidget {
                 onTap: () {
                   if (isName) {
                     navigatorPush(context, AssignmentNewScreen());
+                    onTap?.call();
                   }
                 },
               )

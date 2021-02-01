@@ -20,7 +20,6 @@ class AssignData extends StatelessWidget {
           return _EmptyAssign();
         }
         final tasks = bloc.getTaskInDay(date: DateTime.now());
-        print(tasks.length);
         final notCompletedTasks =
             tasks.where((e) => !e.completed && e.enable).toList();
         return Padding(

@@ -9,11 +9,17 @@ import 'package:image_picker/image_picker.dart';
 class NewAssignBloc extends Cubit<NewAssignState> {
   NewAssignBloc({Assignment assignment}) : super(NewAssignState()) {
     _assignment = assignment ?? Assignment();
+
+    _isCreate = assignment = null;
   }
 
   Assignment _assignment;
 
   Assignment get assignment => _assignment;
+
+  bool _isCreate;
+
+  bool get isCreate => _isCreate;
 
   Future<void> pickImage() async {
     final res = await ImagePicker().getImage(source: ImageSource.gallery);

@@ -61,9 +61,19 @@ extension DateTimeExtentions on DateTime {
   bool isInDay(DateTime other) {
     return year == other.year && month == other.month && day == other.day;
   }
+}
+
+extension IntExtention on int {
+  String get twoDigits {
+    if (this >= 10) {
+      return toString();
+    }
+    return '0$this';
+  }
 
   String get getPluralHour {
     final firstPlural = [2, 3, 4, 22, 23, 24];
+    final hour = abs();
     if (hour == 1 || hour == 21) {
       return 'час';
     }
@@ -74,7 +84,11 @@ extension DateTimeExtentions on DateTime {
   }
 
   String get getPluralMinutes {
-    final lastSymbol = minute.toString()[minute.toString().length - 1];
+    final lastSymbol = toString()[toString().length - 1];
+    final minutes = abs();
+    if (minutes == 11 || minutes == 12 || minutes == 13 || minutes == 14) {
+      return 'минут';
+    }
     if (lastSymbol == '1') {
       return 'минуту';
     }
@@ -82,12 +96,5 @@ extension DateTimeExtentions on DateTime {
       return 'минуты';
     }
     return 'минут';
-  }
-}
-
-extension IntExtention on int {
-  String get twoDigits {
-    if (this >= 10) return toString();
-    return '0$this';
   }
 }

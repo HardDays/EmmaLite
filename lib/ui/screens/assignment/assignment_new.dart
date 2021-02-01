@@ -6,6 +6,7 @@ import 'package:emma_mobile/bloc/new_assing_bloc/new_assign_state.dart';
 import 'package:emma_mobile/models/assignment/assign_frequency.dart';
 import 'package:emma_mobile/models/assignment/assign_type.dart';
 import 'package:emma_mobile/models/assignment/assign_unit.dart';
+import 'package:emma_mobile/models/assignment/assignment.dart';
 import 'package:emma_mobile/models/assignment/tasks.dart';
 import 'package:emma_mobile/models/picker_time_range.dart';
 import 'package:emma_mobile/ui/components/app_bar/small_app_bar.dart';
@@ -25,10 +26,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 class AssignmentNewScreen extends StatelessWidget {
+  final Assignment assignment;
+
+  const AssignmentNewScreen({Key key, this.assignment}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => NewAssignBloc(),
+      create: (_) => NewAssignBloc(assignment: assignment),
       lazy: false,
       child: Scaffold(
         backgroundColor: AppColors.cF5F7FA,
@@ -97,8 +102,10 @@ class _NewAssign extends StatelessWidget {
               DefaultContainer(
                 onTap: () async {
                   final time = bloc.assignment.otherTaskDateTime;
+                  FocusScope.of(context).unfocus();
                   final res = await showCustomTimePicker(
                     context: context,
+                    title: 'Время',
                     time: TaskTime(
                       time: Time(hour: time.hour, minutes: time.minute),
                     ),
@@ -434,8 +441,10 @@ class _TimesGrid extends StatelessWidget {
         return _TimeItem(
           taskTime: taskTimes[i],
           onTap: () async {
+            FocusScope.of(context).unfocus();
             final res = await showCustomTimePicker(
               context: context,
+              title: 'Количество',
               timeRange: PickerTimeRange.calculate(
                 currentNumber: i,
                 maxCount: bloc.assignment.frequency + 1,

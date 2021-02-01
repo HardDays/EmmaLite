@@ -2,6 +2,7 @@ import 'package:emma_mobile/bloc/assign/assign_bloc.dart';
 import 'package:emma_mobile/bloc/assign/assign_state.dart';
 import 'package:emma_mobile/bloc/assign_screen/assign_screen_bloc.dart';
 import 'package:emma_mobile/bloc/assign_screen/assign_screen_state.dart';
+import 'package:emma_mobile/models/assignment/assignment.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
 import 'package:emma_mobile/ui/components/assign_item.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
@@ -10,8 +11,10 @@ import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/screens/assignment/assignment_new.dart';
 import 'package:emma_mobile/ui/screens/assignment/calendar_screen.dart';
 import 'package:emma_mobile/utils/utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class AssignmentsScreen extends StatelessWidget {
   @override
@@ -72,6 +75,7 @@ class _AppBar extends StatelessWidget {
             top: 3.h,
             left: 16.w,
             right: 16.w,
+            bottom: bloc.state is HistoryAssignScreenState ? 12.h : 0,
           ),
           child: Row(
             children: [
@@ -88,50 +92,52 @@ class _AppBar extends StatelessWidget {
               ChipItem(
                 isActive: bloc.state is HistoryAssignScreenState,
                 title: 'История',
+                onTap: bloc.addHistoryState,
               ),
             ],
           ),
         ),
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: 48.h,
-          child: ListView.separated(
-            key: Key(bloc.state.toString()),
-            itemCount: bloc.completedDates.length,
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            physics: const BouncingScrollPhysics(),
-            reverse: bloc.state is CompletedAssignScreenState,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (_, i) {
-              final isActive = bloc.currentActiveIndex == i;
-              return GestureDetector(
-                onTap: () => bloc.setIndex(i),
-                behavior: HitTestBehavior.opaque,
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: Center(
-                        child: Text(
-                          bloc.currentDate(i).assignScreenFormatter,
-                          style: AppTypography.font16.copyWith(
-                            color: isActive
-                                ? AppColors.c00ACE3
-                                : AppColors.cBFBFBF,
-                            fontWeight:
-                                isActive ? FontWeight.w600 : FontWeight.w400,
+        if (bloc.state is! HistoryAssignScreenState)
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: 36.h,
+            child: ListView.separated(
+              key: Key(bloc.state.toString()),
+              itemCount: bloc.completedDates.length,
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              physics: const BouncingScrollPhysics(),
+              reverse: bloc.state is CompletedAssignScreenState,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (_, i) {
+                final isActive = bloc.currentActiveIndex == i;
+                return GestureDetector(
+                  onTap: () => bloc.setIndex(i),
+                  behavior: HitTestBehavior.opaque,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            bloc.currentDate(i).assignScreenFormatter,
+                            style: AppTypography.font16.copyWith(
+                              color: isActive
+                                  ? AppColors.c00ACE3
+                                  : AppColors.cBFBFBF,
+                              fontWeight:
+                                  isActive ? FontWeight.w600 : FontWeight.w400,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            },
-            separatorBuilder: (_, __) {
-              return Padding(padding: EdgeInsets.only(left: 8.w));
-            },
+                    ],
+                  ),
+                );
+              },
+              separatorBuilder: (_, __) {
+                return Padding(padding: EdgeInsets.only(left: 8.w));
+              },
+            ),
           ),
-        ),
       ],
     );
   }
@@ -142,6 +148,11 @@ class _Data extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = context.bloc<AssignBloc>();
     final detailBloc = context.bloc<AssignScreenBloc>();
+
+    if (detailBloc.state is HistoryAssignScreenState) {
+      return _History();
+    }
+
     if (bloc.assignment.isEmpty) {
       return _EmptyAssign();
     }
@@ -150,10 +161,11 @@ class _Data extends StatelessWidget {
     if (tasks.isEmpty) {
       return _EmptyOrExpired(
         child: AppIcons.prescriptionsInactive(width: 44.w, height: 44.w),
-        text: 'На ${formattedDay.toLowerCase()} у вас не запланировано назначений.',
+        text:
+            'На ${formattedDay.toLowerCase()} у вас не запланировано назначений.',
       );
     }
-    if (!tasks.any((e) => e.completed)) {
+    if (!tasks.any((e) => e.completed) && detailBloc.state is! DoingAssignScreenState) {
       return _EmptyOrExpired(
         child: AppIcons.prescriptionsInactive(
           width: 44.w,
@@ -166,7 +178,8 @@ class _Data extends StatelessWidget {
     }
     if (tasks.where((e) => e.completed).length == tasks.length) {
       return _EmptyOrExpired(
-        text: 'Поздравляем, вы выполнили все назначения ${formattedDay.toLowerCase()}!',
+        text:
+            'Поздравляем, вы выполнили все назначения ${formattedDay.toLowerCase()}!',
         child: AppIcons.complete(
           size: 44.w,
         ),
@@ -187,6 +200,149 @@ class _Data extends StatelessWidget {
       separatorBuilder: (_, __) {
         return Padding(padding: EdgeInsets.only(top: 8.h));
       },
+    );
+  }
+}
+
+class _History extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final bloc = context.bloc<AssignBloc>();
+    final now = DateTime.now();
+    final List<Assignment> active = bloc.assignment
+        .where((e) => !e.isStopped && e.endTime.isBefore(now))
+        .toList();
+    final List<Assignment> archive =
+        bloc.assignment.where((e) => !active.contains(e)).toList();
+    return CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      slivers: [
+        if (active.isNotEmpty) ...[
+          const _ListTitle(title: 'Актуальные'),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (_, i) {
+                return _ListItem(assignment: active[i]);
+              },
+              childCount: active.length,
+            ),
+          ),
+        ],
+        if (archive.isNotEmpty) ...[
+          const _ListTitle(title: 'Архив'),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (_, i) {
+                return _ListItem(assignment: archive[i]);
+              },
+              childCount: archive.length,
+            ),
+          ),
+        ]
+      ],
+    );
+  }
+}
+
+class _ListItem extends StatelessWidget {
+  final Assignment assignment;
+
+  const _ListItem({Key key, this.assignment}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final now = DateTime.now();
+    final isDisable = assignment.isStopped;
+    final count = assignment.runTasks.where((e) => e.enable && e.completed);
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.only(top: 10.h),
+        child: GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) {
+                  return AssignmentNewScreen(assignment: assignment);
+                },
+              ),
+            );
+          },
+          child: Container(
+            constraints: BoxConstraints(
+              minHeight: 62.h,
+              minWidth: 288.w,
+              maxWidth: 288.w,
+            ),
+            decoration: const BoxDecoration(
+              color: AppColors.cFFFFFF,
+              borderRadius: BorderRadius.all(Radius.circular(4)),
+              boxShadow: [
+                BoxShadow(
+                  color: Color.fromRGBO(0, 0, 0, 0.05),
+                  blurRadius: 4,
+                  offset: Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 9.h, horizontal: 9.w),
+                  child: SvgPicture.asset(
+                    assignment.type.iconPath,
+                    width: 44.w,
+                    height: 44.h,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      assignment.name,
+                      style: AppTypography.font14.copyWith(
+                        color: AppColors.c000000,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 2.h),
+                      child: Text(
+                        isDisable ? 'Отменено' : 'xxx',
+                        style: AppTypography.font14.copyWith(
+                          color: AppColors.c9B9B9B,
+                        ),
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ListTitle extends StatelessWidget {
+  final String title;
+
+  const _ListTitle({Key key, this.title}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverPadding(
+      padding: EdgeInsets.only(top: 20.h),
+      sliver: SliverToBoxAdapter(
+        child: Center(
+          child: Text(
+            title,
+            style: AppTypography.font12.copyWith(
+              color: AppColors.c9B9B9B,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

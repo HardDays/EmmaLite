@@ -1,11 +1,12 @@
 import 'package:emma_mobile/models/assignment/assign_frequency.dart';
 import 'package:emma_mobile/models/assignment/assign_type.dart';
 import 'package:emma_mobile/utils/utils.dart';
+import 'package:intl/intl.dart';
 
 class RunTask {
   final bool enable;
   final DateTime dateTime;
-  final bool completed;
+  final DateTime completedDate;
   final int count;
   final AssignType type;
   final String assignName;
@@ -14,34 +15,38 @@ class RunTask {
   const RunTask({
     this.enable = true,
     this.dateTime,
-    this.completed = false,
     this.count,
     this.type,
     this.assignName = '',
     this.assignId,
+    this.completedDate,
   });
+
+  bool get completed => completedDate != null;
 
   factory RunTask.fromJson(Map json) {
     return RunTask(
       count: json['count'],
       dateTime: DateTime.parse(json['dateTime']),
-      completed: json['completed'],
       enable: json['enable'],
       type: assignTypes[json['typeId'] ?? 0],
       assignName: json['assignName'],
       assignId: json['assignId'],
+      completedDate: json['completedDate'] == null
+          ? null
+          : DateTime.parse(json['completedDate']),
     );
   }
 
-  RunTask copyWith({bool completed, bool enable}) {
+  RunTask copyWith({bool enable, DateTime completedDate}) {
     return RunTask(
       assignId: assignId,
       assignName: assignName,
       enable: enable ?? this.enable,
-      completed: completed ?? this.completed,
       dateTime: dateTime,
       count: count,
       type: type,
+      completedDate: completedDate ?? this.completedDate,
     );
   }
 
@@ -57,11 +62,23 @@ class RunTask {
     return data;
   }
 
-  String mainText(bool isExpired) {
-    if (isExpired) {
-      return '${dateTime.hour} ${dateTime.getPluralHour} ${dateTime.minute == 0 ? '' : '${dateTime.minute} ${dateTime.getPluralMinutes}'} назад';
+  String mainText({bool isExpired, DateTime completeDate}) {
+    if (completedDate != null) {
+      return DateFormat.Hm().format(completeDate);
     }
-    return 'через ${dateTime.hour} ${dateTime.getPluralHour} ${dateTime.minute == 0 ? '' : '${dateTime.minute} ${dateTime.getPluralMinutes}'}';
+
+    final now = DateTime.now();
+    final dif = now.difference(dateTime);
+    final minutes = dif.inMinutes - (dif.inHours * 60);
+    final hour = dif.inHours;
+    final hourText =
+        hour == 0 ? '' : '${dif.inHours.abs()} ${hour.getPluralHour}';
+    final minutesText =
+        minutes == 0 ? '' : '${minutes.abs()} ${minutes.getPluralMinutes}';
+    if (isExpired) {
+      return '$hourText $minutesText назад';
+    }
+    return 'через $hourText $minutesText';
   }
 }
 

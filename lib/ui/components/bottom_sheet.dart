@@ -96,6 +96,7 @@ Future<TaskTime> showCustomTimePicker({
   TaskTime time,
   PickerTimeRange timeRange,
   bool showCount = true,
+  String title,
 }) {
   final initialHour = time.time.hour - timeRange.minHour;
   final hour = _pickerWidgets(
@@ -114,7 +115,7 @@ Future<TaskTime> showCustomTimePicker({
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           MeasurementPickerTop(
-            title: 'Количество',
+            title: title,
             completeTap: () {
               Navigator.of(context).pop(time);
             },

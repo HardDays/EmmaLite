@@ -36,6 +36,8 @@ class Assignment {
 
   List<RunTask> runTasks;
 
+  bool isStopped;
+
   Assignment({
     this.id,
     this.type,
@@ -53,6 +55,7 @@ class Assignment {
     this.runTasks,
     this.doctorName,
     this.stoppedTimes,
+    this.isStopped,
   }) {
     if (id == null) {
       id = DateTime.now().millisecondsSinceEpoch;
@@ -86,6 +89,7 @@ class Assignment {
         type: EverydayAssignFrequencyInWeek(),
       );
       runTasks = [];
+      isStopped = false;
     }
   }
 
@@ -174,6 +178,7 @@ class Assignment {
     data['doctorName'] = doctorName;
     data['stoppedTimes'] = stoppedTimes.map((e) => e.toString()).toList();
     data['runTasks'] = runTasks.map((e) => e.toJson()).toList();
+    data['isStopped'] = isStopped;
     return data;
   }
 
@@ -199,6 +204,7 @@ class Assignment {
       runTasks: runTasks.map((e) => RunTask.fromJson(e)).toList(),
       doctorName: json['doctorName'],
       stoppedTimes: stoppedTimes.map((e) => DateTime.parse(e)).toList(),
+      isStopped: json['isStopped'] ?? false,
     );
   }
 }

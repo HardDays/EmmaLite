@@ -11,7 +11,8 @@ import 'package:flutter/material.dart';
 class BottomNavigationBarCustom extends StatefulWidget {
   const BottomNavigationBarCustom({
     Key key,
-    this.onTap, this.activeIndex,
+    this.onTap,
+    this.activeIndex,
   }) : super(key: key);
 
   final void Function(int) onTap;
@@ -58,47 +59,37 @@ class _BottomNavigationBarCustomState extends State<BottomNavigationBarCustom>
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          width: MediaQuery
-              .of(context)
-              .size
-              .width,
+          width: MediaQuery.of(context).size.width,
           height: 1.h,
           color: AppColors.cE6E9EB,
         ),
         Container(
-          width: MediaQuery
-              .of(context)
-              .size
-              .width,
+          width: MediaQuery.of(context).size.width,
           color: AppColors.cFFFFFF,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               type == BottomMenuType.main
                   ? SizedBox(
-                height: heightAnimation.value,
-                child: BottomMenu(),
-              )
+                      height: heightAnimation.value,
+                      child: BottomMenu(
+                        onTap: _animate,
+                      ),
+                    )
                   : SizedBox(
-                height: heightAnimation2.value,
-                child: BottomMenu(type: BottomMenuType.profile),
-              ),
+                      height: heightAnimation2.value,
+                      child: BottomMenu(type: BottomMenuType.profile),
+                    ),
               SizedBox(
                 height: 56.h,
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width,
+                width: MediaQuery.of(context).size.width,
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
                     Positioned(
                       bottom: -(controller.value * 56.h),
                       child: SizedBox(
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width,
+                        width: MediaQuery.of(context).size.width,
                         height: 56.h,
                         child: Row(
                           children: [

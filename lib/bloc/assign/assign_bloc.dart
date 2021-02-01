@@ -40,14 +40,14 @@ class AssignBloc extends Cubit<AssignState> {
   }
 
   void completeTask(RunTask task) {
-    print(task.toJson());
     final assignIndex =
         _assignment.lastIndexWhere((e) => e.runTasks.contains(task));
     final taskIndex =
         _assignment[assignIndex].runTasks.lastIndexWhere((e) => e == task);
 
-    _assignment[assignIndex].runTasks[taskIndex] =
-        _assignment[assignIndex].runTasks[taskIndex].copyWith(completed: true);
+    _assignment[assignIndex].runTasks[taskIndex] = _assignment[assignIndex]
+        .runTasks[taskIndex]
+        .copyWith(completedDate: DateTime.now());
     _assignmentLocalRepository.insertByIndex(
       index: assignIndex,
       assign: _assignment[assignIndex],
