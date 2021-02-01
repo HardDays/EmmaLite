@@ -30,12 +30,64 @@ extension DateTimeExtentions on DateTime {
       return DateFormat('dd.MM.yyyy HH:mm').format(this);
     }
   }
+
+  String get assignScreenFormatter {
+    final now = DateTime.now();
+    if (now.year == year && now.month == month && now.day == day) {
+      return 'Сегодня';
+    } else {
+      return DateFormat('d MMMM').format(this);
+    }
+  }
+
+  DateTime copyWith({
+    int year,
+    int month,
+    int day,
+    int hour,
+    int minute,
+    int second,
+  }) {
+    return DateTime(
+      year ?? this.year,
+      month ?? this.month,
+      day ?? this.day,
+      hour ?? this.hour,
+      minute ?? this.minute,
+      second ?? this.second,
+    );
+  }
+
+  bool isInDay(DateTime other) {
+    return year == other.year && month == other.month && day == other.day;
+  }
+
+  String get getPluralHour {
+    final firstPlural = [2, 3, 4, 22, 23, 24];
+    if (hour == 1 || hour == 21) {
+      return 'час';
+    }
+    if (firstPlural.contains(hour)) {
+      return 'часа';
+    }
+    return 'часов';
+  }
+
+  String get getPluralMinutes {
+    final lastSymbol = minute.toString()[minute.toString().length - 1];
+    if (lastSymbol == '1') {
+      return 'минуту';
+    }
+    if (lastSymbol == '2' || lastSymbol == '3' || lastSymbol == '4') {
+      return 'минуты';
+    }
+    return 'минут';
+  }
 }
 
 extension IntExtention on int {
   String get twoDigits {
-    if (this >= 10)
-      return toString();
+    if (this >= 10) return toString();
     return '0$this';
   }
 }

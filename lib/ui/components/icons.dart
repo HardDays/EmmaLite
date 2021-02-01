@@ -83,7 +83,6 @@ class AppIcons {
     );
   }
 
-
   static Widget chevronLeft() {
     return SvgPicture.asset(
       'assets/icons/chevron_left.svg',
@@ -165,11 +164,25 @@ class AppIcons {
     );
   }
 
-  static Widget prescriptionsInactive({double width, double height}) {
+  static Widget complete({double size}) {
+    return SvgPicture.asset(
+      'assets/icons/complete.svg',
+      width: size ?? 32.w,
+      height: size ?? 32.w,
+      fit: BoxFit.fill,
+    );
+  }
+
+  static Widget prescriptionsInactive({
+    double width,
+    double height,
+    Color color,
+  }) {
     return SvgPicture.asset(
       'assets/icons/prescriptions_inactive.svg',
       width: width,
       height: height,
+      color: color,
       fit: BoxFit.fill,
     );
   }

@@ -42,7 +42,6 @@ class EmptyMeasurements extends StatelessWidget {
             child: SizedBox(
               width: 256.w,
               child: Text(
-                // ignore: lines_longer_than_80_chars
                 'Здесь будут показываться ваши последние значения по всем измерениям',
                 style: AppTypography.font14.copyWith(color: AppColors.c9B9B9B),
                 textAlign: TextAlign.center,
@@ -52,6 +51,7 @@ class EmptyMeasurements extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: 55.h),
             child: EmmaFilledButton(
+              width: 256.w,
               title: 'Добавить первое измерение',
               fontSize: Constants.textSize14,
               onTap: () => navigatorPush(context, SelectMeasurement()),

@@ -2,13 +2,16 @@ import 'package:emma_mobile/bloc/new_assing_bloc/new_assign_state.dart';
 import 'package:emma_mobile/models/assignment/assign_frequency.dart';
 import 'package:emma_mobile/models/assignment/assign_type.dart';
 import 'package:emma_mobile/models/assignment/assignment.dart';
+import 'package:emma_mobile/models/assignment/tasks.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 class NewAssignBloc extends Cubit<NewAssignState> {
-  NewAssignBloc() : super(NewAssignState());
+  NewAssignBloc({Assignment assignment}) : super(NewAssignState()) {
+    _assignment = assignment ?? Assignment();
+  }
 
-  Assignment _assignment = Assignment();
+  Assignment _assignment;
 
   Assignment get assignment => _assignment;
 
@@ -21,26 +24,26 @@ class NewAssignBloc extends Cubit<NewAssignState> {
     emit(NewAssignState());
   }
 
+  bool _canSave = false;
+
   void deletePhoto({int index}) {
     _assignment.photos.removeAt(index);
     _update();
   }
 
   void setType(int typeId) {
-    _assignment.typeId = AssignEnum.values[typeId];
-    if (_assignment.typeId == AssignEnum.other ||
-        _assignment.typeId == AssignEnum.analyze) {
-      _assignment.isRegular = false;
-      _assignment.singleTasks = [];
-      _assignment.singleTasks.add(
-        SingleTask(taskTimes: [TaskTime()]),
-      );
-    }
+    _assignment.type = assignTypes[typeId];
     _update();
+  }
+
+  void setName(String s) {
+    _assignment.name = s;
+    _updateSetText();
   }
 
   void setDosage(String dosage) {
     if (dosage == null || dosage?.isEmpty == true) {
+      _assignment.dosage = null;
       return;
     }
     final value = int.parse(dosage);
@@ -74,17 +77,14 @@ class NewAssignBloc extends Cubit<NewAssignState> {
         ),
       );
     }
-    if (assignment.isRegular) {
-      _assignment.periodicTask = _assignment.periodicTask.copyWith(
-        type: _assignment.periodicTask.type,
+    _assignment.periodicTask = _assignment.periodicTask.copyWith(
+      type: _assignment.periodicTask.type,
+      tasks: tasks,
+    );
+    for (var i = 0; i < _assignment.singleTasks.length; i++) {
+      _assignment.singleTasks[i] = _assignment.singleTasks[i].copyWith(
         tasks: tasks,
       );
-    } else {
-      for (var i = 0; i < _assignment.singleTasks.length; i++) {
-        _assignment.singleTasks[i] = _assignment.singleTasks[i].copyWith(
-          tasks: tasks,
-        );
-      }
     }
     _update();
   }
@@ -94,7 +94,7 @@ class NewAssignBloc extends Cubit<NewAssignState> {
     _update();
   }
 
-  void setRegularTypeCount(AssignFrequencyInWeekEnum type) {
+  void setRegularTypeCount(AssignFrequencyInWeek type) {
     _assignment.periodicTask = _assignment.periodicTask.copyWith(type: type);
     _update();
   }
@@ -137,6 +137,37 @@ class NewAssignBloc extends Cubit<NewAssignState> {
       time.time.minutes,
     );
     _update();
+  }
+
+  void setDoctor(String s) {
+    _assignment.doctorName = s;
+    _updateSetText();
+  }
+
+  void _updateSetText() {
+    if (_canSave != enableSave) {
+      _canSave = !_canSave;
+      _update();
+    }
+  }
+
+  bool get enableSave {
+    if (_assignment.name == null || _assignment.name.isEmpty) {
+      return false;
+    }
+    if (_assignment.type is AnalyzeAssignType) {
+      if (_assignment.doctorName == null || _assignment.doctorName.isEmpty) {
+        return false;
+      }
+    }
+    if (_assignment.type is LifestyleAssignType ||
+        _assignment.type is MeasureAssignType ||
+        _assignment.type is MedicineAssignType) {
+      if (_assignment.doctorName == null || _assignment.doctorName.isEmpty) {
+        return false;
+      }
+    }
+    return true;
   }
 
   void _update() {

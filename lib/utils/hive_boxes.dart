@@ -13,6 +13,7 @@ class HiveBoxes {
   Box<HeightModel> _heightModel;
   Box<Pulse> _pulse;
   Box<Temperature> _temperature;
+  Box<Map> _assignment;
 
   Box<Temperature> get temperatureBox => _temperature;
 
@@ -23,6 +24,8 @@ class HiveBoxes {
   Box<HeightModel> get heightModelBox => _heightModel;
 
   Box<Pulse> get pulseBox => _pulse;
+
+  Box<Map> get assignmentBox => _assignment;
 
   factory HiveBoxes() {
     _instance ??= HiveBoxes._();
@@ -38,5 +41,6 @@ class HiveBoxes {
     _heightModel = await Hive.openBox<HeightModel>('HeightModel');
     _pulse = await Hive.openBox<Pulse>('Pulse');
     _temperature = await Hive.openBox<Temperature>('Temperature');
+    _assignment = await Hive.openBox<Map>('Assignment');
   }
 }

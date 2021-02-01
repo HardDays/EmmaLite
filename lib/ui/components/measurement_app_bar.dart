@@ -3,6 +3,7 @@ import 'package:emma_mobile/models/measurements/measurement.dart';
 import 'package:emma_mobile/models/measurements/pulse.dart';
 import 'package:emma_mobile/models/time_enum.dart';
 import 'package:emma_mobile/models/time_range.dart';
+import 'package:emma_mobile/ui/components/chip.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/screens/measurement/measurement_new.dart';
 import 'package:emma_mobile/utils/utils.dart';
@@ -55,13 +56,13 @@ class MeasurementDetailAppBar extends StatelessWidget {
                 for (var i = 0; i < dateTimeTypes.length; i++)
                   if (i == 0) ...[
                     if (item is Pulse)
-                      _TimeItem(
+                      ChipItem(
                         title: dateTimeTypes[i].timeValue,
                         isActive: dateTimeTypes[i] == initialType,
                         onTap: () => onChange(dateTimeTypes[i]),
                       )
                   ] else
-                    _TimeItem(
+                    ChipItem(
                       title: dateTimeTypes[i].timeValue,
                       isActive: dateTimeTypes[i] == initialType,
                       onTap: () => onChange(dateTimeTypes[i]),
@@ -160,46 +161,6 @@ class _TopRow extends StatelessWidget {
               ),
             )
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _TimeItem extends StatelessWidget {
-  final String title;
-  final bool isActive;
-  final Function onTap;
-
-  const _TimeItem({
-    Key key,
-    this.title,
-    this.isActive,
-    this.onTap,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          margin: EdgeInsets.only(right: 4.w),
-          height: 32.h,
-          decoration: BoxDecoration(
-            color: isActive ? AppColors.c00ACE3 : AppColors.cFFFFFF,
-            borderRadius: const BorderRadius.all(Radius.circular(16)),
-            border: Border.all(width: 1.w, color: AppColors.c00ACE3),
-          ),
-          child: Center(
-            child: Text(
-              title,
-              style: AppTypography.font12.copyWith(
-                fontWeight: FontWeight.w500,
-                color: !isActive ? AppColors.c00ACE3 : AppColors.cFFFFFF,
-              ),
-            ),
-          ),
         ),
       ),
     );

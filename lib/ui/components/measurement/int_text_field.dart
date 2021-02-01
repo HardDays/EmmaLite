@@ -46,7 +46,7 @@ class _InputTextFieldState extends State<InputTextField> {
 
   @override
   void didUpdateWidget(covariant InputTextField oldWidget) {
-    if (widget.value != _controller.text) {
+    if (widget.value != _controller.text && widget.value != null) {
       _controller.text = widget.value;
     }
     super.didUpdateWidget(oldWidget);

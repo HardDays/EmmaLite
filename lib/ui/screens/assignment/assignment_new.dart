@@ -1,11 +1,13 @@
 import 'dart:io';
 
+import 'package:emma_mobile/bloc/assign/assign_bloc.dart';
 import 'package:emma_mobile/bloc/new_assing_bloc/new_assign_bloc.dart';
 import 'package:emma_mobile/bloc/new_assing_bloc/new_assign_state.dart';
 import 'package:emma_mobile/models/assignment/assign_frequency.dart';
 import 'package:emma_mobile/models/assignment/assign_type.dart';
 import 'package:emma_mobile/models/assignment/assign_unit.dart';
-import 'package:emma_mobile/models/assignment/assignment.dart';
+import 'package:emma_mobile/models/assignment/tasks.dart';
+import 'package:emma_mobile/models/picker_time_range.dart';
 import 'package:emma_mobile/ui/components/app_bar/small_app_bar.dart';
 import 'package:emma_mobile/ui/components/bottom_sheet.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
@@ -64,8 +66,8 @@ class _NewAssign extends StatelessWidget {
               padding: EdgeInsets.only(top: 20.h),
               child: DefaultPickerField(
                 title: 'Тип назначения',
-                index: bloc.assignment.typeId.index,
-                values: assignTypes,
+                index: bloc.assignment.type.index,
+                values: assignTypes.map((e) => e.title).toList(),
                 onChange: bloc.setType,
               ),
             ),
@@ -75,12 +77,13 @@ class _NewAssign extends StatelessWidget {
                 child: InputTextField(
                   formatter: LengthLimitingTextInputFormatter(27),
                   type: TextInputType.text,
+                  onChange: bloc.setName,
                   label: 'Название назначения',
                 ),
               ),
             ),
-            if (bloc.assignment.typeId == AssignEnum.analyze ||
-                bloc.assignment.typeId == AssignEnum.other) ...[
+            if (bloc.assignment.type is AnalyzeAssignType ||
+                bloc.assignment.type is OtherAssignType) ...[
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 20.h),
                 child: DateTimeTextField(
@@ -117,7 +120,7 @@ class _NewAssign extends StatelessWidget {
               )
             ] else
               _FullTypeWidgets(),
-            if (bloc.assignment.typeId != AssignEnum.other)
+            if (bloc.assignment.type is! OtherAssignType)
               Padding(
                 padding: EdgeInsets.only(top: 20.h),
                 child: DefaultContainer(
@@ -127,7 +130,7 @@ class _NewAssign extends StatelessWidget {
                       Expanded(
                         child: InputTextField(
                           label: 'Кто назначил',
-                          isInt: false,
+                          onChange: bloc.setDoctor,
                           formatter: LengthLimitingTextInputFormatter(27),
                           type: TextInputType.text,
                         ),
@@ -148,10 +151,17 @@ class _NewAssign extends StatelessWidget {
                   ),
                 ),
               ),
-            if (bloc.assignment.typeId == AssignEnum.medicines) _Photos(),
+            if (bloc.assignment.type is MedicineAssignType) _Photos(),
             Padding(
               padding: EdgeInsets.only(top: 20.h, bottom: 32.h),
               child: EmmaFilledButton(
+                isActive: bloc.enableSave,
+                onTap: () {
+                  final assign = bloc.assignment;
+                  assign.generateTasks();
+                  context.bloc<AssignBloc>().addAssignment(assign);
+                  Navigator.of(context).pop();
+                },
                 title: 'Сохранить',
               ),
             )
@@ -168,7 +178,7 @@ class _FullTypeWidgets extends StatelessWidget {
     final bloc = context.bloc<NewAssignBloc>();
     return Column(
       children: [
-        if (bloc.assignment.typeId == AssignEnum.medicines)
+        if (bloc.assignment.type is MedicineAssignType)
           Padding(
             padding: EdgeInsets.only(top: 20.h),
             child: DefaultContainer(
@@ -323,9 +333,9 @@ class _FullTypeWidgets extends StatelessWidget {
                   index: bloc.assignment.periodicTask.type.index,
                   hintText: 'Регулярность',
                   onChange: (value) => bloc.setRegularTypeCount(
-                    AssignFrequencyInWeekEnum.values[value],
+                    assignFrequencyInWeek[value],
                   ),
-                  values: assignFrequencyInWeek,
+                  values: assignFrequencyInWeek.map((e) => e.title).toList(),
                 ),
               ),
               _TimesGrid(
@@ -370,27 +380,28 @@ class _NewAndDeleteRow extends StatelessWidget {
             ),
           ),
         ),
-        GestureDetector(
-          onTap: bloc.removeSingleTask,
-          behavior: HitTestBehavior.opaque,
-          child: Padding(
-            padding: EdgeInsets.only(top: 10.h, right: 16.w),
-            child: Row(
-              children: [
-                AppIcons.trash(color: AppColors.cA7AFB8),
-                Padding(
-                  padding: EdgeInsets.only(left: 10.w),
-                  child: Text(
-                    'Удалить',
-                    style: AppTypography.font12.copyWith(
-                      color: AppColors.c9B9B9B,
+        if (bloc.assignment.singleTasks.length > 1)
+          GestureDetector(
+            onTap: bloc.removeSingleTask,
+            behavior: HitTestBehavior.opaque,
+            child: Padding(
+              padding: EdgeInsets.only(top: 10.h, right: 16.w),
+              child: Row(
+                children: [
+                  AppIcons.trash(color: AppColors.cA7AFB8),
+                  Padding(
+                    padding: EdgeInsets.only(left: 10.w),
+                    child: Text(
+                      'Удалить',
+                      style: AppTypography.font12.copyWith(
+                        color: AppColors.c9B9B9B,
+                      ),
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
-        ),
       ],
     );
   }
