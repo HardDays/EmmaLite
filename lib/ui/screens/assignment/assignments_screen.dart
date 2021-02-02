@@ -34,19 +34,44 @@ class AssignmentsScreen extends StatelessWidget {
                       childUpperLine:
                           bloc.assignment.isNotEmpty ? _AppBar() : null,
                       trailing: bloc.assignment.isNotEmpty
-                          ? GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (_) => CalendarScreen()),
-                                );
-                              },
-                              behavior: HitTestBehavior.opaque,
-                              child: Padding(
-                                padding:
-                                    EdgeInsets.only(top: 15.h, right: 16.w),
-                                child: AppIcons.calendarActive(),
-                              ),
+                          ? Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (_) => CalendarScreen()),
+                                    );
+                                  },
+                                  behavior: HitTestBehavior.opaque,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                      top: 15.h,
+                                      right: 8.w,
+                                      left: 8.w,
+                                    ),
+                                    child: AppIcons.plus(),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (_) => AssignmentNewScreen(),
+                                      ),
+                                    );
+                                  },
+                                  behavior: HitTestBehavior.opaque,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                      top: 15.h,
+                                      right: 16.w,
+                                      left: 8.w,
+                                    ),
+                                    child: AppIcons.calendarActive(),
+                                  ),
+                                )
+                              ],
                             )
                           : null,
                     ),

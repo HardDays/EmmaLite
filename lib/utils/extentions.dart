@@ -72,12 +72,11 @@ extension IntExtention on int {
   }
 
   String get getPluralHour {
-    final firstPlural = [2, 3, 4, 22, 23, 24];
-    final hour = abs();
-    if (hour == 1 || hour == 21) {
+    final lastSymbol = this.lastSymbol;
+    if (lastSymbol == 1 && lastThoSymbol != 11) {
       return 'час';
     }
-    if (firstPlural.contains(hour)) {
+    if (lastSymbol == 2 || lastSymbol == 3 || lastSymbol == 4) {
       return 'часа';
     }
     return 'часов';
@@ -114,7 +113,7 @@ extension IntExtention on int {
 
   String get getPluralCountTitle {
     final lastSymbol = this.lastSymbol;
-    if (lastSymbol == 1 && this != 11 && this != 111 && this != 1111) { // todo костыль
+    if (lastSymbol == 1 && lastThoSymbol != 11) {
       return 'Остался';
     }
     return 'Осталось';
@@ -122,10 +121,10 @@ extension IntExtention on int {
 
   String get getPluralCount {
     final lastSymbol = this.lastSymbol;
-    if (lastSymbol == 1 && this != 11 && this != 111 && this != 1111) { // todo костыль
+    final lastThoSymbol = this.lastThoSymbol;
+    if (lastSymbol == 1 && lastThoSymbol != 11 ) {
       return 'прием';
     }
-    final lastThoSymbol = this.lastThoSymbol;
     if (lastThoSymbol == 12 || lastThoSymbol == 13 || lastThoSymbol == 14) {
       return 'приемов';
     }

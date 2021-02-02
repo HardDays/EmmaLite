@@ -31,7 +31,7 @@ class AssignmentNewScreen extends StatelessWidget {
   final Assignment assignment;
   final bool isCopy;
 
-  const AssignmentNewScreen({
+  AssignmentNewScreen({
     Key key,
     this.assignment,
     this.isCopy = false,
@@ -52,19 +52,9 @@ class AssignmentNewScreen extends StatelessWidget {
                 leadingText: 'Отменить',
               )
             else
-              EmmaAppBar(
-                leading: const BackLeading(text: 'Назначения'),
+              const EmmaAppBar(
+                leading: BackLeading(text: 'Назначения'),
                 title: 'Карточка назначения',
-                trailing: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 16.w,
-                      vertical: 16.h,
-                    ),
-                    child: AppIcons.plus(),
-                  ),
-                ),
               ),
             Expanded(
               child: Padding(
