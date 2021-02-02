@@ -40,7 +40,8 @@ class AssignmentsScreen extends StatelessWidget {
                                   onTap: () {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
-                                          builder: (_) => CalendarScreen()),
+                                        builder: (_) => AssignmentNewScreen(),
+                                      ),
                                     );
                                   },
                                   behavior: HitTestBehavior.opaque,
@@ -48,17 +49,16 @@ class AssignmentsScreen extends StatelessWidget {
                                     padding: EdgeInsets.only(
                                       top: 15.h,
                                       right: 8.w,
-                                      left: 8.w,
+                                      left: 16.w,
                                     ),
-                                    child: AppIcons.plus(),
+                                    child: AppIcons.calendarActive(),
                                   ),
                                 ),
                                 GestureDetector(
                                   onTap: () {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (_) => AssignmentNewScreen(),
-                                      ),
+                                          builder: (_) => CalendarScreen()),
                                     );
                                   },
                                   behavior: HitTestBehavior.opaque,
@@ -68,9 +68,9 @@ class AssignmentsScreen extends StatelessWidget {
                                       right: 16.w,
                                       left: 8.w,
                                     ),
-                                    child: AppIcons.calendarActive(),
+                                    child: AppIcons.plus(),
                                   ),
-                                )
+                                ),
                               ],
                             )
                           : null,
