@@ -1,4 +1,5 @@
 import 'package:emma_mobile/bloc/assign/assign_bloc.dart';
+import 'package:emma_mobile/models/assignment/assign_type.dart';
 import 'package:emma_mobile/models/assignment/tasks.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/components/measurement/default_container.dart';
@@ -16,6 +17,7 @@ class AssignItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isExpired = task.dateTime.isBefore(DateTime.now());
+    final assign = context.bloc<AssignBloc>().getAssignById(task.assignId);
     return Center(
       child: DefaultContainer(
         child: Column(
@@ -35,12 +37,25 @@ class AssignItem extends StatelessWidget {
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: 9.w),
-                      child: Text(
-                        task.assignName,
-                        style: AppTypography.font14.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.c3B4047,
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            task.assignName,
+                            style: AppTypography.font14.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.c3B4047,
+                            ),
+                          ),
+                          if (assign.type is MedicineAssignType)
+                            Text(
+                              '${assign.dosage} x ${task.count}',
+                              style: AppTypography.font14.copyWith(
+                                color: AppColors.c8E8E93,
+                              ),
+                            ),
+                        ],
                       ),
                     ),
                     const Spacer(),

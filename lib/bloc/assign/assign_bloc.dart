@@ -19,7 +19,8 @@ class AssignBloc extends Cubit<AssignState> {
   List<RunTask> getTaskInDay({DateTime date}) {
     final List<RunTask> bufList = [];
     for (var i in _assignment) {
-      bufList.addAll(i.runTasks.where((e) => e.dateTime.isInDay(date)));
+      if (!i.isStopped)
+        bufList.addAll(i.runTasks.where((e) => e.dateTime.isInDay(date)));
     }
     final now = DateTime.now();
     bufList.sort(
@@ -33,9 +34,25 @@ class AssignBloc extends Cubit<AssignState> {
     _assignment = _assignmentLocalRepository.getAssignment();
   }
 
+  Assignment getAssignById(int id) => _assignment.firstWhere((e) => e.id == id);
+
   void addAssignment(Assignment assign) {
     _assignment.add(assign);
     _assignmentLocalRepository.addAssignment(assign);
+    emit(AssignState());
+  }
+
+  void updateAssignment(Assignment assign) {
+    final index = _assignment.lastIndexWhere((e) => e.id == assign.id);
+    _assignment[index] = assign;
+    _assignmentLocalRepository.insertByIndex(index: index, assign: assign);
+    emit(AssignState());
+  }
+
+  void deleteAssignment(Assignment assign) {
+    final index = _assignment.lastIndexWhere((e) => e.id == assign.id);
+    _assignment.removeAt(index);
+    _assignmentLocalRepository.removeByIndex(index: index);
     emit(AssignState());
   }
 

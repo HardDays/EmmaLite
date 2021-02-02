@@ -20,6 +20,7 @@ class MainScreen extends StatelessWidget {
       body: BlocBuilder<MeasurementCubit, MeasurementState>(
         builder: (context, state) {
           return SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

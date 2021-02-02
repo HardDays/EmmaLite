@@ -14,6 +14,8 @@ class DateTimeTextField extends StatelessWidget {
   final bool haveDecoration;
   final DateTime minimumDate;
   final DateTime maximumDate;
+  final bool enable;
+  final Color color;
 
   const DateTimeTextField({
     Key key,
@@ -25,13 +27,19 @@ class DateTimeTextField extends StatelessWidget {
     this.haveDecoration = true,
     this.minimumDate,
     this.maximumDate,
+    this.enable = true,
+    this.color,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final format = dateFormat ?? DateFormat('dd MMMM yyyy, HH:mm');
     return DefaultContainer(
+      color: color,
       onTap: () async {
+        if (!enable) {
+          return;
+        }
         final res = await showDateTimeModalBottom(
           context: context,
           pickerTitle: title,
@@ -76,7 +84,7 @@ class DateTimeTextField extends StatelessWidget {
                 ),
               ),
             const Spacer(),
-            AppIcons.arrowRight(),
+            if (enable) AppIcons.arrowRight(),
           ],
         ),
       ),

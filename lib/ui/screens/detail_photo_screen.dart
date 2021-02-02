@@ -11,12 +11,14 @@ class DetailPhotoScreen extends StatefulWidget {
   final List<String> photos;
   final int initIndex;
   final Function(int index) onDelete;
+  final bool canChange;
 
   const DetailPhotoScreen({
     Key key,
     this.photos,
     this.initIndex,
     this.onDelete,
+    this.canChange = true,
   }) : super(key: key);
 
   @override
@@ -86,34 +88,33 @@ class _DetailPhotoScreenState extends State<DetailPhotoScreen> {
             color: AppColors.cFFFFFF,
             child: Align(
               alignment: Alignment.centerRight,
-              child: GestureDetector(
-                onTap: () {
-                  showCupertinoWith2Button(
-                      context,
-                      leftText: 'Да',
-                      rightText: 'Нет',
-                      subtitle: 'Удалить изображение?',
-                      leftTap: (context) {
-                        Navigator.of(context).pop();
-                        photos.removeAt(page);
-                        widget?.onDelete(page);
-                        if (photos.isEmpty) {
+              child: widget.canChange
+                  ? GestureDetector(
+                      onTap: () {
+                        showCupertinoWith2Button(context,
+                            leftText: 'Да',
+                            rightText: 'Нет',
+                            subtitle: 'Удалить изображение?',
+                            leftTap: (context) {
                           Navigator.of(context).pop();
-                        } else {
-                          setState(() {});
-                        }
+                          photos.removeAt(page);
+                          widget?.onDelete(page);
+                          if (photos.isEmpty) {
+                            Navigator.of(context).pop();
+                          } else {
+                            setState(() {});
+                          }
+                        }, rightTap: (context) {
+                          Navigator.of(context).pop();
+                        });
                       },
-                      rightTap: (context) {
-                        Navigator.of(context).pop();
-                      }
-                  );
-                },
-                behavior: HitTestBehavior.opaque,
-                child: Padding(
-                  padding: EdgeInsets.only(right: 16.w),
-                  child: AppIcons.trash(color: AppColors.cA0B4CB),
-                ),
-              ),
+                      behavior: HitTestBehavior.opaque,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 16.w),
+                        child: AppIcons.trash(color: AppColors.cA0B4CB),
+                      ),
+                    )
+                  : null,
             ),
           )
         ],

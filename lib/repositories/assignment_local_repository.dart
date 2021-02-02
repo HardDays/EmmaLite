@@ -14,4 +14,8 @@ class AssignmentLocalRepository {
   void insertByIndex({int index, Assignment assign}) {
     _hiveBoxes.assignmentBox.putAt(index, assign.toJson());
   }
+
+  void removeByIndex({int index}) {
+    _hiveBoxes.assignmentBox.deleteAt(index);
+  }
 }

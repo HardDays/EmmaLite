@@ -3,14 +3,19 @@ import 'package:emma_mobile/models/assignment/assign_frequency.dart';
 import 'package:emma_mobile/models/assignment/assign_type.dart';
 import 'package:emma_mobile/models/assignment/assignment.dart';
 import 'package:emma_mobile/models/assignment/tasks.dart';
+import 'package:emma_mobile/utils/utils.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 class NewAssignBloc extends Cubit<NewAssignState> {
-  NewAssignBloc({Assignment assignment}) : super(NewAssignState()) {
+  NewAssignBloc({
+    Assignment assignment,
+    bool isCopy = false,
+  }) : super(NewAssignState()) {
     _assignment = assignment ?? Assignment();
 
-    _isCreate = assignment = null;
+    _isCreate = assignment == null || isCopy;
   }
 
   Assignment _assignment;
@@ -19,7 +24,17 @@ class NewAssignBloc extends Cubit<NewAssignState> {
 
   bool _isCreate;
 
+  bool _isChange = false;
+
   bool get isCreate => _isCreate;
+
+  bool get isChange => _isChange;
+
+  bool get canChange =>
+      !_assignment.runTasks.any((e) => e.completedDate != null) &&
+      !_assignment.isStopped;
+
+  Color get containerColor => _assignment.isStopped ? AppColors.cEAEBEF : null;
 
   Future<void> pickImage() async {
     final res = await ImagePicker().getImage(source: ImageSource.gallery);
@@ -27,7 +42,7 @@ class NewAssignBloc extends Cubit<NewAssignState> {
     if (res != null) {
       _assignment.photos.add(res.path);
     }
-    emit(NewAssignState());
+    _update();
   }
 
   bool _canSave = false;
@@ -151,6 +166,10 @@ class NewAssignBloc extends Cubit<NewAssignState> {
   }
 
   void _updateSetText() {
+    if (!_isCreate && !_isChange) {
+      _isChange = true;
+      emit(NewAssignState());
+    }
     if (_canSave != enableSave) {
       _canSave = !_canSave;
       _update();
@@ -177,6 +196,9 @@ class NewAssignBloc extends Cubit<NewAssignState> {
   }
 
   void _update() {
+    if (!_isCreate) {
+      _isChange = true;
+    }
     emit(NewAssignState());
   }
 }

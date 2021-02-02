@@ -84,17 +84,54 @@ extension IntExtention on int {
   }
 
   String get getPluralMinutes {
-    final lastSymbol = toString()[toString().length - 1];
+    final lastSymbol = this.lastSymbol;
     final minutes = abs();
     if (minutes == 11 || minutes == 12 || minutes == 13 || minutes == 14) {
       return 'минут';
     }
-    if (lastSymbol == '1') {
+    if (lastSymbol == 1) {
       return 'минуту';
     }
-    if (lastSymbol == '2' || lastSymbol == '3' || lastSymbol == '4') {
+    if (lastSymbol == 2 || lastSymbol == 3 || lastSymbol == 4) {
       return 'минуты';
     }
     return 'минут';
+  }
+
+  int get lastSymbol {
+    final lastSymbol = toString()[toString().length - 1];
+    return int.parse(lastSymbol);
+  }
+
+  int get lastThoSymbol {
+    if (this < 10) {
+      return this;
+    }
+    final length = toString().length;
+    final lastSymbols = toString().substring(length - 2, length);
+    return int.parse(lastSymbols);
+  }
+
+  String get getPluralCountTitle {
+    final lastSymbol = this.lastSymbol;
+    if (lastSymbol == 1 && this != 11 && this != 111 && this != 1111) { // todo костыль
+      return 'Остался';
+    }
+    return 'Осталось';
+  }
+
+  String get getPluralCount {
+    final lastSymbol = this.lastSymbol;
+    if (lastSymbol == 1 && this != 11 && this != 111 && this != 1111) { // todo костыль
+      return 'прием';
+    }
+    final lastThoSymbol = this.lastThoSymbol;
+    if (lastThoSymbol == 12 || lastThoSymbol == 13 || lastThoSymbol == 14) {
+      return 'приемов';
+    }
+    if (lastSymbol == 2 || lastSymbol == 3 || lastSymbol == 4) {
+      return 'приема';
+    }
+    return 'приемов';
   }
 }

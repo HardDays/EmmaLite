@@ -5,7 +5,6 @@ import 'package:emma_mobile/models/measurements/measurement.dart';
 import 'package:emma_mobile/models/measurements/pulse.dart';
 import 'package:emma_mobile/models/measurements/temperature.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
-import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/screens/measurement/measurement_list_item.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,30 +25,9 @@ class SelectMeasurement extends StatelessWidget {
       backgroundColor: AppColors.cF5F7FA,
       body: Column(
         children: [
-          EmmaAppBar(
+          const EmmaAppBar(
             title: 'Выберите показатель',
-            leading: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-              child: Padding(
-                padding: EdgeInsets.only(left: 16.w, top: 5.h, right: 16.w),
-                child: Row(
-                  children: [
-                    AppIcons.chevronLeft(),
-                    Padding(
-                      padding: EdgeInsets.only(left: 6.w),
-                      child: Text(
-                        'Назад',
-                        style: AppTypography.font14.copyWith(
-                          color: AppColors.c00ACE3,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
+            leading: BackLeading(text: 'Назад'),
           ),
           Expanded(
             child: ListView.separated(

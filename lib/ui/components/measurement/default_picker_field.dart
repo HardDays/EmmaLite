@@ -9,6 +9,9 @@ class DefaultPickerField extends StatelessWidget {
   final String hintText;
   final int index;
   final List<String> values;
+  final bool enable;
+  final Color color;
+  final bool haveDecoration;
   final Function(int index) onChange;
 
   const DefaultPickerField({
@@ -18,12 +21,20 @@ class DefaultPickerField extends StatelessWidget {
     this.values,
     this.hintText,
     this.onChange,
+    this.color,
+    this.haveDecoration = true,
+    this.enable = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return DefaultContainer(
+      color: color,
+      haveDecoration: haveDecoration,
       onTap: () async {
+        if (!enable) {
+          return;
+        }
         final res = await showDefaultPicker(
           context: context,
           pickerTitle: title,
@@ -66,7 +77,7 @@ class DefaultPickerField extends StatelessWidget {
                 ),
               ),
             const Spacer(),
-            AppIcons.arrowRight(),
+            if (enable) AppIcons.arrowRight(),
           ],
         ),
       ),

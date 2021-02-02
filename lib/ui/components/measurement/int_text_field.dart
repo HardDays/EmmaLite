@@ -11,6 +11,7 @@ class InputTextField extends StatefulWidget {
   final String value;
   final bool haveFormatter;
   final bool enable;
+  final String initialValue;
 
   const InputTextField({
     Key key,
@@ -22,6 +23,7 @@ class InputTextField extends StatefulWidget {
     this.value,
     this.haveFormatter = true,
     this.enable = true,
+    this.initialValue,
   }) : super(key: key);
 
   @override
@@ -33,7 +35,7 @@ class _InputTextFieldState extends State<InputTextField> {
 
   @override
   void initState() {
-    _controller = TextEditingController(text: widget.value)
+    _controller = TextEditingController(text: widget.initialValue)
       ..addListener(_listener);
     super.initState();
   }

@@ -2,8 +2,9 @@ import 'package:emma_mobile/models/assignment/assign_frequency.dart';
 import 'package:emma_mobile/models/assignment/assign_type.dart';
 import 'package:emma_mobile/models/assignment/tasks.dart';
 import 'package:emma_mobile/utils/utils.dart';
+import 'package:equatable/equatable.dart';
 
-class Assignment {
+class Assignment extends Equatable {
   int id;
 
   AssignType type;
@@ -32,7 +33,7 @@ class Assignment {
 
   String doctorName;
 
-  List<DateTime> stoppedTimes;
+  DateTime stoppedTime;
 
   List<RunTask> runTasks;
 
@@ -54,7 +55,7 @@ class Assignment {
     this.otherTaskDateTime,
     this.runTasks,
     this.doctorName,
-    this.stoppedTimes,
+    this.stoppedTime,
     this.isStopped,
   }) {
     if (id == null) {
@@ -78,7 +79,6 @@ class Assignment {
       endTime = DateTime.now();
       otherTaskDateTime = DateTime.now();
       isRegular = true;
-      stoppedTimes = [];
       periodicTask = PeriodicTask(
         taskTimes: [
           TaskTime(
@@ -91,6 +91,53 @@ class Assignment {
       runTasks = [];
       isStopped = false;
     }
+  }
+
+  Assignment copyFowNew() {
+    return Assignment(
+      isStopped: false,
+      type: type,
+      doctorName: doctorName,
+      unitId: unitId,
+      startTime: startTime,
+      singleTasks: []..addAll(singleTasks),
+      periodicTask: periodicTask,
+      otherTaskDateTime: otherTaskDateTime,
+      isRegular: isRegular,
+      endTime: endTime,
+      dosage: dosage,
+      photos: photos,
+      name: name,
+      frequency: frequency,
+      id: DateTime.now().millisecondsSinceEpoch,
+      runTasks: [],
+    );
+  }
+
+  void stop() {
+    isStopped = true;
+    final now = DateTime.now();
+    stoppedTime = DateTime.now();
+    for (var i = 0; i < runTasks.length; i++) {
+      if (runTasks[i].dateTime.isAfter(now)) {
+        runTasks[i] = runTasks[i].copyWith(enable: false);
+      }
+    }
+  }
+
+  void restore() {
+    isStopped = false;
+    final now = DateTime.now();
+    final dif = stoppedTime.difference(now).inDays;
+    for (var i = 0; i < runTasks.length; i++) {
+      if (runTasks[i].dateTime.isAfter(stoppedTime) &&
+          runTasks[i].dateTime.isAfter(now)) {
+        runTasks[i] = runTasks[i].copyWith(enable: true);
+        runTasks[i].dateTime.add(Duration(days: dif));
+      }
+    }
+    stoppedTime = null;
+    runTasks.removeWhere((e) => !e.enable);
   }
 
   void generateTasks() {
@@ -176,7 +223,7 @@ class Assignment {
     data['singleTasks'] = singleTasks.map((e) => e.toJson()).toList();
     data['periodicTask'] = periodicTask.toJson();
     data['doctorName'] = doctorName;
-    data['stoppedTimes'] = stoppedTimes.map((e) => e.toString()).toList();
+    data['stoppedTime'] = stoppedTime.toString();
     data['runTasks'] = runTasks.map((e) => e.toJson()).toList();
     data['isStopped'] = isStopped;
     return data;
@@ -186,7 +233,7 @@ class Assignment {
     final List photos = json['photos'];
     final List singleTasks = json['singleTasks'];
     final List runTasks = json['runTasks'];
-    final List stoppedTimes = json['stoppedTimes'];
+    final stoppedTime = json['stoppedTime'];
     return Assignment(
       id: json['id'],
       type: assignTypes[json['typeId']],
@@ -203,8 +250,11 @@ class Assignment {
       unitId: json['unitId'],
       runTasks: runTasks.map((e) => RunTask.fromJson(e)).toList(),
       doctorName: json['doctorName'],
-      stoppedTimes: stoppedTimes.map((e) => DateTime.parse(e)).toList(),
+      stoppedTime: stoppedTime == null ? null : DateTime.parse(stoppedTime),
       isStopped: json['isStopped'] ?? false,
     );
   }
+
+  @override
+  List<Object> get props => [id];
 }

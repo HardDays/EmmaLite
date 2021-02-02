@@ -149,13 +149,14 @@ class _Data extends StatelessWidget {
     final bloc = context.bloc<AssignBloc>();
     final detailBloc = context.bloc<AssignScreenBloc>();
 
+    if (bloc.assignment.isEmpty) {
+      return _EmptyAssign();
+    }
+
     if (detailBloc.state is HistoryAssignScreenState) {
       return _History();
     }
 
-    if (bloc.assignment.isEmpty) {
-      return _EmptyAssign();
-    }
     final tasks = bloc.getTaskInDay(date: detailBloc.activeDate);
     final formattedDay = detailBloc.activeDate.assignScreenFormatter;
     if (tasks.isEmpty) {
@@ -165,7 +166,8 @@ class _Data extends StatelessWidget {
             'На ${formattedDay.toLowerCase()} у вас не запланировано назначений.',
       );
     }
-    if (!tasks.any((e) => e.completed) && detailBloc.state is! DoingAssignScreenState) {
+    if (!tasks.any((e) => e.completed) &&
+        detailBloc.state is! DoingAssignScreenState) {
       return _EmptyOrExpired(
         child: AppIcons.prescriptionsInactive(
           width: 44.w,
@@ -190,6 +192,19 @@ class _Data extends StatelessWidget {
             e.enable &&
             e.completed == detailBloc.state is CompletedAssignScreenState)
         .toList();
+    final now = DateTime.now();
+    if (detailBloc.state is DoingAssignScreenState) {
+      stateTasks.sort(
+        (i, j) =>
+            i.dateTime.difference(now).compareTo(j.dateTime.difference(now)),
+      );
+    } else {
+      stateTasks.sort(
+        (i, j) => i.completedDate
+            .difference(now)
+            .compareTo(j.completedDate.difference(now)),
+      );
+    }
     return ListView.separated(
       itemCount: stateTasks.length,
       physics: const BouncingScrollPhysics(),
@@ -210,10 +225,15 @@ class _History extends StatelessWidget {
     final bloc = context.bloc<AssignBloc>();
     final now = DateTime.now();
     final List<Assignment> active = bloc.assignment
-        .where((e) => !e.isStopped && e.endTime.isBefore(now))
+        .where((e) =>
+            !e.isStopped &&
+            e.endTime.isAfter(now) &&
+            e.runTasks.where((e) => e.completed).length != e.runTasks.length)
         .toList();
     final List<Assignment> archive =
         bloc.assignment.where((e) => !active.contains(e)).toList();
+    active.sort((i, j) => i.endTime.compareTo(j.endTime));
+    archive.sort((i, j) => i.endTime.compareTo(j.endTime));
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
@@ -251,9 +271,20 @@ class _ListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final now = DateTime.now();
+    String text;
     final isDisable = assignment.isStopped;
     final count = assignment.runTasks.where((e) => e.enable && e.completed);
+    if (isDisable) {
+      text = 'Отменено';
+    } else if (count.isEmpty) {
+      text = 'Не было приемов';
+    } else if (count.length == assignment.runTasks.length) {
+      text = '${count.length} приемов';
+    } else {
+      final length =
+          assignment.runTasks.where((e) => !e.completed && e.enable).length;
+      text = '${length.getPluralCountTitle} $length ${length.getPluralCount}';
+    }
     return Center(
       child: Padding(
         padding: EdgeInsets.only(top: 10.h),
@@ -307,7 +338,7 @@ class _ListItem extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(top: 2.h),
                       child: Text(
-                        isDisable ? 'Отменено' : 'xxx',
+                        text,
                         style: AppTypography.font14.copyWith(
                           color: AppColors.c9B9B9B,
                         ),

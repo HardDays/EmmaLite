@@ -3,6 +3,7 @@ import 'package:emma_mobile/models/measurements/measurement.dart';
 import 'package:emma_mobile/models/measurements/pulse.dart';
 import 'package:emma_mobile/models/time_enum.dart';
 import 'package:emma_mobile/models/time_range.dart';
+import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
 import 'package:emma_mobile/ui/components/chip.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/screens/measurement/measurement_new.dart';
@@ -96,34 +97,7 @@ class _TopRow extends StatelessWidget {
         padding: EdgeInsets.only(top: 11.h),
         child: Row(
           children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-              behavior: HitTestBehavior.opaque,
-              child: Padding(
-                padding: EdgeInsets.only(
-                  top: 11.h,
-                  bottom: 13.h,
-                  left: 11.w,
-                  right: 8.w,
-                ),
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(right: 6.w),
-                      child: AppIcons.chevronLeft(),
-                    ),
-                    Text(
-                      arrowText ?? 'Измерения',
-                      style: AppTypography.font15.copyWith(
-                        color: AppColors.c00ACE3,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            BackLeading(text: arrowText ?? 'Измерения'),
             const Spacer(),
             Padding(
               padding: EdgeInsets.only(

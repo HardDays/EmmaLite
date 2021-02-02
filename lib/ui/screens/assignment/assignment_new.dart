@@ -9,8 +9,10 @@ import 'package:emma_mobile/models/assignment/assign_unit.dart';
 import 'package:emma_mobile/models/assignment/assignment.dart';
 import 'package:emma_mobile/models/assignment/tasks.dart';
 import 'package:emma_mobile/models/picker_time_range.dart';
+import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
 import 'package:emma_mobile/ui/components/app_bar/small_app_bar.dart';
 import 'package:emma_mobile/ui/components/bottom_sheet.dart';
+import 'package:emma_mobile/ui/components/buttons/emma_border_button.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/components/measurement/date_time_text_field.dart';
@@ -27,22 +29,43 @@ import 'package:intl/intl.dart';
 
 class AssignmentNewScreen extends StatelessWidget {
   final Assignment assignment;
+  final bool isCopy;
 
-  const AssignmentNewScreen({Key key, this.assignment}) : super(key: key);
+  const AssignmentNewScreen({
+    Key key,
+    this.assignment,
+    this.isCopy = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => NewAssignBloc(assignment: assignment),
+      create: (_) => NewAssignBloc(assignment: assignment, isCopy: isCopy),
       lazy: false,
       child: Scaffold(
         backgroundColor: AppColors.cF5F7FA,
         body: Column(
           children: [
-            const SmallAppBar(
-              title: 'Новое назначение',
-              leadingText: 'Отменить',
-            ),
+            if (assignment == null || isCopy)
+              const SmallAppBar(
+                title: 'Новое назначение',
+                leadingText: 'Отменить',
+              )
+            else
+              EmmaAppBar(
+                leading: const BackLeading(text: 'Назначения'),
+                title: 'Карточка назначения',
+                trailing: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 16.h,
+                    ),
+                    child: AppIcons.plus(),
+                  ),
+                ),
+              ),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -70,7 +93,9 @@ class _NewAssign extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(top: 20.h),
               child: DefaultPickerField(
+                color: bloc.containerColor,
                 title: 'Тип назначения',
+                enable: bloc.canChange,
                 index: bloc.assignment.type.index,
                 values: assignTypes.map((e) => e.title).toList(),
                 onChange: bloc.setType,
@@ -79,10 +104,13 @@ class _NewAssign extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(top: 20.h),
               child: DefaultContainer(
+                color: bloc.containerColor,
                 child: InputTextField(
                   formatter: LengthLimitingTextInputFormatter(27),
                   type: TextInputType.text,
+                  enable: bloc.canChange,
                   onChange: bloc.setName,
+                  initialValue: bloc.assignment.name,
                   label: 'Название назначения',
                 ),
               ),
@@ -92,15 +120,21 @@ class _NewAssign extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 20.h),
                 child: DateTimeTextField(
+                  color: bloc.containerColor,
                   minimumDate: DateTime.now(),
                   value: bloc.assignment.otherTaskDateTime,
                   dateFormat: DateFormat('dd MMMM yyyy'),
                   title: 'Дата',
                   hintText: 'Дата',
+                  enable: bloc.canChange,
                 ),
               ),
               DefaultContainer(
+                color: bloc.containerColor,
                 onTap: () async {
+                  if (!bloc.canChange) {
+                    return;
+                  }
                   final time = bloc.assignment.otherTaskDateTime;
                   FocusScope.of(context).unfocus();
                   final res = await showCustomTimePicker(
@@ -121,6 +155,8 @@ class _NewAssign extends StatelessWidget {
                   type: TextInputType.text,
                   value:
                       DateFormat.Hm().format(bloc.assignment.otherTaskDateTime),
+                  initialValue:
+                      DateFormat.Hm().format(bloc.assignment.otherTaskDateTime),
                   haveFormatter: false,
                   enable: false,
                 ),
@@ -131,6 +167,7 @@ class _NewAssign extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(top: 20.h),
                 child: DefaultContainer(
+                  color: bloc.containerColor,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -138,30 +175,38 @@ class _NewAssign extends StatelessWidget {
                         child: InputTextField(
                           label: 'Кто назначил',
                           onChange: bloc.setDoctor,
+                          initialValue: bloc.assignment.doctorName,
                           formatter: LengthLimitingTextInputFormatter(27),
                           type: TextInputType.text,
+                          enable: bloc.canChange,
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w),
-                        child: Container(
-                          width: 44.h,
-                          height: 44.h,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: AppColors.cEBEEF3,
+                      if (bloc.canChange)
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          child: Container(
+                            width: 44.h,
+                            height: 44.h,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: AppColors.cEBEEF3,
+                            ),
+                            child: Center(child: AppIcons.doctors()),
                           ),
-                          child: Center(child: AppIcons.doctors()),
                         ),
-                      ),
                     ],
                   ),
                 ),
               ),
             if (bloc.assignment.type is MedicineAssignType) _Photos(),
-            Padding(
-              padding: EdgeInsets.only(top: 20.h, bottom: 32.h),
-              child: EmmaFilledButton(
+            Padding(padding: EdgeInsets.only(top: 20.h)),
+            if (!bloc.isCreate) ...[
+              if (bloc.assignment.isStopped)
+                _RestoreButtons()
+              else
+                _StopButtons(),
+            ] else
+              EmmaFilledButton(
                 isActive: bloc.enableSave,
                 onTap: () {
                   final assign = bloc.assignment;
@@ -171,10 +216,92 @@ class _NewAssign extends StatelessWidget {
                 },
                 title: 'Сохранить',
               ),
-            )
+            Padding(padding: EdgeInsets.only(top: 32.h)),
           ],
         );
       },
+    );
+  }
+}
+
+class _RestoreButtons extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final bloc = context.bloc<NewAssignBloc>();
+    return Column(
+      children: [
+        EmmaFilledButton(
+          onTap: () {
+            bloc.assignment.restore();
+            context.bloc<AssignBloc>().updateAssignment(bloc.assignment);
+            Navigator.of(context).pop();
+          },
+          title: 'Восстановить',
+          width: 288.w,
+          height: 50.h,
+          fontSize: Constants.textSize18,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 12.h),
+          child: EmmaBorderButton(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => AssignmentNewScreen(
+                    assignment: bloc.assignment.copyFowNew(),
+                    isCopy: true,
+                  ),
+                ),
+              );
+            },
+            text: 'Создать копию',
+          ),
+        ),
+        EmmaFilledButton(
+          onTap: () {
+            context.bloc<AssignBloc>().deleteAssignment(bloc.assignment);
+            Navigator.of(context).pop();
+          },
+          title: 'Удалить',
+          width: 288.w,
+          height: 50.h,
+          fontSize: Constants.textSize18,
+          activeColor: AppColors.cFF3B30,
+        ),
+      ],
+    );
+  }
+}
+
+class _StopButtons extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final bloc = context.bloc<NewAssignBloc>();
+    return Column(
+      children: [
+        EmmaBorderButton(
+          text: 'Остановить выполнение',
+          onTap: () {
+            bloc.assignment.stop();
+            context.bloc<AssignBloc>().updateAssignment(bloc.assignment);
+            Navigator.of(context).pop();
+          },
+        ),
+        if (bloc.isChange)
+          Padding(
+            padding: EdgeInsets.only(top: 20.h),
+            child: EmmaFilledButton(
+              isActive: bloc.enableSave,
+              onTap: () {
+                final assign = bloc.assignment;
+                assign.generateTasks();
+                context.bloc<AssignBloc>().updateAssignment(assign);
+                Navigator.of(context).pop();
+              },
+              title: 'Сохранить',
+            ),
+          ),
+      ],
     );
   }
 }
@@ -189,23 +316,29 @@ class _FullTypeWidgets extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: 20.h),
             child: DefaultContainer(
+              color: bloc.containerColor,
               child: Column(
                 children: [
                   InputTextField(
                     isInt: true,
                     label: 'Дозировка',
                     onChange: bloc.setDosage,
+                    initialValue: bloc.assignment.dosage?.toString(),
+                    enable: bloc.canChange,
                   ),
                   Padding(
                     padding: EdgeInsets.only(left: 16.w),
                     child: Container(
-                      height: 1.h,
+                      height: 2.h,
                       width: MediaQuery.of(context).size.width,
                       color: AppColors.cE6E9EB,
                     ),
                   ),
                   DefaultPickerField(
+                    color: bloc.containerColor,
+                    haveDecoration: false,
                     title: 'Единица измерения',
+                    enable: bloc.canChange,
                     index: bloc.assignment.unitId,
                     values: assignUnits,
                     onChange: bloc.setUnit,
@@ -217,25 +350,29 @@ class _FullTypeWidgets extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(top: 20.h),
           child: DefaultContainer(
+            color: bloc.containerColor,
             child: Column(
               children: [
                 DateTimeTextField(
+                  color: bloc.containerColor,
                   title: 'Дата начала',
                   hintText: 'Дата начала',
                   dateFormat: DateFormat('dd MMMM yyyy'),
                   value: bloc.assignment.startTime,
                   onChange: bloc.setStartTime,
                   haveDecoration: false,
+                  enable: bloc.canChange,
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 16.w),
                   child: Container(
-                    height: 1.h,
+                    height: 2.h,
                     width: MediaQuery.of(context).size.width,
                     color: AppColors.cE6E9EB,
                   ),
                 ),
                 DateTimeTextField(
+                  color: bloc.containerColor,
                   title: 'Дата окончания',
                   hintText: 'Дата окончания',
                   dateFormat: DateFormat('dd MMMM yyyy'),
@@ -243,6 +380,7 @@ class _FullTypeWidgets extends StatelessWidget {
                   minimumDate: DateTime.now(),
                   onChange: bloc.setEndTime,
                   haveDecoration: false,
+                  enable: bloc.canChange,
                 ),
               ],
             ),
@@ -251,8 +389,10 @@ class _FullTypeWidgets extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(top: 20.h),
           child: DefaultPickerField(
+            color: bloc.containerColor,
             title: 'Частота',
             index: bloc.assignment.frequency,
+            enable: bloc.canChange,
             onChange: bloc.setFrequency,
             hintText: 'Частота',
             values: assignFrequency,
@@ -261,6 +401,7 @@ class _FullTypeWidgets extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(top: 20.h),
           child: DefaultContainer(
+            color: bloc.containerColor,
             minHeight: 94.h,
             child: Padding(
               padding: EdgeInsets.only(
@@ -282,11 +423,13 @@ class _FullTypeWidgets extends StatelessWidget {
                     title: 'Регулярно',
                     onTap: () => bloc.setIsRegular(regular: true),
                     value: bloc.assignment.isRegular,
+                    enable: bloc.canChange,
                   ),
                   _RadioButton(
                     title: 'Единоразово',
                     onTap: () => bloc.setIsRegular(regular: false),
                     value: !bloc.assignment.isRegular,
+                    enable: bloc.canChange,
                   ),
                 ],
               ),
@@ -305,7 +448,9 @@ class _FullTypeWidgets extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(top: 20.h),
                     child: DefaultPickerField(
+                      color: bloc.containerColor,
                       title: 'День недели',
+                      enable: bloc.canChange,
                       index: bloc.assignment.singleTasks[i].dayNumber,
                       hintText: 'День недели',
                       onChange: (value) => bloc.setWeekday(
@@ -337,6 +482,8 @@ class _FullTypeWidgets extends StatelessWidget {
                 padding: EdgeInsets.only(top: 20.h),
                 child: DefaultPickerField(
                   title: 'Регулярность',
+                  enable: bloc.canChange,
+                  color: bloc.containerColor,
                   index: bloc.assignment.periodicTask.type.index,
                   hintText: 'Регулярность',
                   onChange: (value) => bloc.setRegularTypeCount(
@@ -439,7 +586,9 @@ class _TimesGrid extends StatelessWidget {
       shrinkWrap: true,
       itemBuilder: (_, i) {
         return _TimeItem(
+          color: bloc.containerColor,
           taskTime: taskTimes[i],
+          enable: bloc.canChange,
           onTap: () async {
             FocusScope.of(context).unfocus();
             final res = await showCustomTimePicker(
@@ -464,13 +613,22 @@ class _TimesGrid extends StatelessWidget {
 class _TimeItem extends StatelessWidget {
   final TaskTime taskTime;
   final Function onTap;
+  final bool enable;
+  final Color color;
 
-  const _TimeItem({Key key, this.taskTime, this.onTap}) : super(key: key);
+  const _TimeItem({
+    Key key,
+    this.taskTime,
+    this.onTap,
+    this.enable = true,
+    this.color,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return DefaultContainer(
-      onTap: onTap,
+      color: color,
+      onTap: enable ? onTap : null,
       child: Padding(
         padding: EdgeInsets.only(
           top: 8.h,
@@ -508,7 +666,7 @@ class _TimeItem extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            AppIcons.arrowRight()
+            if (enable) AppIcons.arrowRight()
           ],
         ),
       ),
@@ -520,18 +678,24 @@ class _RadioButton extends StatelessWidget {
   final bool value;
   final String title;
   final Function onTap;
+  final bool enable;
 
   const _RadioButton({
     Key key,
     this.value = true,
     this.title,
     this.onTap,
+    this.enable = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: value ? null : onTap,
+      onTap: enable
+          ? value
+              ? null
+              : onTap
+          : null,
       behavior: HitTestBehavior.opaque,
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 4.h),
@@ -604,34 +768,35 @@ class _Photos extends StatelessWidget {
               },
             ),
           ),
-        Padding(
-          padding: EdgeInsets.only(top: 20.h),
-          child: GestureDetector(
-            onTap: bloc.pickImage,
-            behavior: HitTestBehavior.opaque,
-            child: Padding(
-              padding: EdgeInsets.only(
-                right: 16.w,
-                top: 12.h,
-                bottom: 12.h,
-              ),
-              child: Row(
-                children: [
-                  AppIcons.paperClip(),
-                  Padding(
-                    padding: EdgeInsets.only(left: 8.w),
-                    child: Text(
-                      'Добавить изображение',
-                      style: AppTypography.font16.copyWith(
-                        color: AppColors.c00ACE3,
+        if (bloc.canChange)
+          Padding(
+            padding: EdgeInsets.only(top: 20.h),
+            child: GestureDetector(
+              onTap: bloc.pickImage,
+              behavior: HitTestBehavior.opaque,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  right: 16.w,
+                  top: 12.h,
+                  bottom: 12.h,
+                ),
+                child: Row(
+                  children: [
+                    AppIcons.paperClip(),
+                    Padding(
+                      padding: EdgeInsets.only(left: 8.w),
+                      child: Text(
+                        'Добавить изображение',
+                        style: AppTypography.font16.copyWith(
+                          color: AppColors.c00ACE3,
+                        ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
           ),
-        ),
       ],
     );
   }
@@ -658,6 +823,7 @@ class _Photo extends StatelessWidget {
                     photos: bloc.assignment.photos,
                     initIndex: index,
                     onDelete: (i) => bloc.deletePhoto(index: i),
+                    canChange: bloc.canChange,
                   );
                 },
               ),
@@ -675,38 +841,42 @@ class _Photo extends StatelessWidget {
                 height: 134.w,
                 fit: BoxFit.cover,
               ),
-              Positioned(
-                bottom: 0,
-                child: Container(
-                  width: 137.w,
-                  height: 40.h,
-                  color: AppColors.cFFFFFF.withOpacity(0.7),
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: GestureDetector(
-                      onTap: () {
-                        showCupertinoWith2Button(context,
+              if (bloc.canChange)
+                Positioned(
+                  bottom: 0,
+                  child: Container(
+                    width: 137.w,
+                    height: 40.h,
+                    color: AppColors.cFFFFFF.withOpacity(0.7),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector(
+                        onTap: () {
+                          showCupertinoWith2Button(
+                            context,
                             leftText: 'Да',
                             rightText: 'Нет',
                             subtitle: 'Удалить изображение?',
                             leftTap: (context) {
-                          bloc.deletePhoto(index: index);
-                          Navigator.of(context).pop();
-                        }, rightTap: (context) {
-                          Navigator.of(context).pop();
-                        });
-                      },
-                      behavior: HitTestBehavior.opaque,
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 9.w, bottom: 1.h),
-                        child: AppIcons.trash(
-                          color: AppColors.c3B4047,
+                              bloc.deletePhoto(index: index);
+                              Navigator.of(context).pop();
+                            },
+                            rightTap: (context) {
+                              Navigator.of(context).pop();
+                            },
+                          );
+                        },
+                        behavior: HitTestBehavior.opaque,
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 9.w, bottom: 1.h),
+                          child: AppIcons.trash(
+                            color: AppColors.c3B4047,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              )
+                )
             ],
           ),
         ),

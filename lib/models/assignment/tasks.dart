@@ -54,8 +54,8 @@ class RunTask {
     final data = <String, dynamic>{};
     data['enable'] = enable;
     data['dateTime'] = dateTime.toString();
-    data['completed'] = completed;
     data['count'] = count;
+    data['completedDate'] = completedDate;
     data['typeId'] = type.index;
     data['assignName'] = assignName;
     data['assignId'] = assignId;

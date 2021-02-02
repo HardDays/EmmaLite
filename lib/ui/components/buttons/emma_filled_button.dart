@@ -15,6 +15,7 @@ class EmmaFilledButton extends StatelessWidget {
     this.child,
     this.reverseTap = false,
     this.fontSize,
+    this.haveShadow = false,
   }) : super(key: key);
 
   final double width;
@@ -28,6 +29,7 @@ class EmmaFilledButton extends StatelessWidget {
   final String title;
   final Widget child;
   final double fontSize;
+  final bool haveShadow;
 
   @override
   Widget build(BuildContext context) {
@@ -39,15 +41,9 @@ class EmmaFilledButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: isActive ? activeColor : inactiveColor,
           boxShadow: [
-            if (isActive)
+            if (haveShadow)
               const BoxShadow(
                 color: Color.fromRGBO(0, 172, 227, 0.3),
-                blurRadius: 4,
-                offset: Offset(0, 2),
-              )
-            else
-              const BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.08),
                 blurRadius: 4,
                 offset: Offset(0, 2),
               )

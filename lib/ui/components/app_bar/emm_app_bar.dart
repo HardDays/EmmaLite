@@ -1,3 +1,4 @@
+import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -60,6 +61,44 @@ class EmmaAppBar extends StatelessWidget {
             ),
           )
         ],
+      ),
+    );
+  }
+}
+
+class BackLeading extends StatelessWidget {
+  final String text;
+
+  const BackLeading({Key key, this.text}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pop();
+      },
+      behavior: HitTestBehavior.opaque,
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: 11.h,
+          bottom: 13.h,
+          left: 11.w,
+          right: 8.w,
+        ),
+        child: Row(
+          children: [
+            AppIcons.chevronLeft(),
+            Padding(
+              padding: EdgeInsets.only(left: 6.w),
+              child: Text(
+                text,
+                style: AppTypography.font14.copyWith(
+                  color: AppColors.c00ACE3,
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
