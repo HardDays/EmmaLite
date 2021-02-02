@@ -15,7 +15,7 @@ class EmmaFilledButton extends StatelessWidget {
     this.child,
     this.reverseTap = false,
     this.fontSize,
-    this.haveShadow = false,
+    this.haveShadow = true,
   }) : super(key: key);
 
   final double width;
@@ -40,14 +40,22 @@ class EmmaFilledButton extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         decoration: BoxDecoration(
           color: isActive ? activeColor : inactiveColor,
-          boxShadow: [
-            if (haveShadow)
-              const BoxShadow(
-                color: Color.fromRGBO(0, 172, 227, 0.3),
-                blurRadius: 4,
-                offset: Offset(0, 2),
-              )
-          ],
+          boxShadow: haveShadow
+              ? [
+                  if (haveShadow)
+                    const BoxShadow(
+                      color: Color.fromRGBO(0, 172, 227, 0.3),
+                      blurRadius: 4,
+                      offset: Offset(0, 2),
+                    )
+                  else
+                    const BoxShadow(
+                      color: Color.fromRGBO(0, 0, 0, 0.08),
+                      blurRadius: 4,
+                      offset: Offset(0, 2),
+                    )
+                ]
+              : null,
           borderRadius: BorderRadius.circular(borderRadius),
         ),
         child: SizedBox(

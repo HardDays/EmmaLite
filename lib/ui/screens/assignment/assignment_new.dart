@@ -265,6 +265,7 @@ class _RestoreButtons extends StatelessWidget {
           title: 'Удалить',
           width: 288.w,
           height: 50.h,
+          haveShadow: false,
           fontSize: Constants.textSize18,
           activeColor: AppColors.cFF3B30,
         ),
