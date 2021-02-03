@@ -20,8 +20,11 @@ abstract class LineScatterCandleRadarDataSet<T extends Entry>
   /// the path effect for dashed highlight-lines
 //   DashPathEffect mHighlightDashPathEffect = null;
 
-  LineScatterCandleRadarDataSet(List<T> yVals, String label)
-      : super(yVals, label) {
+  LineScatterCandleRadarDataSet(
+    List<T> yVals,
+    String label, {
+    double multiplier,
+  }) : super(yVals, label, multiplier: multiplier) {
     _highlightLineWidth = Utils.convertDpToPixel(0.5);
   }
 

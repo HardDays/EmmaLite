@@ -193,15 +193,12 @@ class _TimeRangeView extends StatelessWidget {
         bloc.setTimeRange(timeRange);
       },
       behavior: HitTestBehavior.opaque,
-      child: Padding(
-        padding: EdgeInsets.only(top: 11.h, bottom: 7.h),
-        child: Center(
-          child: Text(
-            timeRange.toString(),
-            style: AppTypography.font12.copyWith(
-              fontWeight: isActive ? FontWeight.w700 : FontWeight.w400,
-              color: isActive ? AppColors.c00ACE3 : AppColors.cBFBFBF,
-            ),
+      child: Center(
+        child: Text(
+          timeRange.toString(),
+          style: AppTypography.font12.copyWith(
+            fontWeight: isActive ? FontWeight.w700 : FontWeight.w400,
+            color: isActive ? AppColors.c00ACE3 : AppColors.cBFBFBF,
           ),
         ),
       ),

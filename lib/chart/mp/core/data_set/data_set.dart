@@ -18,14 +18,21 @@ abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
   /// minimum x-value in the value array
   double _xMin = double.infinity;
 
+  double _multiplier;
+
   /// Creates a  DataSet object with the given values (entries) it represents. Also, a
   /// label that describes the DataSet can be specified. The label can also be
   /// used to retrieve the DataSet from a ChartData object.
   ///
   /// @param values
   /// @param label
-  DataSet(List<T> values, String label) : super.withLabel(label) {
+  DataSet(
+    List<T> values,
+    String label, {
+    double multiplier,
+  }) : super.withLabel(label) {
     this._values = values;
+    _multiplier = multiplier;
 
     if (_values == null) _values = List<T>();
 
@@ -87,9 +94,9 @@ abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
 
   void calcMinMaxYLast() {
     if (_values.isNotEmpty) {
-      if (_values.last.y < _yMin) _yMin = _values.last.y - 10;
+      if (_values.last.y < _yMin) _yMin = _values.last.y;
 
-      if (_values.last.y > _yMax) _yMax = _values.last.y + 10;
+      if (_values.last.y > _yMax) _yMax = _values.last.y;
     }
   }
 
@@ -154,12 +161,12 @@ abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
 
   @override
   double getYMin() {
-    return _yMin - _yMin * 0.03;
+    return _yMin - _yMin * _multiplier; // todo
   }
 
   @override
   double getYMax() {
-    return _yMax + _yMin * 0.03;
+    return _yMax + _yMin * _multiplier; // todo
   }
 
   @override

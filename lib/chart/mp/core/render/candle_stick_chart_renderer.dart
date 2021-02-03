@@ -1,4 +1,3 @@
-import 'package:flutter/painting.dart';
 import 'package:emma_mobile/chart/mp/core/adapter_android_mp.dart';
 import 'package:emma_mobile/chart/mp/core/animator.dart';
 import 'package:emma_mobile/chart/mp/core/data/candle_data.dart';
@@ -15,6 +14,9 @@ import 'package:emma_mobile/chart/mp/core/utils/painter_utils.dart';
 import 'package:emma_mobile/chart/mp/core/utils/utils.dart';
 import 'package:emma_mobile/chart/mp/core/value_formatter/value_formatter.dart';
 import 'package:emma_mobile/chart/mp/core/view_port.dart';
+import 'package:emma_mobile/ui/components/measurement/candle_chart.dart';
+import 'package:emma_mobile/utils/utils.dart';
+import 'package:flutter/painting.dart';
 
 class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
   CandleDataProvider _porvider;
@@ -53,7 +55,6 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
     bool showCandleBar = dataSet.getShowCandleBar();
 
     xBounds.set(_porvider, dataSet);
-
     renderPaint.strokeWidth = dataSet.getShadowWidth();
 
     // draw the body
@@ -123,8 +124,8 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
 
         renderPaint.style = PaintingStyle.stroke;
 
-        CanvasUtils.drawLines(
-            c, _shadowBuffers, 0, _shadowBuffers.length, renderPaint);
+        // CanvasUtils.drawLines( //todo мое
+        //     c, _shadowBuffers, 0, _shadowBuffers.length, renderPaint);
 
         // calculate the body
 
@@ -134,6 +135,9 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
         _bodyBuffers[3] = open * phaseY;
 
         trans.pointValuesToPixel(_bodyBuffers);
+
+        _bodyBuffers[0] = (e.mData as double) - 4.w;
+        _bodyBuffers[2] = (e.mData as double) + 4.w;
 
         // draw body differently for increasing and decreasing entry
         if (open > close) {
@@ -146,11 +150,61 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
           }
 
           renderPaint.style = PaintingStyle.fill;
+          // todo мое
+          c.drawRRect(
+            RRect.fromLTRBR(
+              _bodyBuffers[0],
+              _bodyBuffers[3],
+              _bodyBuffers[2],
+              _bodyBuffers[1],
+              const Radius.circular(4),
+            ),
+            renderPaint,
+          );
 
-          c.drawRect(
-              Rect.fromLTRB(_bodyBuffers[0], _bodyBuffers[3], _bodyBuffers[2],
-                  _bodyBuffers[1]),
-              renderPaint);
+          if (e.isMax) {
+            drawCircle(
+              x: _bodyBuffers[0] + 4.w,
+              y: _bodyBuffers[3] + 5.h,
+              color: AppColors.cFFFFFF,
+              style: PaintingStyle.fill,
+              c: c,
+              size: 4,
+            );
+
+            renderText(
+              x: _bodyBuffers[0] + 4.w,
+              y: _bodyBuffers[3] + 5.h,
+              c: c,
+              index: j,
+              dataSet: dataSet,
+              showMax: true,
+            );
+          }
+          if (e.isMin) {
+            drawCircle(
+              x: _bodyBuffers[2] - 4.w,
+              y: _bodyBuffers[1] - 6.h,
+              color: AppColors.cFFFFFF,
+              style: PaintingStyle.fill,
+              c: c,
+              size: 4,
+            );
+
+            renderText(
+              x: _bodyBuffers[2] - 4.w,
+              y: _bodyBuffers[1] - 6.h,
+              c: c,
+              index: j,
+              dataSet: dataSet,
+              showMax: false,
+            );
+          }
+
+          // c.drawRect(
+          //     Rect.fromLTRB(_bodyBuffers[0], _bodyBuffers[3], _bodyBuffers[2],
+          //         _bodyBuffers[1]),
+          //     renderPaint);
         } else if (open < close) {
           if (dataSet.getIncreasingColor() == ColorUtils.COLOR_NONE) {
             renderPaint.color = dataSet.getColor2(j);
@@ -166,15 +220,24 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
               renderPaint);
         } else {
           // equal values
+          drawCircle(
+            x: _bodyBuffers[0],
+            y: _bodyBuffers[1],
+            color: dataSet.getDecreasingColor(),
+            style:
+                e.isMin || e.isMax ? PaintingStyle.stroke : PaintingStyle.fill,
+            c: c,
+          );
 
-          if (dataSet.getNeutralColor() == ColorUtils.COLOR_NONE) {
-            renderPaint.color = dataSet.getColor2(j);
-          } else {
-            renderPaint.color = dataSet.getNeutralColor();
-          }
-
-          c.drawLine(Offset(_bodyBuffers[0], _bodyBuffers[1]),
-              Offset(_bodyBuffers[2], _bodyBuffers[3]), renderPaint);
+          renderText(
+            x: _bodyBuffers[0],
+            y: _bodyBuffers[1],
+            c: c,
+            index: j,
+            dataSet: dataSet,
+          );
+          // c.drawLine(Offset(_bodyBuffers[0], _bodyBuffers[1]),
+          //     Offset(_bodyBuffers[2], _bodyBuffers[3]), renderPaint);
         }
       } else {
         _rangeBuffers[0] = xPos;
@@ -221,6 +284,79 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
             Offset(_closeBuffers[2], _closeBuffers[3]), renderPaint);
       }
     }
+  }
+
+  void renderText({
+    double x,
+    double y,
+    int index,
+    ICandleDataSet dataSet,
+    Canvas c,
+    bool showMax,
+  }) {
+    final item = dataSet.getEntryForIndex(index);
+    if (!item.isMin && !item.isMax) {
+      return;
+    }
+
+    final formatter = dataSet.getValueFormatter() as CandleLabelFormatter;
+
+    final textSize = Utils.calcTextHeight(
+      TextPainter(
+        maxLines: 2,
+        text: TextSpan(
+          text: formatter.getIndexAxisLabel(index),
+          style: TextStyle(
+            fontWeight: dataSet.getValueTypeface().fontWeight,
+            fontSize: dataSet.getValueTextSize(),
+          ),
+        ),
+      ),
+      formatter.getIndexAxisLabel(index),
+    );
+
+    double size;
+    final minSize = y + textSize + 5.h;
+    final maxSize = y - 5.h;
+    if (showMax == null) {
+      size = item.isMin ? minSize : maxSize;
+    } else {
+      if (showMax) {
+        size = maxSize;
+      } else {
+        size = minSize;
+      }
+    }
+
+    drawValue(
+      c,
+      formatter.getIndexAxisLabel(index, showMax: showMax),
+      x,
+      size,
+      dataSet.getValueTextColor2(index ~/ 2),
+      dataSet.getValueTextSize(),
+      dataSet.getValueTypeface(),
+    );
+  }
+
+  // todo мое
+  void drawCircle({
+    double x,
+    double y,
+    PaintingStyle style,
+    Color color,
+    Canvas c,
+    double size,
+  }) {
+    renderPaint.color = color;
+    renderPaint.style = style;
+    size ??= style == PaintingStyle.fill ? 5.0 : 4.0;
+
+    c.drawCircle(
+      Offset(x, y),
+      size,
+      renderPaint,
+    );
   }
 
   @override

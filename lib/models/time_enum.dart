@@ -22,6 +22,8 @@ abstract class DateTimeType {
   String rightFormatter({DateTime timeTo});
 
   double percentDate(DateTime time, {DateTime startDateTime});
+
+  int getCandleInt(DateTime dateTime);
 }
 
 class HourDateTime implements DateTimeType {
@@ -59,6 +61,9 @@ class HourDateTime implements DateTimeType {
   String rightFormatter({DateTime timeTo}) {
     return '';
   }
+
+  @override
+  int getCandleInt(DateTime dateTime) => dateTime.hour;
 }
 
 class DayDateTime implements DateTimeType {
@@ -99,6 +104,9 @@ class DayDateTime implements DateTimeType {
   String rightFormatter({DateTime timeTo}) {
     return DateFormat('dd LLL').format(timeTo.add(const Duration(days: 1)));
   }
+
+  @override
+  int getCandleInt(DateTime dateTime) => dateTime.day;
 }
 
 class WeekDateTime implements DateTimeType {
@@ -141,6 +149,10 @@ class WeekDateTime implements DateTimeType {
   String rightFormatter({DateTime timeTo}) {
     return DateFormat('dd LLL').format(timeTo);
   }
+
+
+  @override
+  int getCandleInt(DateTime dateTime) => dateTime.day;
 }
 
 class MonthDateTime implements DateTimeType {
@@ -172,6 +184,10 @@ class MonthDateTime implements DateTimeType {
   String rightFormatter({DateTime timeTo}) {
     return DateFormat('dd LLL yyyy').format(timeTo);
   }
+
+
+  @override
+  int getCandleInt(DateTime dateTime) => dateTime.month;
 }
 
 class YearDateTime implements DateTimeType {
@@ -216,4 +232,8 @@ class YearDateTime implements DateTimeType {
   String rightFormatter({DateTime timeTo}) {
     return DateFormat('LLL yyyy').format(timeTo);
   }
+
+
+  @override
+  int getCandleInt(DateTime dateTime) => dateTime.year;
 }

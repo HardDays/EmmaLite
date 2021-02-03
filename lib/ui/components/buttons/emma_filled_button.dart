@@ -42,7 +42,7 @@ class EmmaFilledButton extends StatelessWidget {
           color: isActive ? activeColor : inactiveColor,
           boxShadow: haveShadow
               ? [
-                  if (haveShadow)
+                  if (isActive)
                     const BoxShadow(
                       color: Color.fromRGBO(0, 172, 227, 0.3),
                       blurRadius: 4,

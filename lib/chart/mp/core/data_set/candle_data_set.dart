@@ -47,7 +47,11 @@ class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry>
   /// color
   Color _shadowColor = ColorUtils.COLOR_SKIP;
 
-  CandleDataSet(List<CandleEntry> yVals, String label) : super(yVals, label);
+  CandleDataSet(
+    List<CandleEntry> yVals,
+    String label, {
+    double multiplier,
+  }) : super(yVals, label, multiplier: multiplier);
 
   @override
   DataSet<CandleEntry> copy1() {

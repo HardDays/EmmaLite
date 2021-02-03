@@ -3,6 +3,7 @@ import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/components/measurement/default_container.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
 class DateTimeTextField extends StatelessWidget {
@@ -16,6 +17,7 @@ class DateTimeTextField extends StatelessWidget {
   final DateTime maximumDate;
   final bool enable;
   final Color color;
+  final CupertinoDatePickerMode mode;
 
   const DateTimeTextField({
     Key key,
@@ -29,6 +31,7 @@ class DateTimeTextField extends StatelessWidget {
     this.maximumDate,
     this.enable = true,
     this.color,
+    this.mode = CupertinoDatePickerMode.dateAndTime,
   }) : super(key: key);
 
   @override
@@ -44,7 +47,8 @@ class DateTimeTextField extends StatelessWidget {
           context: context,
           pickerTitle: title,
           minimumDate: minimumDate,
-          maximumDate: maximumDate,
+          maximumDate: maximumDate?.add(const Duration(seconds: 10)),
+          mode: mode,
         );
         if (res != null) {
           onChange?.call(res);

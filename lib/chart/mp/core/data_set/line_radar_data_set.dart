@@ -27,7 +27,8 @@ abstract class LineRadarDataSet<T extends Entry>
 
   bool _gradientEnable = false;
 
-  LineRadarDataSet(List<T> yVals, String label) : super(yVals, label);
+  LineRadarDataSet(List<T> yVals, String label, {double multiplier})
+      : super(yVals, label, multiplier: multiplier);
 
   @override
   Color getFillColor() {

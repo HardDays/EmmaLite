@@ -1,4 +1,3 @@
-import 'package:flutter/painting.dart';
 import 'package:emma_mobile/chart/mp/core/adapter_android_mp.dart';
 import 'package:emma_mobile/chart/mp/core/data_interfaces/i_line_data_set.dart';
 import 'package:emma_mobile/chart/mp/core/data_set/base_data_set.dart';
@@ -10,6 +9,7 @@ import 'package:emma_mobile/chart/mp/core/fill_formatter/default_fill_formatter.
 import 'package:emma_mobile/chart/mp/core/fill_formatter/i_fill_formatter.dart';
 import 'package:emma_mobile/chart/mp/core/utils/color_utils.dart';
 import 'package:emma_mobile/chart/mp/core/utils/utils.dart';
+import 'package:flutter/painting.dart';
 
 class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet {
   /// Drawing mode for this line dataset
@@ -48,7 +48,11 @@ class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet {
   // todo мое
   int _startPaintIndex = 0;
 
-  LineDataSet(List<Entry> yVals, String label) : super(yVals, label) {
+  LineDataSet(
+    List<Entry> yVals,
+    String label, {
+    double multiplier,
+  }) : super(yVals, label, multiplier: multiplier) {
     // _circleRadius = Utils.convertDpToPixel(4f);
     // mLineWidth = Utils.convertDpToPixel(1f);
 

@@ -24,6 +24,7 @@ import 'package:emma_mobile/ui/screens/detail_photo_screen.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
@@ -110,9 +111,11 @@ class _NewAssign extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 20.h),
                 child: DateTimeTextField(
+                  mode: CupertinoDatePickerMode.date,
                   color: bloc.containerColor,
                   minimumDate: DateTime.now(),
                   value: bloc.assignment.otherTaskDateTime,
+                  onChange: bloc.setOtherDate,
                   dateFormat: DateFormat('dd MMMM yyyy'),
                   title: 'Дата',
                   hintText: 'Дата',

@@ -148,6 +148,15 @@ class NewAssignBloc extends Cubit<NewAssignState> {
     _update();
   }
 
+  void setOtherDate(DateTime date) {
+    _assignment.otherTaskDateTime = _assignment.otherTaskDateTime.copyWith(
+      year: date.year,
+      month: date.month,
+      day: date.day,
+    );
+    _update();
+  }
+
   void setOthersTime(TaskTime time) {
     final prev = _assignment.otherTaskDateTime;
     _assignment.otherTaskDateTime = DateTime(

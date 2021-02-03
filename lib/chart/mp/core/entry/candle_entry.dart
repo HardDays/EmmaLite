@@ -1,4 +1,3 @@
-
 import 'dart:ui' as ui;
 
 import 'package:emma_mobile/chart/mp/core/entry/entry.dart';
@@ -16,19 +15,27 @@ class CandleEntry extends Entry {
   /// open value
   double _open = 0;
 
-  CandleEntry(
-      {double x,
-      double shadowH,
-      double shadowL,
-      double open,
-      double close,
-      ui.Image icon,
-      Object data})
-      : super(x: x, y: (shadowH + shadowL) / 2, icon: icon, data: data) {
+  bool _isMin = false; //todo мое
+
+  bool _isMax = false;
+
+  CandleEntry({
+    double x,
+    double shadowH,
+    double shadowL,
+    double open,
+    double close,
+    ui.Image icon,
+    Object data,
+    bool isMin,
+    bool isMax,
+  }) : super(x: x, y: (shadowH + shadowL) / 2, icon: icon, data: data) {
     this._shadowHigh = shadowH;
     this._shadowLow = shadowL;
     this._open = open;
     this._close = close;
+    this._isMin = isMin;
+    this._isMax = isMax;
   }
 
   /// Returns the overall range (difference) between shadow-high and
@@ -56,6 +63,10 @@ class CandleEntry extends Entry {
         data: mData);
     return c;
   }
+
+  bool get isMin => _isMin; //todo мое
+
+  bool get isMax => _isMax;
 
   // ignore: unnecessary_getters_setters
   double get open => _open;

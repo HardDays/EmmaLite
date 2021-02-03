@@ -7,7 +7,6 @@ import 'package:emma_mobile/chart/mp/core/data_set/data_set.dart';
 import 'package:emma_mobile/chart/mp/core/entry/bar_entry.dart';
 import 'package:emma_mobile/chart/mp/core/utils/color_utils.dart';
 
-
 class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry>
     implements IBarDataSet {
   /// the maximum number of bars that are stacked upon each other, this value
@@ -30,7 +29,11 @@ class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry>
   /// array of labels used to describe the different values of the stacked bars
   List<String> _stackLabels = List()..add("Stack");
 
-  BarDataSet(List<BarEntry> yVals, String label) : super(yVals, label) {
+  BarDataSet(
+    List<BarEntry> yVals,
+    String label, {
+    double multiplier,
+  }) : super(yVals, label, multiplier: multiplier) {
     setHighLightColor(Color.fromARGB(255, 0, 0, 0));
     calcStackSize(yVals);
     calcEntryCountIncludingStacks(yVals);

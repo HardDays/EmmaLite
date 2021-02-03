@@ -96,33 +96,43 @@ class MeasurementDetailBloc extends Cubit<MeasurementDetailState> {
     if (_data.isEmpty)
       return;
     if (_measurement is ArterialPressure) {
-      final data = _data.map((e) => e as ArterialPressure).toList();
-      data.sort((i, j) => i.under.compareTo(j.under));
-      _min = data.first.under.toString();
-      _max = data.last.under.toString();
-      data.sort((i, j) => i.top.compareTo(j.top));
-      _min = '$_min/${data.first.top}';
-      _max = '$_max/${data.last.top}';
+      final items = data.map((e) => e as ArterialPressure).toList();
+      items.sort((i, j) => i.under.compareTo(j.under));
+      if (items.isNotEmpty) {
+        _min = items.first.under.toString();
+        _max = items.last.under.toString();
+        items.sort((i, j) => i.top.compareTo(j.top));
+        _min = '$_min/${items.first.top}';
+        _max = '$_max/${items.last.top}';
+      }
     } else if (_measurement is BloodSugar) {
-      final data = _data.map((e) => e as BloodSugar).toList();
-      data.sort((i, j) => i.sugar.compareTo(j.sugar));
-      _min = data.first.sugar.toString();
-      _max = data.last.sugar.toString();
+      final items = data.map((e) => e as BloodSugar).toList();
+      items.sort((i, j) => i.sugar.compareTo(j.sugar));
+     if (items.isNotEmpty) {
+       _min = items.first.sugar.toString();
+       _max = items.last.sugar.toString();
+     }
     } else if (_measurement is HeightModel) {
-      final data = _data.map((e) => e as HeightModel).toList();
-      data.sort((i, j) => i.height.compareTo(j.height));
-      _min = data.first.height.toString();
-      _max = data.last.height.toString();
+      final items = data.map((e) => e as HeightModel).toList();
+      items.sort((i, j) => i.height.compareTo(j.height));
+     if (items.isNotEmpty) {
+       _min = items.first.height.toString();
+       _max = items.last.height.toString();
+     }
     } else if (_measurement is Pulse) {
-      final data = _data.map((e) => e as Pulse).toList();
-      data.sort((i, j) => i.pulse.compareTo(j.pulse));
-      _min = data.first.pulse.toString();
-      _max = data.last.pulse.toString();
+      final items = data.map((e) => e as Pulse).toList();
+      items.sort((i, j) => i.pulse.compareTo(j.pulse));
+     if (items.isNotEmpty) {
+       _min = items.first.pulse.toString();
+       _max = items.last.pulse.toString();
+     }
     } else if (_measurement is Temperature) {
-      final data = _data.map((e) => e as Temperature).toList();
-      data.sort((i, j) => i.temperature.compareTo(j.temperature));
-      _min = data.first.temperature.toString();
-      _max = data.last.temperature.toString();
+      final items = data.map((e) => e as Temperature).toList();
+      items.sort((i, j) => i.temperature.compareTo(j.temperature));
+      if (items.isNotEmpty) {
+        _min = items.first.temperature.toString();
+        _max = items.last.temperature.toString();
+      }
     }
   }
 

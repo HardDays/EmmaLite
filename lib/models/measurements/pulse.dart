@@ -46,4 +46,9 @@ class Pulse extends HiveObject implements Measurement {
 
   @override
   String inNewScreen = 'пульса';
+
+  @override
+  String toString() {
+    return '$pulse $dateTime';
+  }
 }
