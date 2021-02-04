@@ -7,8 +7,9 @@ import 'package:emma_mobile/models/measurements/measurement.dart';
 import 'package:emma_mobile/models/measurements/pulse.dart';
 import 'package:emma_mobile/models/measurements/temperature.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
-import 'package:emma_mobile/ui/components/measurement/candle_chart.dart';
+import 'package:emma_mobile/ui/components/measurement/arterial_chart.dart';
 import 'package:emma_mobile/ui/components/measurement/linear_chart.dart';
+import 'package:emma_mobile/ui/components/measurement/pulse_chart.dart';
 import 'package:emma_mobile/ui/components/measurement_app_bar.dart';
 import 'package:emma_mobile/ui/screens/measurement/measurement_history_screen.dart';
 import 'package:emma_mobile/utils/utils.dart';
@@ -48,24 +49,27 @@ class MeasurementDetailScreen extends StatelessWidget {
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      height: 400.h,
+                      height: type is ArterialPressure ? 433.h : 400.h,
                       color: AppColors.cFFFFFF,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
                             child: Padding(
-                                padding: EdgeInsets.only(right: 15.w),
-                                child: Stack(
-                                  children: [
-                                    if (renderLinearChart || bloc.data.isEmpty)
-                                      LinearChart(bloc: bloc)
-                                    else if (type is Pulse)
-                                      CandleChart(bloc: bloc),
-                                    if (bloc.data.isEmpty)
-                                      _EmptyChartDataPlaceholder(),
-                                  ],
-                                )),
+                              padding: EdgeInsets.only(right: 15.w),
+                              child: Stack(
+                                children: [
+                                  if (renderLinearChart || bloc.data.isEmpty)
+                                    LinearChart(bloc: bloc)
+                                  else if (type is Pulse)
+                                    PulseChart(bloc: bloc)
+                                  else
+                                    ArterialChart(bloc: bloc),
+                                  if (bloc.data.isEmpty)
+                                    _EmptyChartDataPlaceholder(),
+                                ],
+                              ),
+                            ),
                           ),
                           Padding(
                             padding: EdgeInsets.only(top: 40.h),

@@ -8,23 +8,22 @@ import 'package:emma_mobile/chart/mp/core/entry/candle_entry.dart';
 import 'package:emma_mobile/chart/mp/core/enums/axis_dependency.dart';
 import 'package:emma_mobile/chart/mp/core/enums/x_axis_position.dart';
 import 'package:emma_mobile/chart/mp/core/transformer/transformer.dart';
-import 'package:emma_mobile/chart/mp/core/value_formatter/value_formatter.dart';
 import 'package:emma_mobile/chart/mp/core/view_port.dart';
-import 'package:emma_mobile/models/measurements/measurement.dart';
+import 'package:emma_mobile/models/measurements/arterial_pressure.dart';
 import 'package:emma_mobile/ui/components/measurement/linear_chart.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 
-class CandleChart extends StatefulWidget {
+class ArterialChart extends StatefulWidget {
   final MeasurementDetailBloc bloc;
 
-  const CandleChart({Key key, this.bloc}) : super(key: key);
+  const ArterialChart({Key key, this.bloc}) : super(key: key);
 
   @override
-  _CandleChartState createState() => _CandleChartState();
+  _ArterialChartState createState() => _ArterialChartState();
 }
 
-class _CandleChartState extends State<CandleChart> {
+class _ArterialChartState extends State<ArterialChart> {
   CandlestickChartController controller;
 
   double _min;
@@ -34,17 +33,24 @@ class _CandleChartState extends State<CandleChart> {
     final width = MediaQuery.of(context).size.width - 55.w;
     final transformer = Transformer(
       ViewPortHandler()
-        ..setChartDimens(width, 300.h)
-        ..restrainViewPort(25.w, 0.h, 0, 0.h),
+        ..setChartDimens(width, 290.h)
+        ..restrainViewPort(25.w, 0.h, 0, 10.h),
     );
-    final List<Measurement> list = []..addAll(widget.bloc.data);
-    list.sort(
-      (i, j) => double.parse(i.value()).compareTo(double.parse(j.value())),
-    );
+    final List<ArterialPressure> list = []..addAll(
+        widget.bloc.data.map((e) => e as ArterialPressure),
+      );
+    final data = [];
+
+    for (var i in list) {
+      data.add(i.top);
+      data.add(i.under);
+    }
+
+    data.sort((i, j) => i.compareTo(j));
 
     if (list.isNotEmpty) {
-      _min = double.parse(list.first.value());
-      _max = double.parse(list.last.value());
+      _min = data.first.toDouble();
+      _max = data.last.toDouble();
     } else {
       _min = 13;
       _max = 87;
@@ -84,12 +90,7 @@ class _CandleChartState extends State<CandleChart> {
         axisRight.setAxisMinimum(min);
         axisRight.setAxisMaximum(max);
         axisRight.textSize = Constants.textSize12;
-        (controller as CandlestickChartController).setViewPortOffsets(
-          0.w,
-          0,
-          20.w,
-          0,
-        );
+        controller.setViewPortOffsets(0.w, 0, 20.w, 0);
       },
       legendSettingFunction: (legend, controller) {
         legend.enabled = false;
@@ -137,7 +138,9 @@ class _CandleChartState extends State<CandleChart> {
   }
 
   void initData() {
-    final List<Measurement> sortValues = []..addAll(widget.bloc.data);
+    final List<ArterialPressure> sortValues = []..addAll(
+        widget.bloc.data.map((e) => e as ArterialPressure),
+      );
 
     final type = widget.bloc.type;
     final startDate = widget.bloc.activeTimeRange.timeTo;
@@ -156,13 +159,16 @@ class _CandleChartState extends State<CandleChart> {
             (e) => type.getCandleInt(e.dateTime) == days.toList()[i],
           )
           .toList();
-      list.sort(
-        (i, j) => double.parse(i.value()).compareTo(double.parse(j.value())),
-      );
+      list.sort((i, j) => i.under.compareTo(j.under));
 
+      final min = list.first.under.toDouble();
+      final max = list.last.under.toDouble();
 
-      final max = double.parse(list.last.value());
-      final min = double.parse(list.first.value());
+      list.sort((i, j) => i.top.compareTo(j.top));
+
+      final min2 = list.first.top.toDouble();
+      final max2 = list.last.top.toDouble();
+
       final percent = widget.bloc.type.percentDate(
         list.first.dateTime,
         startDateTime: startDate,
@@ -174,22 +180,24 @@ class _CandleChartState extends State<CandleChart> {
           shadowL: min,
           open: max,
           close: min,
+          shadowH2: max2,
+          shadowL2: min2,
+          open2: max2,
+          close2: min2,
           data: size * percent + 25.w,
-          isMax: max == _max,
-          isMin: min == _min,
         ),
       );
     }
 
-    final set1 = CandleDataSet(values, 'Data Set', multiplier: 0);
+    final set1 = CandleDataSet(values, 'Data Set', multiplier: 0.5);
 
     set1.setDrawIcons(false);
     set1.setAxisDependency(AxisDependency.LEFT);
     set1.setDrawValues(false);
     set1.setDecreasingColor(AppColors.c00ACE3);
-    set1.setValueFormatter(CandleLabelFormatter(values));
     set1.setValueTextColor(AppColors.c00ACE3);
     set1.setValueTextSize(Constants.textSize12);
+    set1.setIsArterial = true;
     set1.setValueTypeface(TypeFace(fontWeight: FontWeight.w500));
 
     controller.data = CandleData.fromList(List()..add(set1));
@@ -199,36 +207,65 @@ class _CandleChartState extends State<CandleChart> {
   Widget build(BuildContext context) {
     initController();
     initData();
-    return CandlestickChart(controller);
+    return Column(
+      children: [
+        SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: 33.h,
+          child: Padding(
+            padding: EdgeInsets.only(left: 12.w),
+            child: Row(
+              children: const [
+                Expanded(
+                  child: _TextItem(
+                    circleColor: AppColors.c2FE5AD,
+                    text: 'Систолическое',
+                  ),
+                ),
+                Expanded(
+                  child: _TextItem(
+                    circleColor: AppColors.c00ACE3,
+                    text: 'Диастолическое',
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Expanded(child: CandlestickChart(controller)),
+      ],
+    );
   }
 }
 
-class CandleLabelFormatter extends ValueFormatter {
-  final List<CandleEntry> data;
+class _TextItem extends StatelessWidget {
+  final Color circleColor;
+  final String text;
 
-  CandleLabelFormatter(this.data) {
-  }
+  const _TextItem({Key key, this.circleColor, this.text}) : super(key: key);
 
   @override
-  String getIndexAxisLabel(int index, {bool showMax}) {
-    final maxText = 'Макс.\n${data[index].open}';
-    final minText = 'Мин.\n${data[index].close}';
-    if (showMax != null) {
-      if (showMax) {
-        return maxText;
-      } else {
-        return minText;
-      }
-    }
-    if (data.isEmpty) {
-      return '';
-    }
-    if (data[index].isMax) {
-      return maxText;
-    }
-    if (data[index].isMin) {
-      return minText;
-    }
-    return '';
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          width: 9.w,
+          height: 9.w,
+          decoration: BoxDecoration(
+            color: circleColor,
+            shape: BoxShape.circle,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 8.w),
+          child: Text(
+            text,
+            style: AppTypography.font12.copyWith(
+              color: AppColors.c3B4047,
+            ),
+          ),
+        )
+      ],
+    );
   }
 }

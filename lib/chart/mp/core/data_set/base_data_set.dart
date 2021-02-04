@@ -59,6 +59,8 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
   /// flag that indicates if the DataSet is visible or not
   bool _visible = true;
 
+  bool _isArterial = false;
+
   /// Default constructor.
   BaseDataSet() {
     _colors = List();
@@ -87,6 +89,13 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
   }
 
   /// ###### ###### COLOR GETTING RELATED METHODS ##### ######
+  ///
+
+  set setIsArterial(bool v) {
+    _isArterial = v;
+  }
+
+  bool get isArterial => _isArterial;
 
   @override
   List<ui.Color> getColors() {
