@@ -166,6 +166,7 @@ class _LinearChartState extends State<LinearChart> {
   @override
   Widget build(BuildContext context) {
     initController();
+    initValues();
     initData();
     return LineChart(controller);
   }

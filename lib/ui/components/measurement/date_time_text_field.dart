@@ -14,6 +14,7 @@ class DateTimeTextField extends StatelessWidget {
   final Function(DateTime time) onChange;
   final bool haveDecoration;
   final DateTime minimumDate;
+  final DateTime initialDate;
   final DateTime maximumDate;
   final bool enable;
   final Color color;
@@ -28,6 +29,7 @@ class DateTimeTextField extends StatelessWidget {
     this.dateFormat,
     this.haveDecoration = true,
     this.minimumDate,
+    this.initialDate,
     this.maximumDate,
     this.enable = true,
     this.color,
@@ -46,6 +48,7 @@ class DateTimeTextField extends StatelessWidget {
         final res = await showDateTimeModalBottom(
           context: context,
           pickerTitle: title,
+          initialDate: initialDate,
           minimumDate: minimumDate,
           maximumDate: maximumDate?.add(const Duration(seconds: 10)),
           mode: mode,

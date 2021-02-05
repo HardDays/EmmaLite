@@ -222,6 +222,7 @@ Future<DateTime> showDateTimeModalBottom({
   BuildContext context,
   String pickerTitle,
   DateTime minimumDate,
+  DateTime initialDate,
   DateTime maximumDate,
   CupertinoDatePickerMode mode = CupertinoDatePickerMode.dateAndTime,
 }) {
@@ -248,7 +249,7 @@ Future<DateTime> showDateTimeModalBottom({
               use24hFormat: true,
               minimumDate: minimumDate,
               mode: mode,
-              initialDateTime: DateTime.now().subtract(Duration(seconds: 10)),
+              initialDateTime: initialDate,
               maximumDate: maximumDate,
               backgroundColor: AppColors.cF5F7FA,
             ),

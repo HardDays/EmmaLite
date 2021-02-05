@@ -223,7 +223,7 @@ class Assignment extends Equatable {
     data['singleTasks'] = singleTasks.map((e) => e.toJson()).toList();
     data['periodicTask'] = periodicTask.toJson();
     data['doctorName'] = doctorName;
-    data['stoppedTime'] = stoppedTime.toString();
+    data['stoppedTime'] = stoppedTime;
     data['runTasks'] = runTasks.map((e) => e.toJson()).toList();
     data['isStopped'] = isStopped;
     return data;
