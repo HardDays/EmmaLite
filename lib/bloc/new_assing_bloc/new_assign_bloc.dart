@@ -129,7 +129,7 @@ class NewAssignBloc extends Cubit<NewAssignState> {
   }
 
   void addSingleTask() {
-    _assignment.singleTasks.add(_assignment.singleTasks.last);
+    _assignment.singleTasks.add(_assignment.singleTasks.last.copyWith());
     _update();
   }
 
@@ -139,7 +139,11 @@ class NewAssignBloc extends Cubit<NewAssignState> {
   }
 
   void setSingleTime({TaskTime taskTime, int taskIndex, int index}) {
-    _assignment.singleTasks[taskIndex].taskTimes[index] = taskTime;
+    final List<TaskTime> list = []
+      ..addAll(_assignment.singleTasks[taskIndex].taskTimes);
+    list[index] = taskTime;
+    _assignment.singleTasks[taskIndex] =
+        _assignment.singleTasks[taskIndex].copyWith(tasks: list);
     _update();
   }
 

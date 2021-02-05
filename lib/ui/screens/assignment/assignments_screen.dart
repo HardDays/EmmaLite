@@ -40,7 +40,7 @@ class AssignmentsScreen extends StatelessWidget {
                                   onTap: () {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (_) => AssignmentNewScreen(),
+                                        builder: (_) => CalendarScreen(),
                                       ),
                                     );
                                   },
@@ -58,7 +58,7 @@ class AssignmentsScreen extends StatelessWidget {
                                   onTap: () {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
-                                          builder: (_) => CalendarScreen()),
+                                          builder: (_) => AssignmentNewScreen()),
                                     );
                                   },
                                   behavior: HitTestBehavior.opaque,
