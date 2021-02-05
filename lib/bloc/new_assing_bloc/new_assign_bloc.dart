@@ -169,9 +169,12 @@ class NewAssignBloc extends Cubit<NewAssignState> {
     _update();
   }
 
-  void setDoctor(String s) {
+  void setDoctor(String s, {bool updateScreen = false}) {
     _assignment.doctorName = s;
     _updateSetText();
+    if (updateScreen) {
+      _update();
+    }
   }
 
   void _updateSetText() {

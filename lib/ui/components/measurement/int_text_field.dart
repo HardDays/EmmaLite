@@ -12,6 +12,9 @@ class InputTextField extends StatefulWidget {
   final bool haveFormatter;
   final bool enable;
   final String initialValue;
+  final int maxLines;
+  final int maxLength;
+  final TextEditingController controller;
 
   const InputTextField({
     Key key,
@@ -24,6 +27,9 @@ class InputTextField extends StatefulWidget {
     this.haveFormatter = true,
     this.enable = true,
     this.initialValue,
+    this.maxLines = 1,
+    this.maxLength,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -72,8 +78,10 @@ class _InputTextFieldState extends State<InputTextField> {
         child: TextField(
           keyboardType: widget.type ?? TextInputType.number,
           controller: _controller,
+          maxLines: widget.maxLines,
           enabled: widget.enable,
           autofocus: false,
+          maxLength: widget.maxLength,
           inputFormatters: widget.haveFormatter
               ? widget.formatter == null
                   ? [

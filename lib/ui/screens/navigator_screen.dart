@@ -23,6 +23,8 @@ class _NavigatorScreenState extends State<NavigatorScreen> {
     });
   }
 
+  Widget otherScreen;
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context, designSize: const Size(320, 704));
@@ -41,7 +43,7 @@ class _NavigatorScreenState extends State<NavigatorScreen> {
                     MeasurementScreen(),
                     Container(color: AppColors.cF5F7FA),
                     AssignmentsScreen(),
-                    Container(),
+                    otherScreen ?? Container(),
                   ],
                 ),
               ),
@@ -51,6 +53,10 @@ class _NavigatorScreenState extends State<NavigatorScreen> {
           BottomNavigationBarCustom(
             onTap: _setIndex,
             activeIndex: _currentIndex,
+            otherTabPage: (screen) {
+              _setIndex(4);
+              otherScreen = screen;
+            },
           ),
           // _Bottom(
           //   index: _currentIndex,
@@ -82,7 +88,6 @@ class __BottomState extends State<_Bottom> with SingleTickerProviderStateMixin {
     _otherController = AnimationController(vsync: this, duration: duration);
     super.initState();
   }
-
 
   bool _activePlus = false;
 

@@ -1,8 +1,10 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:emma_mobile/app_common/app_common.dart';
 import 'package:emma_mobile/bloc/assign/assign_bloc.dart';
+import 'package:emma_mobile/bloc/doctors_screen/doctors_bloc.dart';
 import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
 import 'package:emma_mobile/l10n/delegate.dart';
+import 'package:emma_mobile/models/doctor/doctor.dart';
 import 'package:emma_mobile/models/measurements/arterial_pressure.dart';
 import 'package:emma_mobile/models/measurements/blood_sugar.dart';
 import 'package:emma_mobile/models/measurements/height_model.dart';
@@ -58,6 +60,10 @@ Future<void> main() async {
         lazy: false,
         create: (context) => AssignBloc(),
       ),
+      BlocProvider(
+        lazy: false,
+        create: (context) => DoctorsBloc(),
+      ),
     ],
     child: app,
   );
@@ -71,4 +77,5 @@ Future<void> initHive() async {
   Hive.registerAdapter(HeightModelAdapter());
   Hive.registerAdapter(PulseAdapter());
   Hive.registerAdapter(TemperatureAdapter());
+  Hive.registerAdapter(DoctorAdapter());
 }

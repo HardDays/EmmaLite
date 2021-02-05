@@ -1,4 +1,3 @@
-import 'package:bot_toast/bot_toast.dart';
 import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
 import 'package:emma_mobile/bloc/measurement_detail_bloc/measurement_detail_bloc.dart';
 import 'package:emma_mobile/bloc/measurement_detail_bloc/measurement_detail_state.dart';
@@ -6,6 +5,7 @@ import 'package:emma_mobile/models/measurements/measurement.dart';
 import 'package:emma_mobile/models/measurements/pulse.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/components/measurement_app_bar.dart';
+import 'package:emma_mobile/utils/toast.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -78,21 +78,13 @@ class _Item extends StatelessWidget {
                   .lastIndexWhere((e) => e.dateTime == measurement.dateTime),
             );
             detailBloc.deleteItem(measurement: measurement);
-            BotToast.showText(
-              text: 'Запись удалена',
-              borderRadius: const BorderRadius.all(Radius.circular(25)),
-              contentPadding: EdgeInsets.symmetric(
-                horizontal: 24.w,
-                vertical: 8.h,
-              ),
-              contentColor: AppColors.c000000.withOpacity(0.8),
-              textStyle: AppTypography.font14.copyWith(
-                color: AppColors.cFFFFFF,
-              ),
-            );
+            Toast.show('Запись удалена');
           },
-          child: ColoredBox(
-            color: AppColors.cFF3B30,
+          child:  DecoratedBox(
+            decoration: const BoxDecoration(
+                color: AppColors.cFF3B30,
+                borderRadius: BorderRadius.horizontal(left: Radius.circular(4))
+            ),
             child: Center(
               child: AppIcons.trash(),
             ),

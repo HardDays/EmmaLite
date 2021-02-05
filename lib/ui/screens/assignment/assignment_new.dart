@@ -21,10 +21,11 @@ import 'package:emma_mobile/ui/components/measurement/default_picker_field.dart'
 import 'package:emma_mobile/ui/components/measurement/int_text_field.dart';
 import 'package:emma_mobile/ui/components/modal_widget.dart';
 import 'package:emma_mobile/ui/screens/detail_photo_screen.dart';
+import 'package:emma_mobile/ui/screens/doctors/doctors_screen.dart';
 import 'package:emma_mobile/utils/utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
@@ -172,19 +173,34 @@ class _NewAssign extends StatelessWidget {
                           formatter: LengthLimitingTextInputFormatter(27),
                           type: TextInputType.text,
                           enable: bloc.canChange,
+                          value: bloc.assignment.doctorName,
                         ),
                       ),
                       if (bloc.canChange)
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.w),
-                          child: Container(
-                            width: 44.h,
-                            height: 44.h,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: AppColors.cEBEEF3,
+                        GestureDetector(
+                          onTap: () async {
+                            final res = await Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => DoctorsScreen(
+                                  returnDoctor: true,
+                                ),
+                              ),
+                            );
+                            if (res != null) {
+                              bloc.setDoctor(res, updateScreen: true);
+                            }
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16.w),
+                            child: Container(
+                              width: 44.h,
+                              height: 44.h,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppColors.cEBEEF3,
+                              ),
+                              child: Center(child: AppIcons.doctors()),
                             ),
-                            child: Center(child: AppIcons.doctors()),
                           ),
                         ),
                     ],

@@ -1,6 +1,7 @@
 import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/routing/navigator.dart';
 import 'package:emma_mobile/ui/screens/assignment/assignment_new.dart';
+import 'package:emma_mobile/ui/screens/doctors/doctors_screen.dart';
 import 'package:emma_mobile/ui/screens/measurement/select_measurement.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +10,15 @@ import 'package:flutter/material.dart';
 enum BottomMenuType { main, profile }
 
 class BottomMenu extends StatelessWidget {
-  const BottomMenu({this.type = BottomMenuType.main, this.onTap});
+  const BottomMenu({
+    this.type = BottomMenuType.main,
+    this.onTap,
+    this.otherTabPage,
+  });
 
   final BottomMenuType type;
   final Function onTap;
+  final Function(Widget) otherTabPage;
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +58,11 @@ class BottomMenu extends StatelessWidget {
                 title: isName ? 'Добавить\nназначение' : 'Мои врачи',
                 width: 137.w,
                 onTap: () {
+                  onTap?.call();
                   if (isName) {
                     navigatorPush(context, AssignmentNewScreen());
-                    onTap?.call();
+                  } else {
+                    otherTabPage?.call(DoctorsScreen());
                   }
                 },
               )

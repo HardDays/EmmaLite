@@ -11,6 +11,7 @@ class $AssetsIconsGen {
   const $AssetsIconsGen();
 
   SvgGenImage get accept => const SvgGenImage('assets/icons/accept.svg');
+  SvgGenImage get analyze => const SvgGenImage('assets/icons/analyze.svg');
   SvgGenImage get arrowRight =>
       const SvgGenImage('assets/icons/arrow_right.svg');
   SvgGenImage get calendar => const SvgGenImage('assets/icons/calendar.svg');
@@ -19,22 +20,30 @@ class $AssetsIconsGen {
   SvgGenImage get chevronLeft =>
       const SvgGenImage('assets/icons/chevron_left.svg');
   SvgGenImage get close => const SvgGenImage('assets/icons/close.svg');
+  SvgGenImage get complete => const SvgGenImage('assets/icons/complete.svg');
   SvgGenImage get divan => const SvgGenImage('assets/icons/divan.svg');
   SvgGenImage get doctors => const SvgGenImage('assets/icons/doctors.svg');
   SvgGenImage get graphActive =>
       const SvgGenImage('assets/icons/graph_active.svg');
   SvgGenImage get graphInactive =>
       const SvgGenImage('assets/icons/graph_inactive.svg');
+  SvgGenImage get lifestyle => const SvgGenImage('assets/icons/lifestyle.svg');
+  SvgGenImage get measureShort =>
+      const SvgGenImage('assets/icons/measure_short.svg');
   SvgGenImage get measurementDefault =>
       const SvgGenImage('assets/icons/measurement_default.svg');
   SvgGenImage get measurementsActive =>
       const SvgGenImage('assets/icons/measurements_active.svg');
   SvgGenImage get measurementsInactive =>
       const SvgGenImage('assets/icons/measurements_inactive.svg');
+  SvgGenImage get medicine => const SvgGenImage('assets/icons/medicine.svg');
   SvgGenImage get menuActive =>
       const SvgGenImage('assets/icons/menu_active.svg');
   SvgGenImage get menuInactive =>
       const SvgGenImage('assets/icons/menu_inactive.svg');
+  SvgGenImage get minus => const SvgGenImage('assets/icons/minus.svg');
+  SvgGenImage get other => const SvgGenImage('assets/icons/other.svg');
+  SvgGenImage get paperClip => const SvgGenImage('assets/icons/paper_clip.svg');
   SvgGenImage get plus => const SvgGenImage('assets/icons/plus.svg');
   SvgGenImage get prescriptionsActive =>
       const SvgGenImage('assets/icons/prescriptions_active.svg');

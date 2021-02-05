@@ -1,3 +1,4 @@
+import 'package:emma_mobile/models/doctor/doctor.dart';
 import 'package:emma_mobile/models/measurements/arterial_pressure.dart';
 import 'package:emma_mobile/models/measurements/blood_sugar.dart';
 import 'package:emma_mobile/models/measurements/height_model.dart';
@@ -14,6 +15,7 @@ class HiveBoxes {
   Box<Pulse> _pulse;
   Box<Temperature> _temperature;
   Box<Map> _assignment;
+  Box<Doctor> _doctorsBox;
 
   Box<Temperature> get temperatureBox => _temperature;
 
@@ -26,6 +28,8 @@ class HiveBoxes {
   Box<Pulse> get pulseBox => _pulse;
 
   Box<Map> get assignmentBox => _assignment;
+
+  Box<Doctor> get doctorsBox => _doctorsBox;
 
   factory HiveBoxes() {
     _instance ??= HiveBoxes._();
@@ -42,5 +46,6 @@ class HiveBoxes {
     _pulse = await Hive.openBox<Pulse>('Pulse');
     _temperature = await Hive.openBox<Temperature>('Temperature');
     _assignment = await Hive.openBox<Map>('Assignment');
+    _doctorsBox = await Hive.openBox<Doctor>('Doctors');
   }
 }

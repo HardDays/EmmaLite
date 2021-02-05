@@ -13,10 +13,12 @@ class BottomNavigationBarCustom extends StatefulWidget {
     Key key,
     this.onTap,
     this.activeIndex,
+    this.otherTabPage,
   }) : super(key: key);
 
   final void Function(int) onTap;
   final int activeIndex;
+  final Function(Widget) otherTabPage;
 
   @override
   State<StatefulWidget> createState() => _BottomNavigationBarCustomState();
@@ -78,7 +80,11 @@ class _BottomNavigationBarCustomState extends State<BottomNavigationBarCustom>
                     )
                   : SizedBox(
                       height: heightAnimation2.value,
-                      child: BottomMenu(type: BottomMenuType.profile),
+                      child: BottomMenu(
+                        type: BottomMenuType.profile,
+                        onTap: _animate,
+                        otherTabPage: widget.otherTabPage,
+                      ),
                     ),
               SizedBox(
                 height: 56.h,
@@ -115,8 +121,10 @@ class _BottomNavigationBarCustomState extends State<BottomNavigationBarCustom>
                             CustomBottomNavigationBarItem(
                               activeIcon: AppIcons.menuActive(),
                               inactiveIcon: AppIcons.menuInactive(),
-                              isActive: heightController.value > 0,
+                              isActive: heightController.value > 0 ||
+                                  widget.activeIndex == 4,
                               onTap: () {
+                                _animate();
                                 setState(() => type = BottomMenuType.profile);
                                 _test();
                               },

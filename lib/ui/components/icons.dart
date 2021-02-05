@@ -97,9 +97,11 @@ class AppIcons {
     );
   }
 
-  static Widget doctors() {
+  static Widget doctors({double size}) {
     return SvgPicture.asset(
       'assets/icons/doctors.svg',
+      width: size,
+      height: size,
       fit: BoxFit.fill,
     );
   }
