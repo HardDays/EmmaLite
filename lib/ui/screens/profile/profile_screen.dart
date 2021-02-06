@@ -58,7 +58,7 @@ class _CurrentProfile extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.only(top: 24.h),
-                  child: _Image(),
+                  child: _ProfileImage(size: 120.w),
                 ),
                 IgnorePointer(
                   ignoring: true,
@@ -223,7 +223,7 @@ class _Fields extends StatelessWidget {
                     context.bloc<ProfileScreenBloc>().setBirthday(d);
                   },
                   mode: CupertinoDatePickerMode.date,
-                  dateFormat: DateFormat('dd.mm.yyyy'),
+                  dateFormat: DateFormat('dd.MM.yyyy'),
                   title: 'Дата рождения',
                   hintText: 'Дата рождения',
                 ),
@@ -371,33 +371,44 @@ class _Image extends StatelessWidget {
               child: Center(child: AppIcons.profile(size: 64.w)),
             )
           else
-            Stack(
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                  ),
-                  clipBehavior: Clip.antiAlias,
-                  child: Image.file(
-                    File(bloc.user.photo),
-                    fit: BoxFit.cover,
-                    width: 140.w,
-                    height: 140.w,
-                  ),
-                ),
-                Container(
-                  width: 140.w,
-                  height: 140.w,
-                  decoration: _imageDecoration(),
-                  clipBehavior: Clip.antiAlias,
-                ),
-              ],
-            ),
+            _ProfileImage(size: 140.w),
         ],
       ),
     );
   }
 }
+
+class _ProfileImage extends StatelessWidget {
+  final double size;
+
+  const _ProfileImage({Key key, this.size}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: Image.file(
+            File(Provider.of<User>(context).photo),
+            fit: BoxFit.cover,
+            width: size ?? 140.w,
+            height: size ?? 140.w,
+          ),
+        ),
+        Container(
+          width: size ?? 140.w,
+          height: size ?? 140.w,
+          decoration: _imageDecoration(),
+          clipBehavior: Clip.antiAlias,
+        ),
+      ],
+    );
+  }
+}
+
 
 class _Divider extends StatelessWidget {
   @override
