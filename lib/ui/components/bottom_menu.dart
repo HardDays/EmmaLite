@@ -5,6 +5,7 @@ import 'package:emma_mobile/ui/screens/doctors/doctors_screen.dart';
 import 'package:emma_mobile/ui/screens/measurement/select_measurement.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:emma_mobile/ui/screens/profile/profile_screen.dart';
 
 //todo: Подумать как можно сделать лучше
 enum BottomMenuType { main, profile }
@@ -42,11 +43,11 @@ class BottomMenu extends StatelessWidget {
                 title: isName ? 'Добавить\nизмерение' : 'Профиль',
                 width: 137.w,
                 onTap: () {
+                  onTap?.call();
                   if (isName) {
                     navigatorPush(context, SelectMeasurement());
-                    onTap?.call();
                   } else {
-                    // navigatorPush(context, ProfileScreen());
+                    otherTabPage?.call(ProfileScreen());
                   }
                 },
               ),

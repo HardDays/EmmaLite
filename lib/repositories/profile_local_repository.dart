@@ -1,22 +1,25 @@
 import 'package:emma_mobile/models/user/user.dart';
+import 'package:emma_mobile/repositories/app_local_repository.dart';
+import 'package:emma_mobile/utils/hive_boxes.dart';
 
 class ProfileLocalRepository {
+  final _hiveBoxes = HiveBoxes();
+  final _appLocalRepository = AppLocalRepository();
 
-  User fetchProfile() {
-    final user = User(
-    (s) {
-      s.firstName = 'Иванов';
-      s.lastName = 'Иван';
-      s.phoneNumber = '+79999999999';
-      s.birthDate = '20.01.2020';
-      s.email = 'ivanov@mail.ru';
-      s.height = 172.6;
-      s.imageUrl = 'https://i.ytimg.com/vi/Y5GLCBjHR8U/maxresdefault.jpg';
-      s.weight = 92.5;
-      s.sex = 'male';
-    }
-    );
-    return user;
+  List<User> getUsers() {
+    return _hiveBoxes.userBox.values.map((e) => e as User).toList();
   }
 
+  User getCurrentUser() {
+    final currentUserId = _appLocalRepository.getSettings().currentProfileIndex;
+    return _hiveBoxes.userBox.getAt(currentUserId);
+  }
+
+  void updateUserByIndex({int index, User user}) {
+    _hiveBoxes.userBox.putAt(index, user);
+  }
+
+  void addUser(User user) {
+    _hiveBoxes.userBox.add(user);
+  }
 }

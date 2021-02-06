@@ -1,3 +1,2 @@
-abstract class ProfileState {}
+class ProfileState {}
 
-class DataProfileState extends ProfileState {}

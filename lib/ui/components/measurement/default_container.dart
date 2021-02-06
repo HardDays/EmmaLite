@@ -6,6 +6,7 @@ class DefaultContainer extends StatelessWidget {
   final Function onTap;
   final bool haveDecoration;
   final double minHeight;
+  final double width;
   final Color color;
 
   const DefaultContainer({
@@ -13,7 +14,9 @@ class DefaultContainer extends StatelessWidget {
     this.child,
     this.onTap,
     this.haveDecoration = true,
-    this.minHeight, this.color,
+    this.minHeight,
+    this.color,
+    this.width,
   }) : super(key: key);
 
   @override
@@ -22,8 +25,8 @@ class DefaultContainer extends StatelessWidget {
       onTap: onTap,
       child: Container(
         constraints: BoxConstraints(
-          minWidth: 288.w,
-          maxWidth: 288.w,
+          minWidth: width ?? 288.w,
+          maxWidth: width ?? 288.w,
           minHeight: minHeight ?? 62.h,
         ),
         decoration: BoxDecoration(

@@ -189,9 +189,11 @@ class AppIcons {
     );
   }
 
-  static Widget profile() {
+  static Widget profile({double size}) {
     return SvgPicture.asset(
       'assets/icons/profile.svg',
+      width: size,
+      height: size,
       fit: BoxFit.fill,
     );
   }

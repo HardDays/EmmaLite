@@ -1,133 +1,442 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:io';
+
 import 'package:emma_mobile/bloc/profile/profile_cubit.dart';
 import 'package:emma_mobile/bloc/profile/profile_state.dart';
-import 'package:emma_mobile/repositories/profile_local_repository.dart';
+import 'package:emma_mobile/bloc/profile_screen/profile_screen_bloc.dart';
+import 'package:emma_mobile/bloc/profile_screen/profile_screen_state.dart';
+import 'package:emma_mobile/models/user/user.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
-import 'package:emma_mobile/ui/components/bottom_sheet.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
-import 'package:emma_mobile/ui/components/buttons/emma_flat_button.dart';
-import 'package:emma_mobile/ui/components/pickers/gender_picker.dart';
-import 'package:emma_mobile/ui/components/space.dart';
-import 'package:emma_mobile/ui/components/textfields/emm_text_field.dart';
-import 'package:emma_mobile/ui/components/textfields/simple_text_field.dart';
-import 'package:emma_mobile/ui/components/textfields/textfield_block.dart';
-import 'package:emma_mobile/ui/routing/navigator.dart';
-import 'package:emma_mobile/ui/styles/test_styles.dart';
-import 'package:emma_mobile/utils/date_utils.dart';
-import 'package:emma_mobile/utils/string_utils.dart';
+import 'package:emma_mobile/ui/components/icons.dart';
+import 'package:emma_mobile/ui/components/measurement/date_time_text_field.dart';
+import 'package:emma_mobile/ui/components/measurement/default_container.dart';
+import 'package:emma_mobile/ui/components/measurement/int_text_field.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
-class ProfileScreen extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => ProfileScreenState();
-}
-
-class ProfileScreenState extends State<ProfileScreen> {
-  final _date = TextEditingController();
-
+class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
+    final bloc = context.bloc<ProfileCubit>();
+    return BlocBuilder<ProfileCubit, ProfileState>(
+      builder: (_, __) {
+        if (bloc.currentUser.isEmpty) {
+          return Scaffold(
+            body: BlocProvider(
+              create: (_) => ProfileScreenBloc(),
+              child: _EmptyProfile(),
+            ),
+          );
+        }
+        return Provider.value(
+          value: bloc.currentUser,
+          child: _CurrentProfile(),
+        );
+      },
+    );
+  }
+}
+
+class _CurrentProfile extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const EmmaAppBar(title: 'Профиль'),
+        Expanded(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 24.h),
+                  child: _Image(),
+                ),
+                IgnorePointer(
+                  ignoring: true,
+                  child: _Fields(),
+                ),
+                Padding(padding: EdgeInsets.only(top: 56.h)),
+              ],
+            ),
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class _EmptyProfile extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final bloc = context.bloc<ProfileScreenBloc>();
+    return BlocBuilder<ProfileScreenBloc, ProfileScreenState>(
+      builder: (_, __) {
+        return Column(
+          children: [
+            const EmmaAppBar(title: 'Профиль'),
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                physics: const BouncingScrollPhysics(),
+                child: Provider.value(
+                  value: bloc.user,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 24.h),
+                        child: _Image(),
+                      ),
+                      if (bloc.user.photo.isEmpty)
+                        Padding(
+                          padding: EdgeInsets.only(top: 16.h),
+                          child: Text(
+                            'Вы можете добавить свое фото. Оно будет отображаться только в отчете.',
+                            style: AppTypography.font14.copyWith(
+                              color: AppColors.c9B9B9B,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      _Fields(),
+                      EmmaFilledButton(
+                        title: 'Сохранить',
+                        onTap: () {
+                          context.bloc<ProfileCubit>().addUser(bloc.user);
+                        },
+                        isActive: bloc.user.canSave,
+                      ),
+                      KeyboardVisibilityBuilder(
+                        builder: (_, isKeyboardVisible) {
+                          return Padding(
+                            padding: EdgeInsets.only(
+                              top: isKeyboardVisible ? 24.h : 80.h,
+                            ),
+                          );
+                        },
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _Fields extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final user = context.watch<User>();
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.only(top: 24.h),
+          child: DefaultContainer(
+            child: Column(
+              children: [
+                InputTextField(
+                  type: TextInputType.text,
+                  initialValue: user.firstName,
+                  onChange: (s) {
+                    context.bloc<ProfileScreenBloc>().setFirstName(s);
+                  },
+                  haveFormatter: false,
+                  label: 'Имя',
+                ),
+                _Divider(),
+                InputTextField(
+                  type: TextInputType.text,
+                  initialValue: user.lastName,
+                  onChange: (s) {
+                    context.bloc<ProfileScreenBloc>().setLastName(s);
+                  },
+                  haveFormatter: false,
+                  label: 'Фамилия',
+                ),
+              ],
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 12.h),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              DefaultContainer(
+                minHeight: 58.h,
+                width: 138.w,
+                color: user.gender == Gender.male ? AppColors.c00ACE3 : null,
+                onTap: () =>
+                    context.bloc<ProfileScreenBloc>().setGender(Gender.male),
+                child: Center(
+                  child: Text(
+                    'Мужской',
+                    style: AppTypography.font16.copyWith(
+                      color: user.gender == Gender.male
+                          ? AppColors.cFFFFFF
+                          : AppColors.c9B9B9B,
+                    ),
+                  ),
+                ),
+              ),
+              DefaultContainer(
+                minHeight: 58.h,
+                width: 138.w,
+                color: user.gender == Gender.female ? AppColors.c00ACE3 : null,
+                onTap: () =>
+                    context.bloc<ProfileScreenBloc>().setGender(Gender.female),
+                child: Center(
+                  child: Text(
+                    'Женский',
+                    style: AppTypography.font16.copyWith(
+                      color: user.gender == Gender.female
+                          ? AppColors.cFFFFFF
+                          : AppColors.c9B9B9B,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 12.h, bottom: 12.h),
+          child: DefaultContainer(
+            child: Column(
+              children: [
+                DateTimeTextField(
+                  haveDecoration: false,
+                  value: user.date,
+                  onChange: (d) {
+                    context.bloc<ProfileScreenBloc>().setBirthday(d);
+                  },
+                  mode: CupertinoDatePickerMode.date,
+                  dateFormat: DateFormat('dd.mm.yyyy'),
+                  title: 'Дата рождения',
+                  hintText: 'Дата рождения',
+                ),
+                _Divider(),
+                Row(
+                  children: [
+                    Expanded(
+                      child: InputTextField(
+                        label: 'Вес',
+                        initialValue: user.weight?.toString(),
+                        isInt: false,
+                        onChange: (s) {
+                          context.bloc<ProfileScreenBloc>().setWeight(s);
+                        },
+                      ),
+                    ),
+                    _ArrowIcon(),
+                  ],
+                ),
+                _Divider(),
+                Row(
+                  children: [
+                    Expanded(
+                      child: InputTextField(
+                        label: 'Рост',
+                        initialValue: user.height?.toString(),
+                        isInt: false,
+                        onChange: (s) {
+                          context.bloc<ProfileScreenBloc>().setHeight(s);
+                        },
+                      ),
+                    ),
+                    _ArrowIcon(),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+        DefaultContainer(
+          child: InputTextField(
+            label: 'Телефон',
+            initialValue: user.phone,
+            formatter: PhoneTextInputFormatter(),
+            onChange: (s) {
+              context.bloc<ProfileScreenBloc>().setPhone(s);
+            },
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 12.h, bottom: 24.h),
+          child: DefaultContainer(
+            child: InputTextField(
+              label: 'Email',
+              initialValue: user.email,
+              haveFormatter: false,
+              formatRegExp: RegExp(Constants.emailRegex),
+              type: TextInputType.emailAddress,
+              onChange: (s) {
+                context.bloc<ProfileScreenBloc>().setEmail(s);
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _Image extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final bloc = context.bloc<ProfileScreenBloc>();
+    return GestureDetector(
+      onTap: () {
+        showCupertinoModalPopup(
+          context: context,
+          builder: (context2) {
+            return CupertinoActionSheet(
+              actions: [
+                CupertinoActionSheetAction(
+                  onPressed: () {
+                    Navigator.of(context2).pop();
+                    bloc.pickPhoto(
+                      context: context,
+                      imageSource: ImageSource.camera,
+                    );
+                  },
+                  child: Text(
+                    'Сделать фото',
+                    style: AppTypography.font18.copyWith(
+                      color: AppColors.c00ACE3,
+                    ),
+                  ),
+                ),
+                CupertinoActionSheetAction(
+                  onPressed: () {
+                    Navigator.of(context2).pop();
+                    bloc.pickPhoto(
+                      context: context,
+                      imageSource: ImageSource.gallery,
+                    );
+                  },
+                  child: Text(
+                    'Выбрать из галереи',
+                    style: AppTypography.font18.copyWith(
+                      color: AppColors.c00ACE3,
+                    ),
+                  ),
+                ),
+                CupertinoActionSheetAction(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    bloc.deletePhoto();
+                  },
+                  child: Text(
+                    'Удалить фотографию',
+                    style: AppTypography.font18.copyWith(
+                      color: AppColors.cFF3B30,
+                    ),
+                  ),
+                ),
+              ],
+              cancelButton: CupertinoActionSheetAction(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text(
+                  'Отмена',
+                  style: AppTypography.font18.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.c00ACE3,
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
+      child: Column(
         children: [
-          EmmaAppBar(
-            title: 'Профиль',
-          ),
-          BlocProvider<ProfileCubit>(
-            create: (context) =>
-                ProfileCubit(ProfileLocalRepository())..fetchProfile(),
-            child: _buildBody(context),
-          ),
+          if (bloc.user.photo.isEmpty)
+            Container(
+              decoration: _imageDecoration(color: AppColors.cFFFFFF),
+              width: 140.w,
+              height: 140.w,
+              child: Center(child: AppIcons.profile(size: 64.w)),
+            )
+          else
+            Stack(
+              children: [
+                Container(
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  child: Image.file(
+                    File(bloc.user.photo),
+                    fit: BoxFit.cover,
+                    width: 140.w,
+                    height: 140.w,
+                  ),
+                ),
+                Container(
+                  width: 140.w,
+                  height: 140.w,
+                  decoration: _imageDecoration(),
+                  clipBehavior: Clip.antiAlias,
+                ),
+              ],
+            ),
         ],
       ),
     );
   }
+}
 
-  Widget _buildBody(BuildContext context) {
-    return BlocBuilder<ProfileCubit, ProfileState>(
-      builder: (context, state) {
-        if (true) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: ListView(
-              children: [
-                const HSpace(24),
-                _buildProfileImage(context, ''),
-                const HSpace(16),
-                const Text(
-                  // ignore: lines_longer_than_80_chars
-                  'Вы можете добавить свое фото. Оно будет отображаться только в отчете',
-                  style: CustomTextStyles.introLogoSubtitle,
-                  textAlign: TextAlign.center,
-                ),
-                const HSpace(24),
-                const TextFieldBlock(
-                  children: [
-                    SimpleTextField(
-                      labelText: 'Имя',
-                    ),
-                    SimpleTextField(labelText: 'Фамилия')
-                  ],
-                ),
-                const HSpace(12),
-                const GenderPicker(
-                  onSubmit: print,
-                ),
-                const HSpace(12),
-                TextFieldBlock(
-                  children: [
-                    EmmaTextField(
-                      withPicker: true,
-                      textEditingController: _date,
-                      labelText: 'Дата рождения',
-                      onTap: () => showCustomDatePicker(
-                          context,
-                          (date) => _date.text = formatDateToString(date),
-                          'Дата рождения',
-                          mode: CupertinoDatePickerMode.date),
-                    ),
-                    const SimpleTextField(labelText: 'Вес'),
-                    const SimpleTextField(labelText: 'Рост')
-                  ],
-                ),
-                const HSpace(12),
-                EmmaTextField(labelText: 'Телефон', onSubmit: (text) {}),
-                const HSpace(12),
-                EmmaTextField(labelText: 'Email', onSubmit: (text) {}),
-                const HSpace(20),
-                EmmaFilledButton(
-                    title: 'Сохранить и продолжить',
-                    onTap: () => print('save')),
-                const HSpace(20),
-                EmmaFlatButton(
-                  title: 'Сделаю позже',
-                  onTap: () => navigatorPop(context),
-                )
-              ],
-            ),
-          );
-        }
-      },
-    );
-  }
-
-  Widget _buildProfileImage(BuildContext context, String imageUrl) {
-    return Container(
-      width: 132,
-      height: 132,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: AppColors.cFFFFFF,
-        border: Border.all(width: 4, color: AppColors.cFFFFFF),
-        image: DecorationImage(
-          image: isNullOrEmpty(imageUrl)
-              ? const AssetImage('assets/images/empty_avatar.png')
-              : CachedNetworkImageProvider(imageUrl),
-        ),
+class _Divider extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Container(
+        width: 272.w,
+        height: 1.h,
+        color: AppColors.cE6E9EB,
       ),
     );
   }
+}
+
+class _ArrowIcon extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(right: 16.w),
+      child: AppIcons.arrowRight(),
+    );
+  }
+}
+
+BoxDecoration _imageDecoration({Color color}) {
+  return BoxDecoration(
+    shape: BoxShape.circle,
+    color: color,
+    border: Border.all(
+      color: AppColors.cFFFFFF,
+      width: 4.w,
+    ),
+    boxShadow: const [
+      BoxShadow(
+        color: Color.fromRGBO(0, 0, 0, 0.08),
+        blurRadius: 4,
+        offset: Offset(0, 2),
+      ),
+    ],
+  );
 }

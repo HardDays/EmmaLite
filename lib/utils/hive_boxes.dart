@@ -1,9 +1,11 @@
+import 'package:emma_mobile/models/app_settings/app_settings.dart';
 import 'package:emma_mobile/models/doctor/doctor.dart';
 import 'package:emma_mobile/models/measurements/arterial_pressure.dart';
 import 'package:emma_mobile/models/measurements/blood_sugar.dart';
 import 'package:emma_mobile/models/measurements/height_model.dart';
 import 'package:emma_mobile/models/measurements/pulse.dart';
 import 'package:emma_mobile/models/measurements/temperature.dart';
+import 'package:emma_mobile/models/user/user.dart';
 import 'package:hive/hive.dart';
 
 class HiveBoxes {
@@ -16,6 +18,9 @@ class HiveBoxes {
   Box<Temperature> _temperature;
   Box<Map> _assignment;
   Box<Doctor> _doctorsBox;
+  Box<User> _userBox;
+  Box<AppSettings> _appSettingsBox;
+
 
   Box<Temperature> get temperatureBox => _temperature;
 
@@ -30,6 +35,10 @@ class HiveBoxes {
   Box<Map> get assignmentBox => _assignment;
 
   Box<Doctor> get doctorsBox => _doctorsBox;
+
+  Box<User> get userBox => _userBox;
+
+  Box<AppSettings> get appSettingsBox => _appSettingsBox;
 
   factory HiveBoxes() {
     _instance ??= HiveBoxes._();
@@ -47,5 +56,7 @@ class HiveBoxes {
     _temperature = await Hive.openBox<Temperature>('Temperature');
     _assignment = await Hive.openBox<Map>('Assignment');
     _doctorsBox = await Hive.openBox<Doctor>('Doctors');
+    _userBox = await Hive.openBox<User>('User');
+    _appSettingsBox = await Hive.openBox<AppSettings>('AppSettings');
   }
 }

@@ -1,15 +1,19 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:emma_mobile/app_common/app_common.dart';
+import 'package:emma_mobile/bloc/app_settings/app_settings_bloc.dart';
 import 'package:emma_mobile/bloc/assign/assign_bloc.dart';
 import 'package:emma_mobile/bloc/doctors_screen/doctors_bloc.dart';
 import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
+import 'package:emma_mobile/bloc/profile/profile_cubit.dart';
 import 'package:emma_mobile/l10n/delegate.dart';
+import 'package:emma_mobile/models/app_settings/app_settings.dart';
 import 'package:emma_mobile/models/doctor/doctor.dart';
 import 'package:emma_mobile/models/measurements/arterial_pressure.dart';
 import 'package:emma_mobile/models/measurements/blood_sugar.dart';
 import 'package:emma_mobile/models/measurements/height_model.dart';
 import 'package:emma_mobile/models/measurements/pulse.dart';
 import 'package:emma_mobile/models/measurements/temperature.dart';
+import 'package:emma_mobile/models/user/user.dart';
 import 'package:emma_mobile/repositories/app_local_repository.dart';
 import 'package:emma_mobile/repositories/measurement_local_repository.dart';
 import 'package:emma_mobile/ui/routing/router.dart';
@@ -64,6 +68,14 @@ Future<void> main() async {
         lazy: false,
         create: (context) => DoctorsBloc(),
       ),
+      BlocProvider(
+        lazy: false,
+        create: (_) => AppSettingsBloc(),
+      ),
+      BlocProvider(
+        lazy: false,
+        create: (_) => ProfileCubit(),
+      ),
     ],
     child: app,
   );
@@ -78,4 +90,6 @@ Future<void> initHive() async {
   Hive.registerAdapter(PulseAdapter());
   Hive.registerAdapter(TemperatureAdapter());
   Hive.registerAdapter(DoctorAdapter());
+  Hive.registerAdapter(AppSettingsAdapter());
+  Hive.registerAdapter(UserAdapter());
 }

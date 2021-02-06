@@ -15,6 +15,7 @@ class InputTextField extends StatefulWidget {
   final int maxLines;
   final int maxLength;
   final TextEditingController controller;
+  final RegExp formatRegExp;
 
   const InputTextField({
     Key key,
@@ -30,6 +31,7 @@ class InputTextField extends StatefulWidget {
     this.maxLines = 1,
     this.maxLength,
     this.controller,
+    this.formatRegExp,
   }) : super(key: key);
 
   @override
@@ -46,9 +48,16 @@ class _InputTextFieldState extends State<InputTextField> {
     super.initState();
   }
 
+  bool _validate = true;
+
   void _listener() {
     if (widget.onChange != null) {
       widget?.onChange(_controller.text);
+    }
+    if (widget.formatRegExp != null) {
+      setState(() {
+        _validate = widget.formatRegExp.hasMatch(_controller.text);
+      });
     }
   }
 
@@ -97,7 +106,9 @@ class _InputTextFieldState extends State<InputTextField> {
           // onChanged: widget.onChange,
           decoration: InputDecoration(
             border: InputBorder.none,
-            labelStyle: AppTypography.font14.copyWith(color: AppColors.c9B9B9B),
+            labelStyle: AppTypography.font14.copyWith(
+              color: _validate ? AppColors.c9B9B9B : AppColors.cFF3B30,
+            ),
             labelText: widget.label,
           ),
         ),

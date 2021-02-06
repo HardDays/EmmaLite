@@ -1,36 +1,72 @@
-import 'package:built_value/built_value.dart';
+import 'package:hive/hive.dart';
 
 part 'user.g.dart';
 
-abstract class User implements Built<User, UserBuilder> {
-  factory User([void Function(UserBuilder) updates]) = _$User;
+@HiveType(typeId: 7)
+class User extends HiveObject {
+  @HiveField(0)
+  String photo;
+  @HiveField(1)
+  String firstName;
+  @HiveField(2)
+  String lastName;
+  @HiveField(3)
+  int genderId;
+  @HiveField(4)
+  String birthday;
+  @HiveField(5)
+  double height;
+  @HiveField(6)
+  double weight;
+  @HiveField(7)
+  String phone;
+  @HiveField(8)
+  String email;
+  @HiveField(9)
+  int id;
+  @HiveField(10)
+  String status;
 
-  User._();
+  User({
+    this.photo,
+    this.firstName,
+    this.lastName,
+    this.genderId,
+    this.birthday,
+    this.height,
+    this.weight,
+    this.phone,
+    this.email,
+    this.id,
+    this.status,
+  }) {
+    id ??= DateTime.now().millisecondsSinceEpoch;
+    photo ??= '';
+    firstName ??= '';
+    lastName ??= '';
+    phone ??= '';
+    email ??= '';
+  }
 
-  @nullable
-  String get firstName;
+  Gender get gender => genderId == null ? null : Gender.values[genderId];
 
-  @nullable
-  String get lastName;
+  bool get isEmpty => firstName.isEmpty || lastName.isEmpty;
 
-  @nullable
-  String get sex;
+  DateTime get date => birthday == null ? null : DateTime.parse(birthday);
 
-  @nullable
-  String get birthDate;
-
-  @nullable
-  String get imageUrl;
-
-  @nullable
-  double get weight;
-
-  @nullable
-  double get height;
-
-  @nullable
-  String get phoneNumber;
-
-  @nullable
-  String get email;
+  bool get canSave {
+    if (firstName.isNotEmpty &&
+        lastName.isNotEmpty &&
+        genderId != null &&
+        birthday != null &&
+        height != null &&
+        weight != null &&
+        phone.isNotEmpty &&
+        email.isNotEmpty) {
+      return true;
+    }
+    return false;
+  }
 }
+
+enum Gender { male, female }
