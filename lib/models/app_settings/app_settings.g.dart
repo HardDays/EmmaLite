@@ -19,17 +19,23 @@ class AppSettingsAdapter extends TypeAdapter<AppSettings> {
     return AppSettings(
       currentProfileIndex: fields[0] as int,
       isFirstRun: fields[1] as bool,
+      showProfilePlusHelp: fields[2] as bool,
+      showProfileCreateHelp: fields[3] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, AppSettings obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.currentProfileIndex)
       ..writeByte(1)
-      ..write(obj.isFirstRun);
+      ..write(obj.isFirstRun)
+      ..writeByte(2)
+      ..write(obj.showProfilePlusHelp)
+      ..writeByte(3)
+      ..write(obj.showProfileCreateHelp);
   }
 
   @override

@@ -12,5 +12,9 @@ class AppLocalRepository {
     }
     return _hiveBoxes.appSettingsBox.get(_key);
   }
-  
+
+  void putSettings(AppSettings settings) {
+    _hiveBoxes.appSettingsBox.put(_key, settings);
+  }
+
 }

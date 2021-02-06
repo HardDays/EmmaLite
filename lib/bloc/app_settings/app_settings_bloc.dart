@@ -19,4 +19,9 @@ class AppSettingsBloc extends Cubit<AppSettingsState> {
     _appSettings = _appLocalRepository.getSettings();
   }
 
+  void setShowProfilePlusHelp() {
+    _appSettings.showProfilePlusHelp = true;
+    emit(AppSettingsState());
+  }
+
 }
