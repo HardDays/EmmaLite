@@ -50,6 +50,20 @@ class User extends HiveObject {
     status ??= '';
   }
 
+  User copy() => User(
+    id: id,
+    height: height,
+    email: email,
+    photo: photo,
+    phone: phone,
+    lastName: lastName,
+    firstName: firstName,
+    birthday: birthday,
+    genderId: genderId,
+    status: status,
+    weight: weight,
+  );
+
   Gender get gender => genderId == null ? null : Gender.values[genderId];
 
   bool get isEmpty => firstName.isEmpty || lastName.isEmpty;

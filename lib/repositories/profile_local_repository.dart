@@ -12,13 +12,18 @@ class ProfileLocalRepository {
 
   User getCurrentUser() {
     final currentUserId = _appLocalRepository.currentUserId;
-    print('xxxxx ${currentUserId}');
-    print('ttttt ${getUsers().map((e) => e.id)}');
     return getUsers().firstWhere((e) => e.id == currentUserId);
   }
 
   void updateUserByIndex({int index, User user}) {
     _hiveBoxes.userBox.putAt(index, user);
+  }
+
+  void swapUser({int current, int previous}) {
+    final user1 = _hiveBoxes.userBox.getAt(previous).copy();
+    final user2 = _hiveBoxes.userBox.getAt(current).copy();
+    _hiveBoxes.userBox.putAt(current, user1);
+    _hiveBoxes.userBox.putAt(previous, user2);
   }
 
   void addUser(User user) {

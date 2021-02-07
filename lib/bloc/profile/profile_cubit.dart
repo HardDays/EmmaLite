@@ -70,5 +70,12 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(ProfileState());
   }
 
-  void changeIndex({int previous, int current}) {}
+  void changeIndex({int previous, int current}) {
+    final user1 = _users[previous];
+    final user2 = _users[current];
+    _users[current] = user1;
+    _users[previous] = user2;
+    _repository.swapUser(current: current, previous: previous);
+    emit(ProfileState());
+  }
 }
