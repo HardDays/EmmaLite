@@ -81,6 +81,8 @@ dependencies:
   flutter_keyboard_visibility: ^4.0.3
   simple_image_crop: ^1.0.0
   reorderables: ^0.3.2
+  pdf: ^2.0.0
+  printing: ^4.0.0
 
 dev_dependencies:
   flutter_test:
@@ -114,6 +116,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/pdf_icons/
   fonts:
     - family: SFProDisplay
       fonts:

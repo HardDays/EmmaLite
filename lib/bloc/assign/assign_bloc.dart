@@ -34,6 +34,11 @@ class AssignBloc extends Cubit<AssignState> {
     _assignment = _assignmentLocalRepository.getAssignment();
   }
 
+  void reload() {
+    _init();
+    emit(AssignState());
+  }
+
   Assignment getAssignById(int id) => _assignment.firstWhere((e) => e.id == id);
 
   void addAssignment(Assignment assign) {
@@ -45,14 +50,14 @@ class AssignBloc extends Cubit<AssignState> {
   void updateAssignment(Assignment assign) {
     final index = _assignment.lastIndexWhere((e) => e.id == assign.id);
     _assignment[index] = assign;
-    _assignmentLocalRepository.insertByIndex(index: index, assign: assign);
+    _assignmentLocalRepository.insert(assign: assign);
     emit(AssignState());
   }
 
   void deleteAssignment(Assignment assign) {
     final index = _assignment.lastIndexWhere((e) => e.id == assign.id);
     _assignment.removeAt(index);
-    _assignmentLocalRepository.removeByIndex(index: index);
+    _assignmentLocalRepository.removeById(id: assign.id);
     emit(AssignState());
   }
 
@@ -65,10 +70,7 @@ class AssignBloc extends Cubit<AssignState> {
     _assignment[assignIndex].runTasks[taskIndex] = _assignment[assignIndex]
         .runTasks[taskIndex]
         .copyWith(completedDate: DateTime.now());
-    _assignmentLocalRepository.insertByIndex(
-      index: assignIndex,
-      assign: _assignment[assignIndex],
-    );
+    _assignmentLocalRepository.insert(assign: _assignment[assignIndex]);
     emit(AssignState());
   }
 }

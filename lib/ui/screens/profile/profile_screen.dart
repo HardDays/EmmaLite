@@ -1,5 +1,8 @@
 import 'package:emma_mobile/bloc/app_settings/app_settings_bloc.dart';
 import 'package:emma_mobile/bloc/app_settings/app_settings_state.dart';
+import 'package:emma_mobile/bloc/assign/assign_bloc.dart';
+import 'package:emma_mobile/bloc/doctors_screen/doctors_bloc.dart';
+import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
 import 'package:emma_mobile/bloc/profile/profile_cubit.dart';
 import 'package:emma_mobile/bloc/profile/profile_state.dart';
 import 'package:emma_mobile/bloc/profile_screen/profile_screen_bloc.dart';
@@ -106,6 +109,9 @@ class _CurrentProfile extends StatelessWidget {
                                       context.bloc<ProfileCubit>().setUser(
                                             bloc.users[i],
                                           );
+                                      context.bloc<MeasurementCubit>().reload();
+                                      context.bloc<DoctorsBloc>().reload();
+                                      context.bloc<AssignBloc>().reload();
                                     },
                                     child: ProfileImage(
                                       size: 120.w,

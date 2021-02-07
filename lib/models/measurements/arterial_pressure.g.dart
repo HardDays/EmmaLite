@@ -21,13 +21,14 @@ class ArterialPressureAdapter extends TypeAdapter<ArterialPressure> {
       date: fields[1] as String,
       top: fields[2] as int,
       under: fields[3] as int,
+      userId: fields[4] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, ArterialPressure obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -35,7 +36,9 @@ class ArterialPressureAdapter extends TypeAdapter<ArterialPressure> {
       ..writeByte(2)
       ..write(obj.top)
       ..writeByte(3)
-      ..write(obj.under);
+      ..write(obj.under)
+      ..writeByte(4)
+      ..write(obj.userId);
   }
 
   @override

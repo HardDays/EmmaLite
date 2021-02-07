@@ -11,8 +11,10 @@ class ProfileLocalRepository {
   }
 
   User getCurrentUser() {
-    final currentUserId = _appLocalRepository.getSettings().currentProfileIndex;
-    return _hiveBoxes.userBox.getAt(currentUserId);
+    final currentUserId = _appLocalRepository.currentUserId;
+    print('xxxxx ${currentUserId}');
+    print('ttttt ${getUsers().map((e) => e.id)}');
+    return getUsers().firstWhere((e) => e.id == currentUserId);
   }
 
   void updateUserByIndex({int index, User user}) {

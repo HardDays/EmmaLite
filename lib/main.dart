@@ -5,7 +5,6 @@ import 'package:emma_mobile/bloc/assign/assign_bloc.dart';
 import 'package:emma_mobile/bloc/doctors_screen/doctors_bloc.dart';
 import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
 import 'package:emma_mobile/bloc/profile/profile_cubit.dart';
-import 'package:emma_mobile/generated/fonts.gen.dart';
 import 'package:emma_mobile/l10n/delegate.dart';
 import 'package:emma_mobile/models/app_settings/app_settings.dart';
 import 'package:emma_mobile/models/doctor/doctor.dart';
@@ -17,6 +16,7 @@ import 'package:emma_mobile/models/measurements/temperature.dart';
 import 'package:emma_mobile/models/user/user.dart';
 import 'package:emma_mobile/repositories/app_local_repository.dart';
 import 'package:emma_mobile/repositories/measurement_local_repository.dart';
+import 'package:emma_mobile/repositories/profile_local_repository.dart';
 import 'package:emma_mobile/ui/routing/router.dart';
 import 'package:emma_mobile/ui/screens/navigator_screen.dart';
 import 'package:emma_mobile/utils/hive_boxes.dart';
@@ -32,6 +32,16 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initHive();
   await HiveBoxes().init();
+
+  final _localRepo = AppLocalRepository();
+  final settings = _localRepo.getSettings();
+
+  if (_localRepo.getSettings().currentProfileId == null) {
+    final user = User();
+    ProfileLocalRepository().addUser(user);
+    _localRepo.putSettings(settings..currentProfileId = user.id);
+  }
+
   AppRouter.current.rootNavigatorKey = GlobalKey<NavigatorState>();
   final app = MaterialApp(
     title: 'Emma Mobile',

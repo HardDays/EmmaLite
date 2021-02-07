@@ -8,7 +8,7 @@ part 'arterial_pressure.g.dart';
 
 @HiveType(typeId: 1)
 class ArterialPressure extends HiveObject implements Measurement {
-  ArterialPressure({this.id, this.date, this.top, this.under}) {
+  ArterialPressure({this.id, this.date, this.top, this.under, this.userId}) {
     dateTime = DateTime.parse(date);
   }
 
@@ -23,6 +23,9 @@ class ArterialPressure extends HiveObject implements Measurement {
 
   @HiveField(3)
   final int under;
+
+  @HiveField(4)
+  final int userId;
 
   @override
   String title = 'Давление';
@@ -47,4 +50,7 @@ class ArterialPressure extends HiveObject implements Measurement {
 
   @override
   String inNewScreen = 'давления';
+
+  @override
+  int getUserId() => userId;
 }

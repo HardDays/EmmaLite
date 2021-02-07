@@ -1,10 +1,14 @@
 import 'package:emma_mobile/bloc/new_doctor_bloc/new_doctor_state.dart';
 import 'package:emma_mobile/models/doctor/doctor.dart';
+import 'package:emma_mobile/repositories/app_local_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NewDoctorBloc extends Cubit<NewDoctorState> {
   NewDoctorBloc({Doctor initialDoctor}) : super(NewDoctorState()) {
-    _doctor = initialDoctor ?? Doctor();
+    _doctor = initialDoctor ??
+        Doctor(
+          userId: AppLocalRepository().currentUserId,
+        );
     _initDoctor = initialDoctor;
     _canSave = _doctor.canSave;
   }

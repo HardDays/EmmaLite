@@ -17,6 +17,7 @@ class $AssetsIconsGen {
   SvgGenImage get calendar => const SvgGenImage('assets/icons/calendar.svg');
   SvgGenImage get calendarActive =>
       const SvgGenImage('assets/icons/calendar_active.svg');
+  SvgGenImage get check => const SvgGenImage('assets/icons/check.svg');
   SvgGenImage get chevronLeft =>
       const SvgGenImage('assets/icons/chevron_left.svg');
   SvgGenImage get close => const SvgGenImage('assets/icons/close.svg');
@@ -27,6 +28,7 @@ class $AssetsIconsGen {
       const SvgGenImage('assets/icons/graph_active.svg');
   SvgGenImage get graphInactive =>
       const SvgGenImage('assets/icons/graph_inactive.svg');
+  SvgGenImage get info => const SvgGenImage('assets/icons/info.svg');
   SvgGenImage get lifestyle => const SvgGenImage('assets/icons/lifestyle.svg');
   SvgGenImage get measureShort =>
       const SvgGenImage('assets/icons/measure_short.svg');
@@ -59,6 +61,7 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  SvgGenImage get agreement => const SvgGenImage('assets/images/agreement.svg');
   AssetGenImage get delete => const AssetGenImage('assets/images/delete.png');
   AssetGenImage get emptyAvatar =>
       const AssetGenImage('assets/images/empty_avatar.png');
@@ -74,11 +77,19 @@ class $AssetsImagesGen {
       const AssetGenImage('assets/images/touch_id.png');
 }
 
+class $AssetsPdfIconsGen {
+  const $AssetsPdfIconsGen();
+
+  AssetGenImage get calendar =>
+      const AssetGenImage('assets/pdf_icons/calendar.png');
+}
+
 class Assets {
   Assets._();
 
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsPdfIconsGen pdfIcons = $AssetsPdfIconsGen();
 }
 
 class AssetGenImage extends AssetImage {

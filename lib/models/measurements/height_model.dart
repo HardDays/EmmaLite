@@ -7,7 +7,7 @@ part 'height_model.g.dart';
 
 @HiveType(typeId: 3)
 class HeightModel extends HiveObject implements Measurement {
-  HeightModel({this.id, this.date, this.height}) {
+  HeightModel({this.id, this.date, this.height, this.userId}) {
     dateTime = DateTime.parse(date);
   }
 
@@ -19,6 +19,9 @@ class HeightModel extends HiveObject implements Measurement {
 
   @HiveField(2)
   final double height;
+
+  @HiveField(3)
+  final int userId;
 
   @override
   String title = 'Вес';
@@ -43,4 +46,7 @@ class HeightModel extends HiveObject implements Measurement {
 
   @override
   String inNewScreen = 'веса';
+
+  @override
+  int getUserId() => userId;
 }

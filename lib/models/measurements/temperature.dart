@@ -7,7 +7,7 @@ part 'temperature.g.dart';
 
 @HiveType(typeId: 5)
 class Temperature extends HiveObject implements Measurement {
-  Temperature({this.id, this.date, this.temperature}) {
+  Temperature({this.id, this.date, this.temperature, this.userId}) {
     dateTime = DateTime.parse(date);
   }
 
@@ -19,6 +19,9 @@ class Temperature extends HiveObject implements Measurement {
 
   @HiveField(2)
   final double temperature;
+
+  @HiveField(3)
+  final int userId;
 
   @override
   String title = 'Температура';
@@ -43,4 +46,7 @@ class Temperature extends HiveObject implements Measurement {
 
   @override
   String inNewScreen = 'температуры';
+
+  @override
+  int getUserId() => userId;
 }

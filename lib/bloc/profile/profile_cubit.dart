@@ -1,19 +1,19 @@
 import 'package:bloc/bloc.dart';
 import 'package:emma_mobile/bloc/profile/profile_state.dart';
 import 'package:emma_mobile/models/user/user.dart';
+import 'package:emma_mobile/repositories/app_local_repository.dart';
 import 'package:emma_mobile/repositories/profile_local_repository.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit() : super(ProfileState()) {
-    if (_repository.getUsers().isEmpty) {
-      _repository.addUser(User());
-    }
     _init();
   }
 
   final _repository = ProfileLocalRepository();
+
+  final _appLocalRepository = AppLocalRepository();
 
   User _currentUser;
 
@@ -34,11 +34,9 @@ class ProfileCubit extends Cubit<ProfileState> {
       AppColors.cFDACC9,
       AppColors.cFFB9BD,
     ];
-    final colors =
-        user.gender == Gender.male ? maleColors : femaleColors;
-    final emptyPhotos = users
-        .where((e) => e.photo.isEmpty && e.gender == user.gender)
-        .toList();
+    final colors = user.gender == Gender.male ? maleColors : femaleColors;
+    final emptyPhotos =
+        users.where((e) => e.photo.isEmpty && e.gender == user.gender).toList();
     final index = emptyPhotos.lastIndexWhere((e) => e.id == user.id);
     if (index <= 2) {
       return colors[index];
@@ -54,12 +52,15 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   void setUser(User user) {
     _currentUser = user;
+    final settings = _appLocalRepository.getSettings();
+    settings.currentProfileId = user.id;
+    _appLocalRepository.putSettings(settings);
     emit(ProfileState());
   }
 
   void addUser(User user) {
-    _currentUser = user;
     if (_users.first.isEmpty) {
+      user.id = _users[0].id;
       _users[0] = user;
       _repository.updateUserByIndex(index: 0, user: user);
     } else {
@@ -69,7 +70,5 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(ProfileState());
   }
 
-  void changeIndex({int previous, int current}) {
-
-  }
+  void changeIndex({int previous, int current}) {}
 }

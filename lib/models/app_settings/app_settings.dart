@@ -5,7 +5,7 @@ part 'app_settings.g.dart';
 @HiveType(typeId: 8)
 class AppSettings extends HiveObject {
   @HiveField(0)
-  int currentProfileIndex;
+  int currentProfileId;
   @HiveField(1)
   bool isFirstRun;
   @HiveField(2)
@@ -16,10 +16,10 @@ class AppSettings extends HiveObject {
   bool showProfileSettingsHelp;
 
   AppSettings({
-    this.currentProfileIndex = 0,
-    this.isFirstRun = true,
-    this.showProfilePlusHelp = false,
-    this.showProfileCreateHelp = false,
+    this.currentProfileId,
+    this.isFirstRun,
+    this.showProfilePlusHelp,
+    this.showProfileCreateHelp,
     this.showProfileSettingsHelp,
   }) {
     isFirstRun ??= true;

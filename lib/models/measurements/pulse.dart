@@ -7,7 +7,7 @@ part 'pulse.g.dart';
 
 @HiveType(typeId: 4)
 class Pulse extends HiveObject implements Measurement {
-  Pulse({this.id, this.date, this.pulse, this.pulseType}) {
+  Pulse({this.id, this.date, this.pulse, this.pulseType, this.userId}) {
     dateTime = DateTime.parse(date);
   }
 
@@ -22,6 +22,9 @@ class Pulse extends HiveObject implements Measurement {
 
   @HiveField(3)
   final int pulseType;
+
+  @HiveField(4)
+  final int userId;
 
   @override
   String title = 'Пульс';
@@ -51,4 +54,7 @@ class Pulse extends HiveObject implements Measurement {
   String toString() {
     return '$pulse $dateTime';
   }
+
+  @override
+  int getUserId() => userId;
 }
