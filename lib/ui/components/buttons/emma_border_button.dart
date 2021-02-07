@@ -3,9 +3,15 @@ import 'package:flutter/material.dart';
 
 class EmmaBorderButton extends StatelessWidget {
   final String text;
+  final Color color;
   final Function onTap;
 
-  const EmmaBorderButton({Key key, this.text, this.onTap}) : super(key: key);
+  const EmmaBorderButton({
+    Key key,
+    this.text,
+    this.onTap,
+    this.color,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +22,7 @@ class EmmaBorderButton extends StatelessWidget {
         width: 288.w,
         height: 50.h,
         decoration: BoxDecoration(
+          color: color,
           borderRadius: const BorderRadius.all(Radius.circular(32)),
           border: Border.all(
             color: AppColors.c00ACE3,

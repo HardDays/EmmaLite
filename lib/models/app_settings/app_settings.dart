@@ -12,15 +12,19 @@ class AppSettings extends HiveObject {
   bool showProfilePlusHelp;
   @HiveField(3)
   bool showProfileCreateHelp;
+  @HiveField(4)
+  bool showProfileSettingsHelp;
 
   AppSettings({
     this.currentProfileIndex = 0,
     this.isFirstRun = true,
     this.showProfilePlusHelp = false,
     this.showProfileCreateHelp = false,
+    this.showProfileSettingsHelp,
   }) {
     isFirstRun ??= true;
     showProfilePlusHelp ??= false;
     showProfileCreateHelp ??= false;
+    showProfileSettingsHelp ??= false;
   }
 }

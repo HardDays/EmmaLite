@@ -21,7 +21,21 @@ class AppSettingsBloc extends Cubit<AppSettingsState> {
 
   void setShowProfilePlusHelp() {
     _appSettings.showProfilePlusHelp = true;
-    emit(AppSettingsState());
+    _updateSettings();
   }
 
+  void setShowProfileCreateHelp() {
+    _appSettings.showProfileCreateHelp = true;
+    _updateSettings();
+  }
+
+  void setShowProfileSettingsHelp() {
+    _appSettings.showProfileSettingsHelp = true;
+    _updateSettings();
+  }
+
+  void _updateSettings() {
+    _appLocalRepository.putSettings(_appSettings);
+    emit(AppSettingsState());
+  }
 }

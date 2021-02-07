@@ -35,7 +35,6 @@ class NewDoctorScreen extends StatelessWidget {
                     final bloc = context.bloc<NewDoctorBloc>();
                     return BlocBuilder<NewDoctorBloc, NewDoctorState>(
                       builder: (_, __) {
-                        print(bloc.doctor.canSave);
                         return Column(
                           children: [
                             Padding(

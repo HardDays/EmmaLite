@@ -55,9 +55,15 @@ class _InputTextFieldState extends State<InputTextField> {
       widget?.onChange(_controller.text);
     }
     if (widget.formatRegExp != null) {
-      setState(() {
-        _validate = widget.formatRegExp.hasMatch(_controller.text);
-      });
+      if (_controller.text.isEmpty) {
+        setState(() {
+          _validate = true;
+        });
+      } else {
+        setState(() {
+          _validate = widget.formatRegExp.hasMatch(_controller.text);
+        });
+      }
     }
   }
 

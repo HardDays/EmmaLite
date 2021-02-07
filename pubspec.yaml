@@ -80,6 +80,7 @@ dependencies:
   optimized_gesture_detector: ^0.0.5
   flutter_keyboard_visibility: ^4.0.3
   simple_image_crop: ^1.0.0
+  reorderables: ^0.3.2
 
 dev_dependencies:
   flutter_test:

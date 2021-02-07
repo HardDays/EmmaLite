@@ -1,4 +1,6 @@
+import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class AppImages {
   const AppImages._();
@@ -13,6 +15,16 @@ class AppImages {
   static Widget delete() {
     return Image.asset(
       'assets/images/delete.png',
+      fit: BoxFit.contain,
+    );
+  }
+
+
+  static Widget agreement() {
+    return SvgPicture.asset(
+      'assets/images/agreement.svg',
+      width: 235.w,
+      height: 201.h,
       fit: BoxFit.contain,
     );
   }

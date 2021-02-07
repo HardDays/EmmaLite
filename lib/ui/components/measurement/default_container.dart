@@ -6,6 +6,7 @@ class DefaultContainer extends StatelessWidget {
   final Function onTap;
   final bool haveDecoration;
   final double minHeight;
+  final double maxHeight;
   final double width;
   final Color color;
 
@@ -15,6 +16,7 @@ class DefaultContainer extends StatelessWidget {
     this.onTap,
     this.haveDecoration = true,
     this.minHeight,
+    this.maxHeight,
     this.color,
     this.width,
   }) : super(key: key);
@@ -29,6 +31,7 @@ class DefaultContainer extends StatelessWidget {
           maxWidth: width ?? 288.w,
           minHeight: minHeight ?? 62.h,
         ),
+        height: maxHeight,
         decoration: BoxDecoration(
           color: color ?? AppColors.cFFFFFF,
           borderRadius: haveDecoration

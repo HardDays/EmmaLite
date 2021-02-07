@@ -134,3 +134,7 @@ extension IntExtention on int {
     return 'приемов';
   }
 }
+
+extension StringExtentions on String {
+  String get first => substring(0, 1);
+}

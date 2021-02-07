@@ -45,12 +45,12 @@ class AppIcons {
     );
   }
 
-  static Widget trash({Color color}) {
+  static Widget trash({Color color, double size}) {
     return SvgPicture.asset(
       'assets/icons/trash.svg',
       color: color,
-      width: 24.w,
-      height: 24.w,
+      width: size ?? 24.w,
+      height: size ?? 24.w,
       fit: BoxFit.fill,
     );
   }
@@ -70,6 +70,14 @@ class AppIcons {
   static Widget calendarActive() {
     return SvgPicture.asset(
       'assets/icons/calendar_active.svg',
+    );
+  }
+
+  static Widget check({double size}) {
+    return SvgPicture.asset(
+      'assets/icons/check.svg',
+      width: size,
+      height: size,
     );
   }
 
@@ -201,6 +209,15 @@ class AppIcons {
   static Widget report() {
     return SvgPicture.asset(
       'assets/icons/report.svg',
+      fit: BoxFit.fill,
+    );
+  }
+
+  static Widget info() {
+    return SvgPicture.asset(
+      'assets/icons/info.svg',
+      width: 16.w,
+      height: 16.w,
       fit: BoxFit.fill,
     );
   }
