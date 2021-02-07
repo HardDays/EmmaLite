@@ -87,7 +87,7 @@ class DateTimeTextField extends StatelessWidget {
               Text(
                 hintText,
                 style: AppTypography.font14.copyWith(
-                  color: AppColors.cA7AFB8,
+                  color: AppColors.c9B9B9B,
                 ),
               ),
             const Spacer(),
