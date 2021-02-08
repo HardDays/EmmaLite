@@ -79,6 +79,15 @@ class AppIcons {
     );
   }
 
+  static Widget privacy() {
+    return SvgPicture.asset(
+      'assets/icons/privacy.svg',
+      width: 20.w,
+      height: 20.w,
+      fit: BoxFit.fill,
+    );
+  }
+
   static Widget minus() {
     return SvgPicture.asset(
       'assets/icons/minus.svg',

@@ -61,7 +61,9 @@ class _SplashScreenState extends State<SplashScreen>
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (_) => FirstOpenScreen()),
                   );
-                } else if (settingsBloc.appSettings.password == null) {
+                } else if ((settingsBloc.appSettings.password == null ||
+                        settingsBloc.appSettings.usePassword != true) &&
+                    settingsBloc.appSettings.useFaceId != true) {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (_) => NavigatorScreen()),
                   );
@@ -142,7 +144,7 @@ class _SplashScreenState extends State<SplashScreen>
       if (!_haveError) {
         Future.delayed(
           const Duration(milliseconds: 100),
-              () {
+          () {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (_) => NavigatorScreen(),
@@ -155,6 +157,13 @@ class _SplashScreenState extends State<SplashScreen>
       _haveError = false;
       setState(() {});
     }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _controller2.dispose();
+    super.dispose();
   }
 
   @override
