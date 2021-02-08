@@ -13,20 +13,23 @@ class Doctor extends HiveObject {
   String email;
   @HiveField(3)
   String comment;
+  @HiveField(4)
+  int userId;
 
-  Doctor({this.id, this.name, this.email, this.comment}) {
+  Doctor({this.id, this.name, this.email, this.comment, this.userId}) {
     id ??= DateTime.now().millisecondsSinceEpoch;
     name ??= '';
     email ??= '';
     comment ??= '';
   }
 
-  Doctor copyWith({String name, String email, String comment}) {
+  Doctor copyWith({String name, String email, String comment, int userId}) {
     return Doctor(
       id: id,
       name: name ?? this.name,
       comment: comment ?? this.comment,
       email: email ?? this.email,
+      userId: userId ?? this.userId,
     );
   }
 

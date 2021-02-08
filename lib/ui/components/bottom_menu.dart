@@ -5,6 +5,8 @@ import 'package:emma_mobile/ui/screens/doctors/doctors_screen.dart';
 import 'package:emma_mobile/ui/screens/measurement/select_measurement.dart';
 import 'package:emma_mobile/ui/screens/sync/sync_screen.dart';
 import 'package:emma_mobile/ui/screens/sync/sync_screen_start.dart';
+import 'package:emma_mobile/ui/screens/report_screen.dart';
+import 'package:emma_mobile/ui/screens/settings/confidential_screen.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:emma_mobile/ui/screens/profile/profile_screen.dart';
@@ -61,7 +63,7 @@ class BottomMenu extends StatelessWidget {
                 title: isName ? 'Добавить\nназначение' : 'Мои врачи',
                 width: 137.w,
                 onTap: () {
-                  onTap?.call();
+                  onTap();
                   if (isName) {
                     navigatorPush(context, AssignmentNewScreen());
                   } else {
@@ -72,13 +74,16 @@ class BottomMenu extends StatelessWidget {
             ],
           ),
           Padding(
-            padding: EdgeInsets.only(top: 16.h),
+            padding: EdgeInsets.only(top: 9.h),
             child: _BottomMenuItem(
               icon: isName ? AppIcons.report() : AppIcons.settings(),
               title: isName ? 'Сформировать отчет' : 'Настройки',
               onTap: () {
-                if (!isName) {
-                  navigatorPush(context, SyncScreenStart());
+                onTap();
+                if (isName) {
+                  navigatorPush(context, ReportScreen());
+                } else {
+                  otherTabPage?.call(ConfidentialScreen());
                 }
               },
             ),

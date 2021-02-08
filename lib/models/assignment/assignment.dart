@@ -1,6 +1,7 @@
 import 'package:emma_mobile/models/assignment/assign_frequency.dart';
 import 'package:emma_mobile/models/assignment/assign_type.dart';
 import 'package:emma_mobile/models/assignment/tasks.dart';
+import 'package:emma_mobile/repositories/app_local_repository.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:equatable/equatable.dart';
 
@@ -39,6 +40,8 @@ class Assignment extends Equatable {
 
   bool isStopped;
 
+  int userId;
+
   Assignment({
     this.id,
     this.type,
@@ -57,6 +60,7 @@ class Assignment extends Equatable {
     this.doctorName,
     this.stoppedTime,
     this.isStopped,
+    this.userId,
   }) {
     if (id == null) {
       id = DateTime.now().millisecondsSinceEpoch;
@@ -90,6 +94,7 @@ class Assignment extends Equatable {
       );
       runTasks = [];
       isStopped = false;
+      userId = AppLocalRepository().currentUserId;
     }
   }
 
@@ -110,6 +115,7 @@ class Assignment extends Equatable {
       name: name,
       frequency: frequency,
       id: DateTime.now().millisecondsSinceEpoch,
+      userId: userId,
       runTasks: [],
     );
   }
@@ -226,6 +232,7 @@ class Assignment extends Equatable {
     data['stoppedTime'] = stoppedTime;
     data['runTasks'] = runTasks.map((e) => e.toJson()).toList();
     data['isStopped'] = isStopped;
+    data['userId'] = userId;
     return data;
   }
 
@@ -252,6 +259,7 @@ class Assignment extends Equatable {
       doctorName: json['doctorName'],
       stoppedTime: stoppedTime == null ? null : DateTime.parse(stoppedTime),
       isStopped: json['isStopped'] ?? false,
+      userId: json['userId'],
     );
   }
 

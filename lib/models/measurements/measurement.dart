@@ -18,4 +18,6 @@ abstract class Measurement {
 
   DateTime dateTime;
 
+  int getUserId();
+
 }

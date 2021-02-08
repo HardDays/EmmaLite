@@ -31,8 +31,7 @@ class _BottomNavigationBarCustomState extends State<BottomNavigationBarCustom>
   Animation<double> heightAnimation2;
   AnimationController controller;
   AnimationController heightController;
-  Tween<double> tween = Tween<double>(begin: 0, end: 50);
-  Tween<double> tweenHeight = Tween<double>(begin: 0, end: 300);
+  Tween<double> tweenHeight = Tween<double>(begin: 0, end: 263.h);
   int angle = 0;
   BottomMenuType type;
 
@@ -43,12 +42,10 @@ class _BottomNavigationBarCustomState extends State<BottomNavigationBarCustom>
     controller = AnimationController(vsync: this, duration: _duration);
     heightController = AnimationController(vsync: this, duration: _duration);
 
-    animation = tween.animate(controller);
     heightAnimation = tweenHeight.animate(controller);
     heightAnimation2 = tweenHeight.animate(heightController);
 
     type = BottomMenuType.main;
-    animation.addListener(() => setState(() {}));
     heightAnimation.addListener(() => setState(() {}));
     heightAnimation2.addListener(() => setState(() {}));
     super.initState();
@@ -79,6 +76,7 @@ class _BottomNavigationBarCustomState extends State<BottomNavigationBarCustom>
                         height: heightAnimation.value,
                         child: BottomMenu(
                           onTap: _animate,
+                          otherTabPage: widget.otherTabPage,
                         ),
                       )
                     : SizedBox(
@@ -186,7 +184,7 @@ class _BottomNavigationBarCustomState extends State<BottomNavigationBarCustom>
   }
 
   void _animate() {
-    if (heightAnimation2.value == 300) {
+    if (heightAnimation2.value == 263.h) {
       heightController.reverse();
     }
     if (angle == 0) {

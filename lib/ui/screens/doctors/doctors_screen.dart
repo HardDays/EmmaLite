@@ -56,7 +56,7 @@ class DoctorsScreen extends StatelessWidget {
                       return GestureDetector(
                         onTap: () {
                           if (returnDoctor) {
-                            Navigator.of(context).pop(bloc.doctors[i].name);
+                            Navigator.of(context).pop(bloc.doctors[i]);
                           }
                         },
                         behavior: HitTestBehavior.opaque,

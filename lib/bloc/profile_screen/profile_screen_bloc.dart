@@ -6,13 +6,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileScreenBloc extends Cubit<ProfileScreenState> {
-  ProfileScreenBloc({User initUser}) : super(ProfileScreenState()) {
+  ProfileScreenBloc({
+    User initUser,
+    bool checkStatus,
+  }) : super(ProfileScreenState()) {
     _user = initUser ?? User();
     _canEdit = initUser = null;
     _canSave = false;
+    _checkStatus = checkStatus ?? false;
   }
 
   User _user;
+
+  bool _checkStatus;
 
   bool _canEdit;
 
@@ -22,7 +28,7 @@ class ProfileScreenBloc extends Cubit<ProfileScreenState> {
 
   bool get canEdit => _canEdit;
 
-  bool get canSave => _canSave;
+  bool get canSave => _user.canSave(checkStatus: _checkStatus);
 
   Future<void> pickPhoto(
       {BuildContext context, ImageSource imageSource}) async {
@@ -95,11 +101,16 @@ class ProfileScreenBloc extends Cubit<ProfileScreenState> {
     _updateText();
   }
 
+  void setStatus(String status) {
+    _user.status = status;
+    _updateText();
+  }
+
   void _updateText() {
-    if (_canSave != _user.canSave) {
+    if (_canSave != _user.canSave(checkStatus: _checkStatus)) {
       _canSave = !_canSave;
+      _update();
     }
-    _update();
   }
 
   void _update() {

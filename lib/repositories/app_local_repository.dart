@@ -13,6 +13,8 @@ class AppLocalRepository {
     return _hiveBoxes.appSettingsBox.get(_key);
   }
 
+  int get currentUserId => _hiveBoxes.appSettingsBox.get(_key).currentProfileId;
+
   void putSettings(AppSettings settings) {
     _hiveBoxes.appSettingsBox.put(_key, settings);
   }

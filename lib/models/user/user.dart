@@ -1,3 +1,4 @@
+import 'package:emma_mobile/utils/utils.dart';
 import 'package:hive/hive.dart';
 
 part 'user.g.dart';
@@ -46,7 +47,22 @@ class User extends HiveObject {
     lastName ??= '';
     phone ??= '';
     email ??= '';
+    status ??= '';
   }
+
+  User copy() => User(
+    id: id,
+    height: height,
+    email: email,
+    photo: photo,
+    phone: phone,
+    lastName: lastName,
+    firstName: firstName,
+    birthday: birthday,
+    genderId: genderId,
+    status: status,
+    weight: weight,
+  );
 
   Gender get gender => genderId == null ? null : Gender.values[genderId];
 
@@ -54,7 +70,17 @@ class User extends HiveObject {
 
   DateTime get date => birthday == null ? null : DateTime.parse(birthday);
 
-  bool get canSave {
+  String get initials => '${firstName.first}${lastName.first}';
+
+  String get statusWithDefault {
+    if (status.isEmpty) {
+      return 'Мой профиль';
+    }
+    return status;
+  }
+
+  bool canSave({bool checkStatus = false}) {
+    bool canSave;
     if (firstName.isNotEmpty &&
         lastName.isNotEmpty &&
         genderId != null &&
@@ -62,10 +88,21 @@ class User extends HiveObject {
         height != null &&
         weight != null &&
         phone.isNotEmpty &&
-        email.isNotEmpty) {
-      return true;
+        email.isNotEmpty &&
+        RegExp(Constants.emailRegex).hasMatch(email)) {
+      canSave = true;
+    } else {
+      canSave = false;
     }
-    return false;
+    if (checkStatus) {
+      if (status.isEmpty) {
+        return false;
+      } else {
+        return canSave;
+      }
+    } else {
+      return canSave;
+    }
   }
 }
 

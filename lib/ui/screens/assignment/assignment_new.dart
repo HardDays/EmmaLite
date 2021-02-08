@@ -8,6 +8,7 @@ import 'package:emma_mobile/models/assignment/assign_type.dart';
 import 'package:emma_mobile/models/assignment/assign_unit.dart';
 import 'package:emma_mobile/models/assignment/assignment.dart';
 import 'package:emma_mobile/models/assignment/tasks.dart';
+import 'package:emma_mobile/models/doctor/doctor.dart';
 import 'package:emma_mobile/models/picker_time_range.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
 import 'package:emma_mobile/ui/components/app_bar/small_app_bar.dart';
@@ -186,8 +187,8 @@ class _NewAssign extends StatelessWidget {
                                 ),
                               ),
                             );
-                            if (res != null) {
-                              bloc.setDoctor(res, updateScreen: true);
+                            if (res is Doctor) {
+                              bloc.setDoctor(res.name, updateScreen: true);
                             }
                           },
                           child: Padding(

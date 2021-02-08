@@ -17,16 +17,20 @@ class $AssetsIconsGen {
   SvgGenImage get calendar => const SvgGenImage('assets/icons/calendar.svg');
   SvgGenImage get calendarActive =>
       const SvgGenImage('assets/icons/calendar_active.svg');
+  SvgGenImage get check => const SvgGenImage('assets/icons/check.svg');
   SvgGenImage get chevronLeft =>
       const SvgGenImage('assets/icons/chevron_left.svg');
   SvgGenImage get close => const SvgGenImage('assets/icons/close.svg');
   SvgGenImage get complete => const SvgGenImage('assets/icons/complete.svg');
+  SvgGenImage get delete => const SvgGenImage('assets/icons/delete.svg');
   SvgGenImage get divan => const SvgGenImage('assets/icons/divan.svg');
   SvgGenImage get doctors => const SvgGenImage('assets/icons/doctors.svg');
+  SvgGenImage get faceId => const SvgGenImage('assets/icons/face_id.svg');
   SvgGenImage get graphActive =>
       const SvgGenImage('assets/icons/graph_active.svg');
   SvgGenImage get graphInactive =>
       const SvgGenImage('assets/icons/graph_inactive.svg');
+  SvgGenImage get info => const SvgGenImage('assets/icons/info.svg');
   SvgGenImage get lifestyle => const SvgGenImage('assets/icons/lifestyle.svg');
   SvgGenImage get measureShort =>
       const SvgGenImage('assets/icons/measure_short.svg');
@@ -59,6 +63,7 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  SvgGenImage get agreement => const SvgGenImage('assets/images/agreement.svg');
   AssetGenImage get delete => const AssetGenImage('assets/images/delete.png');
   AssetGenImage get emptyAvatar =>
       const AssetGenImage('assets/images/empty_avatar.png');
@@ -72,6 +77,14 @@ class $AssetsImagesGen {
       const AssetGenImage('assets/images/profile_image_default.png');
   AssetGenImage get touchId =>
       const AssetGenImage('assets/images/touch_id.png');
+  SvgGenImage get welcome => const SvgGenImage('assets/images/welcome.svg');
+}
+
+class $AssetsPdfIconsGen {
+  const $AssetsPdfIconsGen();
+
+  AssetGenImage get calendar =>
+      const AssetGenImage('assets/pdf_icons/calendar.png');
 }
 
 class Assets {
@@ -79,6 +92,7 @@ class Assets {
 
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsPdfIconsGen pdfIcons = $AssetsPdfIconsGen();
 }
 
 class AssetGenImage extends AssetImage {

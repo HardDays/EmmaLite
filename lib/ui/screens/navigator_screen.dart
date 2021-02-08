@@ -1,8 +1,4 @@
-import 'package:animated_rotation/animated_rotation.dart';
-import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
-import 'package:emma_mobile/ui/components/bottom_navigation/custom_bottom_nav_bar_item.dart';
 import 'package:emma_mobile/ui/components/bottom_navigation/custom_bottom_navigation_bar.dart';
-import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/screens/assignment/assignments_screen.dart';
 import 'package:emma_mobile/ui/screens/main/main_screen.dart';
 import 'package:emma_mobile/ui/screens/measurement/measurements_screen.dart';
@@ -36,7 +32,6 @@ class _NavigatorScreenState extends State<NavigatorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context, designSize: const Size(320, 704));
     if (_currentIndex != 4) {
       otherScreen = null;
     }

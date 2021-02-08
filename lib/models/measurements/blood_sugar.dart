@@ -7,7 +7,7 @@ part 'blood_sugar.g.dart';
 
 @HiveType(typeId: 2)
 class BloodSugar extends HiveObject implements Measurement {
-  BloodSugar({this.id, this.date, this.sugar, this.eatTime}) {
+  BloodSugar({this.id, this.date, this.sugar, this.eatTime, this.userId}) {
     dateTime = DateTime.parse(date);
     if (eatTime != null) {
       eatDateTime = DateTime.parse(eatTime);
@@ -25,6 +25,9 @@ class BloodSugar extends HiveObject implements Measurement {
 
   @HiveField(3)
   final String eatTime;
+
+  @HiveField(4)
+  final int userId;
 
   @override
   String title = 'Сахар в крови';
@@ -51,4 +54,7 @@ class BloodSugar extends HiveObject implements Measurement {
 
   @override
   String inNewScreen = 'сахара\nв крови';
+
+  @override
+  int getUserId() => userId;
 }

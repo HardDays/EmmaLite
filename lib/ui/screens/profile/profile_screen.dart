@@ -1,15 +1,22 @@
 import 'package:emma_mobile/bloc/app_settings/app_settings_bloc.dart';
 import 'package:emma_mobile/bloc/app_settings/app_settings_state.dart';
+import 'package:emma_mobile/bloc/assign/assign_bloc.dart';
+import 'package:emma_mobile/bloc/doctors_screen/doctors_bloc.dart';
+import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
 import 'package:emma_mobile/bloc/profile/profile_cubit.dart';
 import 'package:emma_mobile/bloc/profile/profile_state.dart';
 import 'package:emma_mobile/bloc/profile_screen/profile_screen_bloc.dart';
 import 'package:emma_mobile/bloc/profile_screen/profile_screen_state.dart';
+import 'package:emma_mobile/models/user/user.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
+import 'package:emma_mobile/ui/components/measurement/default_container.dart';
+import 'package:emma_mobile/ui/components/measurement/int_text_field.dart';
 import 'package:emma_mobile/ui/components/profile/fields.dart';
 import 'package:emma_mobile/ui/components/profile/image.dart';
 import 'package:emma_mobile/ui/screens/profile/new_profile_screen.dart';
+import 'package:emma_mobile/ui/screens/profile/profile_settings.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -49,36 +56,47 @@ class _CurrentProfile extends StatelessWidget {
         const EmmaAppBar(title: 'Профиль'),
         Expanded(
           child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            padding: EdgeInsets.zero,
             physics: const BouncingScrollPhysics(),
             child: Stack(
               children: [
                 Column(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(top: 32.h, bottom: 12.h),
+                      padding: EdgeInsets.only(top: 32.h),
                       child: SingleChildScrollView(
-                        padding: EdgeInsets.zero,
+                        padding: EdgeInsets.symmetric(horizontal: 44.w),
                         scrollDirection: Axis.horizontal,
                         physics: const BouncingScrollPhysics(),
                         child: Row(
                           children: [
                             Opacity(
-                              opacity: 0,
-                              child: Container(
-                                width: 44.w,
-                                height: 44.w,
-                                margin: EdgeInsets.only(right: 24.w),
-                                decoration: profileImageDecoration(
-                                  color: AppColors.cFFFFFF,
-                                ),
-                                child: Center(
-                                  child: AppIcons.settings(),
+                              opacity: bloc.users.length == 1 ? 0 : 1,
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (bloc.users.length != 1) {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (_) => ProfileSettings(),
+                                      ),
+                                    );
+                                  }
+                                },
+                                child: Container(
+                                  width: 44.w,
+                                  height: 44.w,
+                                  margin: EdgeInsets.only(right: 24.w),
+                                  decoration: profileImageDecoration(
+                                    color: AppColors.cFFFFFF,
+                                  ),
+                                  child: Center(
+                                    child: AppIcons.settings(),
+                                  ),
                                 ),
                               ),
                             ),
                             SizedBox(
-                              height: 120.w,
+                              height: 132.w,
                               child: ListView.separated(
                                 itemCount: bloc.users.length,
                                 shrinkWrap: true,
@@ -86,9 +104,19 @@ class _CurrentProfile extends StatelessWidget {
                                 physics: const NeverScrollableScrollPhysics(),
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (_, i) {
-                                  return ProfileImage(
-                                    size: 120.w,
-                                    url: bloc.users[i].photo,
+                                  return GestureDetector(
+                                    onTap: () {
+                                      context.bloc<ProfileCubit>().setUser(
+                                            bloc.users[i],
+                                          );
+                                      context.bloc<MeasurementCubit>().reload();
+                                      context.bloc<DoctorsBloc>().reload();
+                                      context.bloc<AssignBloc>().reload();
+                                    },
+                                    child: ProfileImage(
+                                      size: 120.w,
+                                      user: bloc.users[i],
+                                    ),
                                   );
                                 },
                                 separatorBuilder: (_, __) {
@@ -125,11 +153,26 @@ class _CurrentProfile extends StatelessWidget {
                         ),
                       ),
                     ),
-                    IgnorePointer(
-                      ignoring: true,
-                      child: ProfileFields(),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: IgnorePointer(
+                        ignoring: true,
+                        key: ValueKey(context.watch<User>().id.toString()),
+                        child: Column(
+                          children: [
+                            ProfileFields(),
+                            DefaultContainer(
+                              child: InputTextField(
+                                label: 'Статус',
+                                initialValue:
+                                    bloc.currentUser.statusWithDefault,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
-                    Padding(padding: EdgeInsets.only(top: 56.h)),
+                    Padding(padding: EdgeInsets.only(top: 80.h)),
                   ],
                 ),
                 _Arrow()
@@ -154,7 +197,7 @@ class __ArrowState extends State<_Arrow> with SingleTickerProviderStateMixin {
   void initState() {
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
       value: 0,
     )..addListener(_listener);
     super.initState();
@@ -178,7 +221,6 @@ class __ArrowState extends State<_Arrow> with SingleTickerProviderStateMixin {
     final bloc = context.bloc<AppSettingsBloc>();
     return BlocBuilder<AppSettingsBloc, AppSettingsState>(
       builder: (_, __) {
-        print(bloc.appSettings.showProfilePlusHelp);
         if (!bloc.appSettings.showProfilePlusHelp && !_update) {
           Future.delayed(const Duration(milliseconds: 100), () {
             _update = true;
@@ -257,7 +299,7 @@ class __ArrowState extends State<_Arrow> with SingleTickerProviderStateMixin {
 class _ArrowPointer extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    var paint = Paint()
+    final paint = Paint()
       ..color = AppColors.c3B4047.withOpacity(0.9)
       ..strokeWidth = 5
       ..style = PaintingStyle.fill
@@ -296,28 +338,17 @@ class _EmptyProfile extends StatelessWidget {
                   value: bloc.user,
                   child: Column(
                     children: [
+                      ProfilePickImage(),
                       Padding(
-                        padding: EdgeInsets.only(top: 24.h),
-                        child: ProfilePickImage(),
+                        padding: EdgeInsets.only(bottom: 12.h),
+                        child: ProfileFields(),
                       ),
-                      if (bloc.user.photo.isEmpty)
-                        Padding(
-                          padding: EdgeInsets.only(top: 16.h),
-                          child: Text(
-                            'Вы можете добавить свое фото. Оно будет отображаться только в отчете.',
-                            style: AppTypography.font14.copyWith(
-                              color: AppColors.c9B9B9B,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ProfileFields(),
                       EmmaFilledButton(
                         title: 'Сохранить',
                         onTap: () {
                           context.bloc<ProfileCubit>().addUser(bloc.user);
                         },
-                        isActive: bloc.user.canSave,
+                        isActive: bloc.canSave,
                       ),
                       KeyboardVisibilityBuilder(
                         builder: (_, isKeyboardVisible) {

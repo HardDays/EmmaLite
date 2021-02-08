@@ -5,6 +5,7 @@ import 'package:emma_mobile/models/measurements/height_model.dart';
 import 'package:emma_mobile/models/measurements/measurement.dart';
 import 'package:emma_mobile/models/measurements/pulse.dart';
 import 'package:emma_mobile/models/measurements/temperature.dart';
+import 'package:emma_mobile/repositories/app_local_repository.dart';
 import 'package:emma_mobile/repositories/measurement_local_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,6 +18,8 @@ class NewMeasurementBloc extends Cubit<NewMeasurementState> {
   }
 
   final _repository = MeasurementLocalRepository();
+
+  final _appLocalRepository = AppLocalRepository();
 
   final Measurement _type;
 
@@ -142,6 +145,7 @@ class NewMeasurementBloc extends Cubit<NewMeasurementState> {
   }
 
   void save() {
+    final userId = _appLocalRepository.currentUserId;
     if (type is ArterialPressure) {
       _repository.saveArterialPressure(
         pressure: ArterialPressure(
@@ -149,6 +153,7 @@ class NewMeasurementBloc extends Cubit<NewMeasurementState> {
           under: _artPressureMin,
           date: _dateTime.toString(),
           id: _dateTime.millisecondsSinceEpoch,
+          userId: userId,
         ),
       );
     } else if (type is HeightModel) {
@@ -157,6 +162,7 @@ class NewMeasurementBloc extends Cubit<NewMeasurementState> {
           height: _height,
           date: _dateTime.toString(),
           id: _dateTime.millisecondsSinceEpoch,
+          userId: userId,
         ),
       );
     } else if (type is Pulse) {
@@ -166,6 +172,7 @@ class NewMeasurementBloc extends Cubit<NewMeasurementState> {
           pulseType: _pulseType,
           date: _dateTime.toString(),
           id: _dateTime.millisecondsSinceEpoch,
+          userId: userId,
         ),
       );
     } else if (type is BloodSugar) {
@@ -174,6 +181,7 @@ class NewMeasurementBloc extends Cubit<NewMeasurementState> {
           sugar: _sugar,
           date: _dateTime.toString(),
           id: _dateTime.millisecondsSinceEpoch,
+          userId: userId,
         ),
       );
     } else if (type is Temperature) {
@@ -182,6 +190,7 @@ class NewMeasurementBloc extends Cubit<NewMeasurementState> {
           temperature: _temperature,
           date: _dateTime.toString(),
           id: _dateTime.millisecondsSinceEpoch,
+          userId: userId,
         ),
       );
     }

@@ -17,25 +17,37 @@ class AppSettingsAdapter extends TypeAdapter<AppSettings> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return AppSettings(
-      currentProfileIndex: fields[0] as int,
+      currentProfileId: fields[0] as int,
       isFirstRun: fields[1] as bool,
       showProfilePlusHelp: fields[2] as bool,
       showProfileCreateHelp: fields[3] as bool,
+      showProfileSettingsHelp: fields[4] as bool,
+      password: fields[5] as String,
+      useFaceId: fields[7] as bool,
+      usePassword: fields[6] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, AppSettings obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(8)
       ..writeByte(0)
-      ..write(obj.currentProfileIndex)
+      ..write(obj.currentProfileId)
       ..writeByte(1)
       ..write(obj.isFirstRun)
       ..writeByte(2)
       ..write(obj.showProfilePlusHelp)
       ..writeByte(3)
-      ..write(obj.showProfileCreateHelp);
+      ..write(obj.showProfileCreateHelp)
+      ..writeByte(4)
+      ..write(obj.showProfileSettingsHelp)
+      ..writeByte(5)
+      ..write(obj.password)
+      ..writeByte(6)
+      ..write(obj.usePassword)
+      ..writeByte(7)
+      ..write(obj.useFaceId);
   }
 
   @override

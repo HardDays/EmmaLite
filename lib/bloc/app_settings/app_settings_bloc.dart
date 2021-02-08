@@ -19,9 +19,45 @@ class AppSettingsBloc extends Cubit<AppSettingsState> {
     _appSettings = _appLocalRepository.getSettings();
   }
 
-  void setShowProfilePlusHelp() {
-    _appSettings.showProfilePlusHelp = true;
-    emit(AppSettingsState());
+  void setUseFaceId(bool v) {
+    _appSettings.useFaceId = v;
+    _updateSettings();
   }
 
+  void setUsePassword(bool v) {
+    _appSettings.usePassword = v;
+    _updateSettings();
+  }
+
+
+  void setFirstRun() {
+    _appSettings.isFirstRun = false;
+    _updateSettings();
+  }
+
+  void setPassword(String password) {
+    _appSettings.password = password;
+    _appSettings.usePassword = true;
+    _updateSettings();
+  }
+
+  void setShowProfilePlusHelp() {
+    _appSettings.showProfilePlusHelp = true;
+    _updateSettings();
+  }
+
+  void setShowProfileCreateHelp() {
+    _appSettings.showProfileCreateHelp = true;
+    _updateSettings();
+  }
+
+  void setShowProfileSettingsHelp() {
+    _appSettings.showProfileSettingsHelp = true;
+    _updateSettings();
+  }
+
+  void _updateSettings() {
+    _appLocalRepository.putSettings(_appSettings);
+    emit(AppSettingsState());
+  }
 }

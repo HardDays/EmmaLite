@@ -68,14 +68,23 @@ class EmmaAppBar extends StatelessWidget {
 
 class BackLeading extends StatelessWidget {
   final String text;
+  final Function onTap;
 
-  const BackLeading({Key key, this.text}) : super(key: key);
+  const BackLeading({
+    Key key,
+    this.text,
+    this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pop();
+        if (onTap == null) {
+          Navigator.of(context).pop();
+        } else {
+          onTap();
+        }
       },
       behavior: HitTestBehavior.opaque,
       child: Padding(

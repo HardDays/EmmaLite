@@ -151,7 +151,7 @@ class ProfileFields extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: 12.h, bottom: 24.h),
+          padding: EdgeInsets.symmetric(vertical: 12.h),
           child: DefaultContainer(
             child: InputTextField(
               label: 'Email',
