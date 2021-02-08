@@ -2,6 +2,7 @@ import 'package:emma_mobile/bloc/assign/assign_state.dart';
 import 'package:emma_mobile/models/assignment/assignment.dart';
 import 'package:emma_mobile/models/assignment/tasks.dart';
 import 'package:emma_mobile/repositories/assignment_local_repository.dart';
+import 'package:emma_mobile/ui/components/calendar.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,6 +29,49 @@ class AssignBloc extends Cubit<AssignState> {
           j.dateTime.difference(now).compareTo(i.dateTime.difference(now)),
     );
     return bufList;
+  }
+
+  List<CalendarMarker> calendarMarkers() {
+    final List<RunTask> bufList = [];
+    for (var i in _assignment) {
+      if (!i.isStopped) {
+        bufList.addAll(i.runTasks);
+      }
+    }
+
+    final dates = <DateTime>{};
+
+    for (var i in bufList) {
+      dates.add(DateTime(i.dateTime.year, i.dateTime.month, i.dateTime.day));
+    }
+
+    final List<CalendarMarker> markers = [];
+
+    for (var i in dates) {
+      final inDay = <RunTask>[];
+      inDay.addAll(bufList.where((e) => e.dateTime.isInDay(i)));
+
+      if (inDay.isEmpty) {
+        continue;
+      }
+
+      if (inDay.every((e) => e.completed)) {
+        markers.add(
+          CalendarMarker(
+            color: AppColors.c00ACE3,
+            dateTime: i,
+          ),
+        );
+      } else {
+        markers.add(
+          CalendarMarker(
+            color: AppColors.cFF3B30,
+            dateTime: i,
+          ),
+        );
+      }
+    }
+    return markers;
   }
 
   void _init() {
