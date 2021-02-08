@@ -1,4 +1,4 @@
- import 'package:bot_toast/bot_toast.dart';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 

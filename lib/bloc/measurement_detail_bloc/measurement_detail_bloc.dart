@@ -109,29 +109,29 @@ class MeasurementDetailBloc extends Cubit<MeasurementDetailState> {
       final items = data.map((e) => e as BloodSugar).toList();
       items.sort((i, j) => i.sugar.compareTo(j.sugar));
      if (items.isNotEmpty) {
-       _min = items.first.sugar.toString();
-       _max = items.last.sugar.toString();
+       _min = items.first.sugar.toStringAsFixed(1);
+       _max = items.last.sugar.toStringAsFixed(1);
      }
     } else if (_measurement is HeightModel) {
       final items = data.map((e) => e as HeightModel).toList();
       items.sort((i, j) => i.height.compareTo(j.height));
      if (items.isNotEmpty) {
-       _min = items.first.height.toString();
-       _max = items.last.height.toString();
+       _min = items.first.height.toStringAsFixed(1);
+       _max = items.last.height.toStringAsFixed(1);
      }
     } else if (_measurement is Pulse) {
       final items = data.map((e) => e as Pulse).toList();
       items.sort((i, j) => i.pulse.compareTo(j.pulse));
      if (items.isNotEmpty) {
-       _min = items.first.pulse.toString();
-       _max = items.last.pulse.toString();
+       _min = items.first.pulse.toStringAsFixed(1);
+       _max = items.last.pulse.toStringAsFixed(1);
      }
     } else if (_measurement is Temperature) {
       final items = data.map((e) => e as Temperature).toList();
       items.sort((i, j) => i.temperature.compareTo(j.temperature));
       if (items.isNotEmpty) {
-        _min = items.first.temperature.toString();
-        _max = items.last.temperature.toString();
+        _min = items.first.temperature.toStringAsFixed(1);
+        _max = items.last.temperature.toStringAsFixed(1);
       }
     }
   }

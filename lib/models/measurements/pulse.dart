@@ -33,7 +33,7 @@ class Pulse extends HiveObject implements Measurement {
   String units = 'уд./мин.';
 
   @override
-  String value() => pulse.toString();
+  String value() => pulse.toStringAsFixed(1);
 
   @override
   String getFormattedDate() => dateTime.measurementDateFormatter();

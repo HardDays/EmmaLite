@@ -30,7 +30,7 @@ class HeightModel extends HiveObject implements Measurement {
   String units = 'кг';
 
   @override
-  String value() => height.toString();
+  String value() => height.toStringAsFixed(1);
 
   @override
   String getFormattedDate() => dateTime.measurementDateFormatter();

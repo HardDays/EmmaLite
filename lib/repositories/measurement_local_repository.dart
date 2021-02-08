@@ -10,6 +10,26 @@ import 'package:emma_mobile/utils/hive_boxes.dart';
 class MeasurementLocalRepository {
   final _hiveBoxes = HiveBoxes();
 
+  bool  hasPressure(int id) {
+    return _hiveBoxes.arterialPressureBox.values.any((e) => e.id == id);
+  }
+
+  bool  hasBloodSugar(int id) {
+    return _hiveBoxes.bloodSugarBox.values.any((e) => e.id == id);
+  }
+
+  bool  hasHeightModel(int id) {
+    return _hiveBoxes.heightModelBox.values.any((e) => e.id == id);
+  }
+
+  bool  hasPulse(int id) {
+    return _hiveBoxes.pulseBox.values.any((e) => e.id == id);
+  }
+  
+  bool hasTemperature(int id) {
+    return _hiveBoxes.temperatureBox.values.any((e) => e.id == id);
+  }
+
   List<ArterialPressure> getArterialPressure() =>
       _hiveBoxes.arterialPressureBox.values
           .map((e) => e as ArterialPressure)

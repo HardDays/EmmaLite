@@ -3,6 +3,8 @@ import 'package:emma_mobile/ui/routing/navigator.dart';
 import 'package:emma_mobile/ui/screens/assignment/assignment_new.dart';
 import 'package:emma_mobile/ui/screens/doctors/doctors_screen.dart';
 import 'package:emma_mobile/ui/screens/measurement/select_measurement.dart';
+import 'package:emma_mobile/ui/screens/sync/sync_screen.dart';
+import 'package:emma_mobile/ui/screens/sync/sync_screen_start.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:emma_mobile/ui/screens/profile/profile_screen.dart';
@@ -74,6 +76,11 @@ class BottomMenu extends StatelessWidget {
             child: _BottomMenuItem(
               icon: isName ? AppIcons.report() : AppIcons.settings(),
               title: isName ? 'Сформировать отчет' : 'Настройки',
+              onTap: () {
+                if (!isName) {
+                  navigatorPush(context, SyncScreenStart());
+                }
+              },
             ),
           ),
         ],

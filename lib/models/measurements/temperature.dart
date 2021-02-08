@@ -30,7 +30,7 @@ class Temperature extends HiveObject implements Measurement {
   String units = '°C';
 
   @override
-  String value() => temperature.toString();
+  String value() => temperature.toStringAsFixed(1);
 
   @override
   String getFormattedDate() => dateTime.measurementDateFormatter();

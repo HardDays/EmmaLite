@@ -36,7 +36,7 @@ class BloodSugar extends HiveObject implements Measurement {
   String units = 'ммоль/л.';
 
   @override
-  String value() => sugar.toString();
+  String value() => sugar.toStringAsFixed(1);
 
   DateTime eatDateTime;
 

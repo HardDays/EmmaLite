@@ -5,6 +5,7 @@ import 'package:emma_mobile/bloc/assign/assign_bloc.dart';
 import 'package:emma_mobile/bloc/doctors_screen/doctors_bloc.dart';
 import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
 import 'package:emma_mobile/bloc/profile/profile_cubit.dart';
+import 'package:emma_mobile/bloc/sync/sync_cubit.dart';
 import 'package:emma_mobile/l10n/delegate.dart';
 import 'package:emma_mobile/models/app_settings/app_settings.dart';
 import 'package:emma_mobile/models/doctor/doctor.dart';
@@ -75,6 +76,10 @@ Future<void> main() async {
       BlocProvider(
         lazy: false,
         create: (_) => ProfileCubit(),
+      ),
+      BlocProvider(
+        lazy: false,
+        create: (context) => SyncCubit(context),
       ),
     ],
     child: app,

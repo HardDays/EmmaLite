@@ -1,4 +1,5 @@
 import 'package:animated_rotation/animated_rotation.dart';
+import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
 import 'package:emma_mobile/ui/components/bottom_navigation/custom_bottom_nav_bar_item.dart';
 import 'package:emma_mobile/ui/components/bottom_navigation/custom_bottom_navigation_bar.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
@@ -8,8 +9,10 @@ import 'package:emma_mobile/ui/screens/measurement/measurements_screen.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NavigatorScreen extends StatefulWidget {
+
   @override
   State<StatefulWidget> createState() => _NavigatorScreenState();
 }
@@ -21,6 +24,12 @@ class _NavigatorScreenState extends State<NavigatorScreen> {
     setState(() {
       _currentIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
   }
 
   Widget otherScreen;
