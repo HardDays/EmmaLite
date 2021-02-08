@@ -27,7 +27,16 @@ class SyncLoadingScreen extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.only(top: 120.h, bottom: 120.h),
-              child: SvgPicture.asset(Platform.isAndroid ? 'assets/icons/google.svg' : 'assets/icons/apple.svg',
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(Platform.isAndroid ? 'assets/icons/google.svg' : 'assets/icons/apple.svg',),
+                  Padding(
+                    padding: EdgeInsets.only(left: 16.w, right: 16.w),
+                    child: SvgPicture.asset('assets/icons/signal.svg'),
+                  ),
+                  SvgPicture.asset('assets/icons/logo.svg'),
+                ]
               ),
             ),
             Text('',
