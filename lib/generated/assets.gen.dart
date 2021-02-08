@@ -22,8 +22,10 @@ class $AssetsIconsGen {
       const SvgGenImage('assets/icons/chevron_left.svg');
   SvgGenImage get close => const SvgGenImage('assets/icons/close.svg');
   SvgGenImage get complete => const SvgGenImage('assets/icons/complete.svg');
+  SvgGenImage get delete => const SvgGenImage('assets/icons/delete.svg');
   SvgGenImage get divan => const SvgGenImage('assets/icons/divan.svg');
   SvgGenImage get doctors => const SvgGenImage('assets/icons/doctors.svg');
+  SvgGenImage get faceId => const SvgGenImage('assets/icons/face_id.svg');
   SvgGenImage get graphActive =>
       const SvgGenImage('assets/icons/graph_active.svg');
   SvgGenImage get graphInactive =>
@@ -75,6 +77,7 @@ class $AssetsImagesGen {
       const AssetGenImage('assets/images/profile_image_default.png');
   AssetGenImage get touchId =>
       const AssetGenImage('assets/images/touch_id.png');
+  SvgGenImage get welcome => const SvgGenImage('assets/images/welcome.svg');
 }
 
 class $AssetsPdfIconsGen {

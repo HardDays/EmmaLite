@@ -22,13 +22,16 @@ class AppSettingsAdapter extends TypeAdapter<AppSettings> {
       showProfilePlusHelp: fields[2] as bool,
       showProfileCreateHelp: fields[3] as bool,
       showProfileSettingsHelp: fields[4] as bool,
+      password: fields[5] as String,
+      useFaceId: fields[7] as bool,
+      usePassword: fields[6] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, AppSettings obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.currentProfileId)
       ..writeByte(1)
@@ -38,7 +41,13 @@ class AppSettingsAdapter extends TypeAdapter<AppSettings> {
       ..writeByte(3)
       ..write(obj.showProfileCreateHelp)
       ..writeByte(4)
-      ..write(obj.showProfileSettingsHelp);
+      ..write(obj.showProfileSettingsHelp)
+      ..writeByte(5)
+      ..write(obj.password)
+      ..writeByte(6)
+      ..write(obj.usePassword)
+      ..writeByte(7)
+      ..write(obj.useFaceId);
   }
 
   @override

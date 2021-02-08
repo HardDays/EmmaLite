@@ -14,6 +14,12 @@ class AppSettings extends HiveObject {
   bool showProfileCreateHelp;
   @HiveField(4)
   bool showProfileSettingsHelp;
+  @HiveField(5)
+  String password;
+  @HiveField(6)
+  bool usePassword;
+  @HiveField(7)
+  bool useFaceId;
 
   AppSettings({
     this.currentProfileId,
@@ -21,6 +27,9 @@ class AppSettings extends HiveObject {
     this.showProfilePlusHelp,
     this.showProfileCreateHelp,
     this.showProfileSettingsHelp,
+    this.password,
+    this.useFaceId,
+    this.usePassword,
   }) {
     isFirstRun ??= true;
     showProfilePlusHelp ??= false;

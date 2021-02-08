@@ -41,7 +41,25 @@ class AppIcons {
     return SvgPicture.asset(
       'assets/icons/run.svg',
       fit: BoxFit.fill,
+    );
+  }
+
+  static Widget delete({Color color}) {
+    return SvgPicture.asset(
+      'assets/icons/delete.svg',
+      width: 42.w,
+      height: 27.h,
       color: color,
+      fit: BoxFit.fill,
+    );
+  }
+
+  static Widget faceId({double size}) {
+    return SvgPicture.asset(
+      'assets/icons/face_id.svg',
+      width: size ?? 40.w,
+      height: size ?? 40.h,
+      fit: BoxFit.fill,
     );
   }
 
