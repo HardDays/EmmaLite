@@ -14,9 +14,9 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SyncScreenInfo extends StatelessWidget {
+class SyncInfoScreen extends StatelessWidget {
 
-  SyncScreenInfo({
+  SyncInfoScreen({
     Key key,
   }) : super(key: key);
 

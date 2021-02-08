@@ -5,9 +5,9 @@ import 'package:emma_mobile/ui/screens/sync/sync_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SyncScreenCancel extends StatelessWidget {
+class SyncCancelScreen extends StatelessWidget {
 
-  SyncScreenCancel({
+  SyncCancelScreen({
     Key key,
   }) : super(key: key);
 

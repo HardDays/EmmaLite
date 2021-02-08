@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:emma_mobile/ui/screens/sync/sync_screen.dart';
-import 'package:emma_mobile/ui/screens/sync/sync_screen_info.dart';
+import 'package:emma_mobile/ui/screens/sync/sync_info_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SyncScreenStart extends StatelessWidget {
+class SyncStartScreen extends StatelessWidget {
 
-  SyncScreenStart({
+  SyncStartScreen({
     Key key,
   }) : super(key: key);
 
@@ -22,7 +22,7 @@ class SyncScreenStart extends StatelessWidget {
       onNext: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (_) => SyncScreenInfo(),
+            builder: (_) => SyncInfoScreen(),
           ),
         );
       },

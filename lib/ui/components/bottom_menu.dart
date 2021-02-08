@@ -4,7 +4,6 @@ import 'package:emma_mobile/ui/screens/assignment/assignment_new.dart';
 import 'package:emma_mobile/ui/screens/doctors/doctors_screen.dart';
 import 'package:emma_mobile/ui/screens/measurement/select_measurement.dart';
 import 'package:emma_mobile/ui/screens/sync/sync_screen.dart';
-import 'package:emma_mobile/ui/screens/sync/sync_screen_start.dart';
 import 'package:emma_mobile/ui/screens/report_screen.dart';
 import 'package:emma_mobile/ui/screens/settings/confidential_screen.dart';
 import 'package:emma_mobile/utils/utils.dart';

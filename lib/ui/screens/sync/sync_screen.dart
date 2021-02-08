@@ -4,7 +4,7 @@ import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
 import 'package:emma_mobile/ui/components/app_bar/small_app_bar.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_flat_button.dart';
-import 'package:emma_mobile/ui/screens/sync/sync_screen_cancel.dart';
+import 'package:emma_mobile/ui/screens/sync/sync_cancel_screen.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -81,7 +81,7 @@ class SyncScreen extends StatelessWidget {
                   if (hasCancel) {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (_) => SyncScreenCancel(),
+                        builder: (_) => SyncCancelScreen(),
                       ),
                     );
                   }

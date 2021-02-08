@@ -1,17 +1,10 @@
 import 'dart:io';
 
-import 'package:emma_mobile/bloc/sync/sync_cubit.dart';
-import 'package:emma_mobile/bloc/sync/sync_state.dart';
-import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
-import 'package:emma_mobile/ui/components/app_bar/small_app_bar.dart';
-import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_flat_button.dart';
 import 'package:emma_mobile/ui/screens/navigator_screen.dart';
-import 'package:emma_mobile/ui/screens/sync/sync_screen_cancel.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SyncLoadingScreen extends StatelessWidget {
