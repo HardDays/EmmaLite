@@ -34,7 +34,7 @@ class _PulseChartState extends State<PulseChart> {
     final width = MediaQuery.of(context).size.width - 55.w;
     final transformer = Transformer(
       ViewPortHandler()
-        ..setChartDimens(width, 300.h)
+        ..setChartDimens(width, 200.h)
         ..restrainViewPort(25.w, 0.h, 0, 0.h),
     );
     final List<Measurement> list = []..addAll(widget.bloc.data);

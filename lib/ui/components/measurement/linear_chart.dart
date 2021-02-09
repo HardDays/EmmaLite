@@ -30,8 +30,8 @@ class _LinearChartState extends State<LinearChart> {
     final width = MediaQuery.of(context).size.width - 55.w;
     final transformer = Transformer(
       ViewPortHandler()
-        ..setChartDimens(width, 330.h)
-        ..restrainViewPort(25.w, 0, 0, 20.w), // todo перепутал
+        ..setChartDimens(width, 230.h)
+        ..restrainViewPort(25.w, 0, 0, 10.h),
     );
     controller = LineChartController(
       axisLeftSettingFunction: (axisLeft, controller) {

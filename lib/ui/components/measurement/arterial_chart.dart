@@ -33,7 +33,7 @@ class _ArterialChartState extends State<ArterialChart> {
     final width = MediaQuery.of(context).size.width - 55.w;
     final transformer = Transformer(
       ViewPortHandler()
-        ..setChartDimens(width, 290.h)
+        ..setChartDimens(width, 190.h)
         ..restrainViewPort(25.w, 0.h, 0, 10.h),
     );
     final List<ArterialPressure> list = []..addAll(

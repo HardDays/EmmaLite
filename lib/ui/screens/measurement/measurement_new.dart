@@ -40,7 +40,7 @@ class MeasurementNewScreen extends StatelessWidget {
           final bloc = context.bloc<NewMeasurementBloc>();
           return Scaffold(
             backgroundColor: AppColors.cF5F7FA,
-            // resizeToAvoidBottomInset: false,
+            resizeToAvoidBottomInset: false,
             body: BlocBuilder<NewMeasurementBloc, NewMeasurementState>(
               builder: (_, state) {
                 return Column(
