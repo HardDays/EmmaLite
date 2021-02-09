@@ -1,16 +1,3 @@
-import 'package:date_format/date_format.dart';
-
-String formatDateToString(DateTime date) {
-
-  final format = [dd, ' ', M, ' ', yyyy];
-  return _replace(formatDate(date, format));
-  
-}
-
-String dateTimeToString(DateTime date) {
-  final format = [dd, ' ', M, ' ', yyyy,', ', HH, ':', nn];
-  return _replace(formatDate(date, format));
-}
 
 final dateMap = {
   'Jan':'Янв',
@@ -26,17 +13,6 @@ final dateMap = {
   'Nov':'Ноя',
   'Dec':'Дек',
 };
-
-String _replace(String original) {
-  var replace = original;
-
-  for (var i in dateMap.keys) {
-    if(replace.contains(i)) {
-      replace = replace.replaceAll(i, dateMap[i]);
-    }
-  }
-  return replace;
-}
 
 String greetingStringBasedOn(DateTime dayTime) {
   final hour = dayTime.hour;

@@ -75,6 +75,24 @@ class AppIcons {
     );
   }
 
+  static Widget message() {
+    return SvgPicture.asset(
+      'assets/icons/message.svg',
+      width: 20.w,
+      height: 20.w,
+      fit: BoxFit.fill,
+    );
+  }
+
+  static Widget documents() {
+    return SvgPicture.asset(
+      'assets/icons/documents.svg',
+      width: 20.w,
+      height: 20.w,
+      fit: BoxFit.fill,
+    );
+  }
+
   static Widget divan({Color color}) {
     return SvgPicture.asset(
       'assets/icons/divan.svg',

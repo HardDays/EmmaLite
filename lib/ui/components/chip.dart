@@ -5,12 +5,14 @@ class ChipItem extends StatelessWidget {
   final String title;
   final bool isActive;
   final Function onTap;
+  final bool haveMargin;
 
   const ChipItem({
     Key key,
     this.title,
     this.isActive,
     this.onTap,
+    this.haveMargin = true,
   }) : super(key: key);
 
   @override
@@ -19,7 +21,7 @@ class ChipItem extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          margin: EdgeInsets.only(right: 4.w),
+          margin: EdgeInsets.only(right: haveMargin ? 4.w : 0),
           height: 32.h,
           decoration: BoxDecoration(
             color: isActive ? AppColors.c00ACE3 : AppColors.cFFFFFF,

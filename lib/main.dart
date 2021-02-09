@@ -6,7 +6,6 @@ import 'package:emma_mobile/bloc/doctors_screen/doctors_bloc.dart';
 import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
 import 'package:emma_mobile/bloc/profile/profile_cubit.dart';
 import 'package:emma_mobile/bloc/sync/sync_cubit.dart';
-import 'package:emma_mobile/l10n/delegate.dart';
 import 'package:emma_mobile/models/app_settings/app_settings.dart';
 import 'package:emma_mobile/models/doctor/doctor.dart';
 import 'package:emma_mobile/models/measurements/arterial_pressure.dart';
@@ -26,8 +25,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:intl/intl.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,8 +44,9 @@ Future<void> main() async {
     _localRepo.putSettings(settings..currentProfileId = user.id);
   }
 
+  Intl.defaultLocale = 'ru';
   AppRouter.current.rootNavigatorKey = GlobalKey<NavigatorState>();
-  final app = MaterialApp(
+  final app = GetMaterialApp(
     title: 'Emma Mobile',
     navigatorKey: AppRouter.current.rootNavigatorKey,
     debugShowCheckedModeBanner: false,
@@ -66,12 +68,11 @@ Future<void> main() async {
     builder: BotToastInit(),
     navigatorObservers: [BotToastNavigatorObserver()],
     localizationsDelegates: const [
-      appL10nDelegate,
       GlobalMaterialLocalizations.delegate,
       GlobalWidgetsLocalizations.delegate,
       GlobalCupertinoLocalizations.delegate,
     ],
-    supportedLocales: appL10nDelegate.supportedLocales,
+    locale: Locale('ru'),
     themeMode: ThemeMode.light,
     // routes: AppRoutes.appRouteBuilder,
     home: SplashScreen(),

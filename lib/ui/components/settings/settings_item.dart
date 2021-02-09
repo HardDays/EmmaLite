@@ -43,10 +43,13 @@ class SettingsItem extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: AppTypography.font16.copyWith(
-                    color: AppColors.c3B4047,
+                SizedBox(
+                  width: 167.w,
+                  child: Text(
+                    title,
+                    style: AppTypography.font16.copyWith(
+                      color: AppColors.c3B4047,
+                    ),
                   ),
                 ),
                 if (subtitle != null)

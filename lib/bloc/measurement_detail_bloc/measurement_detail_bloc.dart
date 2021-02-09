@@ -12,10 +12,29 @@ import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MeasurementDetailBloc extends Cubit<MeasurementDetailState> {
-  MeasurementDetailBloc({Measurement measurement})
+  MeasurementDetailBloc({Measurement measurement, bool isMock = false})
       : _measurement = measurement,
         super(MeasurementDetailState()) {
-    _init();
+    if (isMock) {
+      _data = [];
+      for (var i = 0; i < 5; i++) {
+        _data.add(
+          Temperature(
+            date: DateTime(1970).add(Duration(days: i * 2)).toString(),
+            temperature: 36.8 - i,
+          ),
+        );
+      }
+      _activeTimeRange = TimeRange(
+        type: MonthDateTime(),
+        timeFrom: _data.first.dateTime,
+        timeTo: _data.last.dateTime,
+      );
+      _type = WeekDateTime();
+    } else {
+      _type = dateTimeTypes[1];
+      _init();
+    }
   }
 
   final Measurement _measurement;
@@ -26,7 +45,7 @@ class MeasurementDetailBloc extends Cubit<MeasurementDetailState> {
 
   List<Measurement> _data;
 
-  DateTimeType _type = dateTimeTypes[1];
+  DateTimeType _type;
 
   TimeRange _activeTimeRange;
 
@@ -93,8 +112,7 @@ class MeasurementDetailBloc extends Cubit<MeasurementDetailState> {
 
   // какой-то треш получился, но я хз как по другому, все портит давление
   void _calcMinMax() {
-    if (_data.isEmpty)
-      return;
+    if (_data.isEmpty) return;
     if (_measurement is ArterialPressure) {
       final items = data.map((e) => e as ArterialPressure).toList();
       items.sort((i, j) => i.under.compareTo(j.under));
@@ -108,24 +126,24 @@ class MeasurementDetailBloc extends Cubit<MeasurementDetailState> {
     } else if (_measurement is BloodSugar) {
       final items = data.map((e) => e as BloodSugar).toList();
       items.sort((i, j) => i.sugar.compareTo(j.sugar));
-     if (items.isNotEmpty) {
-       _min = items.first.sugar.toStringAsFixed(1);
-       _max = items.last.sugar.toStringAsFixed(1);
-     }
+      if (items.isNotEmpty) {
+        _min = items.first.sugar.toStringAsFixed(1);
+        _max = items.last.sugar.toStringAsFixed(1);
+      }
     } else if (_measurement is HeightModel) {
       final items = data.map((e) => e as HeightModel).toList();
       items.sort((i, j) => i.height.compareTo(j.height));
-     if (items.isNotEmpty) {
-       _min = items.first.height.toStringAsFixed(1);
-       _max = items.last.height.toStringAsFixed(1);
-     }
+      if (items.isNotEmpty) {
+        _min = items.first.height.toStringAsFixed(1);
+        _max = items.last.height.toStringAsFixed(1);
+      }
     } else if (_measurement is Pulse) {
       final items = data.map((e) => e as Pulse).toList();
       items.sort((i, j) => i.pulse.compareTo(j.pulse));
-     if (items.isNotEmpty) {
-       _min = items.first.pulse.toStringAsFixed(1);
-       _max = items.last.pulse.toStringAsFixed(1);
-     }
+      if (items.isNotEmpty) {
+        _min = items.first.pulse.toStringAsFixed(1);
+        _max = items.last.pulse.toStringAsFixed(1);
+      }
     } else if (_measurement is Temperature) {
       final items = data.map((e) => e as Temperature).toList();
       items.sort((i, j) => i.temperature.compareTo(j.temperature));

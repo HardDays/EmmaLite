@@ -1,11 +1,7 @@
-import 'dart:io';
-
-import 'package:dio/dio.dart';
 import 'package:emma_mobile/models/time_enum.dart';
 import 'package:emma_mobile/models/time_range.dart';
-import 'package:flutter/material.dart' hide Image;
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:image/image.dart';
 
 class Static {
   static Static _instance;
@@ -31,21 +27,6 @@ class Static {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarIconBrightness: Brightness.dark,
     ));
-  }
-
-  static MultipartFile resizeImage({@required String path}) {
-    final image = decodeImage(File(path).readAsBytesSync());
-
-    Image resizeImage;
-    if (image.height > image.width) {
-      resizeImage = copyResize(image, height: 640);
-    } else {
-      resizeImage = copyResize(image, width: 640);
-    }
-    return MultipartFile.fromBytes(
-      encodePng(resizeImage),
-      filename: '$path.jpg',
-    );
   }
 
   static List<TimeRange> getTimeRange({DateTimeType type}) {
