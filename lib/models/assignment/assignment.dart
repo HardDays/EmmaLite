@@ -1,5 +1,6 @@
 import 'package:emma_mobile/models/assignment/assign_frequency.dart';
 import 'package:emma_mobile/models/assignment/assign_type.dart';
+import 'package:emma_mobile/models/assignment/assign_unit.dart';
 import 'package:emma_mobile/models/assignment/tasks.dart';
 import 'package:emma_mobile/repositories/app_local_repository.dart';
 import 'package:emma_mobile/utils/utils.dart';
@@ -118,6 +119,15 @@ class Assignment extends Equatable {
       userId: userId,
       runTasks: [],
     );
+  }
+
+  String countForPDFForTask(RunTask task) {
+    if (type is AnalyzeAssignType || type is OtherAssignType) {
+      return '';
+    } else if (type is MedicineAssignType) {
+      return ', ${task.count}x$dosage ${assignUnits[unitId]}';
+    }
+    return ', ${task.count}';
   }
 
   void stop() {

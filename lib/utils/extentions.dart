@@ -122,16 +122,55 @@ extension IntExtention on int {
   String get getPluralCount {
     final lastSymbol = this.lastSymbol;
     final lastThoSymbol = this.lastThoSymbol;
-    if (lastSymbol == 1 && lastThoSymbol != 11 ) {
+    if (lastSymbol == 1 && lastThoSymbol != 11) {
       return 'прием';
     }
-    if (lastThoSymbol == 12 || lastThoSymbol == 13 || lastThoSymbol == 14) {
+    if (lastThoSymbol == 11 ||
+        lastThoSymbol == 12 ||
+        lastThoSymbol == 13 ||
+        lastThoSymbol == 14) {
       return 'приемов';
     }
     if (lastSymbol == 2 || lastSymbol == 3 || lastSymbol == 4) {
       return 'приема';
     }
     return 'приемов';
+  }
+
+  String get getPluralDays {
+    final lastSymbol = this.lastSymbol;
+    final lastThoSymbol = this.lastThoSymbol;
+    if (lastSymbol == 1 && lastThoSymbol != 11) {
+      return 'день';
+    }
+    if (lastThoSymbol == 11 ||
+        lastThoSymbol == 12 ||
+        lastThoSymbol == 13 ||
+        lastThoSymbol == 14) {
+      return 'дней';
+    }
+    if (lastSymbol == 2 || lastSymbol == 3 || lastSymbol == 4) {
+      return 'дня';
+    }
+    return 'дней';
+  }
+
+  String get getPluralYears {
+    final lastSymbol = this.lastSymbol;
+    final lastThoSymbol = this.lastThoSymbol;
+    if (lastSymbol == 1 && lastThoSymbol != 11) {
+      return 'год';
+    }
+    if (lastThoSymbol == 11 ||
+        lastThoSymbol == 12 ||
+        lastThoSymbol == 13 ||
+        lastThoSymbol == 14) {
+      return 'лет';
+    }
+    if (lastSymbol == 2 || lastSymbol == 3 || lastSymbol == 4) {
+      return 'года';
+    }
+    return 'лет';
   }
 }
 

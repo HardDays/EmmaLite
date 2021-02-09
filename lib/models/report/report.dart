@@ -22,6 +22,11 @@ class Report {
               email != null &&
               email.isNotEmpty));
 
+  int get difference {
+    final days = startDate.difference(endDate).inDays.abs();
+    return days + 1;
+  }
+
   Report copyWith({
     String comment,
     DateTime startDate,

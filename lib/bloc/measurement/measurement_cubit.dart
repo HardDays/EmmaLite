@@ -72,6 +72,31 @@ class MeasurementCubit extends Cubit<MeasurementState> {
     emit(MeasurementState());
   }
 
+  List<Measurement> getForDateRange({DateTime start, DateTime end}) {
+    final List<Measurement> data = [];
+    final art = _repository.getArterialPressure().where(
+          (e) => e.dateTime.isAfter(start) && e.dateTime.isBefore(end),
+        );
+    final blood = _repository.getBloodSugar().where(
+          (e) => e.dateTime.isAfter(start) && e.dateTime.isBefore(end),
+    );
+    final height = _repository.getHeightModel().where(
+          (e) => e.dateTime.isAfter(start) && e.dateTime.isBefore(end),
+    );
+    final pulse = _repository.getPulse().where(
+          (e) => e.dateTime.isAfter(start) && e.dateTime.isBefore(end),
+    );
+    final temp = _repository.getTemperature().where(
+          (e) => e.dateTime.isAfter(start) && e.dateTime.isBefore(end),
+    );
+    data.addAll(art);
+    data.addAll(blood);
+    data.addAll(height);
+    data.addAll(pulse);
+    data.addAll(temp);
+    return data;
+  }
+
   int _getIndex({Measurement m}) {
     return _rawData.lastIndexWhere((e) => e.runtimeType == m.runtimeType);
   }

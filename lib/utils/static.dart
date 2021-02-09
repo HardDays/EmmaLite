@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:emma_mobile/models/time_enum.dart';
 import 'package:emma_mobile/models/time_range.dart';
-import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart' hide Image;
 import 'package:flutter/services.dart';
 import 'package:image/image.dart';
@@ -32,16 +31,6 @@ class Static {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarIconBrightness: Brightness.dark,
     ));
-  }
-
-  static Dio dio() {
-    final baseClient = Dio(
-      BaseOptions(baseUrl: ApiPath.baseUrl),
-    );
-    baseClient.interceptors.add(
-      LogInterceptor(requestBody: true, responseBody: true),
-    );
-    return baseClient;
   }
 
   static MultipartFile resizeImage({@required String path}) {

@@ -224,7 +224,7 @@ Future<DateTime> showDateTimeModalBottom({
   DateTime minimumDate,
   DateTime initialDate,
   DateTime maximumDate,
-  CupertinoDatePickerMode mode = CupertinoDatePickerMode.dateAndTime,
+  CupertinoDatePickerMode mode,
 }) {
   return showModalBottomSheet(
     context: context,

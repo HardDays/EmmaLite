@@ -55,7 +55,7 @@ class RunTask {
     data['enable'] = enable;
     data['dateTime'] = dateTime.toString();
     data['count'] = count;
-    data['completedDate'] = completedDate;
+    data['completedDate'] = completedDate?.toString();
     data['typeId'] = type.index;
     data['assignName'] = assignName;
     data['assignId'] = assignId;

@@ -69,6 +69,8 @@ dependencies:
   crypto: ^2.1.5
   connectivity: ^2.0.2
   path_provider: ^1.6.24
+  share: ^0.6.5+4
+  flutter_email_sender: ^4.0.0
   #dev
   mockito: any
   rxdart: ^0.24.1

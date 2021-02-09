@@ -49,7 +49,7 @@ class MeasurementDetailScreen extends StatelessWidget {
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      height: type is ArterialPressure ? 433.h : 400.h,
+                      height: type is ArterialPressure ? 333.h : 300.h,
                       color: AppColors.cFFFFFF,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,7 +72,7 @@ class MeasurementDetailScreen extends StatelessWidget {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: 40.h),
+                            padding: EdgeInsets.only(top: 30.h),
                           ),
                           if (bloc.data.isEmpty)
                             Padding(
