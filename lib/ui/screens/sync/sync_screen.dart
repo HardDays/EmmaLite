@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SyncScreen extends StatelessWidget {
-
   final bool hasBack;
   final bool hasCancel;
   final String title;
@@ -32,37 +31,44 @@ class SyncScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.cFFFFFF,
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            hasBack ? SmallAppBar(
-              title: '',
-              leading: BackLeading(text: 'Назад' ),
-            ) :  SizedBox(
-              height: 75.h,
-            ),
+            hasBack
+                ? SmallAppBar(
+                    title: '',
+                    leading: BackLeading(text: 'Назад'),
+                  )
+                : SizedBox(
+                    height: 75.h,
+                  ),
             Padding(
-              padding: EdgeInsets.only(top: 120.h, bottom: 120.h),
-              child: SvgPicture.asset(Platform.isAndroid ? 'assets/icons/google.svg' : 'assets/icons/apple.svg',
+              padding: EdgeInsets.only(top: 120.h),
+              child: SvgPicture.asset(
+                Platform.isAndroid
+                    ? 'assets/icons/google.svg'
+                    : 'assets/icons/apple.svg',
               ),
             ),
-            Text(title,
+            const Spacer(),
+            Text(
+              title,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: Constants.textSize16,
+              style: AppTypography.font16.copyWith(
                 fontWeight: FontWeight.w700,
-                color: AppColors.c3B4047
+                color: AppColors.c3B4047,
               ),
             ),
             Padding(
               padding: EdgeInsets.only(top: 16.h, left: 16.w, right: 16.w),
-              child: Text(text,
+              child: Text(
+                text,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: AppColors.c3B4047
+                style: AppTypography.font14.copyWith(
+                  color: AppColors.c3B4047,
                 ),
               ),
             ),
@@ -85,7 +91,7 @@ class SyncScreen extends StatelessWidget {
                       ),
                     );
                   }
-                }
+                },
               ),
             )
           ],

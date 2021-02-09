@@ -105,7 +105,7 @@ Future<void> main() async {
       ),
       BlocProvider(
         lazy: false,
-        create: (context) => SyncCubit(context),
+        create: (_) => SyncCubit(),
       ),
     ],
     child: app,

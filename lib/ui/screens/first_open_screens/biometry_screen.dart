@@ -1,7 +1,7 @@
 import 'package:emma_mobile/bloc/app_settings/app_settings_bloc.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
-import 'package:emma_mobile/ui/screens/navigator_screen.dart';
+import 'package:emma_mobile/ui/screens/sync/sync_start_screen.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,7 +23,7 @@ class FirstBiometryScreen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: 56.h, bottom: 16.h),
             child: Text(
-              'Хотите использовать Touch ID? ',
+              'Хотите использовать ${type == BiometricType.fingerprint ? 'Touch' : 'Face'} ID?',
               style: AppTypography.font16.copyWith(
                 fontWeight: FontWeight.w700,
               ),
@@ -47,12 +47,12 @@ class FirstBiometryScreen extends StatelessWidget {
               right: 16.w,
             ),
             child: EmmaFilledButton(
-              title: 'Да, использовать Face ID',
+              title: 'Да, использовать ${type == BiometricType.fingerprint ? 'Touch' : 'Face'} ID',
               onTap: () {
                 context.bloc<AppSettingsBloc>().setUseFaceId(true);
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
-                    builder: (_) => NavigatorScreen(),
+                    builder: (_) => SyncStartScreen(),
                   ),
                 );
               },
@@ -62,7 +62,7 @@ class FirstBiometryScreen extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (_) => NavigatorScreen(),
+                  builder: (_) => SyncStartScreen(),
                 ),
               );
             },

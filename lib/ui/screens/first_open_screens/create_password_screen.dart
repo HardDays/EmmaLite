@@ -3,6 +3,7 @@ import 'package:emma_mobile/ui/components/password/pass_points.dart';
 import 'package:emma_mobile/ui/images.dart';
 import 'package:emma_mobile/ui/screens/first_open_screens/confirm_password.dart';
 import 'package:emma_mobile/ui/screens/navigator_screen.dart';
+import 'package:emma_mobile/ui/screens/sync/sync_start_screen.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -60,7 +61,7 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
               onTap: () {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
-                    builder: (_) => NavigatorScreen(),
+                    builder: (_) => SyncStartScreen(),
                   ),
                 );
               },

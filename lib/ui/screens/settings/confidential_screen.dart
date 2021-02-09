@@ -20,7 +20,7 @@ class ConfidentialScreen extends StatelessWidget {
     return Column(
       children: [
         EmmaAppBar(
-          title: 'Конфеденциальность',
+          title: 'Конфиденциальность',
           leading: BackLeading(
             text: 'Настройки',
             onTap: onTap,

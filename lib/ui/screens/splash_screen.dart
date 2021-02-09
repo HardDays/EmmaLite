@@ -64,7 +64,7 @@ class _SplashScreenState extends State<SplashScreen>
               () {
                 _controller2.stop();
                 final settingsBloc = context.bloc<AppSettingsBloc>();
-                if (settingsBloc.appSettings.isFirstRun) {
+                if (!settingsBloc.appSettings.isFirstRun) {
                   settingsBloc.setFirstRun();
                   _controller.stop();
                   Navigator.of(context).pushReplacement(
