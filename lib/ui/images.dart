@@ -54,23 +54,9 @@ class AppImages {
     );
   }
 
-  static Widget intro() {
-    return Image.asset(
-      'assets/images/intro.png',
-      fit: BoxFit.contain,
-    );
-  }
-
   static Widget introSecure() {
     return Image.asset(
       'assets/images/intro_secure.png',
-      fit: BoxFit.contain,
-    );
-  }
-
-  static Widget profileImageDefault() {
-    return Image.asset(
-      'assets/images/profile_image_default.png',
       fit: BoxFit.contain,
     );
   }

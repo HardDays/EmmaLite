@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ConfidentialScreen extends StatelessWidget {
-  final Function onTap;
+  final Function() onTap;
 
   const ConfidentialScreen({Key key, this.onTap}) : super(key: key);
 
@@ -23,7 +23,7 @@ class ConfidentialScreen extends StatelessWidget {
           title: 'Конфеденциальность',
           leading: BackLeading(
             text: 'Настройки',
-            onTap: () {},
+            onTap: onTap,
           ),
         ),
         Padding(
@@ -34,11 +34,13 @@ class ConfidentialScreen extends StatelessWidget {
                 children: [
                   SettingsItem(
                     onTap: () {
-                      // Navigator.of(context).push(
-                      //   MaterialPageRoute(
-                      //     builder: (_) => ChangePasswordScreen(),
-                      //   ),
-                      // );
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => ChangePasswordScreen(
+                            oldPassword: bloc.appSettings.password,
+                          ),
+                        ),
+                      );
                     },
                     title: 'Изменить пароль',
                     icon: AppIcons.privacy(),
@@ -74,7 +76,7 @@ class ConfidentialScreen extends StatelessWidget {
                       CupertinoSwitch(
                         value: bloc.appSettings.useFaceId ?? false,
                         activeColor: AppColors.c00ACE3,
-                        onChanged: (v) {},
+                        onChanged: bloc.setUseFaceId,
                         // onChanged: bloc.setUseFaceId,
                       )
                     ],

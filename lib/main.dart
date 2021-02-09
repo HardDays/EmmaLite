@@ -19,7 +19,6 @@ import 'package:emma_mobile/repositories/app_local_repository.dart';
 import 'package:emma_mobile/repositories/measurement_local_repository.dart';
 import 'package:emma_mobile/repositories/profile_local_repository.dart';
 import 'package:emma_mobile/ui/routing/router.dart';
-import 'package:emma_mobile/ui/screens/navigator_screen.dart';
 import 'package:emma_mobile/ui/screens/splash_screen.dart';
 import 'package:emma_mobile/utils/hive_boxes.dart';
 import 'package:emma_mobile/utils/utils.dart';

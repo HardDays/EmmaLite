@@ -29,6 +29,52 @@ class AppIcons {
     );
   }
 
+  static Widget memory() {
+    return SvgPicture.asset(
+      'assets/icons/memory.svg',
+      width: 20.w,
+      height: 20.w,
+      fit: BoxFit.fill,
+    );
+  }
+
+  static Widget design() {
+    return SvgPicture.asset(
+      'assets/icons/design.svg',
+      width: 20.w,
+      height: 20.w,
+      fit: BoxFit.fill,
+    );
+  }
+
+  static Widget language() {
+    return SvgPicture.asset(
+      'assets/icons/language.svg',
+      width: 20.w,
+      height: 20.w,
+      fit: BoxFit.fill,
+    );
+  }
+
+
+  static Widget health() {
+    return SvgPicture.asset(
+      'assets/icons/health.svg',
+      width: 20.w,
+      height: 20.w,
+      fit: BoxFit.fill,
+    );
+  }
+
+  static Widget privacyDocs() {
+    return SvgPicture.asset(
+      'assets/icons/privacy_docs.svg',
+      width: 20.w,
+      height: 20.w,
+      fit: BoxFit.fill,
+    );
+  }
+
   static Widget divan({Color color}) {
     return SvgPicture.asset(
       'assets/icons/divan.svg',
@@ -57,6 +103,15 @@ class AppIcons {
   static Widget faceId({double size}) {
     return SvgPicture.asset(
       'assets/icons/face_id.svg',
+      width: size ?? 40.w,
+      height: size ?? 40.h,
+      fit: BoxFit.fill,
+    );
+  }
+
+  static Widget touchId({double size}) {
+    return Image.asset(
+      'assets/icons/touch_id.png',
       width: size ?? 40.w,
       height: size ?? 40.h,
       fit: BoxFit.fill,

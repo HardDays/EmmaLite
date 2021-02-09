@@ -2,7 +2,6 @@ import 'package:emma_mobile/app_common/app_common.dart';
 import 'package:emma_mobile/app_common/app_common_state.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_flat_button.dart';
-import 'package:emma_mobile/ui/components/space.dart';
 import 'package:emma_mobile/ui/images.dart';
 import 'package:emma_mobile/ui/routing/navigator.dart';
 import 'package:emma_mobile/ui/screens/navigator_screen.dart';
@@ -39,26 +38,26 @@ class BiometryRequestScreen extends StatelessWidget {
                 bloc.currentBiometricType == BiometricType.face
                     ? AppImages.faceId()
                     : AppImages.touchId(),
-                const HSpace(50),
+                // const HSpace(50),
                 Text(
                   // ignore: lines_longer_than_80_chars
                   "Хотите использовать ${bloc.currentBiometricType == BiometricType.face ? "Face ID" : "Touch ID"}",
                   style: CustomTextStyles.introLogoTitle,
                 ),
-                const HSpace(16),
+                // const HSpace(16),
                 const Text(
                   'Это позволит входить в приложение без пароля.',
                   style: CustomTextStyles.textFieldText,
                   textAlign: TextAlign.center,
                 ),
-                const HSpace(80),
+                // const HSpace(80),
                 EmmaFilledButton(
                   title:
                       // ignore: lines_longer_than_80_chars
                       "Да, использовать ${bloc.currentBiometricType == BiometricType.face ? "Face" : "Touch"} ID",
                   onTap: () => context.read<AppCommon>().grantBiometry(),
                 ),
-                const HSpace(24),
+                // const HSpace(24),
                 EmmaFlatButton(
                   title: 'Позже',
                   onTap: () => navigatorReplace(context, NavigatorScreen()),

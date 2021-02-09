@@ -24,7 +24,7 @@ class EmptyMeasurements extends StatelessWidget {
               color: AppColors.cFFFFFF,
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.black12,
+                  color: AppColors.c0D000000,
                   offset: Offset(0, 3),
                   blurRadius: 4,
                   spreadRadius: 0,

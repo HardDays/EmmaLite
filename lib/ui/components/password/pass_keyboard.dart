@@ -3,11 +3,13 @@ import 'dart:math';
 import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:local_auth/local_auth.dart';
 
 class PassKey extends StatefulWidget {
   final Function(List<int> values) onChange;
   final Function onFaceIdTap;
   final bool haveFaceId;
+  final BiometricType localAuthType;
   final List<int> keys;
 
   const PassKey({
@@ -15,6 +17,7 @@ class PassKey extends StatefulWidget {
     this.onChange,
     this.onFaceIdTap,
     this.haveFaceId = true,
+    this.localAuthType,
     this.keys,
   }) : super(key: key);
 
@@ -86,7 +89,12 @@ class _PassKeyState extends State<PassKey> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                widget.haveFaceId ? _FaceIdButton() : SizedBox(width: 64.w),
+                widget.haveFaceId
+                    ? _FaceIdButton(
+                        localAuthType: widget.localAuthType,
+                        onTap: widget.onFaceIdTap,
+                      )
+                    : SizedBox(width: 64.w),
                 _PassKeyItem(text: 0, onTap: _onAddValue),
                 _DeleteButton(onTap: _onDelete),
               ],
@@ -99,13 +107,27 @@ class _PassKeyState extends State<PassKey> {
 }
 
 class _FaceIdButton extends StatelessWidget {
+  final BiometricType localAuthType;
+  final Function onTap;
+
+  const _FaceIdButton({
+    Key key,
+    this.localAuthType,
+    this.onTap,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 54.w,
-      height: 54.w,
-      child: Center(
-        child: AppIcons.faceId(),
+    return GestureDetector(
+      onTap: onTap,
+      child: SizedBox(
+        width: 54.w,
+        height: 54.w,
+        child: Center(
+          child: localAuthType == BiometricType.face
+              ? AppIcons.faceId()
+              : AppIcons.touchId(),
+        ),
       ),
     );
   }

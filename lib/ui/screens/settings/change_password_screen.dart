@@ -1,16 +1,27 @@
+import 'package:emma_mobile/bloc/app_settings/app_settings_bloc.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
 import 'package:emma_mobile/ui/components/measurement/default_container.dart';
 import 'package:emma_mobile/ui/components/measurement/int_text_field.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
+  final String oldPassword;
+
+  const ChangePasswordScreen({Key key, this.oldPassword}) : super(key: key);
+
   @override
   _ChangePasswordScreenState createState() => _ChangePasswordScreenState();
 }
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
+  String _oldPassword;
+  String _newPassword;
+  String _repeatNewPassword;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -42,6 +53,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   DefaultContainer(
                     child: InputTextField(
                       label: 'Старый пароль',
+                      formatter: LengthLimitingTextInputFormatter(4),
+                      onChange: (s) {
+                        _oldPassword = s;
+                      },
                     ),
                   ),
                   Padding(
@@ -49,15 +64,23 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     child: DefaultContainer(
                       child: InputTextField(
                         label: 'Новый пароль',
+                        formatter: LengthLimitingTextInputFormatter(4),
+                        onChange: (s) {
+                          _newPassword = s;
+                        },
                       ),
                     ),
                   ),
                   DefaultContainer(
                     child: InputTextField(
                       label: 'Повторите пароль',
+                      formatter: LengthLimitingTextInputFormatter(4),
+                      onChange: (s) {
+                        _repeatNewPassword = s;
+                      },
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Padding(
                     padding: EdgeInsets.symmetric(
                       vertical: 24.h,
@@ -65,7 +88,21 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     ),
                     child: EmmaFilledButton(
                       title: 'Готово',
-                      onTap: () {},
+                      onTap: () {
+                        if (_oldPassword != widget.oldPassword &&
+                            widget.oldPassword != null) {
+                          Toast.show('Неправильный старый пароль');
+                          return;
+                        }
+                        if (_repeatNewPassword != _newPassword) {
+                          Toast.show('Пароли не совпадают');
+                        } else {
+                          context
+                              .bloc<AppSettingsBloc>()
+                              .setPasswordText(_newPassword);
+                          Navigator.of(context).pop();
+                        }
+                      },
                     ),
                   )
                 ],

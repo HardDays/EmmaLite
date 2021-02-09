@@ -1,12 +1,13 @@
 import 'package:emma_mobile/bloc/app_settings/app_settings_bloc.dart';
-import 'package:emma_mobile/repositories/app_local_repository.dart';
 import 'package:emma_mobile/ui/components/password/pass_keyboard.dart';
 import 'package:emma_mobile/ui/components/password/pass_points.dart';
 import 'package:emma_mobile/ui/images.dart';
+import 'package:emma_mobile/ui/screens/first_open_screens/biometry_screen.dart';
 import 'package:emma_mobile/ui/screens/navigator_screen.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:local_auth/local_auth.dart';
 
 class ConfirmPasswordScreen extends StatefulWidget {
   final List<int> password;
@@ -32,11 +33,18 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
       if (!_haveError) {
         Future.delayed(
           const Duration(milliseconds: 100),
-              () {
+          () async {
             context.bloc<AppSettingsBloc>().setPassword(_password.join(''));
+            final local = LocalAuthentication();
+            final haveBiometric = await local.canCheckBiometrics;
+            final biometrics = await local.getAvailableBiometrics();
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                builder: (_) => NavigatorScreen(),
+                builder: (_) => haveBiometric
+                    ? FirstBiometryScreen(
+                        type: biometrics.first,
+                      )
+                    : NavigatorScreen(),
               ),
             );
           },

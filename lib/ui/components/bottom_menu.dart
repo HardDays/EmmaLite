@@ -3,12 +3,11 @@ import 'package:emma_mobile/ui/routing/navigator.dart';
 import 'package:emma_mobile/ui/screens/assignment/assignment_new.dart';
 import 'package:emma_mobile/ui/screens/doctors/doctors_screen.dart';
 import 'package:emma_mobile/ui/screens/measurement/select_measurement.dart';
-import 'package:emma_mobile/ui/screens/sync/sync_screen.dart';
+import 'package:emma_mobile/ui/screens/profile/profile_screen.dart';
 import 'package:emma_mobile/ui/screens/report_screen.dart';
-import 'package:emma_mobile/ui/screens/settings/confidential_screen.dart';
+import 'package:emma_mobile/ui/screens/settings/setting_screen.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:emma_mobile/ui/screens/profile/profile_screen.dart';
 
 //todo: Подумать как можно сделать лучше
 enum BottomMenuType { main, profile }
@@ -82,7 +81,9 @@ class BottomMenu extends StatelessWidget {
                 if (isName) {
                   navigatorPush(context, ReportScreen());
                 } else {
-                  otherTabPage?.call(ConfidentialScreen());
+                  otherTabPage?.call(
+                    SettingsScreen(onChange: otherTabPage),
+                  );
                 }
               },
             ),

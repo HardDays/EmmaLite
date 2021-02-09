@@ -83,7 +83,7 @@ class BackLeading extends StatelessWidget {
         if (onTap == null) {
           Navigator.of(context).pop();
         } else {
-          onTap();
+          onTap.call();
         }
       },
       behavior: HitTestBehavior.opaque,

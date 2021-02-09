@@ -35,6 +35,11 @@ class AppSettingsBloc extends Cubit<AppSettingsState> {
     _updateSettings();
   }
 
+  void setPasswordText(String password) {
+    _appSettings.password = password;
+    _updateSettings();
+  }
+
   void setPassword(String password) {
     _appSettings.password = password;
     _appSettings.usePassword = true;

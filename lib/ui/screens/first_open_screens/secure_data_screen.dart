@@ -32,7 +32,7 @@ class SecureDataScreen extends StatelessWidget {
                 bottom: 32.h,
               ),
               child: Text(
-                'Вы можете настроить вход вриложение через пароль, чтобы никто не мог узнать ваши данные. ',
+                'Вы можете настроить вход приложение через пароль, чтобы никто не мог узнать ваши данные. ',
                 style: AppTypography.font14.copyWith(
                   color: AppColors.c3B4047,
                 ),

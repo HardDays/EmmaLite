@@ -7,6 +7,7 @@ import 'package:emma_mobile/ui/screens/navigator_screen.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:local_auth/local_auth.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -23,6 +24,8 @@ class _SplashScreenState extends State<SplashScreen>
   Animation<double> _passOpacity;
   Animation<double> _passwordAnimation;
 
+  BiometricType _biometricType;
+
   List<int> _passwordValues = [];
 
   bool _haveError = false;
@@ -31,6 +34,12 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void initState() {
+    LocalAuthentication().getAvailableBiometrics().then((value) {
+      if (value.isNotEmpty) {
+        _biometricType = value.first;
+      }
+    });
+
     _controller = AnimationController(
       value: 0,
       duration: const Duration(seconds: 7),
@@ -237,6 +246,14 @@ class _SplashScreenState extends State<SplashScreen>
                 ignoring: _passwordAnimation.value != 1,
                 child: PassKey(
                   keys: _passwordValues,
+                  haveFaceId:
+                      context.bloc<AppSettingsBloc>().appSettings.useFaceId,
+                  localAuthType: _biometricType,
+                  onFaceIdTap: () {
+                    LocalAuthentication().authenticateWithBiometrics(
+                      localizedReason: 'Вход',
+                    );
+                  },
                   onChange: _setPassword,
                 ),
               ),
