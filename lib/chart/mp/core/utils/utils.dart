@@ -65,7 +65,7 @@ abstract class Utils {
       c.restore();
     } else {
       drawOffsetX += x;
-      drawOffsetY += y + 16.h; // todo изменение высоты отступа подписей от графика
+      drawOffsetY += y + 8.h; // todo изменение высоты отступа подписей от графика
 
       paint.text = TextSpan(text: text, style: paint.text.style);
       paint.layout();

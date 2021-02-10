@@ -258,10 +258,13 @@ class _TextItem extends StatelessWidget {
         ),
         Padding(
           padding: EdgeInsets.only(left: 8.w),
-          child: Text(
-            text,
-            style: AppTypography.font12.copyWith(
-              color: AppColors.c3B4047,
+          child: SizedBox(
+            width: 125.w,
+            child: Text(
+              text,
+              style: AppTypography.font12.copyWith(
+                color: AppColors.c3B4047,
+              ),
             ),
           ),
         )

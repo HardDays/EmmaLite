@@ -117,8 +117,8 @@ class MeasurementDetailBloc extends Cubit<MeasurementDetailState> {
       final items = data.map((e) => e as ArterialPressure).toList();
       items.sort((i, j) => i.under.compareTo(j.under));
       if (items.isNotEmpty) {
-        _min = items.first.under.toString();
-        _max = items.last.under.toString();
+        _min = items.first.under.toInt().toString();
+        _max = items.last.under.toInt().toString();
         items.sort((i, j) => i.top.compareTo(j.top));
         _min = '$_min/${items.first.top}';
         _max = '$_max/${items.last.top}';
@@ -141,8 +141,8 @@ class MeasurementDetailBloc extends Cubit<MeasurementDetailState> {
       final items = data.map((e) => e as Pulse).toList();
       items.sort((i, j) => i.pulse.compareTo(j.pulse));
       if (items.isNotEmpty) {
-        _min = items.first.pulse.toStringAsFixed(1);
-        _max = items.last.pulse.toStringAsFixed(1);
+        _min = items.first.pulse.toInt().toString();
+        _max = items.last.pulse.toInt().toString();
       }
     } else if (_measurement is Temperature) {
       final items = data.map((e) => e as Temperature).toList();

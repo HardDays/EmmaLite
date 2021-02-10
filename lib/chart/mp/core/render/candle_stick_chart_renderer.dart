@@ -626,16 +626,16 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
 
           CandleEntry entry = dataSet.getEntryForIndex(j ~/ 2 + xBounds.min);
 
-          if (dataSet.isDrawValuesEnabled()) {
-            drawValue(
-                c,
-                formatter.getCandleLabel(entry),
-                x,
-                y - yOffset,
-                dataSet.getValueTextColor2(j ~/ 2),
-                dataSet.getValueTextSize(),
-                dataSet.getValueTypeface());
-          }
+          // if (dataSet.isDrawValuesEnabled()) {
+          //   drawValue(
+          //       c,
+          //       formatter.getCandleLabel(entry),
+          //       x,
+          //       y - yOffset,
+          //       dataSet.getValueTextColor2(j ~/ 2),
+          //       dataSet.getValueTextSize(),
+          //       dataSet.getValueTypeface());
+          // }
 
           if (entry.mIcon != null && dataSet.isDrawIconsEnabled()) {
             CanvasUtils.drawImage(

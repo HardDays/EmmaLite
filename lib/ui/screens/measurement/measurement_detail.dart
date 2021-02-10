@@ -126,14 +126,14 @@ class MeasurementDetailScreen extends StatelessWidget {
                                     children: [
                                       Expanded(
                                         child: _ColumnItem(
-                                          title: '${'minLabelTextco'.tr}.',
+                                          title: '${'minLabelTextco'.tr}',
                                           subtitle:
                                               '${bloc.item is ArterialPressure ? '\n' : ''} ${bloc.min}',
                                         ),
                                       ),
                                       Expanded(
                                         child: _ColumnItem(
-                                          title: '${'maxLabelTextco'.tr}.',
+                                          title: '${'maxLabelTextco'.tr}',
                                           subtitle:
                                               '${bloc.item is ArterialPressure ? '\n' : ''} ${bloc.max}',
                                         ),

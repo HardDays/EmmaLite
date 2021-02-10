@@ -6,6 +6,7 @@ import 'package:emma_mobile/models/time_range.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
 import 'package:emma_mobile/ui/components/chip.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
+import 'package:emma_mobile/ui/screens/assignment/calendar_screen.dart';
 import 'package:emma_mobile/ui/screens/measurement/measurement_new.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -100,14 +101,24 @@ class _TopRow extends StatelessWidget {
           children: [
             BackLeading(text: arrowText ?? 'measurementsTitleLabel'.tr),
             const Spacer(),
-            Padding(
-              padding: EdgeInsets.only(
-                left: 12.w,
-                right: 8.w,
-                top: 10.h,
-                bottom: 10.h,
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => CalendarScreen(),
+                  ),
+                );
+              },
+              behavior: HitTestBehavior.opaque,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: 12.w,
+                  right: 8.w,
+                  top: 10.h,
+                  bottom: 10.h,
+                ),
+                child: AppIcons.calendarActive(),
               ),
-              child: AppIcons.calendarActive(),
             ),
             GestureDetector(
               onTap: () {

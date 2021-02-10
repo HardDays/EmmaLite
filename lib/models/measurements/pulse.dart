@@ -36,7 +36,7 @@ class Pulse extends HiveObject implements Measurement {
   String units = 'heartRateUnit';
 
   @override
-  String value() => pulse.toStringAsFixed(1);
+  String value() => pulse.toStringAsFixed(0).split('.').first;
 
   @override
   String getFormattedDate() => dateTime.measurementDateFormatter();

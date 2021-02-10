@@ -19,7 +19,9 @@ class FirstBiometryScreen extends StatelessWidget {
       body: Column(
         children: [
           const Spacer(),
-          AppIcons.touchId(size: 100.w),
+          type == BiometricType.fingerprint
+              ? AppIcons.touchId(size: 100.w)
+              : AppIcons.faceId(size: 100.w),
           Padding(
             padding: EdgeInsets.only(top: 56.h, bottom: 16.h),
             child: Text(
@@ -49,8 +51,7 @@ class FirstBiometryScreen extends StatelessWidget {
               right: 16.w,
             ),
             child: EmmaFilledButton(
-              title:
-              type == BiometricType.fingerprint
+              title: type == BiometricType.fingerprint
                   ? 'buttonUseTextTouchID'.tr
                   : 'buttonUseTextFaceID'.tr,
               onTap: () {

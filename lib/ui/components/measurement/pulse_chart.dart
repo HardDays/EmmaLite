@@ -34,8 +34,8 @@ class _PulseChartState extends State<PulseChart> {
     final width = MediaQuery.of(context).size.width - 55.w;
     final transformer = Transformer(
       ViewPortHandler()
-        ..setChartDimens(width, 200.h)
-        ..restrainViewPort(25.w, 0.h, 0, 0.h),
+        ..setChartDimens(width, 195.h)
+        ..restrainViewPort(25.w, 0, 0, 0),
     );
     final List<Measurement> list = []..addAll(widget.bloc.data);
     list.sort(
@@ -84,7 +84,7 @@ class _PulseChartState extends State<PulseChart> {
         axisRight.setAxisMinimum(min);
         axisRight.setAxisMaximum(max);
         axisRight.textSize = Constants.textSize12;
-        (controller as CandlestickChartController).setViewPortOffsets(
+        controller.setViewPortOffsets(
           0.w,
           0,
           20.w,
@@ -185,7 +185,7 @@ class _PulseChartState extends State<PulseChart> {
 
     set1.setDrawIcons(false);
     set1.setAxisDependency(AxisDependency.LEFT);
-    set1.setDrawValues(false);
+    set1.setDrawValues(true);
     set1.setDecreasingColor(AppColors.c00ACE3);
     set1.setValueFormatter(CandleLabelFormatter(values));
     set1.setValueTextColor(AppColors.c00ACE3);
@@ -206,13 +206,12 @@ class _PulseChartState extends State<PulseChart> {
 class CandleLabelFormatter extends ValueFormatter {
   final List<CandleEntry> data;
 
-  CandleLabelFormatter(this.data) {
-  }
+  CandleLabelFormatter(this.data);
 
   @override
   String getIndexAxisLabel(int index, {bool showMax}) {
-    final maxText = '${'maxLabelTextco'.tr}.\n${data[index].open}';
-    final minText = '${'minLabelTextco'.tr}.\n${data[index].close}';
+    final maxText = '${'maxLabelTextco'.tr}\n${data[index].open.toInt()}';
+    final minText = '${'minLabelTextco'.tr}\n${data[index].close.toInt()}';
     if (showMax != null) {
       if (showMax) {
         return maxText;
