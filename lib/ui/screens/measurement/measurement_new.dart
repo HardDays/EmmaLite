@@ -76,7 +76,7 @@ class MeasurementNewScreen extends StatelessWidget {
                       child: DateTimeTextField(
                         value: bloc.dateTime,
                         onChange: bloc.setDateTime,
-                        maximumDate: DateTime.now(),
+                        nowMaximum: true,
                         title: 'titleAddingPulseDateco'.tr,
                         hintText: 'titleAddingPulseDateco'.tr,
                       ),
@@ -126,8 +126,8 @@ class MeasurementNewScreen extends StatelessWidget {
                         padding: EdgeInsets.only(top: 20.h),
                         child: DateTimeTextField(
                           value: bloc.eatTime,
+                          nowMaximum: true,
                           onChange: bloc.setEatTime,
-                          maximumDate: DateTime.now(),
                           title: 'mealDate'.tr,
                           hintText: '${'mealDate'.tr} (${'optionalString'.tr})',
                         ),

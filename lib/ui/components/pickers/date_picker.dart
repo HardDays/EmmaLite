@@ -226,10 +226,11 @@ class CupertinoDatePicker extends StatefulWidget {
         ),
         super(key: key) {
     assert(this.initialDateTime != null);
-    // assert(
-    // mode != CupertinoDatePickerMode.dateAndTime || minimumDate == null || !this.initialDateTime.isBefore(minimumDate),
-    // 'initial date is before minimum date',
-    // );
+    print('xxx $initialDateTime  - $minimumDate -- $maximumDate ${DateTime.now().millisecondsSinceEpoch}');
+    assert(
+    mode != CupertinoDatePickerMode.dateAndTime || minimumDate == null || !this.initialDateTime.isBefore(minimumDate),
+    'initial date is before minimum date',
+    );
     assert(
     mode != CupertinoDatePickerMode.dateAndTime || maximumDate == null || !this.initialDateTime.isAfter(maximumDate),
     'initial date is after maximum date',

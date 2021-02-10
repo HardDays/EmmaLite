@@ -93,7 +93,7 @@ extension IntExtention on int {
       return 'minutesText_1'.tr;
     }
     if (lastSymbol == 2 || lastSymbol == 3 || lastSymbol == 4) {
-      return 'minutesText_2';
+      return 'minutesText_2'.tr;
     }
     return 'minutesText_3'.tr;
   }

@@ -68,17 +68,22 @@ class RunTask {
     }
 
     final now = DateTime.now();
-    final dif = now.difference(dateTime);
-    final minutes = dif.inMinutes - (dif.inHours * 60);
-    final hour = dif.inHours;
+    final dif = now.difference(dateTime).abs();
+    final days = dif.inDays;
+    final hour = dif.inHours >= 24 ? dif.inHours - (days * 24) : dif.inHours;
+    final minutes = dif.inMinutes - (hour * 60 + (days * 24 * 60));
+
+    print(days);
+    final daysText = days == 0 ? '' : ' ${days.abs()} ${days.getPluralDays}';
+
     final hourText =
-        hour == 0 ? '' : '${dif.inHours.abs()} ${hour.getPluralHour}';
+        hour == 0 ? '' : '${hour.abs()} ${hour.getPluralHour}';
     final minutesText =
         minutes == 0 ? '' : '${minutes.abs()} ${minutes.getPluralMinutes}';
     if (isExpired) {
-      return '$hourText $minutesText ${'differenceBackTextLabel'.tr}';
+      return '$daysText$hourText $minutesText ${'differenceBackTextLabel'.tr}';
     }
-    return '${'differenceThroughTextLabel'.tr} $hourText $minutesText';
+    return '${'differenceThroughTextLabel'.tr}$daysText $hourText $minutesText';
   }
 }
 

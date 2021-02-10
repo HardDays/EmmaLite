@@ -139,7 +139,7 @@ abstract class RuMessages {
         'noPrescriptionsPlanTodayNoIntakesTitle':
             'Cегодня вы не выполнили ни одно из запланированных назначений.',
         'noPrescriptionsPlanNoIntakesTitle':
-            '"#DATE# вы не выполнили ни одно из запланированных назначений.',
+            '#DATE# вы не выполнили ни одно из запланированных назначений.',
         'titlePerformedPrescriptions': 'Вы выполнили #COUNT# из #SUM#',
         //
         'titleMorningLabel': 'Доброе утро',

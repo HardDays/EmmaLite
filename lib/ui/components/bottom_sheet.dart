@@ -248,35 +248,38 @@ Future<double> showDoublePicker({
               Navigator.of(context).pop(value);
             },
           ),
-          SizedBox(
-            height: 199.h,
-            child: Row(
-              children: [
-                Expanded(
-                  child: CupertinoPicker(
-                    itemExtent: 30.h,
-                    useMagnifier: true,
-                    scrollController:
-                        FixedExtentScrollController(initialItem: firstValue),
-                    onSelectedItemChanged: (i) {
-                      firstValue = i;
-                    },
-                    children: firstItems,
+          ColoredBox(
+            color: AppColors.cF5F7FA,
+            child: SizedBox(
+              height: 199.h,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: CupertinoPicker(
+                      itemExtent: 30.h,
+                      useMagnifier: true,
+                      scrollController:
+                          FixedExtentScrollController(initialItem: firstValue),
+                      onSelectedItemChanged: (i) {
+                        firstValue = i;
+                      },
+                      children: firstItems,
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: CupertinoPicker(
-                    itemExtent: 30.h,
-                    useMagnifier: true,
-                    scrollController:
-                        FixedExtentScrollController(initialItem: secondValue),
-                    onSelectedItemChanged: (i) {
-                      secondValue = i;
-                    },
-                    children: secondItems,
+                  Expanded(
+                    child: CupertinoPicker(
+                      itemExtent: 30.h,
+                      useMagnifier: true,
+                      scrollController:
+                          FixedExtentScrollController(initialItem: secondValue),
+                      onSelectedItemChanged: (i) {
+                        secondValue = i;
+                      },
+                      children: secondItems,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           )
         ],

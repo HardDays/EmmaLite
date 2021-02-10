@@ -52,7 +52,7 @@ class Every2daysAssignFrequencyInWeek implements AssignFrequencyInWeek {
   int get index => 1;
 
   @override
-  String get title => 'prescriptionValueTypePeriodicity_1'.tr;
+  String get title => 'prescriptionValueTypePeriodicity_2'.tr;
 }
 
 class OneInWeekAssignFrequencyInWeek implements AssignFrequencyInWeek {
@@ -63,5 +63,5 @@ class OneInWeekAssignFrequencyInWeek implements AssignFrequencyInWeek {
   int get index => 2;
 
   @override
-  String get title => 'prescriptionValueTypePeriodicity_1'.tr;
+  String get title => 'prescriptionValueTypePeriodicity_3'.tr;
 }

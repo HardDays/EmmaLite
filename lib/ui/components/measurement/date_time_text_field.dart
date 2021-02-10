@@ -16,6 +16,8 @@ class DateTimeTextField extends StatelessWidget {
   final DateTime minimumDate;
   final DateTime initialDate;
   final DateTime maximumDate;
+  final bool nowMaximum;
+  final bool nowMinimum;
   final bool enable;
   final Color color;
   final CupertinoDatePickerMode mode;
@@ -34,6 +36,8 @@ class DateTimeTextField extends StatelessWidget {
     this.enable = true,
     this.color,
     this.mode = CupertinoDatePickerMode.dateAndTime,
+    this.nowMaximum = false,
+    this.nowMinimum = false,
   }) : super(key: key);
 
   @override
@@ -45,12 +49,27 @@ class DateTimeTextField extends StatelessWidget {
         if (!enable) {
           return;
         }
+        final now = DateTime.now();
+        DateTime maxDateTime = maximumDate;
+        DateTime minDateTime = minimumDate;
+        DateTime initDateTime = initialDate;
+        if (nowMaximum) {
+          maxDateTime = now;
+        }
+        if (nowMinimum) {
+          minDateTime = now;
+          if (initialDate != null && initialDate.isBefore(minDateTime)) {
+            initDateTime = now;
+          }
+          // minDateTime = minDateTime.subtract(Duration(minutes: 2));
+
+        }
         final res = await showDateTimeModalBottom(
           context: context,
           pickerTitle: title,
-          initialDate: initialDate,
-          minimumDate: minimumDate,
-          maximumDate: maximumDate?.add(const Duration(seconds: 10)),
+          initialDate: initDateTime ?? now,
+          minimumDate: minDateTime,
+          maximumDate: maxDateTime,
           mode: mode,
         );
         if (res != null) {
