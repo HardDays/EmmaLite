@@ -45,6 +45,7 @@ class EmmaAppBar extends StatelessWidget {
                   child: Text(
                     title,
                     style: AppTypography.font22.copyWith(
+                      color: AppColors.c3B4047,
                       fontWeight: FontWeight.w700,
                     ),
                   ),

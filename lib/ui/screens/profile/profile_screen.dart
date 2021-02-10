@@ -32,6 +32,7 @@ class ProfileScreen extends StatelessWidget {
       builder: (_, __) {
         if (bloc.currentUser.isEmpty) {
           return Scaffold(
+            backgroundColor: AppColors.cF5F7FA,
             body: BlocProvider(
               create: (_) => ProfileScreenBloc(),
               child: _EmptyProfile(),

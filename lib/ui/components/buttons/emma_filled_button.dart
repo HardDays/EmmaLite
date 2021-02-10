@@ -68,7 +68,7 @@ class EmmaFilledButton extends StatelessWidget {
                   style: AppTypography.font17.copyWith(
                     fontWeight: FontWeight.w500,
                     fontSize: fontSize,
-                    color: AppColors.cFFFFFF,
+                    color: Colors.white,
                   ),
                 ),
           ),

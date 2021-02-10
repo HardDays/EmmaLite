@@ -9,6 +9,7 @@ class FeedbackScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.cF5F7FA,
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [

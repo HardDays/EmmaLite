@@ -27,6 +27,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
+        backgroundColor: AppColors.cF5F7FA,
         resizeToAvoidBottomInset: false,
         body: Column(
           children: [

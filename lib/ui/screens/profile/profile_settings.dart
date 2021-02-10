@@ -21,6 +21,7 @@ class ProfileSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = context.bloc<ProfileCubit>();
     return Scaffold(
+      backgroundColor: AppColors.cF5F7FA,
       body: Column(
         children: [
           SmallAppBar(

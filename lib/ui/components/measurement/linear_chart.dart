@@ -104,7 +104,7 @@ class _LinearChartState extends State<LinearChart> {
       drawMarkers: false,
       highLightPerTapEnabled: false,
       highlightPerDragEnabled: false,
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.cFFFFFF,
     );
   }
 

@@ -16,6 +16,7 @@ class LanguageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.cF5F7FA,
       body: Column(
         children: [
           EmmaAppBar(

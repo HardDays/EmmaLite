@@ -22,6 +22,7 @@ class AssignmentsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = context.bloc<AssignBloc>();
     return Scaffold(
+      backgroundColor: AppColors.cF5F7FA,
       body: BlocProvider(
         create: (_) => AssignScreenBloc(),
         child: BlocBuilder<AssignBloc, AssignState>(
@@ -342,10 +343,10 @@ class _ListItem extends StatelessWidget {
               minWidth: 288.w,
               maxWidth: 288.w,
             ),
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: AppColors.cFFFFFF,
-              borderRadius: BorderRadius.all(Radius.circular(4)),
-              boxShadow: [
+              borderRadius: const BorderRadius.all(Radius.circular(4)),
+              boxShadow: const [
                 BoxShadow(
                   color: Color.fromRGBO(0, 0, 0, 0.05),
                   blurRadius: 4,
@@ -483,10 +484,10 @@ class _BaseCenterWidget extends StatelessWidget {
         Container(
           width: 120.w,
           height: 120.w,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: AppColors.cFFFFFF,
             shape: BoxShape.circle,
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
                 offset: Offset(0, 3),
                 blurRadius: 4,

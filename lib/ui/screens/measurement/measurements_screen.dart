@@ -12,6 +12,7 @@ class MeasurementScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = context.bloc<MeasurementCubit>();
     return Scaffold(
+      backgroundColor: AppColors.cF5F7FA,
       body: Column(
         children: [
           EmmaAppBar(title: 'mainTitleMeasurements'.tr),

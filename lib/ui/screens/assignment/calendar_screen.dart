@@ -20,9 +20,9 @@ class CalendarScreen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: 20.h),
             child: DecoratedBox(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: AppColors.cFFFFFF,
-                borderRadius: BorderRadius.all(Radius.circular(4)),
+                borderRadius: const BorderRadius.all(Radius.circular(4)),
               ),
               child: Calendar(
                 width: 288.w,

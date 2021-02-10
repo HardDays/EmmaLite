@@ -1,3 +1,4 @@
+import 'package:emma_mobile/models/language.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/components/settings/settings_item.dart';
@@ -38,14 +39,14 @@ class SettingsScreen extends StatelessWidget {
                   padding: EdgeInsets.only(top: 8.h),
                   child: SettingsItem(
                     title: 'Память',
-                    icon: AppIcons.privacy(),
+                    icon: AppIcons.memory(),
                   ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 8.h),
                   child: SettingsItem(
                     title: 'themeCellTitle'.tr,
-                    subtitle: 'Светлая тема',
+                    subtitle: Get.isDarkMode ? 'Темная тема' : 'Светлая тема',
                     icon: AppIcons.design(),
                     onTap: () => onChange(
                       ThemeScreen(
@@ -67,6 +68,9 @@ class SettingsScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                    subtitle: languages
+                        .firstWhere((e) => e.locale == Get.locale.languageCode)
+                        .localizedTitle,
                     icon: AppIcons.language(),
                   ),
                 ),

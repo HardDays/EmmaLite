@@ -127,7 +127,7 @@ class _BottomMenuItem extends StatelessWidget {
         height: 109.h,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: AppColors.cF1F5F9,
+          color: AppColors.cF5F7FA,
         ),
         child: Center(
           child: Column(

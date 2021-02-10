@@ -1,4 +1,3 @@
-
 import 'package:emma_mobile/bloc/app_settings/app_settings_state.dart';
 import 'package:emma_mobile/models/app_settings/app_settings.dart';
 import 'package:emma_mobile/repositories/app_local_repository.dart';
@@ -39,6 +38,17 @@ class AppSettingsBloc extends Cubit<AppSettingsState> {
     _updateSettings();
   }
 
+  void setTheme(ThemeMode themeMode) {
+    Get.changeThemeMode(themeMode);
+    Get.changeTheme(
+      Get.theme.copyWith(
+        brightness:
+            themeMode == ThemeMode.light ? Brightness.light : Brightness.dark,
+      ),
+    );
+    _appSettings.lightTheme = themeMode == ThemeMode.light;
+    _updateSettings();
+  }
 
   void setFirstRun() {
     _appSettings.isFirstRun = false;

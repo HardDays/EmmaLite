@@ -52,18 +52,16 @@ Future<void> main() async {
     debugShowCheckedModeBanner: false,
     translations: Messages(),
     theme: ThemeData(
-      brightness: Brightness.light,
-      scaffoldBackgroundColor: AppColors.cF5F7FA,
-      cupertinoOverrideTheme: const CupertinoThemeData(
+      brightness: settings.lightTheme ? Brightness.light : Brightness.dark,
+      cupertinoOverrideTheme: CupertinoThemeData(
           textTheme: CupertinoTextThemeData(
             dateTimePickerTextStyle: TextStyle(
               fontSize: 20,
-              color: AppColors.c4A4A4A,
             ),
           )
       ),
       canvasColor: Colors.transparent,
-      primaryColor: AppColors.c3B4047,
+      primaryColor: AppColors.c00ACE3,
     ),
     builder: BotToastInit(),
     navigatorObservers: [BotToastNavigatorObserver()],
@@ -82,7 +80,7 @@ Future<void> main() async {
       Locale('es'),
     ],
     fallbackLocale: const Locale('en'),
-    themeMode: ThemeMode.light,
+    themeMode: settings.lightTheme ? ThemeMode.light : ThemeMode.dark,
     home: SplashScreen(),
   );
 

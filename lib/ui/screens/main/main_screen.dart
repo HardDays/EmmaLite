@@ -16,6 +16,7 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = context.bloc<MeasurementCubit>();
     return Scaffold(
+      backgroundColor: AppColors.cF5F7FA,
       body: BlocBuilder<MeasurementCubit, MeasurementState>(
         builder: (context, state) {
           return SingleChildScrollView(

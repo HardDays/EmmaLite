@@ -34,6 +34,7 @@ class ReportScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => ReportScreenBloc(),
       child: Scaffold(
+        backgroundColor: AppColors.cF5F7FA,
         body: Column(
           children: [
             SmallAppBar(
@@ -268,6 +269,7 @@ class _PDFTestScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.cF5F7FA,
       body: Column(
         children: [
           Expanded(

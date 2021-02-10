@@ -19,10 +19,10 @@ class EmptyMeasurements extends StatelessWidget {
             padding: EdgeInsets.only(top: 72.h),
           ),
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: AppColors.cFFFFFF,
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                   color: AppColors.c0D000000,
                   offset: Offset(0, 3),

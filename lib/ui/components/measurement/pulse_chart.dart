@@ -132,7 +132,7 @@ class _PulseChartState extends State<PulseChart> {
       drawMarkers: false,
       highLightPerTapEnabled: false,
       highlightPerDragEnabled: false,
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.cFFFFFF,
     );
   }
 

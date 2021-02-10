@@ -15,6 +15,7 @@ class ConfirmCreate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.cF5F7FA,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         child: SingleChildScrollView(
@@ -58,7 +59,7 @@ class ConfirmCreate extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(top: 12.h, bottom: 24.h),
                 child: EmmaBorderButton(
-                  color: AppColors.cFFFFFF,
+                  color: Colors.white,
                   text: 'Отказаться',
                   onTap: () {
                     Navigator.of(context).pop();

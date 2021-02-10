@@ -133,7 +133,7 @@ class _ArterialChartState extends State<ArterialChart> {
       drawMarkers: false,
       highLightPerTapEnabled: false,
       highlightPerDragEnabled: false,
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.cFFFFFF,
     );
   }
 

@@ -40,6 +40,7 @@ class _NavigatorScreenState extends State<NavigatorScreen> {
       },
       behavior: HitTestBehavior.opaque,
       child: Scaffold(
+        backgroundColor: AppColors.cF5F7FA,
         resizeToAvoidBottomInset: false,
         body: Stack(
           alignment: Alignment.bottomCenter,

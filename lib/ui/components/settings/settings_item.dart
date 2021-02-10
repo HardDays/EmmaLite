@@ -33,9 +33,9 @@ class SettingsItem extends StatelessWidget {
               child: Container(
                 width: 44.w,
                 height: 44.w,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: AppColors.cEBEEF3,
+                  color: AppColors.cF5F7FA,
                 ),
                 child: Center(child: icon),
               ),

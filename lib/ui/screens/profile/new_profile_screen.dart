@@ -25,6 +25,7 @@ class NewProfileScreen extends StatelessWidget {
       onTap: () => FocusScope.of(context).unfocus(),
       behavior: HitTestBehavior.opaque,
       child: Scaffold(
+        backgroundColor: AppColors.cF5F7FA,
         body: Column(
           children: [
             SmallAppBar(

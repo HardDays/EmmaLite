@@ -25,6 +25,7 @@ class DoctorsScreen extends StatelessWidget {
     return Provider.value(
       value: _slidableController,
       child: Scaffold(
+        backgroundColor: AppColors.cF5F7FA,
         body: Column(
           children: [
             EmmaAppBar(
@@ -194,10 +195,10 @@ class _EmptyDoctors extends StatelessWidget {
           child: Container(
             width: 140.w,
             height: 140.w,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: AppColors.cFFFFFF,
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                   color: Color.fromRGBO(0, 0, 0, 0.08),
                   offset: Offset(0, 2),

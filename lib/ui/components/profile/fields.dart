@@ -62,7 +62,7 @@ class ProfileFields extends StatelessWidget {
                     'Мужской',
                     style: AppTypography.font16.copyWith(
                       color: user.gender == Gender.male
-                          ? AppColors.cFFFFFF
+                          ? Colors.white
                           : AppColors.c9B9B9B,
                     ),
                   ),

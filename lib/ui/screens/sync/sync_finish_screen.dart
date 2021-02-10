@@ -17,7 +17,7 @@ class SyncFinishScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.cFFFFFF,
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Column(
