@@ -23,7 +23,7 @@ class FirstOpenCreateScreen extends StatelessWidget {
             EmmaAppBar(title: 'createNewProfileNavBarTitle'.tr),
             Expanded(
               child: BlocProvider(
-                create: (_) => ProfileScreenBloc(checkStatus: true),
+                create: (_) => ProfileScreenBloc(),
                 lazy: false,
                 child: _CreateProfile(),
               ),

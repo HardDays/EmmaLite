@@ -73,13 +73,12 @@ class RunTask {
     final hour = dif.inHours >= 24 ? dif.inHours - (days * 24) : dif.inHours;
     final minutes = dif.inMinutes - (hour * 60 + (days * 24 * 60));
 
-    print(days);
     final daysText = days == 0 ? '' : ' ${days.abs()} ${days.getPluralDays}';
 
-    final hourText =
-        hour == 0 ? '' : '${hour.abs()} ${hour.getPluralHour}';
-    final minutesText =
-        minutes == 0 ? '' : '${minutes.abs()} ${minutes.getPluralMinutes}';
+    final hourText = hour == 0 ? '' : '${hour.abs()} ${hour.getPluralHour}';
+    final minutesText = minutes == 0 && (hour != 0 || days != 0)
+        ? ''
+        : '${minutes.abs()} ${minutes.getPluralMinutes}';
     if (isExpired) {
       return '$daysText$hourText $minutesText ${'differenceBackTextLabel'.tr}';
     }

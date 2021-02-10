@@ -27,7 +27,6 @@ abstract class CreatePdf {
     AssignBloc assignBloc,
     List<Measurement> measurementList,
   }) async {
-    print('xxxxxxx ${user.photo}');
     const iconPath = 'assets/pdf_icons/';
     final fontData =
         await rootBundle.load('assets/fonts/SFProDisplay-Regular.ttf');

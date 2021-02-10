@@ -26,7 +26,7 @@ class AssignBloc extends Cubit<AssignState> {
     final now = DateTime.now();
     bufList.sort(
       (i, j) =>
-          j.dateTime.difference(now).compareTo(i.dateTime.difference(now)),
+          i.dateTime.difference(now).abs().compareTo(j.dateTime.difference(now).abs()),
     );
     return bufList;
   }

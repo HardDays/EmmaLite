@@ -6,6 +6,7 @@ import 'package:emma_mobile/ui/components/measurement/default_container.dart';
 import 'package:emma_mobile/ui/routing/navigator.dart';
 import 'package:emma_mobile/ui/screens/assignment/assignment_new.dart';
 import 'package:emma_mobile/ui/screens/assignment/calendar_screen.dart';
+import 'package:emma_mobile/ui/screens/assignment/history_screen.dart';
 import 'package:emma_mobile/ui/screens/main/empty_block.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -119,7 +120,7 @@ class AssignData extends StatelessWidget {
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (_) => CalendarScreen(),
+                            builder: (_) => AssignHistoryScreen(),
                           ),
                         );
                       },

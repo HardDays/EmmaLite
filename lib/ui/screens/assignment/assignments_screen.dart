@@ -181,7 +181,7 @@ class _Data extends StatelessWidget {
     }
 
     if (detailBloc.state is HistoryAssignScreenState) {
-      return _History();
+      return AssignHistory();
     }
 
     final tasks = bloc.getTaskInDay(date: detailBloc.activeDate);
@@ -257,7 +257,7 @@ class _Data extends StatelessWidget {
   }
 }
 
-class _History extends StatelessWidget {
+class AssignHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = context.bloc<AssignBloc>();

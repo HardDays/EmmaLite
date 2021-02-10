@@ -65,7 +65,6 @@ class _Fields extends StatelessWidget {
     final bloc = context.bloc<ReportScreenBloc>();
     return BlocBuilder<ReportScreenBloc, ReportScreenState>(
       builder: (_, __) {
-        print('xxxxx ${bloc.report.email}');
         return Column(
           children: [
             DefaultContainer(

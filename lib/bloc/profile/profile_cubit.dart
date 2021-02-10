@@ -62,6 +62,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     if (_users.first.isEmpty) {
       user.id = _users[0].id;
       _users[0] = user;
+      _currentUser = user;
       _repository.updateUserByIndex(index: 0, user: user);
     } else {
       _users.add(user);

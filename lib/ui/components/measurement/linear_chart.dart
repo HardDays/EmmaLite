@@ -179,7 +179,6 @@ class ValueLabelFormatter extends ValueFormatter {
     if (values.isEmpty) return;
     final values2 = []..addAll(values.where((e) => e != null));
     values2.sort((i, j) => i.compareTo(j));
-    print(values2);
     min = values2.first;
     max = values2.last;
   }
@@ -193,10 +192,10 @@ class ValueLabelFormatter extends ValueFormatter {
       return '';
     }
     if (values[index] == max) {
-      return '${'maxLabelTextco'.tr}.\n${values[index].toStringAsFixed(1)}';
+      return '${'maxLabelTextco'.tr}\n${values[index].toStringAsFixed(1)}';
     }
     if (values[index] == min) {
-      return '${'minLabelTextco'.tr}.\n${values[index].toStringAsFixed(1)}';
+      return '${'minLabelTextco'.tr}\n${values[index].toStringAsFixed(1)}';
     }
     return '';
   }

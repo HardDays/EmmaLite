@@ -138,7 +138,7 @@ class WeekDateTime implements DateTimeType {
   @override
   double percentDate(DateTime time, {DateTime startDateTime}) {
     final period = startDateTime.difference(time);
-    return period.inHours / 24 / 7;
+    return 1 - (period.inHours / 24 / 7);
   }
 
   @override

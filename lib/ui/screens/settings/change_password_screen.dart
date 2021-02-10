@@ -32,7 +32,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           children: [
             EmmaAppBar(
               title: 'Изменение пароля',
-              leading: BackLeading(text: 'differenceBackTextLabel'.tr.capitalizeFirst),
+              leading: BackLeading(
+                text: 'differenceBackTextLabel'.tr.capitalizeFirst,
+              ),
             ),
             Expanded(
               child: Column(

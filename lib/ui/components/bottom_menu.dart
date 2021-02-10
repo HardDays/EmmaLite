@@ -1,3 +1,5 @@
+import 'package:emma_mobile/bloc/app_settings/app_settings_bloc.dart';
+import 'package:emma_mobile/bloc/profile/profile_cubit.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/routing/navigator.dart';
 import 'package:emma_mobile/ui/screens/assignment/assignment_new.dart';
@@ -8,6 +10,7 @@ import 'package:emma_mobile/ui/screens/report_screen.dart';
 import 'package:emma_mobile/ui/screens/settings/setting_screen.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 //todo: Подумать как можно сделать лучше
 enum BottomMenuType { main, profile }
@@ -81,10 +84,15 @@ class BottomMenu extends StatelessWidget {
               icon: isName ? AppIcons.report() : AppIcons.settings(),
               title: isName ? 'addMenuReportLabel'.tr : 'mainSettingsTitle'.tr,
               onTap: () {
-                onTap();
                 if (isName) {
-                  navigatorPush(context, ReportScreen());
+                  if (!context.bloc<ProfileCubit>().currentUser.isEmpty) {
+                    onTap();
+                    navigatorPush(context, ReportScreen());
+                  } else {
+                    Toast.show('Заполните профиль!');
+                  }
                 } else {
+                  onTap();
                   otherTabPage?.call(
                     SettingsScreen(onChange: otherTabPage),
                   );
