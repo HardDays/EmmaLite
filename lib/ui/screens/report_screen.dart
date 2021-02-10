@@ -65,6 +65,7 @@ class _Fields extends StatelessWidget {
     final bloc = context.bloc<ReportScreenBloc>();
     return BlocBuilder<ReportScreenBloc, ReportScreenState>(
       builder: (_, __) {
+        print('xxxxx ${bloc.report.email}');
         return Column(
           children: [
             DefaultContainer(
@@ -133,6 +134,7 @@ class _Fields extends StatelessWidget {
                           type: TextInputType.text,
                           formatRegExp: RegExp(Constants.emailRegex),
                           value: bloc.report.email ?? '',
+                          onChange: bloc.setEmail,
                           haveFormatter: false,
                         ),
                       ),

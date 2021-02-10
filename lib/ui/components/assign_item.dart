@@ -22,70 +22,74 @@ class AssignItem extends StatelessWidget {
       child: DefaultContainer(
         child: Column(
           children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: 63.h,
-              child: Padding(
-                padding: EdgeInsets.only(left: 12.w, right: 16.w),
-                child: Row(
-                  children: [
-                    SvgPicture.asset(
-                      task.type.iconPath,
-                      width: 44.w,
-                      height: 44.h,
-                      fit: BoxFit.contain,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 9.w),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
+            Padding(
+              padding: EdgeInsets.only(
+                left: 12.w,
+                right: 16.w,
+                top: 8.h,
+                bottom: 8.h,
+              ),
+              child: Row(
+                children: [
+                  SvgPicture.asset(
+                    task.type.iconPath,
+                    width: 44.w,
+                    height: 44.h,
+                    fit: BoxFit.contain,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 9.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 150.w,
+                          child: Text(
                             task.assignName,
                             style: AppTypography.font14.copyWith(
                               fontWeight: FontWeight.w600,
                               color: AppColors.c3B4047,
                             ),
                           ),
-                          if (assign.type is MedicineAssignType)
-                            Text(
-                              '${assign.dosage} x ${task.count}',
-                              style: AppTypography.font14.copyWith(
-                                color: AppColors.c8E8E93,
-                              ),
+                        ),
+                        if (assign.type is MedicineAssignType)
+                          Text(
+                            '${assign.dosage} x ${task.count}',
+                            style: AppTypography.font14.copyWith(
+                              color: AppColors.c8E8E93,
                             ),
-                        ],
-                      ),
+                          ),
+                      ],
                     ),
-                    const Spacer(),
-                    if (!task.completed)
-                      GestureDetector(
-                        onTap: () =>
-                            context.bloc<AssignBloc>().completeTask(task),
-                        child: SizedBox(
-                          width: 52.w,
-                          height: 32.h,
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: AppColors.cD1D1D6, width: 1.w),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(16),
-                              ),
+                  ),
+                  const Spacer(),
+                  if (!task.completed)
+                    GestureDetector(
+                      onTap: () =>
+                          context.bloc<AssignBloc>().completeTask(task),
+                      child: SizedBox(
+                        width: 52.w,
+                        height: 32.h,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: AppColors.cD1D1D6, width: 1.w),
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(16),
                             ),
-                            child: Center(
-                              child: AppIcons.accept(
-                                width: 20.w,
-                                height: 14.h,
-                                color: AppColors.cD1D1D6,
-                              ),
+                          ),
+                          child: Center(
+                            child: AppIcons.accept(
+                              width: 20.w,
+                              height: 14.h,
+                              color: AppColors.cD1D1D6,
                             ),
                           ),
                         ),
-                      )
-                  ],
-                ),
+                      ),
+                    )
+                ],
               ),
             ),
             Container(

@@ -3,9 +3,11 @@ import 'package:emma_mobile/models/report/report.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ReportScreenBloc extends Cubit<ReportScreenState> {
-  ReportScreenBloc() : super(ReportScreenState());
+  ReportScreenBloc() : super(ReportScreenState()) {
+    _report = Report();
+  }
 
-  Report _report = const Report();
+  Report _report;
 
   Report get report => _report;
 

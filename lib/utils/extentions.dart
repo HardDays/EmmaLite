@@ -74,13 +74,17 @@ extension IntExtention on int {
 
   String get getPluralHour {
     final lastSymbol = this.lastSymbol;
+    final hour = abs();
     if (lastSymbol == 1 && lastThoSymbol != 11) {
-      return 'hoursText_1'.tr;
+      return 'hoursText_1'.tr; // час
+    }
+    if (hour == 11 || hour == 12 || hour == 13 || hour == 14) {
+      return 'hoursText_3'.tr;
     }
     if (lastSymbol == 2 || lastSymbol == 3 || lastSymbol == 4) {
-      return 'hoursText_2'.tr;
+      return 'hoursText_2'.tr; // часа
     }
-    return 'hoursText_3'.tr;
+    return 'hoursText_3'.tr; // часов
   }
 
   String get getPluralMinutes {
