@@ -66,7 +66,7 @@ class _DetailPhotoScreenState extends State<DetailPhotoScreen> {
         children: [
           SmallAppBar(
             title: '$index из ${photos.length}',
-            leadingText: 'Закрыть',
+            leadingText: 'titleCloseButton'.tr,
           ),
           Expanded(
             child: PageView.builder(

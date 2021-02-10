@@ -21,7 +21,7 @@ class SecureDataScreen extends StatelessWidget {
               child: AppImages.welcome(),
             ),
             Text(
-              'Защитите свои данные',
+              'secureYourDataTitle'.tr,
               style: AppTypography.font16.copyWith(
                 color: AppColors.c3B4047,
                 fontWeight: FontWeight.w700,
@@ -41,7 +41,7 @@ class SecureDataScreen extends StatelessWidget {
               ),
             ),
             EmmaFilledButton(
-              title: 'Создать пароль',
+              title: 'createPasswordButtonTitle'.tr,
               onTap: () {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
@@ -67,7 +67,7 @@ class SecureDataScreen extends StatelessWidget {
                     horizontal: 16.w,
                   ),
                   child: Text(
-                    'Сделаю позже в Настройках',
+                    'doItLaterButtonTitle'.tr,
                     style: AppTypography.font14.copyWith(
                       color: AppColors.c00ACE3,
                       fontWeight: FontWeight.w500,

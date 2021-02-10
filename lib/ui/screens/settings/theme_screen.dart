@@ -22,14 +22,14 @@ class ThemeScreen extends StatelessWidget {
             child: Column(
               children: [
                 EmmaAppBar(
-                  title: 'Оформление',
-                  leading: BackLeading(text: 'Настройки', onTap: onTap),
+                  title: 'themeCellTitle'.tr,
+                  leading: BackLeading(text: 'mainSettingsTitle'.tr, onTap: onTap),
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 15.h),
                   child: EmmaAppBar(
-                    title: 'Температура',
-                    leading: BackLeading(text: 'Измерения'),
+                    title: 'temperature'.tr,
+                    leading: BackLeading(text: 'mainTitleMeasurements'.tr),
                     trailing: Padding(
                       padding: EdgeInsets.only(right: 16.w),
                       child: AppIcons.plus(),
@@ -41,11 +41,11 @@ class ThemeScreen extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              ChipItem(title: 'День', isActive: false),
-                              ChipItem(title: 'Неделя', isActive: false),
-                              ChipItem(title: 'Месяц', isActive: true),
+                              ChipItem(title: 'daysText_1'.tr.capitalizeFirst, isActive: false),
+                              ChipItem(title: 'selectSectionWeekTitleco'.tr, isActive: false),
+                              ChipItem(title: 'selectSectionMonthTitleco'.tr, isActive: true),
                               ChipItem(
-                                title: 'Год',
+                                title: 'selectSectionYearTitleco'.tr,
                                 isActive: false,
                                 haveMargin: false,
                               ),
@@ -134,7 +134,7 @@ class ThemeScreen extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            'Светлая',
+                            'brightThemeCellTitle'.tr,
                             style: AppTypography.font16.copyWith(
                               color: AppColors.cFFFFFF,
                             ),
@@ -150,7 +150,7 @@ class ThemeScreen extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            'Темная',
+                            'darkThemeCellTitle'.tr,
                             style: AppTypography.font16.copyWith(
                               color: AppColors.cFFFFFF,
                             ),

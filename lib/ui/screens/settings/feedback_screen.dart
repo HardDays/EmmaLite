@@ -12,7 +12,7 @@ class FeedbackScreen extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          const EmmaAppBar(title: 'Обратная связь'),
+          EmmaAppBar(title: 'titleFeedback'.tr),
           Expanded(
             child: GestureDetector(
               onTap: () => FocusScope.of(context).unfocus(),
@@ -57,7 +57,7 @@ class FeedbackScreen extends StatelessWidget {
                       ),
                     ),
                     EmmaFilledButton(
-                      title: 'Отправить',
+                      title: 'sendButtonText'.tr,
                       onTap: () {
                         Navigator.of(context).pop();
                       },

@@ -30,13 +30,13 @@ class BloodSugar extends HiveObject implements Measurement {
   final int userId;
 
   @override
-  String title = 'Сахар в крови';
+  String title = 'bloodSugar';
 
   @override
-  String longTitle = 'Сахар в крови';
+  String longTitle = 'bloodSugar';
 
   @override
-  String units = 'ммоль/л.';
+  String units = 'bloodSugarUnit';
 
   @override
   String value() => sugar.toStringAsFixed(1);
@@ -53,8 +53,8 @@ class BloodSugar extends HiveObject implements Measurement {
   DateTime dateTime;
 
   @override
-  String inNewScreen = 'сахара\nв крови';
+  int getUserId() => userId;
 
   @override
-  int getUserId() => userId;
+  String addTitle = 'addingBloodSugarTitle';
 }

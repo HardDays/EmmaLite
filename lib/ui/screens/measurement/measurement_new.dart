@@ -46,7 +46,7 @@ class MeasurementNewScreen extends StatelessWidget {
                 return Column(
                   children: [
                     EmmaAppBar(
-                      title: 'Добавление ${item.inNewScreen}',
+                      title: item.addTitle.tr,
                       leading: SafeArea(
                         bottom: false,
                         child: GestureDetector(
@@ -62,7 +62,7 @@ class MeasurementNewScreen extends StatelessWidget {
                               right: 16.w,
                             ),
                             child: Text(
-                              'Отменить',
+                              'titleCancelButton'.tr,
                               style: AppTypography.font12.copyWith(
                                 color: AppColors.c00ACE3,
                               ),
@@ -77,8 +77,8 @@ class MeasurementNewScreen extends StatelessWidget {
                         value: bloc.dateTime,
                         onChange: bloc.setDateTime,
                         maximumDate: DateTime.now(),
-                        title: 'Дата и время измерения',
-                        hintText: 'Дата и время измерения',
+                        title: 'titleAddingPulseDateco'.tr,
+                        hintText: 'titleAddingPulseDateco'.tr,
                       ),
                     ),
                     if (item is ArterialPressure) ...[
@@ -86,7 +86,7 @@ class MeasurementNewScreen extends StatelessWidget {
                         child: Column(
                           children: [
                             InputTextField(
-                              label: 'Систолическое давление ,${item.units}',
+                              label: '${'systolicHintco'.tr}, ${item.units.tr}',
                               onChange: bloc.setArtPressureMin,
                             ),
                             Padding(
@@ -100,7 +100,7 @@ class MeasurementNewScreen extends StatelessWidget {
                               ),
                             ),
                             InputTextField(
-                              label: 'Систолическое давление ,${item.units}',
+                              label: '${'diastolicHintco'.tr}, ${item.units.tr}',
                               onChange: bloc.setArtPressureMax,
                             ),
                           ],
@@ -109,15 +109,15 @@ class MeasurementNewScreen extends StatelessWidget {
                     ] else if (item is HeightModel) ...[
                       DefaultContainer(
                         child: InputTextField(
-                          label: item.units,
+                          label: item.units.tr,
                           onChange: bloc.setHeight,
                           isInt: false,
                         ),
                       )
                     ] else if (item is BloodSugar) ...[
                       _DoubleTextField(
-                        title: item.title,
-                        units: item.units,
+                        title: item.title.tr,
+                        units: item.units.tr,
                         isSugar: true,
                         onChange: bloc.setSugar,
                         value: bloc.sugar,
@@ -128,14 +128,14 @@ class MeasurementNewScreen extends StatelessWidget {
                           value: bloc.eatTime,
                           onChange: bloc.setEatTime,
                           maximumDate: DateTime.now(),
-                          title: 'Время приема пищи',
-                          hintText: 'Время приема пищи (необязательно)',
+                          title: 'mealDate'.tr,
+                          hintText: '${'mealDate'.tr} (${'optionalString'.tr})',
                         ),
                       )
                     ] else if (item is Temperature) ...[
                       _DoubleTextField(
-                        title: item.title,
-                        units: item.units,
+                        title: item.title.tr,
+                        units: item.units.tr,
                         isSugar: false,
                         onChange: bloc.setTemperature,
                         value: bloc.temperature,
@@ -177,7 +177,7 @@ class MeasurementNewScreen extends StatelessWidget {
                         padding: EdgeInsets.only(top: 20.h),
                         child: DefaultContainer(
                           child: InputTextField(
-                            label: '${item.title}, ${item.units}',
+                            label: '${item.title.tr}, ${item.units.tr}',
                             onChange: bloc.setPulse,
                           ),
                         ),
@@ -185,7 +185,7 @@ class MeasurementNewScreen extends StatelessWidget {
                     ],
                     const Spacer(),
                     EmmaFilledButton(
-                      title: 'Сохранить',
+                      title: 'saveButtonText'.tr,
                       width: 288.w,
                       activeColor: AppColors.c00ACE3,
                       isActive: bloc.enable,

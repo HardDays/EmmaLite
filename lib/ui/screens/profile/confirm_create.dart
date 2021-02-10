@@ -31,7 +31,7 @@ class ConfirmCreate extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(bottom: 15.h),
                     child: Text(
-                      'Создавая профиль родственника, вы подтвержаете его согласие на обратобку персональных данных',
+                      'consentToTheProcessingOfPersonalDataMainLabelTitle'.tr,
                       style: AppTypography.font16.copyWith(
                         fontWeight: FontWeight.w700,
                         color: AppColors.c3B4047,
@@ -57,7 +57,7 @@ class ConfirmCreate extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   EmmaFilledButton(
-                    title: 'Подтверждаю согласие',
+                    title: 'confirmMyConsentButtonTitle'.tr,
                     height: 50.h,
                     width: 288.w,
                     onTap: () {

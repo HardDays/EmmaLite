@@ -25,13 +25,15 @@ class AppSettingsAdapter extends TypeAdapter<AppSettings> {
       password: fields[5] as String,
       useFaceId: fields[7] as bool,
       usePassword: fields[6] as bool,
-    );
+    )
+      ..locale = fields[8] as String
+      ..lightTheme = fields[9] as bool;
   }
 
   @override
   void write(BinaryWriter writer, AppSettings obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.currentProfileId)
       ..writeByte(1)
@@ -47,7 +49,11 @@ class AppSettingsAdapter extends TypeAdapter<AppSettings> {
       ..writeByte(6)
       ..write(obj.usePassword)
       ..writeByte(7)
-      ..write(obj.useFaceId);
+      ..write(obj.useFaceId)
+      ..writeByte(8)
+      ..write(obj.locale)
+      ..writeByte(9)
+      ..write(obj.lightTheme);
   }
 
   @override

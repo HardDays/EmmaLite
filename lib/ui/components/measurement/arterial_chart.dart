@@ -215,17 +215,17 @@ class _ArterialChartState extends State<ArterialChart> {
           child: Padding(
             padding: EdgeInsets.only(left: 12.w),
             child: Row(
-              children: const [
+              children: [
                 Expanded(
                   child: _TextItem(
                     circleColor: AppColors.c2FE5AD,
-                    text: 'Систолическое',
+                    text: 'systolicHintco'.tr,
                   ),
                 ),
                 Expanded(
                   child: _TextItem(
                     circleColor: AppColors.c00ACE3,
-                    text: 'Диастолическое',
+                    text: 'diastolicHintco'.tr,
                   ),
                 ),
               ],

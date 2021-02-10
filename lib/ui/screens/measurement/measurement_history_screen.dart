@@ -27,7 +27,7 @@ class MeasurementHistoryScreen extends StatelessWidget {
             children: [
               MeasurementDetailAppBar(
                 title: 'История измерений',
-                arrowText: bloc.item.title,
+                arrowText: bloc.item.title.tr,
                 initialType: bloc.type,
                 item: bloc.item,
                 onChange: bloc.setDateType,
@@ -116,7 +116,7 @@ class _Item extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(
-                              '${measurement.value()} ${measurement.units}',
+                              '${measurement.value()} ${measurement.units.tr}',
                               style: AppTypography.font16.copyWith(
                                 color: AppColors.c3B4047,
                               ),

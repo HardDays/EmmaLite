@@ -211,8 +211,8 @@ class CandleLabelFormatter extends ValueFormatter {
 
   @override
   String getIndexAxisLabel(int index, {bool showMax}) {
-    final maxText = 'Макс.\n${data[index].open}';
-    final minText = 'Мин.\n${data[index].close}';
+    final maxText = '${'maxLabelTextco'.tr}.\n${data[index].open}';
+    final minText = '${'minLabelTextco'.tr}.\n${data[index].close}';
     if (showMax != null) {
       if (showMax) {
         return maxText;

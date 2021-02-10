@@ -4,6 +4,7 @@ import 'package:emma_mobile/ui/screens/sync/sync_info_screen.dart';
 import 'package:emma_mobile/ui/screens/sync/sync_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SyncStartScreen extends StatelessWidget {
   const SyncStartScreen({
@@ -16,9 +17,8 @@ class SyncStartScreen extends StatelessWidget {
       title: Platform.isAndroid
           ? 'Активируйте Google fit'
           : 'Активируйте Apple Health',
-      text:
-          'Выполняйте импорт и экспорт данных, которые помогут вам получить более полное представление о вашем здоровье.',
-      buttonTitle: 'Активировать',
+      text: 'activateAppleHealthSubTitle'.tr,
+      buttonTitle: 'activateAppleHealthButtonTitle'.tr,
       hasBack: false,
       hasCancel: true,
       onNext: () {

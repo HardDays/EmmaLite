@@ -30,9 +30,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         resizeToAvoidBottomInset: false,
         body: Column(
           children: [
-            const EmmaAppBar(
+            EmmaAppBar(
               title: 'Изменение пароля',
-              leading: BackLeading(text: 'Назад'),
+              leading: BackLeading(text: 'differenceBackTextLabel'.tr.capitalizeFirst),
             ),
             Expanded(
               child: Column(
@@ -87,7 +87,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       horizontal: 16.w,
                     ),
                     child: EmmaFilledButton(
-                      title: 'Готово',
+                      title: 'doneAppleHealthButtonTitle'.tr,
                       onTap: () {
                         if (_oldPassword != widget.oldPassword &&
                             widget.oldPassword != null) {
@@ -95,7 +95,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           return;
                         }
                         if (_repeatNewPassword != _newPassword) {
-                          Toast.show('Пароли не совпадают');
+                          Toast.show('passwordsDoNotMatchTitle'.tr);
                         } else {
                           context
                               .bloc<AppSettingsBloc>()

@@ -1,5 +1,4 @@
 import 'package:bot_toast/bot_toast.dart';
-import 'package:emma_mobile/app_common/app_common.dart';
 import 'package:emma_mobile/bloc/app_settings/app_settings_bloc.dart';
 import 'package:emma_mobile/bloc/assign/assign_bloc.dart';
 import 'package:emma_mobile/bloc/doctors_screen/doctors_bloc.dart';
@@ -29,6 +28,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:emma_mobile/models/messages/messages.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,16 +44,16 @@ Future<void> main() async {
     _localRepo.putSettings(settings..currentProfileId = user.id);
   }
 
-  Intl.defaultLocale = 'ru';
+  Intl.defaultLocale = settings.locale ?? 'en';
   AppRouter.current.rootNavigatorKey = GlobalKey<NavigatorState>();
   final app = GetMaterialApp(
     title: 'Emma Mobile',
     navigatorKey: AppRouter.current.rootNavigatorKey,
     debugShowCheckedModeBanner: false,
+    translations: Messages(),
     theme: ThemeData(
       brightness: Brightness.light,
       scaffoldBackgroundColor: AppColors.cF5F7FA,
-      appBarTheme: const AppBarTheme(color: AppColors.cFFFFFF),
       cupertinoOverrideTheme: const CupertinoThemeData(
           textTheme: CupertinoTextThemeData(
             dateTimePickerTextStyle: TextStyle(
@@ -72,18 +72,22 @@ Future<void> main() async {
       GlobalWidgetsLocalizations.delegate,
       GlobalCupertinoLocalizations.delegate,
     ],
-    locale: Locale('ru'),
+    locale: Locale(settings.locale ?? 'en'),
+    supportedLocales: const [
+      Locale('ru'),
+      Locale('de'),
+      Locale('en'),
+      Locale('fr'),
+      Locale('fr'),
+      Locale('es'),
+    ],
+    fallbackLocale: const Locale('en'),
     themeMode: ThemeMode.light,
-    // routes: AppRoutes.appRouteBuilder,
     home: SplashScreen(),
   );
 
   final providedApp = MultiBlocProvider(
     providers: [
-      BlocProvider(
-        lazy: false,
-        create: (context) => AppCommon(AppLocalRepository()),
-      ),
       BlocProvider(
         lazy: false,
         create: (context) => MeasurementCubit(MeasurementLocalRepository()),

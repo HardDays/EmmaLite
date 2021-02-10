@@ -1,3 +1,6 @@
+import 'dart:ui' as ui;
+
+import 'package:emma_mobile/models/language.dart';
 import 'package:hive/hive.dart';
 
 part 'app_settings.g.dart';
@@ -20,6 +23,10 @@ class AppSettings extends HiveObject {
   bool usePassword;
   @HiveField(7)
   bool useFaceId;
+  @HiveField(8)
+  String locale;
+  @HiveField(9)
+  bool lightTheme;
 
   AppSettings({
     this.currentProfileId,
@@ -35,5 +42,15 @@ class AppSettings extends HiveObject {
     showProfilePlusHelp ??= false;
     showProfileCreateHelp ??= false;
     showProfileSettingsHelp ??= false;
+    useFaceId ??= false;
+    lightTheme ??= true;
+    if (locale == null) {
+      final windowLocale = ui.window.locale.languageCode;
+      if (languages.map((e) => e.locale).contains(windowLocale)) {
+        locale = windowLocale;
+      } else {
+        locale = 'en';
+      }
+    }
   }
 }

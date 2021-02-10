@@ -24,13 +24,13 @@ class HeightModel extends HiveObject implements Measurement {
   final int userId;
 
   @override
-  String title = 'Вес';
+  String title = 'weightTitle';
 
   @override
-  String longTitle = 'Вес';
+  String longTitle = 'weightTitle';
 
   @override
-  String units = 'кг';
+  String units = 'weightUnit';
 
   @override
   String value() => height.toStringAsFixed(1);
@@ -45,8 +45,8 @@ class HeightModel extends HiveObject implements Measurement {
   DateTime dateTime;
 
   @override
-  String inNewScreen = 'веса';
+  int getUserId() => userId;
 
   @override
-  int getUserId() => userId;
+  String addTitle = 'addingWeightTitle';
 }

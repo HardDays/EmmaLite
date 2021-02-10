@@ -110,22 +110,22 @@ abstract class WidgetImage {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Padding(
-          padding: EdgeInsets.only(top: 32, bottom: 8),
+        Padding(
+          padding: const EdgeInsets.only(top: 32, bottom: 8),
           child: Text(
-            'Отчет EMMA Lite ',
-            style: TextStyle(
+            'reportSubject'.tr,
+            style: const TextStyle(
               color: Colors.black,
               fontFamily: AppTypography.textStyle,
               fontSize: 24,
             ),
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.only(bottom: 24),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 24),
           child: Text(
-            'о ходе профилактики и лечения за период:',
-            style: TextStyle(
+            'reportDescription'.tr,
+            style: const TextStyle(
               color: Colors.black,
               fontFamily: AppTypography.textStyle,
               fontSize: 14,
@@ -151,11 +151,11 @@ abstract class WidgetImage {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
-                padding: EdgeInsets.only(top: 24),
+              Padding(
+                padding: const EdgeInsets.only(top: 24),
                 child: Text(
-                  'Комментарий пользователя:',
-                  style: TextStyle(
+                  'reportComment'.tr,
+                  style: const TextStyle(
                     fontFamily: AppTypography.textStyle,
                     fontWeight: FontWeight.bold,
                     // color: PdfColor.fromHex('9B9B9B'),
@@ -206,17 +206,17 @@ abstract class WidgetImage {
                     children: [
                       Expanded(
                         child: Text(
-                          'Назначения: ${inDayTasks.where((e) => e.completed).length}/${inDayTasks.length}',
+                          '${'prescriptionsTitleLabel'.tr}: ${inDayTasks.where((e) => e.completed).length}/${inDayTasks.length}',
                           style: const TextStyle(
                             fontFamily: AppTypography.textStyle,
                             fontSize: 14,
                           ),
                         ),
                       ),
-                      const Expanded(
+                      Expanded(
                         child: Text(
-                          'Измерения',
-                          style: TextStyle(
+                          'mainTitleMeasurements'.tr,
+                          style: const TextStyle(
                             fontFamily: AppTypography.textStyle,
                             fontSize: 14,
                           ),
@@ -317,7 +317,7 @@ abstract class WidgetImage {
             Padding(
               padding: const EdgeInsets.only(left: 16),
               child: Text(
-                measurement.longTitle,
+                measurement.longTitle.tr,
                 style: const TextStyle(
                   fontSize: 10,
                   fontFamily: AppTypography.textStyle,
@@ -348,7 +348,7 @@ abstract class WidgetImage {
               ),
               const Spacer(),
               Text(
-                measurement.units,
+                measurement.units.tr,
                 style: const TextStyle(
                   fontFamily: AppTypography.textStyle,
                   fontSize: 8,
@@ -430,7 +430,7 @@ abstract class WidgetImage {
                     final minutes = dif.inMinutes - (dif.inHours * 60);
                     final hour = dif.inHours;
                     return Text(
-                      '+$hourч ${minutes == 0 ? '' : '$minutesмин'}',
+                      '+$hourч ${minutes == 0 ? '' : '$minutes${'minText'.tr}'}',
                       style: const TextStyle(
                         fontFamily: AppTypography.textStyle,
                         fontSize: 8,
@@ -508,8 +508,8 @@ abstract class WidgetImage {
                         user.gender == null
                             ? ''
                             : user.gender == Gender.male
-                            ? 'Мужчина'
-                            : 'Женщина',
+                            ? 'maleButtonTitle'.tr
+                            : 'femaleButtonTitle'.tr,
                         style: const TextStyle(
                           fontSize: 8,
                           fontFamily: AppTypography.textStyle,
@@ -520,7 +520,7 @@ abstract class WidgetImage {
                     Padding(
                       padding: const EdgeInsets.only(left: 4, right: 24),
                       child: Text(
-                        '${user.weight} кг',
+                        '${user.weight} ${'weightUnit'.tr}',
                         style: const TextStyle(
                           fontSize: 8,
                           fontFamily: AppTypography.textStyle,
@@ -573,9 +573,9 @@ abstract class WidgetImage {
                   fontSize: 10,
                 ),
               ),
-              const Text(
-                'Дата начала',
-                style: TextStyle(
+              Text(
+                'startDateText'.tr,
+                style: const TextStyle(
                   fontFamily: AppTypography.textStyle,
                   fontSize: 10,
                   color: Color(0xff9B9B9B),

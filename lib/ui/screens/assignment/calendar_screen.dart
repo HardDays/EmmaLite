@@ -4,6 +4,7 @@ import 'package:emma_mobile/ui/components/calendar.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
 class CalendarScreen extends StatelessWidget {
   @override
@@ -12,9 +13,9 @@ class CalendarScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          const EmmaAppBar(
+          EmmaAppBar(
             title: 'Выбор даты назначения',
-            leading: BackLeading(text: 'Назначения'),
+            leading: BackLeading(text: 'prescriptionsTitleLabel'.tr),
           ),
           Padding(
             padding: EdgeInsets.only(top: 20.h),

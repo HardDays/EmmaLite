@@ -30,7 +30,7 @@ class ProfileFields extends StatelessWidget {
                     context.bloc<ProfileScreenBloc>().setFirstName(s);
                   },
                   haveFormatter: false,
-                  label: 'Имя',
+                  label: 'titleFirstName'.tr,
                 ),
                 ProfileDivider(),
                 InputTextField(
@@ -40,7 +40,7 @@ class ProfileFields extends StatelessWidget {
                     context.bloc<ProfileScreenBloc>().setLastName(s);
                   },
                   haveFormatter: false,
-                  label: 'Фамилия',
+                  label: 'titleLastName'.tr,
                 ),
               ],
             ),
@@ -101,15 +101,15 @@ class ProfileFields extends StatelessWidget {
                   },
                   mode: CupertinoDatePickerMode.date,
                   dateFormat: DateFormat('dd.MM.yyyy'),
-                  title: 'Дата рождения',
-                  hintText: 'Дата рождения',
+                  title: 'birthdayTitle'.tr,
+                  hintText: 'birthdayTitle'.tr,
                 ),
                 ProfileDivider(),
                 Row(
                   children: [
                     Expanded(
                       child: InputTextField(
-                        label: 'Вес',
+                        label: 'weightTitle'.tr,
                         initialValue: user.weight?.toString(),
                         isInt: false,
                         onChange: (s) {
@@ -125,7 +125,7 @@ class ProfileFields extends StatelessWidget {
                   children: [
                     Expanded(
                       child: InputTextField(
-                        label: 'Рост',
+                        label: 'growthTitle'.tr,
                         initialValue: user.height?.toString(),
                         isInt: false,
                         onChange: (s) {

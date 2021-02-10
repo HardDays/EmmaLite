@@ -1,10 +1,12 @@
+import 'package:get/get.dart';
+
 List<String> assignFrequency = [
-  'Один раз в день',
-  'Два раза в день',
-  'Три раза в день',
-  'Четыре раза в день',
-  'Пять раз в день',
-  'Шесть раз в день',
+  'prescriptionValueTypeFrequency_1'.tr,
+  'prescriptionValueTypeFrequency_2'.tr,
+  'prescriptionValueTypeFrequency_3'.tr,
+  'prescriptionValueTypeFrequency_4'.tr,
+  'prescriptionValueTypeFrequency_5'.tr,
+  'prescriptionValueTypeFrequency_6'.tr,
 ];
 
 List<String> assignFrequencyWeekday = [
@@ -39,7 +41,7 @@ class EverydayAssignFrequencyInWeek implements AssignFrequencyInWeek {
   int get index => 0;
 
   @override
-  String get title => 'Ежедневно';
+  String get title => 'prescriptionValueTypePeriodicity_1'.tr;
 }
 
 class Every2daysAssignFrequencyInWeek implements AssignFrequencyInWeek {
@@ -50,7 +52,7 @@ class Every2daysAssignFrequencyInWeek implements AssignFrequencyInWeek {
   int get index => 1;
 
   @override
-  String get title => 'Раз в два дня';
+  String get title => 'prescriptionValueTypePeriodicity_1'.tr;
 }
 
 class OneInWeekAssignFrequencyInWeek implements AssignFrequencyInWeek {
@@ -61,5 +63,5 @@ class OneInWeekAssignFrequencyInWeek implements AssignFrequencyInWeek {
   int get index => 2;
 
   @override
-  String get title => 'Раз в неделю';
+  String get title => 'prescriptionValueTypePeriodicity_1'.tr;
 }

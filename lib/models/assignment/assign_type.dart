@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 
 final List<AssignType> assignTypes = [
   MedicineAssignType(),
@@ -24,7 +25,7 @@ class MedicineAssignType implements AssignType {
   int get index => 0;
 
   @override
-  String get title => 'Лекарства';
+  String get title => 'medicinePrescriptionType'.tr;
 }
 
 class LifestyleAssignType implements AssignType {
@@ -35,7 +36,7 @@ class LifestyleAssignType implements AssignType {
   int get index => 1;
 
   @override
-  String get title => 'Образ жизни';
+  String get title => 'lifeStylePrescriptionType'.tr;
 }
 
 class MeasureAssignType implements AssignType {
@@ -46,7 +47,7 @@ class MeasureAssignType implements AssignType {
   int get index => 2;
 
   @override
-  String get title => 'Измерение';
+  String get title => 'measurementPrescriptionType'.tr;
 }
 
 class AnalyzeAssignType implements AssignType {
@@ -57,7 +58,7 @@ class AnalyzeAssignType implements AssignType {
   int get index => 3;
 
   @override
-  String get title => 'Анализ';
+  String get title => 'analysisPrescriptionType'.tr;
 }
 
 class OtherAssignType implements AssignType {
@@ -68,5 +69,5 @@ class OtherAssignType implements AssignType {
   int get index => 4;
 
   @override
-  String get title => 'Другое';
+  String get title => 'anotherPrescriptionType'.tr;
 }

@@ -71,7 +71,7 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
             text: 'Подтвердите пароль:',
             haveError: _haveError,
             errorColor: AppColors.cFF3B30,
-            errorText: 'Пароли не совпадают',
+            errorText: 'passwordsDoNotMatchTitle'.tr,
             activeCount: _password.length,
           ),
           Padding(
@@ -97,7 +97,7 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
                 child: Text(
-                  'Позже',
+                  'laterButtonText'.tr,
                   style: AppTypography.font14.copyWith(
                     fontWeight: FontWeight.w500,
                     color: AppColors.c00ACE3,

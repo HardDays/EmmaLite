@@ -32,7 +32,7 @@ class SyncFinishScreen extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            Text('Готово',
+            Text('doneAppleHealthButtonTitle'.tr,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: Constants.textSize16,
@@ -52,7 +52,7 @@ class SyncFinishScreen extends StatelessWidget {
             const Spacer(),
             EmmaFilledButton(
               width: 288.w,
-              title: 'Готово',
+              title: 'doneAppleHealthButtonTitle'.tr,
               fontSize: Constants.textSize17,
               onTap: () {
                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> NavigatorScreen()));

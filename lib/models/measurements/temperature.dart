@@ -24,10 +24,10 @@ class Temperature extends HiveObject implements Measurement {
   final int userId;
 
   @override
-  String title = 'Температура';
+  String title = 'temperature';
 
   @override
-  String longTitle = 'Температура';
+  String longTitle = 'temperature';
 
   @override
   String units = '°C';
@@ -45,8 +45,8 @@ class Temperature extends HiveObject implements Measurement {
   DateTime dateTime;
 
   @override
-  String inNewScreen = 'температуры';
+  int getUserId() => userId;
 
   @override
-  int getUserId() => userId;
+  String addTitle = 'addingTemperatureTitle';
 }

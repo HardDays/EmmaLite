@@ -24,7 +24,7 @@ class ProfileSettings extends StatelessWidget {
       body: Column(
         children: [
           SmallAppBar(
-            title: 'Управление профилями',
+            title: 'profileManagementNavBarTitle'.tr,
             leading: AppIcons.chevronLeft(),
           ),
           _ProfileInfoTip(),

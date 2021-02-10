@@ -32,7 +32,7 @@ class NewProfileScreen extends StatelessWidget {
                 padding: EdgeInsets.only(right: 16.w),
                 child: AppIcons.chevronLeft(),
               ),
-              title: 'Новый профиль',
+              title: 'createNewProfileNavBarTitle'.tr,
             ),
             _ProfileInfoTip(),
             Expanded(
@@ -93,7 +93,7 @@ class _CreateProfile extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 24.h),
                   child: EmmaFilledButton(
-                    title: 'Сохранить',
+                    title: 'saveButtonText'.tr,
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(

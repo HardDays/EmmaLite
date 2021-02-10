@@ -7,6 +7,7 @@ import 'package:emma_mobile/ui/screens/navigator_screen.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:local_auth/auth_strings.dart';
 import 'package:local_auth/local_auth.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -202,10 +203,10 @@ class _SplashScreenState extends State<SplashScreen>
               opacity: _passOpacity.value,
               child: PassPoints(
                 activeCount: _passwordValues.length,
-                errorText: 'Пароли не совпадают',
+                errorText: 'passwordsDoNotMatchTitle'.tr,
                 errorColor: AppColors.cFF3B30,
                 haveError: _haveError,
-                text: 'Введите пароль:',
+                text: 'titleInputPassword_0'.tr,
               ),
             ),
           ),
@@ -252,7 +253,21 @@ class _SplashScreenState extends State<SplashScreen>
                   onFaceIdTap: () {
                     LocalAuthentication().authenticateWithBiometrics(
                       localizedReason: 'Вход',
-                    );
+                      androidAuthStrings: AndroidAuthMessages(
+                        cancelButton: 'titleCloseButton'.tr,
+                      ),
+                      iOSAuthStrings: IOSAuthMessages(
+                        cancelButton: 'titleCloseButton'.tr,
+                      )
+                    ).then((value) {
+                      if (value) {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (_) => NavigatorScreen(),
+                          ),
+                        );
+                      }
+                    });
                   },
                   onChange: _setPassword,
                 ),

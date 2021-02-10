@@ -1,8 +1,11 @@
+import 'package:emma_mobile/bloc/app_settings/app_settings_bloc.dart';
+import 'package:emma_mobile/bloc/app_settings/app_settings_state.dart';
 import 'package:emma_mobile/models/language.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
 import 'package:emma_mobile/ui/components/measurement/default_container.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
 class LanguageScreen extends StatelessWidget {
@@ -16,54 +19,63 @@ class LanguageScreen extends StatelessWidget {
       body: Column(
         children: [
           EmmaAppBar(
-            title: 'Язык',
-            leading: BackLeading(text: 'Настройки', onTap: onTap),
+            title: 'titleSettingLanguage'.tr,
+            leading: BackLeading(text: 'mainSettingsTitle'.tr, onTap: onTap),
           ),
-          Expanded(
-            child: ListView.separated(
-              padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 16.w),
-              physics: const BouncingScrollPhysics(),
-              itemCount: languages.length,
-              itemBuilder: (_, i) {
-                final bool isActive =
-                    Get.locale.languageCode == languages[i].locale;
-                return DefaultContainer(
-                  color: isActive ? AppColors.c00ACE3 : AppColors.cFFFFFF,
-                  minHeight: 68.h,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 16.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          languages[i].title,
-                          style: AppTypography.font16.copyWith(
-                            color: isActive
-                                ? AppColors.cFFFFFF
-                                : AppColors.c3B4047,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 2.h),
-                          child: Text(
-                            languages[i].localizedTitle,
-                            style: AppTypography.font16.copyWith(
-                              color: isActive
-                                  ? AppColors.cFFFFFF
-                                  : AppColors.c9B9B9B,
+          BlocBuilder<AppSettingsBloc, AppSettingsState>(
+            builder: (_, __) {
+              return Expanded(
+                child: ListView.separated(
+                  padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 16.w),
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: languages.length,
+                  itemBuilder: (_, i) {
+                    final bool isActive =
+                        Get.locale.languageCode == languages[i].locale;
+                    return DefaultContainer(
+                      color: isActive ? AppColors.c00ACE3 : AppColors.cFFFFFF,
+                      onTap: () {
+                        context
+                            .bloc<AppSettingsBloc>()
+                            .setLocale(languages[i].locale);
+                      },
+                      minHeight: 68.h,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 16.w),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              languages[i].title,
+                              style: AppTypography.font16.copyWith(
+                                color: isActive
+                                    ? AppColors.cFFFFFF
+                                    : AppColors.c3B4047,
+                              ),
                             ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                );
-              },
-              separatorBuilder: (_, __) {
-                return Padding(padding: EdgeInsets.only(top: 8.h));
-              },
-            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 2.h),
+                              child: Text(
+                                languages[i].localizedTitle,
+                                style: AppTypography.font16.copyWith(
+                                  color: isActive
+                                      ? AppColors.cFFFFFF
+                                      : AppColors.c9B9B9B,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (_, __) {
+                    return Padding(padding: EdgeInsets.only(top: 8.h));
+                  },
+                ),
+              );
+            }
           ),
         ],
       ),

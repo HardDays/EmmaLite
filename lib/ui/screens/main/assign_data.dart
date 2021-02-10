@@ -60,7 +60,7 @@ class AssignData extends StatelessWidget {
                             SizedBox(
                               width: 256.w,
                               child: Text(
-                                'Поздравляем, вы выполнили все\nназначения на сегодня!',
+                                'noPrescriptionsPlanTodayIntakesTitle'.tr,
                                 style: AppTypography.font12.copyWith(
                                   color: AppColors.c9B9B9B,
                                 ),
@@ -90,7 +90,7 @@ class AssignData extends StatelessWidget {
                           SizedBox(
                             width: 256.w,
                             child: Text(
-                              'На сегодня у вас не запланировано назначений.',
+                              'noPrescriptionsPlanTodayTitle'.tr,
                               style: AppTypography.font12.copyWith(
                                 color: AppColors.c9B9B9B,
                               ),
@@ -160,7 +160,7 @@ class _EmptyAssign extends StatelessWidget {
           child: EmptyBlockMain(
             icon: AppIcons.prescriptionsInactive(),
             title: 'Здесь будут показываться ваши\nближайшие назначения',
-            buttonTitle: 'Добавить первое назначение',
+            buttonTitle: 'addNewPrescriptionLabel'.tr,
             onTap: () {
               navigatorPush(context, AssignmentNewScreen());
             },
@@ -172,7 +172,7 @@ class _EmptyAssign extends StatelessWidget {
             child: SizedBox(
               width: 224.w,
               child: Text(
-                'Как только вы начнете выполнять назначения, здесь появится ваш прогресс выполнения.',
+                'titleInfoProgressPrescriptions'.tr,
                 style: AppTypography.font12.copyWith(
                   color: AppColors.c9B9B9B,
                 ),
@@ -199,13 +199,16 @@ class _ProgressBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = 264.w * currentComplete / maxCount;
+    String text = 'titlePerformedPrescriptions'.tr;
+    text = text.replaceAll(RegExp('#COUNT#'), currentComplete.toString());
+    text = text.replaceAll(RegExp('#SUM#'), maxCount.toString());
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: EdgeInsets.only(top: 16.h, left: 12.w),
           child: Text(
-            'Вы выполнили $currentComplete из $maxCount назначений',
+            text,
             style: AppTypography.font14.copyWith(
               color: AppColors.c3B4047,
             ),

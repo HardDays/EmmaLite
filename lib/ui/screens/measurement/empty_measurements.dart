@@ -52,7 +52,7 @@ class EmptyMeasurements extends StatelessWidget {
             padding: EdgeInsets.only(top: 55.h),
             child: EmmaFilledButton(
               width: 256.w,
-              title: 'Добавить первое измерение',
+              title: 'addNewMeasurementLabel'.tr,
               fontSize: Constants.textSize14,
               onTap: () => navigatorPush(context, SelectMeasurement()),
             ),

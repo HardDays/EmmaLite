@@ -31,10 +31,10 @@ class ArterialPressure extends HiveObject implements Measurement {
   String title = 'Давление';
 
   @override
-  String longTitle = 'Артериальное давление';
+  String longTitle = 'bloodPressure';
 
   @override
-  String units = 'мм.рт.ст.';
+  String units = 'bloodPressureUnit';
 
   @override
   String value() => '$under/$top';
@@ -49,8 +49,8 @@ class ArterialPressure extends HiveObject implements Measurement {
   DateTime dateTime;
 
   @override
-  String inNewScreen = 'давления';
+  int getUserId() => userId;
 
   @override
-  int getUserId() => userId;
+  String addTitle = 'titleAddingPressureViewco'.tr;
 }

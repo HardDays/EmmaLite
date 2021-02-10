@@ -36,7 +36,10 @@ class ReportScreen extends StatelessWidget {
       child: Scaffold(
         body: Column(
           children: [
-            const SmallAppBar(title: 'Новый отчет', leadingText: 'Отменить'),
+            SmallAppBar(
+              title: 'Новый отчет',
+              leadingText: 'titleCancelButton'.tr,
+            ),
             Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.only(
@@ -68,8 +71,8 @@ class _Fields extends StatelessWidget {
               child: Column(
                 children: [
                   DateTimeTextField(
-                    title: 'Дата начала',
-                    hintText: 'Дата начала',
+                    title: 'startDateText'.tr,
+                    hintText: 'startDateText'.tr,
                     haveDecoration: false,
                     dateFormat: DateFormat('dd.MM.yyyy'),
                     value: bloc.report.startDate,
@@ -77,8 +80,8 @@ class _Fields extends StatelessWidget {
                   ),
                   ProfileDivider(),
                   DateTimeTextField(
-                    title: 'Дата окончания',
-                    hintText: 'Дата окончания',
+                    title: 'endDateText'.tr,
+                    hintText: 'endDateText'.tr,
                     value: bloc.report.endDate,
                     dateFormat: DateFormat('dd.MM.yyyy'),
                     haveDecoration: false,
@@ -126,7 +129,7 @@ class _Fields extends StatelessWidget {
                     children: [
                       Expanded(
                         child: InputTextField(
-                          label: 'Почта получателя',
+                          label: 'recipientsMail'.tr,
                           type: TextInputType.text,
                           formatRegExp: RegExp(Constants.emailRegex),
                           value: bloc.report.email ?? '',
@@ -165,7 +168,7 @@ class _Fields extends StatelessWidget {
               ),
             DefaultContainer(
               child: InputTextField(
-                label: 'Комментарий (необязательно)',
+                label: 'titleComment'.tr,
                 haveFormatter: false,
                 type: TextInputType.text,
                 onChange: bloc.setComment,
@@ -174,7 +177,7 @@ class _Fields extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(top: 24.h),
               child: EmmaFilledButton(
-                title: 'Отправить',
+                title: 'sendButtonText'.tr,
                 isActive: bloc.canSave,
                 onTap: () async {
                   final pdf = pw.Document();
@@ -229,14 +232,19 @@ class _Fields extends StatelessWidget {
                   );
 
                   final dir = await getApplicationSupportDirectory();
-                  final file = File('${dir.path}/${DateTime.now().millisecondsSinceEpoch}.pdf');
+                  final file = File(
+                      '${dir.path}/${DateTime.now().millisecondsSinceEpoch}.pdf');
                   if (!file.existsSync()) {
                     file.createSync(recursive: true);
                   }
                   final fileBytes = await pdf.save();
                   file.writeAsBytesSync(fileBytes);
                   final Email email = Email(
-                    recipients: [report.reportType is SelfReportType ? user.email : report.email],
+                    recipients: [
+                      report.reportType is SelfReportType
+                          ? user.email
+                          : report.email
+                    ],
                     attachmentPaths: [file.path],
                   );
 

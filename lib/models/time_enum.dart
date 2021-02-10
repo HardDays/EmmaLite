@@ -1,3 +1,4 @@
+import 'package:emma_mobile/utils/utils.dart';
 import 'package:intl/intl.dart';
 
 List<DateTimeType> dateTimeTypes = [
@@ -41,7 +42,7 @@ class HourDateTime implements DateTimeType {
       ];
 
   @override
-  String timeValue = 'Час';
+  String timeValue = 'hoursText_1'.tr.capitalizeFirst;
 
   @override
   String formatter(DateTime timeFrom, DateTime timeTo) =>
@@ -75,7 +76,7 @@ class DayDateTime implements DateTimeType {
       ['0', '4', '8', '12', '16', '20', '24'];
 
   @override
-  String timeValue = 'День';
+  String timeValue = 'daysText_1'.tr.capitalizeFirst;
 
   @override
   String formatter(DateTime timeFrom, DateTime timeTo) {
@@ -83,7 +84,7 @@ class DayDateTime implements DateTimeType {
     if (timeTo.year == now.year &&
         timeTo.month == now.month &&
         timeTo.day == now.day) {
-      return 'Сегодня';
+      return 'titleTodayText'.tr;
     } else {
       return DateFormat('dd MMM').format(timeTo);
     }
@@ -123,7 +124,7 @@ class WeekDateTime implements DateTimeType {
   }
 
   @override
-  String timeValue = 'Неделя';
+  String timeValue = 'selectSectionWeekTitleco'.tr;
 
   @override
   String formatter(DateTime timeFrom, DateTime timeTo) {
@@ -163,7 +164,7 @@ class MonthDateTime implements DateTimeType {
   List<String> numbers({DateTime timeFrom}) => ['1', '7', '13', '19', '25', ''];
 
   @override
-  String timeValue = 'Месяц';
+  String timeValue = 'selectSectionMonthTitleco'.tr;
 
   @override
   String formatter(DateTime timeFrom, DateTime timeTo) =>
@@ -211,7 +212,7 @@ class YearDateTime implements DateTimeType {
       ];
 
   @override
-  String timeValue = 'Год';
+  String timeValue = 'selectSectionYearTitleco'.tr;
 
   @override
   String formatter(DateTime timeFrom, DateTime timeTo) =>

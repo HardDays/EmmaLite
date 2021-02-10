@@ -47,7 +47,7 @@ class ConfirmDelete extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(top: 56.h, bottom: 16.h),
               child: Text(
-                'Вы действительно хотите удалить профиль?',
+                'deleteProfileViewMainTitleText'.tr,
                 style: AppTypography.font16.copyWith(
                   fontWeight: FontWeight.w700,
                   color: AppColors.c3B4047,
@@ -66,14 +66,14 @@ class ConfirmDelete extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(bottom: 12.h),
               child: EmmaBorderButton(
-                text: 'Отменить',
+                text: 'titleCancelButton'.tr,
                 onTap: () {
                   Navigator.of(context).pop();
                 },
               ),
             ),
             EmmaFilledButton(
-              title: 'Удалить',
+              title: 'removeExecutionLabel'.tr,
               activeColor: AppColors.cFF3B30,
               haveShadow: false,
               onTap: () {},

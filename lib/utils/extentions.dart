@@ -1,4 +1,5 @@
 import 'package:emma_mobile/models/measurements/measurement.dart';
+import 'package:emma_mobile/utils/utils.dart';
 import 'package:intl/intl.dart';
 
 extension ListExtention on List {
@@ -25,7 +26,7 @@ extension DateTimeExtentions on DateTime {
   String measurementDateFormatter() {
     final now = DateTime.now();
     if (now.year == year && now.month == month && now.day == day) {
-      return 'Сегодня ${DateFormat.Hm().format(this)}';
+      return '${'titleTodayText'.tr} ${DateFormat.Hm().format(this)}';
     } else {
       return DateFormat('dd.MM.yyyy HH:mm').format(this);
     }
@@ -34,7 +35,7 @@ extension DateTimeExtentions on DateTime {
   String get assignScreenFormatter {
     final now = DateTime.now();
     if (now.year == year && now.month == month && now.day == day) {
-      return 'Сегодня';
+      return 'titleTodayText'.tr;
     } else {
       return DateFormat('d MMMM').format(this);
     }
@@ -74,27 +75,27 @@ extension IntExtention on int {
   String get getPluralHour {
     final lastSymbol = this.lastSymbol;
     if (lastSymbol == 1 && lastThoSymbol != 11) {
-      return 'час';
+      return 'hoursText_1'.tr;
     }
     if (lastSymbol == 2 || lastSymbol == 3 || lastSymbol == 4) {
-      return 'часа';
+      return 'hoursText_2'.tr;
     }
-    return 'часов';
+    return 'hoursText_3'.tr;
   }
 
   String get getPluralMinutes {
     final lastSymbol = this.lastSymbol;
     final minutes = abs();
     if (minutes == 11 || minutes == 12 || minutes == 13 || minutes == 14) {
-      return 'минут';
+      return 'minutesText_3'.tr;
     }
     if (lastSymbol == 1) {
-      return 'минуту';
+      return 'minutesText_1'.tr;
     }
     if (lastSymbol == 2 || lastSymbol == 3 || lastSymbol == 4) {
-      return 'минуты';
+      return 'minutesText_2';
     }
-    return 'минут';
+    return 'minutesText_3'.tr;
   }
 
   int get lastSymbol {
@@ -114,63 +115,63 @@ extension IntExtention on int {
   String get getPluralCountTitle {
     final lastSymbol = this.lastSymbol;
     if (lastSymbol == 1 && lastThoSymbol != 11) {
-      return 'Остался';
+      return 'receptionsStayed_1'.tr;
     }
-    return 'Осталось';
+    return 'receptionsStayed_2'.tr;
   }
 
   String get getPluralCount {
     final lastSymbol = this.lastSymbol;
     final lastThoSymbol = this.lastThoSymbol;
     if (lastSymbol == 1 && lastThoSymbol != 11) {
-      return 'прием';
+      return 'receptionsReception_1'.tr;
     }
     if (lastThoSymbol == 11 ||
         lastThoSymbol == 12 ||
         lastThoSymbol == 13 ||
         lastThoSymbol == 14) {
-      return 'приемов';
+      return 'receptionsReception_3'.tr;
     }
     if (lastSymbol == 2 || lastSymbol == 3 || lastSymbol == 4) {
-      return 'приема';
+      return 'receptionsReception_2'.tr;
     }
-    return 'приемов';
+    return 'receptionsReception_3'.tr;
   }
 
   String get getPluralDays {
     final lastSymbol = this.lastSymbol;
     final lastThoSymbol = this.lastThoSymbol;
     if (lastSymbol == 1 && lastThoSymbol != 11) {
-      return 'день';
+      return 'daysText_1'.tr;
     }
     if (lastThoSymbol == 11 ||
         lastThoSymbol == 12 ||
         lastThoSymbol == 13 ||
         lastThoSymbol == 14) {
-      return 'дней';
+      return 'daysText_3'.tr;
     }
     if (lastSymbol == 2 || lastSymbol == 3 || lastSymbol == 4) {
-      return 'дня';
+      return 'daysText_2'.tr;
     }
-    return 'дней';
+    return 'daysText_3'.tr;
   }
 
   String get getPluralYears {
     final lastSymbol = this.lastSymbol;
     final lastThoSymbol = this.lastThoSymbol;
     if (lastSymbol == 1 && lastThoSymbol != 11) {
-      return 'год';
+      return '1old'.tr;
     }
     if (lastThoSymbol == 11 ||
         lastThoSymbol == 12 ||
         lastThoSymbol == 13 ||
         lastThoSymbol == 14) {
-      return 'лет';
+      return '056789111213141516171819old'.tr;
     }
     if (lastSymbol == 2 || lastSymbol == 3 || lastSymbol == 4) {
-      return 'года';
+      return '234old'.tr;
     }
-    return 'лет';
+    return '056789111213141516171819old'.tr;
   }
 }
 

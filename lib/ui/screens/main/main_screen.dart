@@ -6,7 +6,6 @@ import 'package:emma_mobile/ui/screens/main/assign_data.dart';
 import 'package:emma_mobile/ui/screens/main/empty_block.dart';
 import 'package:emma_mobile/ui/screens/main/measurement_horizontal_list_item.dart';
 import 'package:emma_mobile/ui/screens/measurement/select_measurement.dart';
-import 'package:emma_mobile/ui/styles/test_styles.dart';
 import 'package:emma_mobile/utils/date_utils.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -35,12 +34,14 @@ class MainScreen extends StatelessWidget {
                           padding: EdgeInsets.only(top: 24.h, bottom: 16.h),
                           child: Text(
                             greetingStringBasedOn(DateTime.now()),
-                            style: CustomTextStyles.keypadItem,
+                            style: AppTypography.font20.copyWith(
+                              color: AppColors.c000000,
+                            ),
                           ),
                         ),
                       ),
                       Text(
-                        'Ваши ближайшие назначения',
+                        'titleNearestPrescriptions'.tr,
                         style: AppTypography.font16.copyWith(
                           color: AppColors.c3B4047,
                         ),
@@ -65,7 +66,7 @@ class MainScreen extends StatelessWidget {
                       icon: AppIcons.measurementsInactive(),
                       title:
                           'Здесь будут показываться ваши\nпоследние значения по всем измерениям',
-                      buttonTitle: 'Добавить первое измерение',
+                      buttonTitle: 'addNewMeasurementLabel'.tr,
                       onTap: () => navigatorPush(
                         context,
                         SelectMeasurement(),

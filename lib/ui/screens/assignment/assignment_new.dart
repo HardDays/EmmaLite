@@ -28,6 +28,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class AssignmentNewScreen extends StatelessWidget {
@@ -50,14 +51,14 @@ class AssignmentNewScreen extends StatelessWidget {
         body: Column(
           children: [
             if (assignment == null || isCopy)
-              const SmallAppBar(
-                title: 'Новое назначение',
-                leadingText: 'Отменить',
+              SmallAppBar(
+                title: 'titleCreatePrescriptionsView'.tr,
+                leadingText: 'titleCancelButton'.tr,
               )
             else
-              const EmmaAppBar(
-                leading: BackLeading(text: 'Назначения'),
-                title: 'Карточка назначения',
+              EmmaAppBar(
+                leading: BackLeading(text: 'prescriptionsTitleLabel'.tr),
+                title: 'titlePrescriptionСard'.tr,
               ),
             Expanded(
               child: Padding(
@@ -87,7 +88,7 @@ class _NewAssign extends StatelessWidget {
               padding: EdgeInsets.only(top: 20.h),
               child: DefaultPickerField(
                 color: bloc.containerColor,
-                title: 'Тип назначения',
+                title: 'medicationType'.tr,
                 enable: bloc.canChange,
                 index: bloc.assignment.type.index,
                 values: assignTypes.map((e) => e.title).toList(),
@@ -104,7 +105,7 @@ class _NewAssign extends StatelessWidget {
                   enable: bloc.canChange,
                   onChange: bloc.setName,
                   initialValue: bloc.assignment.name,
-                  label: 'Название назначения',
+                  label: 'prscrNameText'.tr,
                 ),
               ),
             ),
@@ -119,8 +120,8 @@ class _NewAssign extends StatelessWidget {
                   value: bloc.assignment.otherTaskDateTime,
                   onChange: bloc.setOtherDate,
                   dateFormat: DateFormat('dd MMMM yyyy'),
-                  title: 'Дата',
-                  hintText: 'Дата',
+                  title: 'dateText'.tr,
+                  hintText: 'dateText'.tr,
                   enable: bloc.canChange,
                 ),
               ),
@@ -134,7 +135,7 @@ class _NewAssign extends StatelessWidget {
                   FocusScope.of(context).unfocus();
                   final res = await showCustomTimePicker(
                     context: context,
-                    title: 'Время',
+                    title: 'timeText'.tr,
                     time: TaskTime(
                       time: Time(hour: time.hour, minutes: time.minute),
                     ),
@@ -146,7 +147,7 @@ class _NewAssign extends StatelessWidget {
                   }
                 },
                 child: InputTextField(
-                  label: 'Время:',
+                  label: '${'timeText'.tr}:',
                   type: TextInputType.text,
                   value:
                       DateFormat.Hm().format(bloc.assignment.otherTaskDateTime),
@@ -224,7 +225,7 @@ class _NewAssign extends StatelessWidget {
                   context.bloc<AssignBloc>().addAssignment(assign);
                   Navigator.of(context).pop();
                 },
-                title: 'Сохранить',
+                title: 'saveButtonText'.tr,
               ),
             Padding(padding: EdgeInsets.only(top: 32.h)),
           ],
@@ -264,7 +265,7 @@ class _RestoreButtons extends StatelessWidget {
                 ),
               );
             },
-            text: 'Создать копию',
+            text: 'createCopyButton'.tr,
           ),
         ),
         EmmaFilledButton(
@@ -272,7 +273,7 @@ class _RestoreButtons extends StatelessWidget {
             context.bloc<AssignBloc>().deleteAssignment(bloc.assignment);
             Navigator.of(context).pop();
           },
-          title: 'Удалить',
+          title: 'removeExecutionLabel'.tr,
           width: 288.w,
           height: 50.h,
           haveShadow: false,
@@ -291,7 +292,7 @@ class _StopButtons extends StatelessWidget {
     return Column(
       children: [
         EmmaBorderButton(
-          text: 'Остановить выполнение',
+          text: 'stopExecutionLabel'.tr,
           onTap: () {
             bloc.assignment.stop();
             context.bloc<AssignBloc>().updateAssignment(bloc.assignment);
@@ -309,7 +310,7 @@ class _StopButtons extends StatelessWidget {
                 context.bloc<AssignBloc>().updateAssignment(assign);
                 Navigator.of(context).pop();
               },
-              title: 'Сохранить',
+              title: 'saveButtonText'.tr,
             ),
           ),
       ],
@@ -332,7 +333,7 @@ class _FullTypeWidgets extends StatelessWidget {
                 children: [
                   InputTextField(
                     isInt: true,
-                    label: 'Дозировка',
+                    label: 'dosageNameText'.tr,
                     onChange: bloc.setDosage,
                     initialValue: bloc.assignment.dosage?.toString(),
                     enable: bloc.canChange,
@@ -348,7 +349,7 @@ class _FullTypeWidgets extends StatelessWidget {
                   DefaultPickerField(
                     color: bloc.containerColor,
                     haveDecoration: false,
-                    title: 'Единица измерения',
+                    title: 'unitDosageText'.tr,
                     enable: bloc.canChange,
                     index: bloc.assignment.unitId,
                     values: assignUnits,
@@ -366,8 +367,8 @@ class _FullTypeWidgets extends StatelessWidget {
               children: [
                 DateTimeTextField(
                   color: bloc.containerColor,
-                  title: 'Дата начала',
-                  hintText: 'Дата начала',
+                  title: 'startDateText'.tr,
+                  hintText: 'startDateText'.tr,
                   dateFormat: DateFormat('dd MMMM yyyy'),
                   initialDate: bloc.assignment.startTime,
                   value: bloc.assignment.startTime,
@@ -385,8 +386,8 @@ class _FullTypeWidgets extends StatelessWidget {
                 ),
                 DateTimeTextField(
                   color: bloc.containerColor,
-                  title: 'Дата окончания',
-                  hintText: 'Дата окончания',
+                  title: 'endDateText'.tr,
+                  hintText: 'endDateText'.tr,
                   dateFormat: DateFormat('dd MMMM yyyy'),
                   value: bloc.assignment.endTime,
                   initialDate: bloc.assignment.endTime,
@@ -403,11 +404,11 @@ class _FullTypeWidgets extends StatelessWidget {
           padding: EdgeInsets.only(top: 20.h),
           child: DefaultPickerField(
             color: bloc.containerColor,
-            title: 'Частота',
+            title: 'frequencyText'.tr,
             index: bloc.assignment.frequency,
             enable: bloc.canChange,
             onChange: bloc.setFrequency,
-            hintText: 'Частота',
+            hintText: 'frequencyText'.tr,
             values: assignFrequency,
           ),
         ),
@@ -427,7 +428,7 @@ class _FullTypeWidgets extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Периодичность:',
+                    '${'periodicityText'.tr}:',
                     style: AppTypography.font12.copyWith(
                       color: AppColors.c9B9B9B,
                     ),
@@ -559,7 +560,7 @@ class _NewAndDeleteRow extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(left: 10.w),
                     child: Text(
-                      'Удалить',
+                      'removeExecutionLabel'.tr,
                       style: AppTypography.font12.copyWith(
                         color: AppColors.c9B9B9B,
                       ),
@@ -606,7 +607,7 @@ class _TimesGrid extends StatelessWidget {
             FocusScope.of(context).unfocus();
             final res = await showCustomTimePicker(
               context: context,
-              title: 'Количество',
+              title: 'amountTextTitle'.tr,
               timeRange: PickerTimeRange.calculate(
                 currentNumber: i,
                 maxCount: bloc.assignment.frequency + 1,
@@ -654,7 +655,7 @@ class _TimeItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Количество:',
+                  '${'amountTextTitle'.tr}:',
                   style: AppTypography.font12.copyWith(
                     color: AppColors.c9B9B9B,
                   ),
@@ -799,7 +800,7 @@ class _Photos extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(left: 8.w),
                       child: Text(
-                        'Добавить изображение',
+                        'addImageButton'.tr,
                         style: AppTypography.font16.copyWith(
                           color: AppColors.c00ACE3,
                         ),

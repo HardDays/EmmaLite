@@ -42,7 +42,9 @@ class BottomMenu extends StatelessWidget {
                 icon: isName
                     ? AppIcons.measurementsInactive()
                     : AppIcons.profile(),
-                title: isName ? 'Добавить\nизмерение' : 'Профиль',
+                title: isName
+                    ? 'addMenuMeasurementsLabel'.tr
+                    : 'profileViewLabel'.tr,
                 width: 137.w,
                 onTap: () {
                   onTap?.call();
@@ -58,7 +60,9 @@ class BottomMenu extends StatelessWidget {
                 icon: isName
                     ? AppIcons.prescriptionsInactive()
                     : AppIcons.doctors(),
-                title: isName ? 'Добавить\nназначение' : 'Мои врачи',
+                title: isName
+                    ? 'addPrescriptionToday'.tr
+                    : 'mainDoctorListTitle'.tr,
                 width: 137.w,
                 onTap: () {
                   onTap();
@@ -75,7 +79,7 @@ class BottomMenu extends StatelessWidget {
             padding: EdgeInsets.only(top: 9.h),
             child: _BottomMenuItem(
               icon: isName ? AppIcons.report() : AppIcons.settings(),
-              title: isName ? 'Сформировать отчет' : 'Настройки',
+              title: isName ? 'addMenuReportLabel'.tr : 'mainSettingsTitle'.tr,
               onTap: () {
                 onTap();
                 if (isName) {

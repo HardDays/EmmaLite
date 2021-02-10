@@ -23,7 +23,9 @@ class FirstBiometryScreen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: 56.h, bottom: 16.h),
             child: Text(
-              'Хотите использовать ${type == BiometricType.fingerprint ? 'Touch' : 'Face'} ID?',
+              type == BiometricType.fingerprint
+                  ? 'titleUseBiometricTouchID'.tr
+                  : 'titleUseBiometricFaceID'.tr,
               style: AppTypography.font16.copyWith(
                 fontWeight: FontWeight.w700,
               ),
@@ -32,7 +34,7 @@ class FirstBiometryScreen extends StatelessWidget {
           SizedBox(
             width: 250.w,
             child: Text(
-              'Это позволит входить\nв приложение без пароля.',
+              'subTitleUseBiometric'.tr,
               style: AppTypography.font16.copyWith(
                 color: AppColors.c3B4047,
               ),
@@ -47,7 +49,10 @@ class FirstBiometryScreen extends StatelessWidget {
               right: 16.w,
             ),
             child: EmmaFilledButton(
-              title: 'Да, использовать ${type == BiometricType.fingerprint ? 'Touch' : 'Face'} ID',
+              title:
+              type == BiometricType.fingerprint
+                  ? 'buttonUseTextTouchID'.tr
+                  : 'buttonUseTextFaceID'.tr,
               onTap: () {
                 context.bloc<AppSettingsBloc>().setUseFaceId(true);
                 Navigator.of(context).pushReplacement(
@@ -69,7 +74,7 @@ class FirstBiometryScreen extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
               child: Text(
-                'Позже',
+                'laterButtonText'.tr,
                 style: AppTypography.font14.copyWith(
                   color: AppColors.c00ACE3,
                 ),

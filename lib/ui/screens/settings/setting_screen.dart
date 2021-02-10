@@ -18,7 +18,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const EmmaAppBar(title: 'Настройки'),
+        EmmaAppBar(title: 'mainSettingsTitle'.tr),
         Expanded(
           child: SingleChildScrollView(
             padding: EdgeInsets.symmetric(vertical: 16.h),
@@ -26,7 +26,7 @@ class SettingsScreen extends StatelessWidget {
             child: Column(
               children: [
                 SettingsItem(
-                  title: 'Конфиденциальность',
+                  title: 'titleSettingsAddPassword'.tr,
                   onTap: () => onChange(
                     ConfidentialScreen(
                       onTap: () => onChange(SettingsScreen(onChange: onChange)),
@@ -44,7 +44,7 @@ class SettingsScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(top: 8.h),
                   child: SettingsItem(
-                    title: 'Оформление',
+                    title: 'themeCellTitle'.tr,
                     subtitle: 'Светлая тема',
                     icon: AppIcons.design(),
                     onTap: () => onChange(
@@ -59,7 +59,7 @@ class SettingsScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(top: 8.h),
                   child: SettingsItem(
-                    title: 'Язык',
+                    title: 'titleSettingLanguage'.tr,
                     onTap: () => onChange(
                       LanguageScreen(
                         onTap: () => onChange(
@@ -87,7 +87,7 @@ class SettingsScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(top: 8.h),
                   child: SettingsItem(
-                    title: 'О приложении',
+                    title: 'titleAboutApp'.tr,
                     icon: AppIcons.privacyDocs(),
                     onTap: () => onChange(
                       AboutAppScreen(

@@ -20,9 +20,9 @@ class ConfidentialScreen extends StatelessWidget {
     return Column(
       children: [
         EmmaAppBar(
-          title: 'Конфиденциальность',
+          title: 'titleSettingsAddPassword'.tr,
           leading: BackLeading(
-            text: 'Настройки',
+            text: 'mainSettingsTitle'.tr,
             onTap: onTap,
           ),
         ),
@@ -42,7 +42,7 @@ class ConfidentialScreen extends StatelessWidget {
                         ),
                       );
                     },
-                    title: 'Изменить пароль',
+                    title: 'titleChangePassword'.tr,
                     icon: AppIcons.privacy(),
                   ),
                   Padding(
@@ -50,7 +50,7 @@ class ConfidentialScreen extends StatelessWidget {
                     child: Row(
                       children: [
                         Text(
-                          'Использовать пароль при входе',
+                          'titleUsePassword'.tr,
                           style: AppTypography.font14.copyWith(
                             color: AppColors.c3B4047,
                           ),
@@ -67,7 +67,7 @@ class ConfidentialScreen extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        'Использовать Touch ID/Face ID ',
+                        'titleUse'.tr,
                         style: AppTypography.font14.copyWith(
                           color: AppColors.c3B4047,
                         ),

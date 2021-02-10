@@ -1,5 +1,6 @@
 export 'package:flutter_screenutil/flutter_screenutil.dart';
 export 'package:flutter_screenutil/size_extension.dart';
+export 'package:get/get.dart';
 
 export 'colors.dart';
 export 'constants.dart';

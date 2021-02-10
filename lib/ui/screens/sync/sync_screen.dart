@@ -40,7 +40,9 @@ class SyncScreen extends StatelessWidget {
             hasBack
                 ? SmallAppBar(
                     title: '',
-                    leading: BackLeading(text: 'Назад'),
+                    leading: BackLeading(
+                      text: 'differenceBackTextLabel'.tr.capitalizeFirst,
+                    ),
                   )
                 : SizedBox(
                     height: 75.h,
@@ -82,7 +84,7 @@ class SyncScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 10, top: 5),
               child: EmmaFlatButton(
-                title: hasCancel ? 'Сделаю позже в Настройках' : '',
+                title: hasCancel ? 'doItLaterButtonTitle'.tr : '',
                 onTap: () {
                   if (hasCancel) {
                     Navigator.of(context).push(

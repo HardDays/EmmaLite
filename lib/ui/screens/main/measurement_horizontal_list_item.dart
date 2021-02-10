@@ -23,7 +23,7 @@ class MeasurementHorizontalListItem extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(bottom: 8.h),
               child: Text(
-                item.title,
+                item.title.tr,
                 style: AppTypography.font14.copyWith(
                   fontWeight: FontWeight.w600,
                   color: AppColors.c3B4047,
@@ -43,7 +43,7 @@ class MeasurementHorizontalListItem extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(left: 8.w),
                   child: Text(
-                    item.units,
+                    item.units.tr,
                     style:
                         AppTypography.font12.copyWith(color: AppColors.c9B9B9B),
                   ),

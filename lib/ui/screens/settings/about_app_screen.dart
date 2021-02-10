@@ -18,14 +18,14 @@ class AboutAppScreen extends StatelessWidget {
         EmmaAppBar(
           title: 'Синхронизация',
           leading: BackLeading(
-            text: 'Настройки',
+            text: 'mainSettingsTitle'.tr,
             onTap: onTap,
           ),
         ),
         Padding(
           padding: EdgeInsets.only(top: 15.h),
           child: SettingsItem(
-            title: 'Обратная связь',
+            title: 'titleFeedback'.tr,
             icon: AppIcons.message(),
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => FeedbackScreen()),
@@ -35,13 +35,13 @@ class AboutAppScreen extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(top: 8.h),
           child: SettingsItem(
-            title: 'Условия и положения',
+            title: 'subscriptionConditions'.tr,
             icon: AppIcons.documents(),
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (_) => const AboutTextScreen(
-                    title: 'Условия и положения',
+                  builder: (_) => AboutTextScreen(
+                    title: 'subscriptionConditions'.tr,
                     text:
                         'Мы не используем ваши персональные данные и не передаем их третьим лицам.  И еще много много юридичского текста.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce consequat turpis vitae ullamcorper rutrum. Duis fermentum nisl at ante auctor, nec convallis risus pretium. Fusce diam lacus, aliquam nec orci auctor, scelerisque volutpat risus. Sed gravida sit amet sem quis faucibus. Nam dignissim, nisi at lacinia commodo, lorem diam pellentesque felis, nec commodo sem purus at erat. Mauris at neque mattis enim tristique ornare. Mauris leo dolor, bibendum eu placerat vehicula, fringilla sit amet augue. Integer sollicitudin pulvinar ornare. Morbi at enim vel tortor suscipit maximus. In congue cursus consequat. Vivamus scelerisque, metus quis posuere ornare, velit ipsum viverra felis, vitae commodo sem sem et odio. Curabitur dignissim nec neque vel venenatis.Pellentesque ut nulla justo. Fusce egestas mauris non metus dignissim, et condimentum quam convallis. Nulla convallis sit amet arcu a bibendum. Nam tempor interdum turpis, non vestibulum dolor lobortis eu. Donec vitae lectus bibendum, convallis dui vitae, pellentesque nulla. Integer quis risus id diam fermentum malesuada quis quis tortor. Sed eget ligula metus. Proin efficitur dignissim libero, sit amet pulvinar nisi vehicula et. Suspendisse facilisis non enim a venenatis. Suspendisse et nibh purus.',
                   ),
@@ -53,13 +53,13 @@ class AboutAppScreen extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(top: 8.h),
           child: SettingsItem(
-            title: 'Политика конфиденциальности',
+            title: 'subscriptionConfidentiality'.tr,
             icon: AppIcons.privacy(),
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (_) => const AboutTextScreen(
-                    title: 'Политика конфиденциальности',
+                  builder: (_) => AboutTextScreen(
+                    title: 'subscriptionConfidentiality'.tr,
                     text:
                     'Мы не используем ваши персональные данные и не передаем их третьим лицам.  И еще много много юридичского текста.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce consequat turpis vitae ullamcorper rutrum. Duis fermentum nisl at ante auctor, nec convallis risus pretium. Fusce diam lacus, aliquam nec orci auctor, scelerisque volutpat risus. Sed gravida sit amet sem quis faucibus. Nam dignissim, nisi at lacinia commodo, lorem diam pellentesque felis, nec commodo sem purus at erat. Mauris at neque mattis enim tristique ornare. Mauris leo dolor, bibendum eu placerat vehicula, fringilla sit amet augue. Integer sollicitudin pulvinar ornare. Morbi at enim vel tortor suscipit maximus. In congue cursus consequat. Vivamus scelerisque, metus quis posuere ornare, velit ipsum viverra felis, vitae commodo sem sem et odio. Curabitur dignissim nec neque vel venenatis.Pellentesque ut nulla justo. Fusce egestas mauris non metus dignissim, et condimentum quam convallis. Nulla convallis sit amet arcu a bibendum. Nam tempor interdum turpis, non vestibulum dolor lobortis eu. Donec vitae lectus bibendum, convallis dui vitae, pellentesque nulla. Integer quis risus id diam fermentum malesuada quis quis tortor. Sed eget ligula metus. Proin efficitur dignissim libero, sit amet pulvinar nisi vehicula et. Suspendisse facilisis non enim a venenatis. Suspendisse et nibh purus.',
                   ),

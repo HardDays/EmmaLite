@@ -45,7 +45,7 @@ class MeasurementListItem extends StatelessWidget {
                   SizedBox(
                     width: !isSelectScreen ? 131.w : null,
                     child: Text(
-                      item.longTitle,
+                      item.longTitle.tr,
                       style: AppTypography.font16.copyWith(
                         color: AppColors.c3B4047,
                       ),
@@ -54,7 +54,7 @@ class MeasurementListItem extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    isSelectScreen ? item.units : item.getFormattedDate(),
+                    isSelectScreen ? item.units.tr : item.getFormattedDate(),
                     style: AppTypography.font12.copyWith(
                       color: AppColors.c9B9B9B,
                     ),
@@ -75,7 +75,7 @@ class MeasurementListItem extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      item.units,
+                      item.units.tr,
                       style: AppTypography.font12
                           .copyWith(color: AppColors.c9B9B9B),
                     )

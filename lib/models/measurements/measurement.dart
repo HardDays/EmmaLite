@@ -6,13 +6,13 @@ abstract class Measurement {
 
   String longTitle;
 
+  String addTitle;
+
   String value();
 
   String getFormattedDate();
 
   String units;
-
-  String inNewScreen;
 
   MeasurementEnum type;
 

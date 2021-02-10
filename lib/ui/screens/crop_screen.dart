@@ -38,7 +38,7 @@ class CropScreen extends StatelessWidget {
                 );
                 Navigator.of(context).pop(res.path);
               },
-              title: 'Сохранить',
+              title: 'saveButtonText'.tr,
             ),
           ),
         ],
@@ -73,7 +73,7 @@ class _TopRow extends StatelessWidget {
                       vertical: 10.h,
                     ),
                     child: Text(
-                      'Отменить',
+                      'titleCancelButton'.tr,
                       style: AppTypography.font12.copyWith(
                         color: AppColors.c00ACE3,
                       ),

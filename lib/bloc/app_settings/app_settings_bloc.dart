@@ -2,7 +2,10 @@
 import 'package:emma_mobile/bloc/app_settings/app_settings_state.dart';
 import 'package:emma_mobile/models/app_settings/app_settings.dart';
 import 'package:emma_mobile/repositories/app_local_repository.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class AppSettingsBloc extends Cubit<AppSettingsState> {
   AppSettingsBloc() : super(AppSettingsState()) {
@@ -17,6 +20,13 @@ class AppSettingsBloc extends Cubit<AppSettingsState> {
 
   void _init() {
     _appSettings = _appLocalRepository.getSettings();
+  }
+
+  void setLocale(String locale) {
+    Get.updateLocale(Locale(locale));
+    Intl.defaultLocale = locale;
+    _appSettings.locale = locale;
+    _updateSettings();
   }
 
   void setUseFaceId(bool v) {

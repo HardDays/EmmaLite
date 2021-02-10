@@ -76,9 +76,9 @@ class RunTask {
     final minutesText =
         minutes == 0 ? '' : '${minutes.abs()} ${minutes.getPluralMinutes}';
     if (isExpired) {
-      return '$hourText $minutesText назад';
+      return '$hourText $minutesText ${'differenceBackTextLabel'.tr}';
     }
-    return 'через $hourText $minutesText';
+    return '${'differenceThroughTextLabel'.tr} $hourText $minutesText';
   }
 }
 

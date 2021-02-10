@@ -27,13 +27,13 @@ class Pulse extends HiveObject implements Measurement {
   final int userId;
 
   @override
-  String title = 'Пульс';
+  String title = 'heartRate';
 
   @override
-  String longTitle = 'Пульс';
+  String longTitle = 'heartRate';
 
   @override
-  String units = 'уд./мин.';
+  String units = 'heartRateUnit';
 
   @override
   String value() => pulse.toStringAsFixed(1);
@@ -48,13 +48,13 @@ class Pulse extends HiveObject implements Measurement {
   DateTime dateTime;
 
   @override
-  String inNewScreen = 'пульса';
-
-  @override
   String toString() {
     return '$pulse $dateTime';
   }
 
   @override
   int getUserId() => userId;
+
+  @override
+  String addTitle = 'titleAddingPulseViewco';
 }

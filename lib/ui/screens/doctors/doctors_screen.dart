@@ -28,7 +28,7 @@ class DoctorsScreen extends StatelessWidget {
         body: Column(
           children: [
             EmmaAppBar(
-              title: 'Мои врачи',
+              title: 'mainDoctorListTitle'.tr,
               trailing: GestureDetector(
                 onTap: () {
                   Navigator.of(context).push(
@@ -215,7 +215,7 @@ class _EmptyDoctors extends StatelessWidget {
           child: SizedBox(
             width: 296.w,
             child: Text(
-              'Здесь вы можете сохранить контакты своих\nврачей, чтобы быстрее отправлять им\nотчеты.',
+              'noMyDoctorsListSubTitle'.tr,
               style: AppTypography.font14.copyWith(
                 color: AppColors.c9B9B9B,
               ),
@@ -225,7 +225,7 @@ class _EmptyDoctors extends StatelessWidget {
         ),
         EmmaFilledButton(
           width: 288.w,
-          title: 'Добавить врача',
+          title: 'addNewDoctorButtonLabel'.tr,
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(

@@ -15,6 +15,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 class AssignmentsScreen extends StatelessWidget {
   @override
@@ -30,7 +31,7 @@ class AssignmentsScreen extends StatelessWidget {
                 return Column(
                   children: [
                     EmmaAppBar(
-                      title: 'Назначения',
+                      title: 'prescriptionsTitleLabel'.tr,
                       childUpperLine:
                           bloc.assignment.isNotEmpty ? _AppBar() : null,
                       trailing: bloc.assignment.isNotEmpty
@@ -58,7 +59,8 @@ class AssignmentsScreen extends StatelessWidget {
                                   onTap: () {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
-                                          builder: (_) => AssignmentNewScreen()),
+                                          builder: (_) =>
+                                              AssignmentNewScreen()),
                                     );
                                   },
                                   behavior: HitTestBehavior.opaque,
@@ -116,7 +118,7 @@ class _AppBar extends StatelessWidget {
               ),
               ChipItem(
                 isActive: bloc.state is HistoryAssignScreenState,
-                title: 'История',
+                title: 'selectSectionPescriptionTitle_3'.tr,
                 onTap: bloc.addHistoryState,
               ),
             ],
@@ -187,26 +189,37 @@ class _Data extends StatelessWidget {
     if (tasks.isEmpty) {
       return _EmptyOrExpired(
         child: AppIcons.prescriptionsInactive(width: 44.w, height: 44.w),
-        text:
-            'На ${formattedDay.toLowerCase()} у вас не запланировано назначений.',
+        text: 'noPrescriptionsPlanTitle'
+            .tr
+            .replaceAll(RegExp('#DATE#'), formattedDay.toLowerCase()),
       );
     }
     if (!tasks.any((e) => e.completed) &&
         detailBloc.state is! DoingAssignScreenState) {
+      String text;
+      if (detailBloc.activeDate.isInDay(DateTime.now())) {
+        text = 'noPrescriptionsPlanTodayNoIntakesTitle'.tr;
+      } else {
+        text = 'noPrescriptionsPlanNoIntakesTitle'.tr;
+      }
       return _EmptyOrExpired(
         child: AppIcons.prescriptionsInactive(
           width: 44.w,
           height: 44.w,
           color: AppColors.cFF3B30,
         ),
-        text:
-            '$formattedDay вы не сделали ни одно из запланированных назначений.',
+        text: text.replaceAll(RegExp('#DATE#'), formattedDay.toLowerCase()),
       );
     }
     if (tasks.where((e) => e.completed).length == tasks.length) {
+      String text;
+      if (detailBloc.activeDate.isInDay(DateTime.now())) {
+        text = 'noPrescriptionsPlanTodayIntakesTitle'.tr;
+      } else {
+        text = 'noPrescriptionsPlanIntakesTitle'.tr;
+      }
       return _EmptyOrExpired(
-        text:
-            'Поздравляем, вы выполнили все назначения ${formattedDay.toLowerCase()}!',
+        text: text.replaceAll(RegExp('#DATE#'), formattedDay.toLowerCase()),
         child: AppIcons.complete(
           size: 44.w,
         ),
@@ -263,7 +276,7 @@ class _History extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       slivers: [
         if (active.isNotEmpty) ...[
-          const _ListTitle(title: 'Актуальные'),
+          _ListTitle(title: 'actualTextLabel'.tr),
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (_, i) {
@@ -274,7 +287,7 @@ class _History extends StatelessWidget {
           ),
         ],
         if (archive.isNotEmpty) ...[
-          const _ListTitle(title: 'Архив'),
+          _ListTitle(title: 'archiveTextLabel'.tr),
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (_, i) {
@@ -300,9 +313,9 @@ class _ListItem extends StatelessWidget {
     final isDisable = assignment.isStopped;
     final count = assignment.runTasks.where((e) => e.enable && e.completed);
     if (isDisable) {
-      text = 'Отменено';
+      text = 'prscr_cancelled'.tr;
     } else if (count.isEmpty) {
-      text = 'Не было приемов';
+      text = 'thereWereNoReceptionsText'.tr;
     } else if (count.length == assignment.runTasks.length) {
       text = '${count.length} приемов';
     } else {
@@ -441,7 +454,7 @@ class _EmptyAssign extends StatelessWidget {
           padding: EdgeInsets.only(top: 35.h),
           child: EmmaFilledButton(
             width: 256.w,
-            title: 'Добавить первое назначение',
+            title: 'addNewPrescriptionLabel'.tr,
             fontSize: Constants.textSize14,
             onTap: () {
               Navigator.of(context).push(

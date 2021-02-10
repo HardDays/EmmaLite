@@ -53,7 +53,7 @@ class _CurrentProfile extends StatelessWidget {
     final bloc = context.bloc<ProfileCubit>();
     return Column(
       children: [
-        const EmmaAppBar(title: 'Профиль'),
+        EmmaAppBar(title: 'profileViewLabel'.tr),
         Expanded(
           child: SingleChildScrollView(
             padding: EdgeInsets.zero,
@@ -276,7 +276,7 @@ class __ArrowState extends State<_Arrow> with SingleTickerProviderStateMixin {
                               right: 16.w,
                             ),
                             child: Text(
-                              'Ясно',
+                              'pressPlusButtonHintForCreateNewProfileSubmitButtonTitle'.tr,
                               style: AppTypography.font12.copyWith(
                                 color: AppColors.c00ACE3,
                               ),
@@ -329,7 +329,7 @@ class _EmptyProfile extends StatelessWidget {
       builder: (_, __) {
         return Column(
           children: [
-            const EmmaAppBar(title: 'Профиль'),
+            EmmaAppBar(title: 'profileViewLabel'.tr),
             Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -344,7 +344,7 @@ class _EmptyProfile extends StatelessWidget {
                         child: ProfileFields(),
                       ),
                       EmmaFilledButton(
-                        title: 'Сохранить',
+                        title: 'saveButtonText'.tr,
                         onTap: () {
                           context.bloc<ProfileCubit>().addUser(bloc.user);
                         },

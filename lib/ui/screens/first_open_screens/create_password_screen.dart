@@ -69,7 +69,7 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
                 child: Text(
-                  'Позже',
+                  'laterButtonText'.tr,
                   style: AppTypography.font14.copyWith(
                     fontWeight: FontWeight.w500,
                     color: AppColors.c00ACE3,

@@ -10,6 +10,7 @@ import 'package:emma_mobile/models/user/user.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart' show Colors;
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
@@ -53,7 +54,7 @@ abstract class CreatePdf {
         Padding(
           padding: const EdgeInsets.only(top: 32, bottom: 8),
           child: Text(
-            'Отчет EMMA Lite ',
+            'reportSubject'.tr,
             style: TextStyle(
               color: PdfColor.fromInt(Colors.black.value),
               font: ttf,
@@ -64,7 +65,7 @@ abstract class CreatePdf {
         Padding(
           padding: const EdgeInsets.only(bottom: 24),
           child: Text(
-            'о ходе профилактики и лечения за период:',
+            'reportDescription'.tr,
             style: TextStyle(
               color: PdfColor.fromInt(Colors.black.value),
               font: ttf,
@@ -95,7 +96,7 @@ abstract class CreatePdf {
               Padding(
                 padding: const EdgeInsets.only(top: 24),
                 child: Text(
-                  'Комментарий пользователя:',
+                  'reportComment'.tr,
                   style: TextStyle(
                     font: ttf,
                     fontWeight: FontWeight.bold,
@@ -149,7 +150,7 @@ abstract class CreatePdf {
                     children: [
                       Expanded(
                         child: Text(
-                          'Назначения: ${inDayTasks.where((e) => e.completed).length}/${inDayTasks.length}',
+                          '${'prescriptionsTitleLabel'.tr}: ${inDayTasks.where((e) => e.completed).length}/${inDayTasks.length}',
                           style: TextStyle(
                             font: ttf,
                             fontSize: 14,
@@ -158,7 +159,7 @@ abstract class CreatePdf {
                       ),
                       Expanded(
                         child: Text(
-                          'Измерения',
+                          'mainTitleMeasurements'.tr,
                           style: TextStyle(
                             font: ttf,
                             fontSize: 14,
@@ -263,7 +264,7 @@ abstract class CreatePdf {
             Padding(
               padding: const EdgeInsets.only(left: 16),
               child: Text(
-                measurement.longTitle,
+                measurement.longTitle.tr,
                 style: TextStyle(
                   fontSize: 10,
                   font: ttf,
@@ -294,7 +295,7 @@ abstract class CreatePdf {
               ),
               Spacer(),
               Text(
-                measurement.units,
+                measurement.units.tr,
                 style: TextStyle(
                   font: ttf,
                   fontSize: 8,
@@ -377,7 +378,7 @@ abstract class CreatePdf {
                     final minutes = dif.inMinutes - (dif.inHours * 60);
                     final hour = dif.inHours;
                     return Text(
-                      '+$hourч ${minutes == 0 ? '' : '$minutesмин'}',
+                      '+$hourч ${minutes == 0 ? '' : '$minutes${'minText'.tr}'}',
                       style: TextStyle(
                         font: ttf,
                         fontSize: 8,
@@ -467,8 +468,8 @@ abstract class CreatePdf {
                         user.gender == null
                             ? ''
                             : user.gender == Gender.male
-                                ? 'Мужчина'
-                                : 'Женщина',
+                                ? 'maleButtonTitle'.tr
+                                : 'femaleButtonTitle'.tr,
                         style: TextStyle(
                           fontSize: 8,
                           font: ttf,
@@ -479,7 +480,7 @@ abstract class CreatePdf {
                     Padding(
                       padding: const EdgeInsets.only(left: 4, right: 24),
                       child: Text(
-                        '${user.weight} кг',
+                        '${user.weight} ${'weightUnit'.tr}',
                         style: TextStyle(
                           fontSize: 8,
                           font: ttf,
@@ -533,7 +534,7 @@ abstract class CreatePdf {
                 ),
               ),
               Text(
-                'Дата начала',
+                'startDateText'.tr,
                 style: TextStyle(
                   font: ttf,
                   fontSize: 10,

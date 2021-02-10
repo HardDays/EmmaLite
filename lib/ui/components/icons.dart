@@ -104,6 +104,7 @@ class AppIcons {
   static Widget run({Color color}) {
     return SvgPicture.asset(
       'assets/icons/run.svg',
+      color: color,
       fit: BoxFit.fill,
     );
   }

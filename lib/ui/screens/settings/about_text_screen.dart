@@ -16,7 +16,9 @@ class AboutTextScreen extends StatelessWidget {
         children: [
           EmmaAppBar(
             title: title,
-            leading: const BackLeading(text: 'Назад'),
+            leading: BackLeading(
+              text: 'differenceBackTextLabel'.tr.capitalizeFirst,
+            ),
           ),
           Expanded(
             child: SingleChildScrollView(

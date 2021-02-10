@@ -83,7 +83,7 @@ class SyncLoadingScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 10, top: 5),
               child: EmmaFlatButton(
-                title: 'Свернуть',
+                title: 'hideScreenButtonTitle'.tr,
                 onTap: () {
                   Navigator.pushReplacement(
                     context,

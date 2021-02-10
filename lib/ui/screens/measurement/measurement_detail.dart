@@ -42,7 +42,7 @@ class MeasurementDetailScreen extends StatelessWidget {
                 return Column(
                   children: [
                     MeasurementDetailAppBar(
-                      title: item.longTitle,
+                      title: item.longTitle.tr,
                       initialType: bloc.type,
                       item: item,
                       onChange: bloc.setDateType,
@@ -126,14 +126,14 @@ class MeasurementDetailScreen extends StatelessWidget {
                                     children: [
                                       Expanded(
                                         child: _ColumnItem(
-                                          title: 'Мин.',
+                                          title: '${'minLabelTextco'.tr}.',
                                           subtitle:
                                               '${bloc.item is ArterialPressure ? '\n' : ''} ${bloc.min}',
                                         ),
                                       ),
                                       Expanded(
                                         child: _ColumnItem(
-                                          title: 'Макс.',
+                                          title: '${'maxLabelTextco'.tr}.',
                                           subtitle:
                                               '${bloc.item is ArterialPressure ? '\n' : ''} ${bloc.max}',
                                         ),
@@ -207,7 +207,7 @@ class _ColumnItem extends StatelessWidget {
           ),
         ),
         TextSpan(
-          text: '$subtitle ${subtitle.isEmpty ? '' : bloc.item.units}',
+          text: '$subtitle ${subtitle.isEmpty ? '' : bloc.item.units.tr}',
           style: AppTypography.font17.copyWith(
             color: AppColors.c3B4047,
             fontWeight: FontWeight.w700,

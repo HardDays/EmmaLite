@@ -25,9 +25,11 @@ class SelectMeasurement extends StatelessWidget {
       backgroundColor: AppColors.cF5F7FA,
       body: Column(
         children: [
-          const EmmaAppBar(
-            title: 'Выберите показатель',
-            leading: BackLeading(text: 'Назад'),
+          EmmaAppBar(
+            title: 'titleAddMeasurementsView'.tr,
+            leading: BackLeading(
+              text: 'differenceBackTextLabel'.tr.capitalizeFirst,
+            ),
           ),
           Expanded(
             child: ListView.separated(

@@ -19,7 +19,7 @@ class SettingsSyncScreen extends StatelessWidget {
         EmmaAppBar(
           title: 'Синхронизация',
           leading: BackLeading(
-            text: 'Настройки',
+            text: 'mainSettingsTitle'.tr,
             onTap: onTap,
           ),
         ),

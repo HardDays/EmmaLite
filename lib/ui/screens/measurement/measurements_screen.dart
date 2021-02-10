@@ -14,9 +14,7 @@ class MeasurementScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          const EmmaAppBar(
-            title: 'Измерения',
-          ),
+          EmmaAppBar(title: 'mainTitleMeasurements'.tr),
           BlocBuilder<MeasurementCubit, MeasurementState>(
             builder: (_, state) {
               if (bloc.data.isNotEmpty) {

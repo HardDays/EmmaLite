@@ -193,10 +193,10 @@ class ValueLabelFormatter extends ValueFormatter {
       return '';
     }
     if (values[index] == max) {
-      return 'Макс.\n${values[index].toStringAsFixed(1)}';
+      return '${'maxLabelTextco'.tr}.\n${values[index].toStringAsFixed(1)}';
     }
     if (values[index] == min) {
-      return 'Мин.\n${values[index].toStringAsFixed(1)}';
+      return '${'minLabelTextco'.tr}.\n${values[index].toStringAsFixed(1)}';
     }
     return '';
   }

@@ -20,7 +20,7 @@ class FirstOpenScreen extends StatelessWidget {
               child: AppImages.welcome(),
             ),
             Text(
-              'Давайте знакомиться',
+              'getAcquaintedTitle'.tr,
               style: AppTypography.font16.copyWith(
                 color: AppColors.c3B4047,
                 fontWeight: FontWeight.w700,
@@ -32,7 +32,7 @@ class FirstOpenScreen extends StatelessWidget {
                 bottom: 32.h,
               ),
               child: Text(
-                'Заполните сразу свой профиль, что вы могли формировать отчеты о вашем самочувствии. Эти данные увидит только ваш врач.',
+                'fillOutYourProfileTitle'.tr,
                 style: AppTypography.font14.copyWith(
                   color: AppColors.c3B4047,
                 ),
@@ -40,7 +40,7 @@ class FirstOpenScreen extends StatelessWidget {
               ),
             ),
             EmmaFilledButton(
-              title: 'Заполнить профиль',
+              title: 'fillOutYourProfileButtonTitle'.tr,
               onTap: () {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(

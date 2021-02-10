@@ -22,8 +22,8 @@ class NewDoctorScreen extends StatelessWidget {
       body: Column(
         children: [
           EmmaAppBar(
-            title: doctor == null ? 'Новый врач' : doctor.name,
-            leading: const BackLeading(text: 'Мои врачи'),
+            title: doctor == null ? 'titleAddNewDoctor'.tr : doctor.name,
+            leading: BackLeading(text: 'mainDoctorListTitle'.tr),
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -45,7 +45,7 @@ class NewDoctorScreen extends StatelessWidget {
                                   haveFormatter: false,
                                   initialValue: doctor?.name,
                                   type: TextInputType.text,
-                                  label: 'Имя врача',
+                                  label: 'doctorNameText'.tr,
                                 ),
                               ),
                             ),
@@ -57,7 +57,8 @@ class NewDoctorScreen extends StatelessWidget {
                                   haveFormatter: false,
                                   initialValue: doctor?.email,
                                   type: TextInputType.emailAddress,
-                                  label: 'Email',
+                                  formatRegExp: RegExp(Constants.emailRegex),
+                                  label: 'titleEmail'.tr,
                                 ),
                               ),
                             ),
@@ -71,7 +72,7 @@ class NewDoctorScreen extends StatelessWidget {
                                   initialValue: doctor?.comment,
                                   haveFormatter: false,
                                   type: TextInputType.text,
-                                  label: 'Комментарий (необязательно)',
+                                  label: 'titleComment'.tr,
                                 ),
                               ),
                             ),
@@ -80,7 +81,7 @@ class NewDoctorScreen extends StatelessWidget {
                                 doctor == null)
                               EmmaFilledButton(
                                 width: 288.w,
-                                title: 'Сохранить',
+                                title: 'saveButtonText'.tr,
                                 isActive: bloc.canSave,
                                 onTap: () {
                                   if (doctor == null) {
@@ -100,7 +101,7 @@ class NewDoctorScreen extends StatelessWidget {
                                 padding: EdgeInsets.only(top: 24.h),
                                 child: EmmaFilledButton(
                                   width: 288.w,
-                                  title: 'Удалить',
+                                  title: 'removeExecutionLabel'.tr,
                                   activeColor: AppColors.cFF3B30,
                                   isActive: true,
                                   onTap: () {

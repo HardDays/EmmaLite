@@ -6,6 +6,7 @@ import 'package:emma_mobile/ui/screens/sync/sync_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
 class SyncInfoScreen extends StatelessWidget {
   const SyncInfoScreen({
@@ -15,9 +16,8 @@ class SyncInfoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SyncScreen(
-      text:
-          'На следующем экране нажмите «Включить все категории» или выберите те данные, которые вы разрешаете считывать и записывать, затем нажмите «Разрешить». Мы обеспечим конфиденциальность и защиту ваших данных.',
-      buttonTitle: 'Далее',
+      text: 'activateHintAppleHealthSubTitle'.tr,
+      buttonTitle: 'furtherButtonTitle'.tr,
       onNext: () {
         final bloc = context.read<SyncCubit>();
         bloc.init().then((value) async {

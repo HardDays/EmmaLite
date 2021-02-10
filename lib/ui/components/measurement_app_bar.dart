@@ -10,6 +10,7 @@ import 'package:emma_mobile/ui/screens/measurement/measurement_new.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
 class MeasurementDetailAppBar extends StatelessWidget {
   final String title;
@@ -97,7 +98,7 @@ class _TopRow extends StatelessWidget {
         padding: EdgeInsets.only(top: 11.h),
         child: Row(
           children: [
-            BackLeading(text: arrowText ?? 'Измерения'),
+            BackLeading(text: arrowText ?? 'measurementsTitleLabel'.tr),
             const Spacer(),
             Padding(
               padding: EdgeInsets.only(
