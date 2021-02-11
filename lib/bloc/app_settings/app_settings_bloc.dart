@@ -47,7 +47,7 @@ class AppSettingsBloc extends Cubit<AppSettingsState> {
       ),
     );
     _appSettings.lightTheme = themeMode == ThemeMode.light;
-    _updateSettings();
+    Future.delayed(const Duration(milliseconds: 100), _updateSettings);
   }
 
   void setFirstRun() {

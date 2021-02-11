@@ -1,3 +1,5 @@
+import 'package:emma_mobile/bloc/app_settings/app_settings_bloc.dart';
+import 'package:emma_mobile/bloc/app_settings/app_settings_state.dart';
 import 'package:emma_mobile/ui/components/bottom_navigation/custom_bottom_navigation_bar.dart';
 import 'package:emma_mobile/ui/screens/assignment/assignments_screen.dart';
 import 'package:emma_mobile/ui/screens/main/main_screen.dart';
@@ -5,6 +7,7 @@ import 'package:emma_mobile/ui/screens/measurement/measurements_screen.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NavigatorScreen extends StatefulWidget {
 
@@ -39,52 +42,56 @@ class _NavigatorScreenState extends State<NavigatorScreen> {
         FocusScope.of(context).unfocus();
       },
       behavior: HitTestBehavior.opaque,
-      child: Scaffold(
-        backgroundColor: AppColors.cF5F7FA,
-        resizeToAvoidBottomInset: false,
-        body: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            Column(
+      child: BlocBuilder<AppSettingsBloc, AppSettingsState>(
+        builder: (_, __) {
+          return Scaffold(
+            backgroundColor: AppColors.cF5F7FA,
+            resizeToAvoidBottomInset: false,
+            body: Stack(
+              alignment: Alignment.bottomCenter,
               children: [
-                Expanded(
-                  child: IndexedStack(
-                    sizing: StackFit.expand,
-                    index: _currentIndex,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 56.h),
-                        child: MainScreen(),
+                Column(
+                  children: [
+                    Expanded(
+                      child: IndexedStack(
+                        sizing: StackFit.expand,
+                        index: _currentIndex,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 56.h),
+                            child: MainScreen(),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 56.h),
+                            child: MeasurementScreen(),
+                          ),
+                          Container(color: AppColors.cF5F7FA),
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 56.h),
+                            child: AssignmentsScreen(),
+                          ),
+                          otherScreen ?? Container(),
+                        ],
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 56.h),
-                        child: MeasurementScreen(),
-                      ),
-                      Container(color: AppColors.cF5F7FA),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 56.h),
-                        child: AssignmentsScreen(),
-                      ),
-                      otherScreen ?? Container(),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
+                BottomNavigationBarCustom(
+                  onTap: _setIndex,
+                  activeIndex: _currentIndex,
+                  otherTabPage: (screen) {
+                    _setIndex(4);
+                    otherScreen = screen;
+                  },
+                ),
+                // _Bottom(
+                //   index: _currentIndex,
+                //   onChangeIndex: _setIndex,
+                // ),
               ],
             ),
-            BottomNavigationBarCustom(
-              onTap: _setIndex,
-              activeIndex: _currentIndex,
-              otherTabPage: (screen) {
-                _setIndex(4);
-                otherScreen = screen;
-              },
-            ),
-            // _Bottom(
-            //   index: _currentIndex,
-            //   onChangeIndex: _setIndex,
-            // ),
-          ],
-        ),
+          );
+        }
       ),
     );
   }
