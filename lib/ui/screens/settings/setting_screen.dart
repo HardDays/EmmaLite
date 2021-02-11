@@ -35,13 +35,13 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   icon: AppIcons.privacy(),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 8.h),
-                  child: SettingsItem(
-                    title: 'Память',
-                    icon: AppIcons.memory(),
-                  ),
-                ),
+                // Padding(
+                //   padding: EdgeInsets.only(top: 8.h),
+                //   child: SettingsItem(
+                //     title: 'Память',
+                //     icon: AppIcons.memory(),
+                //   ),
+                // ),
                 Padding(
                   padding: EdgeInsets.only(top: 8.h),
                   child: SettingsItem(

@@ -1,3 +1,4 @@
+import 'package:emma_mobile/models/assignment/assignment.dart';
 import 'package:emma_mobile/models/assignment/tasks.dart';
 import 'package:emma_mobile/models/time_enum.dart';
 import 'package:emma_mobile/models/time_range.dart';
@@ -21,13 +22,17 @@ class Static {
 
   static Future<void> init() async {
     _instance ??= Static._internal();
+    await _initLocalNotifications();
+  }
+
+  static Future<void> _initLocalNotifications() async {
     _notificationsPlugin = FlutterLocalNotificationsPlugin();
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('app_icon');
+    AndroidInitializationSettings('app_icon');
     const IOSInitializationSettings initializationSettingsIOS =
-        IOSInitializationSettings();
+    IOSInitializationSettings();
     const MacOSInitializationSettings initializationSettingsMacOS =
-        MacOSInitializationSettings();
+    MacOSInitializationSettings();
     const initializationSettings = InitializationSettings(
         android: initializationSettingsAndroid,
         iOS: initializationSettingsIOS,
@@ -57,6 +62,13 @@ class Static {
       uiLocalNotificationDateInterpretation: null,
       androidAllowWhileIdle: true,
     );
+  }
+
+  static Future<void> reloadNotifications(List<Assignment> assignments) async {
+    removeAllNotification();
+    for (var i in assignments) {
+      i.createNotifications();
+    }
   }
 
   static void removeAllNotification() {

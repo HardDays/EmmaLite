@@ -24,6 +24,9 @@ class ProfileCubit extends Cubit<ProfileState> {
   List<User> get users => _users;
 
   Color colorIfEmpty(User user) {
+    if (user.photo.isNotEmpty) {
+      return Colors.transparent;
+    }
     final maleColors = [
       AppColors.c7ADDFD,
       AppColors.c8DCBF8,

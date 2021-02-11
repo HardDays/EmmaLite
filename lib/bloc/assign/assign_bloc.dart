@@ -25,8 +25,10 @@ class AssignBloc extends Cubit<AssignState> {
     }
     final now = DateTime.now();
     bufList.sort(
-      (i, j) =>
-          i.dateTime.difference(now).abs().compareTo(j.dateTime.difference(now).abs()),
+      (i, j) => i.dateTime
+          .difference(now)
+          .abs()
+          .compareTo(j.dateTime.difference(now).abs()),
     );
     return bufList;
   }
@@ -76,11 +78,11 @@ class AssignBloc extends Cubit<AssignState> {
 
   void _init() {
     _assignment = _assignmentLocalRepository.getAssignment();
-    final assignments = _assignmentLocalRepository.getAllAssignment();
-    Static.removeAllNotification();
-    for (var i in assignments) {
-      i.createNotifications();
-    }
+  }
+
+  void reloadNotifications() {
+    final assignments = AssignmentLocalRepository().getAllAssignment();
+    Static.reloadNotifications(assignments);
   }
 
   void reload() {

@@ -94,7 +94,7 @@ class _PassKeyState extends State<PassKey> {
                         localAuthType: widget.localAuthType,
                         onTap: widget.onFaceIdTap,
                       )
-                    : SizedBox(width: 64.w),
+                    : SizedBox(width: 54.w),
                 _PassKeyItem(text: 0, onTap: _onAddValue),
                 _DeleteButton(onTap: _onDelete),
               ],
@@ -172,7 +172,7 @@ class __DeleteButtonState extends State<_DeleteButton> {
               child: Transform.scale(
                 scale: 1.3,
                 child: AppIcons.delete(
-                  color: _isActive ? AppColors.c00ACE3 : AppColors.cEBEEF3,
+                  color: _isActive ? AppColors.c00ACE3 : AppColors.cF5F7FA,
                 ),
               ),
             ),
@@ -228,7 +228,7 @@ class __PassKeyItemState extends State<_PassKeyItem> {
         height: 54.w,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: _isActive ? AppColors.c00ACE3 : AppColors.cEBEEF3,
+          color: _isActive ? AppColors.c00ACE3 : AppColors.cF5F7FA,
         ),
         child: Center(
           child: Text(

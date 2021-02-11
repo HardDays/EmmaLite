@@ -41,7 +41,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               child: Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 15.h),
+                    padding: EdgeInsets.only(top: 16.h),
                     child: SizedBox(
                       width: 180.w,
                       child: Text(
@@ -53,15 +53,20 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       ),
                     ),
                   ),
-                  DefaultContainer(
-                    child: InputTextField(
-                      label: 'Старый пароль',
-                      formatter: LengthLimitingTextInputFormatter(4),
-                      onChange: (s) {
-                        _oldPassword = s;
-                      },
+                  if (context.bloc<AppSettingsBloc>().appSettings.password !=
+                      null)
+                    Padding(
+                      padding: EdgeInsets.only(top: 16.h),
+                      child: DefaultContainer(
+                        child: InputTextField(
+                          label: 'Старый пароль',
+                          formatter: LengthLimitingTextInputFormatter(4),
+                          onChange: (s) {
+                            _oldPassword = s;
+                          },
+                        ),
+                      ),
                     ),
-                  ),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 8.h),
                     child: DefaultContainer(

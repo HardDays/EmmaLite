@@ -1,5 +1,6 @@
 import 'package:emma_mobile/bloc/app_settings/app_settings_bloc.dart';
 import 'package:emma_mobile/bloc/app_settings/app_settings_state.dart';
+import 'package:emma_mobile/bloc/assign/assign_bloc.dart';
 import 'package:emma_mobile/models/language.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
@@ -39,6 +40,7 @@ class LanguageScreen extends StatelessWidget {
                       context
                           .bloc<AppSettingsBloc>()
                           .setLocale(languages[i].locale);
+                      context.bloc<AssignBloc>().reloadNotifications();
                     },
                     minHeight: 68.h,
                     child: Row(
