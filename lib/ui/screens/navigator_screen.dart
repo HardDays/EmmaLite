@@ -24,12 +24,6 @@ class _NavigatorScreenState extends State<NavigatorScreen> {
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-
-  }
-
   Widget otherScreen;
 
   @override

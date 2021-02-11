@@ -270,6 +270,7 @@ class _RestoreButtons extends StatelessWidget {
         ),
         EmmaFilledButton(
           onTap: () {
+            bloc.assignment.clearNotifications();
             context.bloc<AssignBloc>().deleteAssignment(bloc.assignment);
             Navigator.of(context).pop();
           },

@@ -3,6 +3,7 @@ import 'package:emma_mobile/models/assignment/assign_type.dart';
 import 'package:emma_mobile/models/assignment/assign_unit.dart';
 import 'package:emma_mobile/models/assignment/tasks.dart';
 import 'package:emma_mobile/repositories/app_local_repository.dart';
+import 'package:emma_mobile/repositories/profile_local_repository.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:equatable/equatable.dart';
 
@@ -137,6 +138,27 @@ class Assignment extends Equatable {
     for (var i = 0; i < runTasks.length; i++) {
       if (runTasks[i].dateTime.isAfter(now)) {
         runTasks[i] = runTasks[i].copyWith(enable: false);
+        Static.removeNotification(task: runTasks[i]);
+      }
+    }
+  }
+
+  void createNotifications() {
+    final assignUser = ProfileLocalRepository().getUserById(id: userId);
+    for (var i in runTasks) {
+      if (i.enable && !i.completed)
+        Static.addNotification(
+          task: i,
+          title: name,
+          subtitle: assignUser.notificationSubtitle,
+        );
+    }
+  }
+
+  void clearNotifications() {
+    for (var i in runTasks) {
+      if (!i.completed || i.enable) {
+        Static.removeNotification(task: i);
       }
     }
   }
@@ -154,6 +176,7 @@ class Assignment extends Equatable {
     }
     stoppedTime = null;
     runTasks.removeWhere((e) => !e.enable);
+    createNotifications();
   }
 
   void generateTasks() {
@@ -165,6 +188,8 @@ class Assignment extends Equatable {
           type: type,
           assignName: name,
           assignId: id,
+          id: (DateTime.now().millisecondsSinceEpoch / 1000).round(),
+          enable: true,
         ),
       );
     } else {
@@ -175,6 +200,8 @@ class Assignment extends Equatable {
       }
     }
     runTasks.sort((i, j) => i.dateTime.compareTo(j.dateTime));
+
+    createNotifications();
   }
 
   void _generateRegular() {
@@ -218,6 +245,7 @@ class Assignment extends Equatable {
         assignName: name,
         type: type,
         assignId: id,
+        id: (DateTime.now().millisecondsSinceEpoch / 1000).round(),
       );
       runTasks.add(task);
     }

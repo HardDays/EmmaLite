@@ -12,6 +12,7 @@ import 'package:emma_mobile/models/measurements/blood_sugar.dart';
 import 'package:emma_mobile/models/measurements/height_model.dart';
 import 'package:emma_mobile/models/measurements/pulse.dart';
 import 'package:emma_mobile/models/measurements/temperature.dart';
+import 'package:emma_mobile/models/messages/messages.dart';
 import 'package:emma_mobile/models/user/user.dart';
 import 'package:emma_mobile/repositories/app_local_repository.dart';
 import 'package:emma_mobile/repositories/measurement_local_repository.dart';
@@ -28,12 +29,12 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:emma_mobile/models/messages/messages.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initHive();
   await HiveBoxes().init();
+  await Static.init();
 
   final _localRepo = AppLocalRepository();
   final settings = _localRepo.getSettings();
@@ -55,11 +56,10 @@ Future<void> main() async {
       brightness: settings.lightTheme ? Brightness.light : Brightness.dark,
       cupertinoOverrideTheme: CupertinoThemeData(
           textTheme: CupertinoTextThemeData(
-            dateTimePickerTextStyle: TextStyle(
-              fontSize: 20,
-            ),
-          )
-      ),
+        dateTimePickerTextStyle: TextStyle(
+          fontSize: 20,
+        ),
+      )),
       canvasColor: Colors.transparent,
       primaryColor: AppColors.c00ACE3,
     ),

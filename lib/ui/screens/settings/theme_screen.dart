@@ -1,5 +1,6 @@
 import 'package:emma_mobile/bloc/app_settings/app_settings_bloc.dart';
 import 'package:emma_mobile/bloc/app_settings/app_settings_state.dart';
+import 'package:emma_mobile/bloc/assign/assign_bloc.dart';
 import 'package:emma_mobile/bloc/measurement_detail_bloc/measurement_detail_bloc.dart';
 import 'package:emma_mobile/models/measurements/temperature.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
@@ -147,9 +148,8 @@ class _ThemeScreenState extends State<ThemeScreen> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            context
-                                .bloc<AppSettingsBloc>()
-                                .setTheme(ThemeMode.light);
+                            context.bloc<AssignBloc>().reload();
+                            bloc.setTheme(ThemeMode.light);
                           },
                           child: Container(
                             width: 138.w,
@@ -170,9 +170,8 @@ class _ThemeScreenState extends State<ThemeScreen> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            context
-                                .bloc<AppSettingsBloc>()
-                                .setTheme(ThemeMode.dark);
+                            context.bloc<AssignBloc>().reload();
+                            bloc.setTheme(ThemeMode.dark);
                           },
                           child: Container(
                             width: 138.w,

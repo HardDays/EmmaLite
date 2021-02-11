@@ -51,18 +51,18 @@ class User extends HiveObject {
   }
 
   User copy() => User(
-    id: id,
-    height: height,
-    email: email,
-    photo: photo,
-    phone: phone,
-    lastName: lastName,
-    firstName: firstName,
-    birthday: birthday,
-    genderId: genderId,
-    status: status,
-    weight: weight,
-  );
+        id: id,
+        height: height,
+        email: email,
+        photo: photo,
+        phone: phone,
+        lastName: lastName,
+        firstName: firstName,
+        birthday: birthday,
+        genderId: genderId,
+        status: status,
+        weight: weight,
+      );
 
   Gender get gender => genderId == null ? null : Gender.values[genderId];
 
@@ -71,6 +71,12 @@ class User extends HiveObject {
   DateTime get date => birthday == null ? null : DateTime.parse(birthday);
 
   String get initials => '${firstName.first}${lastName.first}';
+
+  String get notificationSubtitle {
+    return status.isEmpty
+        ? '$firstName, выполните назначение!'
+        : 'Члену вашей семьи "$firstName" необходимо выполнить назначение!';
+  }
 
   String get statusWithDefault {
     if (status.isEmpty) {

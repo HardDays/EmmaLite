@@ -172,8 +172,14 @@ class AppIcons {
   }
 
   static Widget minus() {
-    return SvgPicture.asset(
-      'assets/icons/minus.svg',
+    return Container(
+      width: 16,
+      height: 3,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        color: AppColors.c00ACE3,
+      ),
+      clipBehavior: Clip.antiAlias,
     );
   }
 

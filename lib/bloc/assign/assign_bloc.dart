@@ -76,6 +76,11 @@ class AssignBloc extends Cubit<AssignState> {
 
   void _init() {
     _assignment = _assignmentLocalRepository.getAssignment();
+    final assignments = _assignmentLocalRepository.getAllAssignment();
+    Static.removeAllNotification();
+    for (var i in assignments) {
+      i.createNotifications();
+    }
   }
 
   void reload() {

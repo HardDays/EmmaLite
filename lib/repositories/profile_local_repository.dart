@@ -10,6 +10,12 @@ class ProfileLocalRepository {
     return _hiveBoxes.userBox.values.map((e) => e as User).toList();
   }
 
+  User getUserById({int id}) {
+    return _hiveBoxes.userBox.values
+        .map((e) => e as User)
+        .firstWhere((e) => e.id == id);
+  }
+
   User getCurrentUser() {
     try {
       final currentUserId = _appLocalRepository.currentUserId;

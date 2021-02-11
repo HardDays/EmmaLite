@@ -15,6 +15,12 @@ class AssignmentLocalRepository {
         .toList();
   }
 
+  List<Assignment> getAllAssignment() {
+    return _hiveBoxes.assignmentBox.values
+        .map((e) => Assignment.fromJson(e))
+        .toList();
+  }
+
   void addAssignment(Assignment assign) =>
       _hiveBoxes.assignmentBox.add(assign.toJson());
 

@@ -11,6 +11,7 @@ class RunTask {
   final AssignType type;
   final String assignName;
   final int assignId;
+  final int id;
 
   const RunTask({
     this.enable = true,
@@ -20,6 +21,7 @@ class RunTask {
     this.assignName = '',
     this.assignId,
     this.completedDate,
+    this.id,
   });
 
   bool get completed => completedDate != null;
@@ -35,6 +37,7 @@ class RunTask {
       completedDate: json['completedDate'] == null
           ? null
           : DateTime.parse(json['completedDate']),
+      id: json['id'],
     );
   }
 
@@ -47,6 +50,7 @@ class RunTask {
       count: count,
       type: type,
       completedDate: completedDate ?? this.completedDate,
+      id: id,
     );
   }
 
@@ -59,6 +63,7 @@ class RunTask {
     data['typeId'] = type.index;
     data['assignName'] = assignName;
     data['assignId'] = assignId;
+    data['id'] = id;
     return data;
   }
 

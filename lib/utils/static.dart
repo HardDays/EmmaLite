@@ -1,7 +1,11 @@
+import 'package:emma_mobile/models/assignment/tasks.dart';
 import 'package:emma_mobile/models/time_enum.dart';
 import 'package:emma_mobile/models/time_range.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 class Static {
   static Static _instance;
@@ -11,10 +15,56 @@ class Static {
     return _instance;
   }
 
+  static FlutterLocalNotificationsPlugin _notificationsPlugin;
+
   Static._internal();
 
   static Future<void> init() async {
     _instance ??= Static._internal();
+    _notificationsPlugin = FlutterLocalNotificationsPlugin();
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('app_icon');
+    const IOSInitializationSettings initializationSettingsIOS =
+        IOSInitializationSettings();
+    const MacOSInitializationSettings initializationSettingsMacOS =
+        MacOSInitializationSettings();
+    const initializationSettings = InitializationSettings(
+        android: initializationSettingsAndroid,
+        iOS: initializationSettingsIOS,
+        macOS: initializationSettingsMacOS);
+    await _notificationsPlugin.initialize(initializationSettings);
+
+    tz.initializeTimeZones();
+  }
+
+  static void addNotification({RunTask task, String title, String subtitle}) {
+    final time = tz.TZDateTime.from(task.dateTime, tz.local);
+    if (time.isBefore(DateTime.now())) {
+      return;
+    }
+    _notificationsPlugin.zonedSchedule(
+      task.id,
+      title,
+      subtitle,
+      tz.TZDateTime.from(task.dateTime, tz.local),
+      const NotificationDetails(
+        android: AndroidNotificationDetails(
+          'your channel id',
+          'Название',
+          'Описание',
+        ),
+      ),
+      uiLocalNotificationDateInterpretation: null,
+      androidAllowWhileIdle: true,
+    );
+  }
+
+  static void removeAllNotification() {
+    _notificationsPlugin.cancelAll();
+  }
+
+  static void removeNotification({RunTask task}) {
+    _notificationsPlugin.cancel(task.id);
   }
 
   static void lightStatusBarTheme() {
@@ -63,8 +113,8 @@ class Static {
       times.add(
         TimeRange(
           type: type,
-          timeFrom: DateTime(
-              roundDate.year, roundDate.month, roundDate.day, 0, 0, 0),
+          timeFrom:
+              DateTime(roundDate.year, roundDate.month, roundDate.day, 0, 0, 0),
           timeTo: DateTime(
               roundDate.year, roundDate.month, roundDate.day, 23, 59, 59),
         ),
