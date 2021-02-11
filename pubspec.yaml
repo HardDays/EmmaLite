@@ -57,6 +57,9 @@ dependencies:
   printing: ^4.0.0
   get: ^3.24.0
   flutter_local_notifications: ^4.0.1
+  rxdart: ^0.25.0
+  flutter_keyboard_size: ^0.1.2+2
+  keyboard_utils: ^1.2.4
 
 dev_dependencies:
   flutter_test:

@@ -7,7 +7,6 @@ import 'package:emma_mobile/bloc/profile/profile_cubit.dart';
 import 'package:emma_mobile/bloc/profile/profile_state.dart';
 import 'package:emma_mobile/bloc/profile_screen/profile_screen_bloc.dart';
 import 'package:emma_mobile/bloc/profile_screen/profile_screen_state.dart';
-import 'package:emma_mobile/models/user/user.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
@@ -22,6 +21,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:keyboard_utils/keyboard_aware/keyboard_aware.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -51,137 +51,191 @@ class ProfileScreen extends StatelessWidget {
 class _CurrentProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final bloc = context.bloc<ProfileCubit>();
-    return Column(
-      children: [
-        EmmaAppBar(title: 'profileViewLabel'.tr),
-        Expanded(
-          child: SingleChildScrollView(
-            padding: EdgeInsets.zero,
-            physics: const BouncingScrollPhysics(),
-            child: Stack(
-              children: [
-                Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 32.h),
-                      child: SingleChildScrollView(
-                        padding: EdgeInsets.symmetric(horizontal: 44.w),
-                        scrollDirection: Axis.horizontal,
-                        physics: const BouncingScrollPhysics(),
-                        child: Row(
-                          children: [
-                            Opacity(
-                              opacity: bloc.users.length == 1 ? 0 : 1,
-                              child: GestureDetector(
-                                onTap: () {
-                                  if (bloc.users.length != 1) {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (_) => ProfileSettings(),
-                                      ),
-                                    );
-                                  }
-                                },
-                                child: Container(
-                                  width: 44.w,
-                                  height: 44.w,
-                                  margin: EdgeInsets.only(right: 24.w),
-                                  decoration: profileImageDecoration(
-                                    color: AppColors.cFFFFFF,
-                                  ),
-                                  child: Center(
-                                    child: AppIcons.settings(),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 132.w,
-                              child: ListView.separated(
-                                itemCount: bloc.users.length,
-                                shrinkWrap: true,
-                                padding: EdgeInsets.zero,
-                                physics: const NeverScrollableScrollPhysics(),
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (_, i) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      context.bloc<ProfileCubit>().setUser(
-                                            bloc.users[i],
-                                          );
-                                      context.bloc<MeasurementCubit>().reload();
-                                      context.bloc<DoctorsBloc>().reload();
-                                      context.bloc<AssignBloc>().reload();
-                                    },
-                                    child: ProfileImage(
-                                      size: 120.w,
-                                      user: bloc.users[i],
+    final profileBloc = context.bloc<ProfileCubit>();
+    return BlocProvider(
+      create: (_) =>
+          ProfileScreenBloc(initUser: profileBloc.currentUser.copy()),
+      key: Key(profileBloc.currentUser.id.toString()),
+      child: Builder(
+        builder: (context) {
+          final bloc = context.bloc<ProfileScreenBloc>();
+          return Column(
+            children: [
+              EmmaAppBar(title: 'profileViewLabel'.tr),
+              BlocBuilder<ProfileScreenBloc, ProfileScreenState>(
+                builder: (_, __) {
+                  return Expanded(
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.zero,
+                      physics: const BouncingScrollPhysics(),
+                      child: Stack(
+                        children: [
+                          Column(
+                            children: [
+                              _TopList(),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                child: Column(
+                                  children: [
+                                    Provider.value(
+                                      value: bloc.user,
+                                      child: ProfileFields(),
                                     ),
-                                  );
-                                },
-                                separatorBuilder: (_, __) {
-                                  return Padding(
-                                    padding: EdgeInsets.only(left: 16.w),
-                                  );
-                                },
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (_) => NewProfileScreen(),
-                                  ),
-                                );
-                              },
-                              child: Container(
-                                width: 44.w,
-                                height: 44.w,
-                                margin: EdgeInsets.only(left: 24.w),
-                                decoration: profileImageDecoration(
-                                  color: AppColors.cFFFFFF,
+                                    DefaultContainer(
+                                      child: InputTextField(
+                                        enable: bloc.user.status.isNotEmpty,
+                                        label: 'Статус',
+                                        onChange: bloc.setStatus,
+                                        initialValue:
+                                            bloc.user.statusWithDefault,
+                                      ),
+                                    ),
+                                    StreamBuilder<bool>(
+                                      stream: bloc.updateStream,
+                                      initialData: false,
+                                      builder: (_, sn) {
+                                        return Visibility(
+                                          visible: sn.data,
+                                          child: Padding(
+                                            padding: EdgeInsets.only(top: 16.h),
+                                            child: EmmaFilledButton(
+                                              title: 'saveButtonText'.tr,
+                                              onTap: () {
+                                                profileBloc
+                                                    .updateUser(bloc.user);
+                                                bloc.closeUpdate();
+                                              },
+                                              isActive: bloc.canSave,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                    KeyboardAware(
+                                      builder: (_, opt) {
+                                        return Padding(
+                                          padding: EdgeInsets.only(
+                                            top: opt.isKeyboardOpen
+                                                ? opt.keyboardHeight + 16.h
+                                                : 72.h,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
                                 ),
-                                child: Center(
-                                  child: AppIcons.plus(
-                                    size: 16.w,
-                                    color: AppColors.cA0B4CB,
-                                  ),
-                                ),
                               ),
-                            ),
-                          ],
-                        ),
+                            ],
+                          ),
+                          _Arrow()
+                        ],
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      child: IgnorePointer(
-                        ignoring: true,
-                        key: ValueKey(context.watch<User>().id.toString()),
-                        child: Column(
-                          children: [
-                            ProfileFields(),
-                            DefaultContainer(
-                              child: InputTextField(
-                                label: 'Статус',
-                                initialValue:
-                                    bloc.currentUser.statusWithDefault,
-                              ),
-                            )
-                          ],
-                        ),
+                  );
+                },
+              )
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _TopList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final bloc = context.bloc<ProfileCubit>();
+    return Padding(
+      padding: EdgeInsets.only(top: 32.h),
+      child: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: 44.w),
+        scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
+        child: Row(
+          children: [
+            Opacity(
+              opacity: bloc.users.length == 1 ? 0 : 1,
+              child: GestureDetector(
+                onTap: () {
+                  if (bloc.users.length != 1) {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => ProfileSettings(),
                       ),
-                    ),
-                    Padding(padding: EdgeInsets.only(top: 80.h)),
-                  ],
+                    );
+                  }
+                },
+                child: Container(
+                  width: 44.w,
+                  height: 44.w,
+                  margin: EdgeInsets.only(right: 24.w),
+                  decoration: profileImageDecoration(
+                    color: AppColors.cFFFFFF,
+                  ),
+                  child: Center(
+                    child: AppIcons.settings(),
+                  ),
                 ),
-                _Arrow()
-              ],
+              ),
             ),
-          ),
-        )
-      ],
+            SizedBox(
+              height: 132.w,
+              child: ListView.separated(
+                itemCount: bloc.users.length,
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                physics: const NeverScrollableScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (_, i) {
+                  return GestureDetector(
+                    onTap: () {
+                      context.bloc<ProfileCubit>().setUser(
+                            bloc.users[i],
+                          );
+                      context.bloc<MeasurementCubit>().reload();
+                      context.bloc<DoctorsBloc>().reload();
+                      context.bloc<AssignBloc>().reload();
+                    },
+                    child: ProfileImage(
+                      size: 120.w,
+                      user: bloc.users[i],
+                    ),
+                  );
+                },
+                separatorBuilder: (_, __) {
+                  return Padding(
+                    padding: EdgeInsets.only(left: 16.w),
+                  );
+                },
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => NewProfileScreen(),
+                  ),
+                );
+              },
+              child: Container(
+                width: 44.w,
+                height: 44.w,
+                margin: EdgeInsets.only(left: 24.w),
+                decoration: profileImageDecoration(
+                  color: AppColors.cFFFFFF,
+                ),
+                child: Center(
+                  child: AppIcons.plus(
+                    size: 16.w,
+                    color: AppColors.cA0B4CB,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -277,7 +331,8 @@ class __ArrowState extends State<_Arrow> with SingleTickerProviderStateMixin {
                               right: 16.w,
                             ),
                             child: Text(
-                              'pressPlusButtonHintForCreateNewProfileSubmitButtonTitle'.tr,
+                              'pressPlusButtonHintForCreateNewProfileSubmitButtonTitle'
+                                  .tr,
                               style: AppTypography.font12.copyWith(
                                 color: AppColors.c00ACE3,
                               ),

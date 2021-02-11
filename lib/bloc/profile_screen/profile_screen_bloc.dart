@@ -4,6 +4,7 @@ import 'package:emma_mobile/ui/screens/crop_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rxdart/subjects.dart';
 
 class ProfileScreenBloc extends Cubit<ProfileScreenState> {
   ProfileScreenBloc({
@@ -11,24 +12,23 @@ class ProfileScreenBloc extends Cubit<ProfileScreenState> {
     bool checkStatus,
   }) : super(ProfileScreenState()) {
     _user = initUser ?? User();
-    _canEdit = initUser = null;
     _canSave = false;
     _checkStatus = checkStatus ?? false;
   }
+
+  final _updateSubject = BehaviorSubject<bool>();
 
   User _user;
 
   bool _checkStatus;
 
-  bool _canEdit;
-
   bool _canSave;
 
   User get user => _user;
 
-  bool get canEdit => _canEdit;
-
   bool get canSave => _user.canSave(checkStatus: _checkStatus);
+
+  Stream<bool> get updateStream => _updateSubject.stream.distinct();
 
   Future<void> pickPhoto(
       {BuildContext context, ImageSource imageSource}) async {
@@ -107,6 +107,7 @@ class ProfileScreenBloc extends Cubit<ProfileScreenState> {
   }
 
   void _updateText() {
+    _updateSubject.add(true);
     if (_canSave != _user.canSave(checkStatus: _checkStatus)) {
       _canSave = !_canSave;
       _update();
@@ -114,6 +115,17 @@ class ProfileScreenBloc extends Cubit<ProfileScreenState> {
   }
 
   void _update() {
+    _updateSubject.add(true);
     emit(ProfileScreenState());
+  }
+
+  void closeUpdate() {
+    _updateSubject.add(false);
+  }
+
+  @override
+  Future<void> close() {
+    _updateSubject.close();
+    return super.close();
   }
 }

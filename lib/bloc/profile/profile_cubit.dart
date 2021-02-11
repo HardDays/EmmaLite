@@ -61,6 +61,13 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(ProfileState());
   }
 
+  void updateUser(User user) {
+    final index = _users.lastIndexWhere((e) => e.id == user.id);
+    _users[index] = user;
+    _repository.updateUserByIndex(index: index, user: user);
+    emit(ProfileState());
+  }
+
   void addUser(User user) {
     if (_users.first.isEmpty) {
       user.id = _users[0].id;
