@@ -52,11 +52,11 @@ class _LinearChartState extends State<LinearChart> {
         axisRight.enabled = true;
         axisRight.drawZeroLine = false;
         axisRight.setStartAtZero(false);
-        axisRight.axisLineColor = AppColors.cE1E4E9;
         axisRight.drawGridLines = true;
         axisRight.gridColor = AppColors.cE1E4E9;
         axisRight.textColor = AppColors.c9B9B9B;
         axisRight.textSize = Constants.textSize12;
+        axisRight.zeroLineColor = Colors.red;
         (controller as LineChartController).setViewPortOffsets(
           5.w,
           0,
@@ -140,7 +140,6 @@ class _LinearChartState extends State<LinearChart> {
     set1 = LineDataSet(values.isEmpty ? v : values, '', multiplier: 0.03);
 
     set1.setMode(Mode.LINEAR);
-    set1.setDrawFilled(true);
     set1.setCircleHoleColor(AppColors.cFFFFFF);
     set1.setCircleHoleRadius(3.w);
     set1.setCircleRadius(5.w);
@@ -152,6 +151,7 @@ class _LinearChartState extends State<LinearChart> {
     set1.setDrawCircles(true);
     set1.setColor1(AppColors.c00ACE3);
     set1.setDrawValues(true);
+    set1.setDrawFilled(false);
     set1.setDrawHorizontalHighlightIndicator(false);
     set1.setValueFormatter(
       ValueLabelFormatter(values.map((e) => e.y).toList()),

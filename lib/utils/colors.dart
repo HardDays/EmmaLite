@@ -31,7 +31,7 @@ class AppColors {
   static const Color cBFBFBF = Color(0xFFBFBFBF);
 
   static Color get cFFFFFF =>
-      Get.isDarkMode ? const Color(0xff262626) : Color(0xFFFFFFFF);
+      Get.isDarkMode ? const Color(0xff262626) : const Color(0xFFFFFFFF);
   static const Color cFFFDFD = Color(0xFFFFFDFD);
   static const Color cECEFFB = Color(0xFFECEFFB);
   static const Color c8E8E93 = Color(0xFF8E8E93);
