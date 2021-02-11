@@ -56,6 +56,14 @@ class AppIcons {
     );
   }
 
+  static Widget languageFlag({String path}) {
+    return SvgPicture.asset(
+      path,
+      width: 32,
+      height: 32,
+      fit: BoxFit.fill,
+    );
+  }
 
   static Widget health() {
     return SvgPicture.asset(
@@ -149,7 +157,8 @@ class AppIcons {
 
   static Widget calendar() {
     return SvgPicture.asset(
-      'assets/icons/calendar.svg',
+      'assets/icons/calendar_active.svg',
+      color: const Color(0xff78739A),
     );
   }
 

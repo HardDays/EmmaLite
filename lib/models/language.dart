@@ -2,11 +2,13 @@ abstract class Language {
   final String title;
   final String localizedTitle;
   final String locale;
+  final String iconPath;
 
   Language({
     this.title,
     this.locale,
     this.localizedTitle,
+    this.iconPath,
   });
 }
 
@@ -27,6 +29,9 @@ class RuLanguage implements Language {
 
   @override
   String get title => 'Русский';
+
+  @override
+  String get iconPath => 'assets/icons/russia.svg';
 }
 
 class DeLanguage implements Language {
@@ -38,6 +43,9 @@ class DeLanguage implements Language {
 
   @override
   String get title => 'Deutsche';
+
+  @override
+  String get iconPath => 'assets/icons/germany.svg';
 }
 
 class EnLanguage implements Language {
@@ -49,6 +57,9 @@ class EnLanguage implements Language {
 
   @override
   String get title => 'English';
+
+  @override
+  String get iconPath => 'assets/icons/united_kingdom.svg';
 }
 
 class FrLanguage implements Language {
@@ -60,6 +71,9 @@ class FrLanguage implements Language {
 
   @override
   String get title => 'Français';
+
+  @override
+  String get iconPath => 'assets/icons/france.svg';
 }
 
 class EsLanguage implements Language {
@@ -71,4 +85,7 @@ class EsLanguage implements Language {
 
   @override
   String get title => 'Español';
+
+  @override
+  String get iconPath => 'assets/icons/spain.svg';
 }

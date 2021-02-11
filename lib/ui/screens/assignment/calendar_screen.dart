@@ -11,6 +11,7 @@ class CalendarScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final markers = context.bloc<AssignBloc>().calendarMarkers();
     return Scaffold(
+      backgroundColor: AppColors.cF5F7FA,
       body: Column(
         children: [
           EmmaAppBar(

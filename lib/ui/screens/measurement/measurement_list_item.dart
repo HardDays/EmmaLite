@@ -36,7 +36,17 @@ class MeasurementListItem extends StatelessWidget {
             children: [
               Padding(
                 padding: EdgeInsets.only(right: 12.w),
-                child: AppIcons.measurementDefault(width: 44, height: 44),
+                child: Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    color: AppColors.cF5F7FA,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: AppIcons.measurementDefault(),
+                  ),
+                ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

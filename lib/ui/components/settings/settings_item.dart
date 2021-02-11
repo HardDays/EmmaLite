@@ -23,6 +23,7 @@ class SettingsItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultContainer(
       minHeight: 68.h,
+      maxHeight: 68.h,
       onTap: onTap,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -40,30 +41,49 @@ class SettingsItem extends StatelessWidget {
                 child: Center(child: icon),
               ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: 167.w,
-                  child: Text(
-                    title,
-                    style: AppTypography.font16.copyWith(
-                      color: AppColors.c3B4047,
-                    ),
+            Expanded(
+              child: SizedBox(
+                height: 44.w,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 3.h),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                title,
+                                style: AppTypography.font16.copyWith(
+                                  color: AppColors.c3B4047,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.only(top: 2.h)),
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                subtitle ?? '',
+                                style: AppTypography.font12.copyWith(
+                                  color: AppColors.c9B9B9B,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                if (subtitle != null)
-                  Text(
-                    subtitle,
-                    style: AppTypography.font12.copyWith(
-                      color: AppColors.c9B9B9B,
-                    ),
-                  )
-              ],
+              ),
             ),
-            const Spacer(),
-            if (subIcon != null)
-              subIcon,
+            if (subIcon != null) subIcon,
             AppIcons.arrowRight(),
           ],
         ),

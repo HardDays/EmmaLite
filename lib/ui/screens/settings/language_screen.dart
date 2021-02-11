@@ -2,6 +2,7 @@ import 'package:emma_mobile/bloc/app_settings/app_settings_bloc.dart';
 import 'package:emma_mobile/bloc/app_settings/app_settings_state.dart';
 import 'package:emma_mobile/models/language.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
+import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/components/measurement/default_container.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -23,27 +24,31 @@ class LanguageScreen extends StatelessWidget {
             title: 'titleSettingLanguage'.tr,
             leading: BackLeading(text: 'mainSettingsTitle'.tr, onTap: onTap),
           ),
-          BlocBuilder<AppSettingsBloc, AppSettingsState>(
-            builder: (_, __) {
-              return Expanded(
-                child: ListView.separated(
-                  padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 16.w),
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: languages.length,
-                  itemBuilder: (_, i) {
-                    final bool isActive =
-                        Get.locale.languageCode == languages[i].locale;
-                    return DefaultContainer(
-                      color: isActive ? AppColors.c00ACE3 : AppColors.cFFFFFF,
-                      onTap: () {
-                        context
-                            .bloc<AppSettingsBloc>()
-                            .setLocale(languages[i].locale);
-                      },
-                      minHeight: 68.h,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 16.w),
-                        child: Column(
+          BlocBuilder<AppSettingsBloc, AppSettingsState>(builder: (_, __) {
+            return Expanded(
+              child: ListView.separated(
+                padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 16.w),
+                physics: const BouncingScrollPhysics(),
+                itemCount: languages.length,
+                itemBuilder: (_, i) {
+                  final bool isActive =
+                      Get.locale.languageCode == languages[i].locale;
+                  return DefaultContainer(
+                    color: isActive ? AppColors.c00ACE3 : AppColors.cFFFFFF,
+                    onTap: () {
+                      context
+                          .bloc<AppSettingsBloc>()
+                          .setLocale(languages[i].locale);
+                    },
+                    minHeight: 68.h,
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15.w),
+                          child: AppIcons.languageFlag(
+                              path: languages[i].iconPath),
+                        ),
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -68,16 +73,16 @@ class LanguageScreen extends StatelessWidget {
                             )
                           ],
                         ),
-                      ),
-                    );
-                  },
-                  separatorBuilder: (_, __) {
-                    return Padding(padding: EdgeInsets.only(top: 8.h));
-                  },
-                ),
-              );
-            }
-          ),
+                      ],
+                    ),
+                  );
+                },
+                separatorBuilder: (_, __) {
+                  return Padding(padding: EdgeInsets.only(top: 8.h));
+                },
+              ),
+            );
+          }),
         ],
       ),
     );

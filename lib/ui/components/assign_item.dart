@@ -35,11 +35,21 @@ class AssignItem extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SvgPicture.asset(
-                      task.type.iconPath,
-                      width: 44.w,
-                      height: 44.h,
-                      fit: BoxFit.contain,
+                    SizedBox(
+                      width: 44,
+                      height: 44,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColors.cF5F7FA,
+                        ),
+                        child: Center(
+                          child: SvgPicture.asset(
+                            task.type.iconPath,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
                     ),
                     Expanded(
                       child: Padding(

@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 class AssignHistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final bloc = context.bloc<AssignBloc>();
     return Scaffold(
       backgroundColor: AppColors.cF5F7FA,
       body: Column(
@@ -23,6 +24,9 @@ class AssignHistoryScreen extends StatelessWidget {
           Expanded(
             child: BlocBuilder<AssignBloc, AssignState>(
               builder: (_, __) {
+                if (bloc.assignment.isEmpty) {
+                  return EmptyAssign();
+                }
                 return AssignHistory();
               },
             ),

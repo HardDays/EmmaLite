@@ -178,7 +178,7 @@ class _Data extends StatelessWidget {
     final detailBloc = context.bloc<AssignScreenBloc>();
 
     if (bloc.assignment.isEmpty) {
-      return _EmptyAssign();
+      return EmptyAssign();
     }
 
     if (detailBloc.state is HistoryAssignScreenState) {
@@ -358,11 +358,21 @@ class _ListItem extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 9.h, horizontal: 9.w),
-                  child: SvgPicture.asset(
-                    assignment.type.iconPath,
-                    width: 44.w,
-                    height: 44.h,
-                    fit: BoxFit.contain,
+                  child:  SizedBox(
+                    width: 44,
+                    height: 44,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.cF5F7FA,
+                      ),
+                      child: Center(
+                        child: SvgPicture.asset(
+                          assignment.type.iconPath,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 Column(
@@ -435,7 +445,7 @@ class _EmptyOrExpired extends StatelessWidget {
   }
 }
 
-class _EmptyAssign extends StatelessWidget {
+class EmptyAssign extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
