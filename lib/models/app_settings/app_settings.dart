@@ -37,6 +37,8 @@ class AppSettings extends HiveObject {
     this.password,
     this.useFaceId,
     this.usePassword,
+    this.locale,
+    this.lightTheme,
   }) {
     isFirstRun ??= true;
     showProfilePlusHelp ??= false;

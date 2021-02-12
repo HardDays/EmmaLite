@@ -4,6 +4,7 @@ import 'package:emma_mobile/bloc/assign_screen/assign_screen_bloc.dart';
 import 'package:emma_mobile/bloc/assign_screen/assign_screen_state.dart';
 import 'package:emma_mobile/models/assignment/assignment.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
+import 'package:emma_mobile/ui/components/assign/empty_or_expired.dart';
 import 'package:emma_mobile/ui/components/assign_item.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
 import 'package:emma_mobile/ui/components/chip.dart';
@@ -188,7 +189,7 @@ class _Data extends StatelessWidget {
     final tasks = bloc.getTaskInDay(date: detailBloc.activeDate);
     final formattedDay = detailBloc.activeDate.assignScreenFormatter;
     if (tasks.isEmpty) {
-      return _EmptyOrExpired(
+      return EmptyOrExpired(
         child: AppIcons.prescriptionsInactive(width: 44.w, height: 44.w),
         text: 'noPrescriptionsPlanTitle'
             .tr
@@ -203,7 +204,7 @@ class _Data extends StatelessWidget {
       } else {
         text = 'noPrescriptionsPlanNoIntakesTitle'.tr;
       }
-      return _EmptyOrExpired(
+      return EmptyOrExpired(
         child: AppIcons.prescriptionsInactive(
           width: 44.w,
           height: 44.w,
@@ -219,7 +220,7 @@ class _Data extends StatelessWidget {
       } else {
         text = 'noPrescriptionsPlanIntakesTitle'.tr;
       }
-      return _EmptyOrExpired(
+      return EmptyOrExpired(
         text: text.replaceAll(RegExp('#DATE#'), formattedDay.toLowerCase()),
         child: AppIcons.complete(
           size: 44.w,
@@ -358,7 +359,7 @@ class _ListItem extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 9.h, horizontal: 9.w),
-                  child:  SizedBox(
+                  child: SizedBox(
                     width: 44,
                     height: 44,
                     child: DecoratedBox(
@@ -427,24 +428,6 @@ class _ListTitle extends StatelessWidget {
   }
 }
 
-class _EmptyOrExpired extends StatelessWidget {
-  final Widget child;
-  final String text;
-
-  const _EmptyOrExpired({Key key, this.text, this.child}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: 56.h),
-      child: _BaseCenterWidget(
-        child: child,
-        text: text,
-      ),
-    );
-  }
-}
-
 class EmptyAssign extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -452,7 +435,7 @@ class EmptyAssign extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.only(top: 72.h),
-          child: _BaseCenterWidget(
+          child: BaseCenterWidget(
             child: AppIcons.prescriptionsInactive(
               width: 44.w,
               height: 44.w,
@@ -476,50 +459,6 @@ class EmptyAssign extends StatelessWidget {
             },
           ),
         )
-      ],
-    );
-  }
-}
-
-class _BaseCenterWidget extends StatelessWidget {
-  final Widget child;
-  final String text;
-
-  const _BaseCenterWidget({Key key, this.child, this.text}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: 120.w,
-          height: 120.w,
-          decoration: BoxDecoration(
-            color: AppColors.cFFFFFF,
-            shape: BoxShape.circle,
-            boxShadow: const [
-              BoxShadow(
-                offset: Offset(0, 3),
-                blurRadius: 4,
-                color: Color.fromRGBO(0, 0, 0, 0.12),
-              )
-            ],
-          ),
-          child: Center(child: child),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 24.h),
-          child: SizedBox(
-            width: 256.w,
-            child: Text(
-              text,
-              style: AppTypography.font14.copyWith(
-                color: AppColors.c9B9B9B,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
       ],
     );
   }

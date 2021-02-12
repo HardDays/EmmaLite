@@ -193,29 +193,33 @@ class CalendarState extends State<Calendar> {
                       final marketIndex =
                           isDateMarked(year, month, index + 2 - _startWeekday);
 
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.only(top: 5.h),
-                            child: Text(
-                              '${now.day}',
-                              style: style,
-                            ),
-                          ),
-                          if (marketIndex != -1 && isThisMonthDay)
-                            Padding(
-                              padding: EdgeInsets.only(top: 2.h),
-                              child: Container(
-                                width: 8.w,
-                                height: 8.h,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: widget.markedDates[marketIndex].color,
-                                ),
+                      return GestureDetector(
+                        onTap: () => widget.onDayPressed(now),
+                        behavior: HitTestBehavior.opaque,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.only(top: 5.h),
+                              child: Text(
+                                '${now.day}',
+                                style: style,
                               ),
-                            )
-                        ],
+                            ),
+                            if (marketIndex != -1 && isThisMonthDay)
+                              Padding(
+                                padding: EdgeInsets.only(top: 2.h),
+                                child: Container(
+                                  width: 8.w,
+                                  height: 8.h,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: widget.markedDates[marketIndex].color,
+                                  ),
+                                ),
+                              )
+                          ],
+                        ),
                       );
                     },
                   ),

@@ -1,6 +1,7 @@
 import 'package:emma_mobile/bloc/assign/assign_bloc.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
 import 'package:emma_mobile/ui/components/calendar.dart';
+import 'package:emma_mobile/ui/screens/assignment/assign_date_screen.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,6 +46,13 @@ class CalendarScreen extends StatelessWidget {
                   color: AppColors.c4A4A4A,
                 ),
                 markedDates: markers,
+                onDayPressed: (date) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => AssignDateScreen(date: date),
+                    ),
+                  );
+                },
               ),
             ),
           )

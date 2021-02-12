@@ -198,59 +198,72 @@ class _Fields extends StatelessWidget {
                       );
                     }
                   }
-                  final widget = await WidgetImage.create(
-                    measurementList: measurBloc.getForDateRange(
-                      start: report.startDate,
-                      end: report.endDate,
-                    ),
-                    assignBloc: assignBloc,
-                    tasks: tasks,
-                    user: user,
-                    report: report,
-                  );
-                  final image = await WidgetImage.getImage(widget: widget);
-                  final bytes = await CreatePdf.create(
-                    measurementList: measurBloc.getForDateRange(
-                      start: report.startDate,
-                      end: report.endDate,
-                    ),
-                    assignBloc: assignBloc,
-                    tasks: tasks,
-                    user: user,
-                    report: report,
-                  );
 
-                  pdf.addPage(
-                    pw.Page(
-                      pageFormat: PdfPageFormat(
-                        594,
-                        image.height.toDouble() + 100,
-                        marginAll: 32,
+                  File file;
+                  try {
+                    final widget = await WidgetImage.create(
+                      measurementList: measurBloc.getForDateRange(
+                        start: report.startDate,
+                        end: report.endDate,
                       ),
-                      build: (_) {
-                        return bytes;
-                      },
-                    ),
-                  );
+                      assignBloc: assignBloc,
+                      tasks: tasks,
+                      user: user,
+                      report: report,
+                    );
+                    final image = await WidgetImage.getImage(widget: widget);
+                    final bytes = await CreatePdf.create(
+                      measurementList: measurBloc.getForDateRange(
+                        start: report.startDate,
+                        end: report.endDate,
+                      ),
+                      assignBloc: assignBloc,
+                      tasks: tasks,
+                      user: user,
+                      report: report,
+                    );
 
-                  final dir = await getApplicationSupportDirectory();
-                  final file = File(
-                      '${dir.path}/${DateTime.now().millisecondsSinceEpoch}.pdf');
-                  if (!file.existsSync()) {
-                    file.createSync(recursive: true);
+                    pdf.addPage(
+                      pw.Page(
+                        pageFormat: PdfPageFormat(
+                          594,
+                          image.height.toDouble() + 100,
+                          marginAll: 32,
+                        ),
+                        build: (_) {
+                          return bytes;
+                        },
+                      ),
+                    );
+
+                    final dir = await getApplicationSupportDirectory();
+                    file = File(
+                        '${dir.path}/${DateTime.now().millisecondsSinceEpoch}.pdf');
+                    if (!file.existsSync()) {
+                      file.createSync(recursive: true);
+                    }
+                    final fileBytes = await pdf.save();
+                    file.writeAsBytesSync(fileBytes);
+                  } catch (e) {
+                    print(e);
+                    Toast.show('Ошибка формирования отчета ${e.toString()}');
+                    return;
                   }
-                  final fileBytes = await pdf.save();
-                  file.writeAsBytesSync(fileBytes);
-                  final Email email = Email(
-                    recipients: [
-                      report.reportType is SelfReportType
-                          ? user.email
-                          : report.email
-                    ],
-                    attachmentPaths: [file.path],
-                  );
+                  try {
+                    final Email email = Email(
+                      recipients: [
+                        report.reportType is SelfReportType
+                            ? user.email
+                            : report.email
+                      ],
+                      attachmentPaths: [file.path],
+                    );
 
-                  await FlutterEmailSender.send(email);
+                    await FlutterEmailSender.send(email);
+                  } catch (e) {
+                    print(e);
+                    Toast.show('Ошибка отправки отчета ${e.toString()}');
+                  }
                 },
               ),
             )

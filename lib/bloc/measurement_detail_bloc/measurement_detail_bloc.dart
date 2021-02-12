@@ -65,7 +65,7 @@ class MeasurementDetailBloc extends Cubit<MeasurementDetailState> {
       .where((e) =>
           e.dateTime.isAfter(_activeTimeRange.timeFrom) &&
           e.dateTime.isBefore(_activeTimeRange.timeTo))
-      .toList();
+      .toList()..sort((i, j) => j.dateTime.compareTo(i.dateTime));
 
   TimeRange get activeTimeRange => _activeTimeRange;
 
