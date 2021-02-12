@@ -64,12 +64,13 @@ class SettingsItem extends StatelessWidget {
                         ),
                       ),
                       Padding(padding: EdgeInsets.only(top: 2.h)),
+                      if (subtitle != null)
                       Expanded(
                         child: Row(
                           children: [
                             Expanded(
                               child: Text(
-                                subtitle ?? '',
+                                subtitle,
                                 style: AppTypography.font12.copyWith(
                                   color: AppColors.c9B9B9B,
                                 ),

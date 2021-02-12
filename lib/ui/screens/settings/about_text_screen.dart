@@ -1,12 +1,40 @@
+import 'dart:io';
+
+import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
 import 'package:emma_mobile/utils/utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AboutTextScreen extends StatelessWidget {
+class AboutTextScreen extends StatefulWidget {
   final String title;
-  final String text;
+  final String filePath;
 
-  const AboutTextScreen({Key key, this.title, this.text}) : super(key: key);
+  const AboutTextScreen({Key key, this.title, this.filePath}) : super(key: key);
+
+  @override
+  _AboutTextScreenState createState() => _AboutTextScreenState();
+}
+
+class _AboutTextScreenState extends State<AboutTextScreen> {
+  bool _loading = true;
+
+  PDFDocument _document;
+
+  @override
+  void initState() {
+    _load();
+    super.initState();
+  }
+
+  Future<void> _load() async {
+    _document = await PDFDocument.fromAsset(widget.filePath);
+    await _document.preloadPages();
+    if (mounted)
+      setState(() {
+        _loading = false;
+      });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,23 +43,30 @@ class AboutTextScreen extends StatelessWidget {
       body: Column(
         children: [
           EmmaAppBar(
-            title: title,
+            title: widget.title,
             leading: BackLeading(
               text: 'differenceBackTextLabel'.tr.capitalizeFirst,
             ),
           ),
           Expanded(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-              child: Text(
-                text,
-                style: AppTypography.font14.copyWith(
-                  color: AppColors.c9B9B9B,
-                ),
-              ),
+            child: Builder(
+              builder: (_) {
+                if (_loading) {
+                  return Center(
+                    child: Platform.isAndroid
+                        ? const CircularProgressIndicator()
+                        : const CupertinoActivityIndicator(),
+                  );
+                }
+                return PDFViewer(
+                  document: _document,
+                  lazyLoad: false,
+                  scrollDirection: Axis.vertical,
+                  showPicker: false,
+                );
+              },
             ),
-          )
+          ),
         ],
       ),
     );

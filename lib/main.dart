@@ -61,6 +61,7 @@ Future<void> main() async {
         ),
       )),
       canvasColor: Colors.transparent,
+      accentColor: AppColors.c00ACE3,
       primaryColor: AppColors.c00ACE3,
     ),
     builder: BotToastInit(),

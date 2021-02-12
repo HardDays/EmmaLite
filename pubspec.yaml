@@ -39,8 +39,6 @@ dependencies:
   hive_flutter: ^0.3.0+2
   local_auth: ^0.6.3+4
   mask_text_input_formatter: ^1.1.0
-  url_launcher: ^5.7.8
-  connectivity: ^2.0.2
   path_provider: ^1.6.24
   flutter_email_sender: ^4.0.0
   #dev
@@ -60,6 +58,7 @@ dependencies:
   rxdart: ^0.25.0
   flutter_keyboard_size: ^0.1.2+2
   keyboard_utils: ^1.2.4
+  advance_pdf_viewer: ^1.2.2
 
 dev_dependencies:
   flutter_test:
@@ -92,6 +91,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/pdf_icons/
+    - assets/documents/
   fonts:
     - family: SFProDisplay
       fonts:
