@@ -62,6 +62,18 @@ extension DateTimeExtentions on DateTime {
   bool isInDay(DateTime other) {
     return year == other.year && month == other.month && day == other.day;
   }
+
+  bool getInDayInRange({
+    DateTime startDate,
+    DateTime endDate,
+  }) {
+    return year >= startDate.year &&
+        year <= endDate.year &&
+        month >= startDate.month &&
+        month <= endDate.month &&
+        day >= startDate.day &&
+        day <= endDate.day;
+  }
 }
 
 extension IntExtention on int {

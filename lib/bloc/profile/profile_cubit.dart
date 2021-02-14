@@ -65,6 +65,9 @@ class ProfileCubit extends Cubit<ProfileState> {
     final index = _users.lastIndexWhere((e) => e.id == user.id);
     _users[index] = user;
     _repository.updateUserByIndex(index: index, user: user);
+    if (user.id == _currentUser.id) {
+      _currentUser = user;
+    }
     emit(ProfileState());
   }
 

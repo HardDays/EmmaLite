@@ -78,16 +78,16 @@ class MeasurementCubit extends Cubit<MeasurementState> {
           (e) => e.dateTime.isAfter(start) && e.dateTime.isBefore(end),
         );
     final blood = _repository.getBloodSugar().where(
-          (e) => e.dateTime.isAfter(start) && e.dateTime.isBefore(end),
+          (e) => e.dateTime.getInDayInRange(startDate: start, endDate: end),
     );
     final height = _repository.getHeightModel().where(
-          (e) => e.dateTime.isAfter(start) && e.dateTime.isBefore(end),
+          (e) => e.dateTime.getInDayInRange(startDate: start, endDate: end),
     );
     final pulse = _repository.getPulse().where(
-          (e) => e.dateTime.isAfter(start) && e.dateTime.isBefore(end),
+          (e) => e.dateTime.getInDayInRange(startDate: start, endDate: end),
     );
     final temp = _repository.getTemperature().where(
-          (e) => e.dateTime.isAfter(start) && e.dateTime.isBefore(end),
+          (e) => e.dateTime.getInDayInRange(startDate: start, endDate: end),
     );
     data.addAll(art);
     data.addAll(blood);

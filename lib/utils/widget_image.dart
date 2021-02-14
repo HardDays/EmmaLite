@@ -1,18 +1,17 @@
 import 'dart:io';
-import 'dart:ui' as ui;
-
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-
 import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:emma_mobile/bloc/assign/assign_bloc.dart';
 import 'package:emma_mobile/models/assignment/assign_type.dart';
 import 'package:emma_mobile/models/assignment/tasks.dart';
 import 'package:emma_mobile/models/measurements/measurement.dart';
+import 'package:emma_mobile/models/pdf_models.dart';
 import 'package:emma_mobile/models/report/report.dart';
 import 'package:emma_mobile/models/user/user.dart';
 import 'package:emma_mobile/utils/utils.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 
@@ -27,7 +26,7 @@ abstract class WidgetImage {
         child: repaintBoundary,
       ),
       configuration: const ViewConfiguration(
-        size: Size(568, 125000),
+        size: Size(594, 125000),
         devicePixelRatio: 1.0,
       ),
     );
@@ -39,7 +38,7 @@ abstract class WidgetImage {
     renderView.prepareInitialFrame();
 
     final RenderObjectToWidgetElement<RenderBox> rootElement =
-    await RenderObjectToWidgetAdapter<RenderBox>(
+        await RenderObjectToWidgetAdapter<RenderBox>(
       container: repaintBoundary,
       child: Material(
         color: Colors.transparent,
@@ -58,8 +57,6 @@ abstract class WidgetImage {
     await buildOwner.buildScope(rootElement);
     await buildOwner.buildScope(rootElement);
 
-    await Future.delayed(Duration(seconds: 1));
-
     await buildOwner.buildScope(rootElement);
     await buildOwner.buildScope(rootElement);
     await buildOwner.buildScope(rootElement);
@@ -75,290 +72,361 @@ abstract class WidgetImage {
     return image;
   }
 
-
   static Future<Uint8List> _loadImage(String path) async {
     return (await rootBundle.load(path)).buffer.asUint8List();
   }
 
-  static Future<Widget> create({
+  static Future<PageWidget> create({
     User user,
     Report report,
     List<RunTask> tasks,
     AssignBloc assignBloc,
     List<Measurement> measurementList,
+    DayWidget previousPageLastDay,
+    bool isFirst,
   }) async {
     const iconPath = 'assets/pdf_icons/';
-    final fontData =
-    await rootBundle.load('assets/fonts/SFProDisplay-Regular.ttf');
-    final calendar = await _loadImage('${iconPath}calendar.png');
-    final noPhoto = await _loadImage('${iconPath}no_photo_man.png');
 
-    final genderPath = user.gender == Gender.female
-        ? '${iconPath}gender_female.png'
-        : '${iconPath}gender_male.png';
-    final gender = user.photo.isEmpty
-        ? await _loadImage(genderPath)
-        : File(user.photo).readAsBytesSync();
-    final height = await _loadImage('${iconPath}height.png');
-    final weight = await _loadImage('${iconPath}weight.png');
     final done = await _loadImage('${iconPath}done.png');
     final donePart = await _loadImage('${iconPath}done_part.png');
     final notCompleted = await _loadImage('${iconPath}not_completed.png');
     final heart = await _loadImage('${iconPath}heart.png');
-    // final ttf = Font.ttf(fontData);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 32, bottom: 8),
-          child: Text(
-            'reportSubject'.tr,
-            style: const TextStyle(
-              color: Colors.black,
-              fontFamily: AppTypography.textStyle,
-              fontSize: 24,
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 24),
-          child: Text(
-            'reportDescription'.tr,
-            style: const TextStyle(
-              color: Colors.black,
-              fontFamily: AppTypography.textStyle,
-              fontSize: 14,
-            ),
-          ),
-        ),
-        _topDates(
-          calendar: calendar,
-          report: report,
-          // ttf: ttf,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 24),
-          child: _nameRow(
-            noPhoto: noPhoto,
-            height: height,
-            weight: weight,
-            gender: gender,
-            user: user,
-          ),
-        ),
-        if (report.comment != null && report.comment.isNotEmpty)
-          Column(
+
+    double size = 0;
+
+    List<Widget> widgets = [];
+
+    List<DayWidget> dayWidgets = [];
+
+    if (previousPageLastDay != null) {
+      dayWidgets.add(previousPageLastDay);
+    } else {
+      dayWidgets.add(
+          DayWidget(
+            day: 0,
+            endTask: 0,
+            startTask: 0,
+            endMeas: 0,
+            startMeas: 0,
+          )
+      );
+    }
+
+    int index = dayWidgets.last.day + 0;
+
+    Widget firstPageWidget;
+
+    bool first = true;
+
+    if (isFirst) {
+      firstPageWidget = await _firstPageWidget(
+        report: report,
+        user: user,
+        iconPath: iconPath,
+      );
+      size += (await getImage(widget: firstPageWidget)).height;
+    }
+
+    while (size < 950 && index <= report.difference) {
+      final currentDay = report.startDate.add(Duration(days: index));
+      final inDayTasks =
+          [...tasks].where((e) => e.dateTime.isInDay(currentDay)).toList();
+      final inDayMeasurement =
+          [...measurementList].where((e) => e.dateTime.isInDay(currentDay)).toList();
+
+      final widget = await _dayItem(
+        assignBloc: assignBloc,
+        notCompleted: notCompleted,
+        donePart: donePart,
+        done: done,
+        currentDay: currentDay,
+        inDayMeasurement: inDayMeasurement,
+        inDayTasks: inDayTasks,
+        initSize: size,
+        initMeas: 0,
+        initTask: dayWidgets.last.day == index ? dayWidgets.last.endTask : 0,
+      );
+      final widgetSize = (await getImage(widget: widget.widget)).height;
+      size += widgetSize;
+      if (size > 950) {
+        break;
+      } else {
+
+        DayWidget bufDay = DayWidget();
+        bufDay.day = index;
+        bufDay.startTask = dayWidgets.last.day == index ? dayWidgets.last.endTask : 0;
+        bufDay.endTask = widget.taskIndex;
+        bufDay.startMeas = dayWidgets.last.day == index ? dayWidgets.last.endMeas : 0;
+        bufDay.endMeas = widget.measIndex;
+        if (widget.taskIndex == inDayTasks.length &&
+            widget.measIndex == inDayMeasurement.length) {
+          index++;
+        }
+        if (index > report.difference) {
+          break;
+        } else {
+          widgets.add(widget.widget);
+          if (first) {
+            dayWidgets.removeLast();
+            first = false;
+          }
+          dayWidgets.add(bufDay);
+        }
+      }
+    }
+    return PageWidget(
+      dayWidgets: dayWidgets,
+      widget: SizedBox(
+        height: 846,
+        child: Padding(
+          padding: const EdgeInsets.all(32),
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 24),
-                child: Text(
-                  'reportComment'.tr,
-                  style: const TextStyle(
-                    fontFamily: AppTypography.textStyle,
-                    fontWeight: FontWeight.bold,
-                    // color: PdfColor.fromHex('9B9B9B'),
-                  ),
-                ),
+              if (firstPageWidget != null) firstPageWidget,
+              ListView.builder(
+                itemCount: widgets.length,
+                shrinkWrap: true,
+                itemBuilder: (_, i) {
+                  return widgets[i];
+                },
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: Text(
-                  report.comment,
-                  style: const TextStyle(
-                    fontFamily: AppTypography.textStyle,
-                    fontSize: 8,
-                  ),
-                ),
-              )
-            ],
-          ),
-        const Padding(padding: EdgeInsets.only(top: 44)),
-        ListView.separated(
-          itemCount: report.difference,
-          shrinkWrap: true,
-          itemBuilder: (_, i) {
-            final currentDay = report.startDate.add(Duration(days: i));
-            final inDayTasks =
-            tasks.where((e) => e.dateTime.isInDay(currentDay)).toList();
-            final inDayMeasurement = measurementList
-                .where((e) => e.dateTime.isInDay(currentDay))
-                .toList();
-            return SizedBox(
-              width: 530,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: Text(
-                      DateFormat('dd.MM.yyyy').format(currentDay),
-                      style: const TextStyle(
-                        fontFamily: AppTypography.textStyle,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          '${'prescriptionsTitleLabel'.tr}: ${inDayTasks.where((e) => e.completed).length}/${inDayTasks.length}',
-                          style: const TextStyle(
-                            fontFamily: AppTypography.textStyle,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          'mainTitleMeasurements'.tr,
-                          style: const TextStyle(
-                            fontFamily: AppTypography.textStyle,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Padding(padding: EdgeInsets.only(top: 16)),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: ListView.separated(
-                          itemCount: inDayTasks.length,
-                          shrinkWrap: true,
-                          itemBuilder: (_, i) {
-                            final task = inDayTasks[i];
-                            return _task(
-                              done: done,
-                              donePart: donePart,
-                              notCompleted: notCompleted,
-                              task: task,
-                              assignBloc: assignBloc,
-                            );
-                          },
-                          separatorBuilder: (_, __) {
-                            return const Padding(
-                              padding: EdgeInsets.only(top: 12),
-                            );
-                          },
-                        ),
-                      ),
-                      Expanded(
-                        child: ListView.separated(
-                          itemCount: inDayMeasurement.length,
-                          shrinkWrap: true,
-                          itemBuilder: (_, i) {
-                            final measurement = inDayMeasurement[i];
-                            return _measurement(
-                              measurement: measurement,
-                            );
-                          },
-                          separatorBuilder: (_, __) {
-                            return const Padding(
-                              padding: EdgeInsets.only(top: 12),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            );
-          },
-          separatorBuilder: (_, __) {
-            return const Padding(padding: EdgeInsets.only(top: 40));
-          },
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 50),
-          child: Row(
-            children: [
-              Image.memory(heart),
-              const Padding(
-                padding: EdgeInsets.only(left: 12),
-                child: Text(
-                  'EMMA Lite',
-                  style: TextStyle(
-                    fontFamily: AppTypography.textStyle,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
+              const Spacer(),
+              _bottom(heart: heart),
             ],
           ),
         ),
-      ],
+      ),
     );
   }
 
-  static Widget _measurement({Measurement measurement}) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            SizedBox(
-              width: 30,
-              child: Text(
-                DateFormat.Hm().format(measurement.dateTime),
-                style: const TextStyle(
-                  fontFamily: AppTypography.textStyle,
-                  fontSize: 10,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: Text(
-                measurement.longTitle.tr,
-                style: const TextStyle(
-                  fontSize: 10,
-                  fontFamily: AppTypography.textStyle,
-                ),
-              ),
-            ),
-            const Spacer(),
-            Text(
-              measurement.value(),
-              style: const TextStyle(
-                fontSize: 10,
-                fontFamily: AppTypography.textStyle,
-              ),
-            ),
-          ],
+  static Future<WidgetReturn> _dayItem({
+    DateTime currentDay,
+    List<RunTask> inDayTasks,
+    Uint8List notCompleted,
+    Uint8List donePart,
+    Uint8List done,
+    AssignBloc assignBloc,
+    List<Measurement> inDayMeasurement,
+    double initSize,
+    int initMeas,
+    int initTask,
+  }) async {
+    WidgetReturn widgetReturn = WidgetReturn();
+    double size = 0;
+
+    final Widget topWidget = Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: Text(
+        DateFormat('dd.MM.yyyy').format(currentDay),
+        style: const TextStyle(
+          fontFamily: AppTypography.textStyle,
+          fontWeight: FontWeight.bold,
+          fontSize: 18,
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 4, left: 46),
-          child: Row(
+      ),
+    );
+    final title = _taskTitle(inDayTasks: inDayTasks);
+    size += (await getImage(widget: topWidget)).height;
+    size += (await getImage(widget: title)).height;
+
+    double measSize = 0;
+    int taskIndex = initTask;
+    int measIndex = initMeas;
+
+    final List<Widget> taskWidgets = [];
+    final List<Widget> measWidgets = [];
+
+    for (var i = initTask; i < inDayTasks.length; i++) {
+      final taskWidget = _task(
+        done: done,
+        donePart: donePart,
+        notCompleted: notCompleted,
+        task: inDayTasks[i],
+        assignBloc: assignBloc,
+        haveTopPadding: taskIndex != 0,
+      );
+      size += (await getImage(widget: taskWidget)).height;
+      if (size + initSize > 950) {
+        break;
+      } else {
+        taskWidgets.add(taskWidget);
+        taskIndex++;
+      }
+    }
+
+    for (var i = initMeas; i < inDayMeasurement.length; i++) {
+      final taskWidget = _measurement(
+        haveTopPadding: measIndex != 0,
+        measurement: inDayMeasurement[i],
+      );
+      measSize += (await getImage(widget: taskWidget)).height;
+      if (measSize + initSize > 950) {
+        break;
+      } else {
+        measWidgets.add(taskWidget);
+        measIndex++;
+      }
+    }
+
+    widgetReturn.widget = SizedBox(
+      width: 530,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          topWidget,
+          title,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                '',
-                style: TextStyle(
-                  fontFamily: AppTypography.textStyle,
-                  fontSize: 8,
-                  color: Color(0xff9B9B9B),
+              Expanded(
+                child: ListView.builder(
+                  padding: EdgeInsets.zero,
+                  itemCount: taskWidgets.length,
+                  shrinkWrap: true,
+                  itemBuilder: (_, i) {
+                    return taskWidgets[i];
+                  },
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  padding: EdgeInsets.zero,
+                  itemCount: measWidgets.length,
+                  shrinkWrap: true,
+                  itemBuilder: (_, i) {
+                    return measWidgets[i];
+                  },
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+    widgetReturn.taskIndex = taskIndex;
+    widgetReturn.measIndex = measIndex;
+
+    return widgetReturn;
+  }
+
+  static Widget _taskTitle({List<RunTask> inDayTasks}) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Text(
+              '${'prescriptionsTitleLabel'.tr}: ${inDayTasks.where((e) => e.completed).length}/${inDayTasks.length}',
+              style: const TextStyle(
+                fontFamily: AppTypography.textStyle,
+                fontSize: 14,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              'mainTitleMeasurements'.tr,
+              style: const TextStyle(
+                fontFamily: AppTypography.textStyle,
+                fontSize: 14,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static Widget _bottom({Uint8List heart}) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 2),
+      child: Row(
+        children: [
+          Image.memory(heart),
+          const Padding(
+            padding: EdgeInsets.only(left: 12),
+            child: Text(
+              'EMMA Lite',
+              style: TextStyle(
+                fontFamily: AppTypography.textStyle,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static Widget _measurement({Measurement measurement, bool haveTopPadding}) {
+    return Padding(
+      padding: EdgeInsets.only(top: haveTopPadding ? 12 : 0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            children: [
+              SizedBox(
+                width: 30,
+                child: Text(
+                  DateFormat.Hm().format(measurement.dateTime),
+                  style: const TextStyle(
+                    fontFamily: AppTypography.textStyle,
+                    fontSize: 10,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: Text(
+                  measurement.longTitle.tr,
+                  style: const TextStyle(
+                    fontSize: 10,
+                    fontFamily: AppTypography.textStyle,
+                  ),
                 ),
               ),
               const Spacer(),
               Text(
-                measurement.units.tr,
+                measurement.value(),
                 style: const TextStyle(
+                  fontSize: 10,
                   fontFamily: AppTypography.textStyle,
-                  fontSize: 8,
-                  color: Color(0xff9B9B9B),
                 ),
               ),
             ],
           ),
-        ),
-      ],
+          Padding(
+            padding: const EdgeInsets.only(top: 4, left: 46),
+            child: Row(
+              children: [
+                const Text(
+                  '',
+                  style: TextStyle(
+                    fontFamily: AppTypography.textStyle,
+                    fontSize: 8,
+                    color: Color(0xff9B9B9B),
+                  ),
+                ),
+                const Spacer(),
+                Text(
+                  measurement.units.tr,
+                  style: const TextStyle(
+                    fontFamily: AppTypography.textStyle,
+                    fontSize: 8,
+                    color: Color(0xff9B9B9B),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -368,6 +436,7 @@ abstract class WidgetImage {
     Uint8List donePart,
     Uint8List done,
     AssignBloc assignBloc,
+    bool haveTopPadding,
   }) {
     Uint8List photo;
     if (!task.completed) {
@@ -378,80 +447,88 @@ abstract class WidgetImage {
       photo = done;
     }
     final assign = assignBloc.getAssignById(task.assignId);
-    return Column(
-      children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return Padding(
+      padding: EdgeInsets.only(top: haveTopPadding ? 12 : 0),
+      child: SizedBox(
+        width: 594 / 2,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Image.memory(photo),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 8,
-                right: 4,
-              ),
-              child: SizedBox(
-                width: 50,
-                child: Text(
-                  DateFormat.Hm().format(task.dateTime),
-                  style: const TextStyle(
-                    fontFamily: AppTypography.textStyle,
-                    fontSize: 10,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Image.memory(photo),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 8,
+                    right: 4,
                   ),
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 183,
-              child: Text(
-                '${task.assignName}${assign.countForPDFForTask(task)}',
-                style: const TextStyle(
-                  fontFamily: AppTypography.textStyle,
-                  fontSize: 10,
-                ),
-              ),
-            )
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 20, top: 4),
-          child: Row(
-            children: [
-              SizedBox(
-                width: 54,
-                child: Builder(
-                  builder: (_) {
-                    if (!task.completed ||
-                        task.completed &&
-                            task.completedDate.isAfter(task.dateTime)) {
-                      return const SizedBox();
-                    }
-                    final now = DateTime.now();
-                    final dif = now.difference(task.completedDate);
-                    final minutes = dif.inMinutes - (dif.inHours * 60);
-                    final hour = dif.inHours;
-                    return Text(
-                      '+$hourч ${minutes == 0 ? '' : '$minutes${'minText'.tr}'}',
+                  child: SizedBox(
+                    width: 50,
+                    child: Text(
+                      DateFormat.Hm().format(task.dateTime),
                       style: const TextStyle(
                         fontFamily: AppTypography.textStyle,
-                        fontSize: 8,
-                        color: Color(0xff9B9B9B),
+                        fontSize: 10,
                       ),
-                    );
-                  },
+                    ),
+                  ),
                 ),
+                SizedBox(
+                  width: 183,
+                  child: Text(
+                    '${task.assignName}${assign.countForPDFForTask(task)}',
+                    style: const TextStyle(
+                      fontFamily: AppTypography.textStyle,
+                      fontSize: 10,
+                    ),
+                    maxLines: null,
+                  ),
+                )
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, top: 4),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 54,
+                    child: Builder(
+                      builder: (_) {
+                        if (!task.completed ||
+                            task.completed &&
+                                task.completedDate.isAfter(task.dateTime)) {
+                          return const SizedBox();
+                        }
+                        final now = DateTime.now();
+                        final dif = now.difference(task.completedDate);
+                        final minutes = dif.inMinutes - (dif.inHours * 60);
+                        final hour = dif.inHours;
+                        return Text(
+                          '+$hourч ${minutes == 0 ? '' : '$minutes${'minText'.tr}'}',
+                          style: const TextStyle(
+                            fontFamily: AppTypography.textStyle,
+                            fontSize: 8,
+                            color: Color(0xff9B9B9B),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Text(
+                    '${assign.type.title}, ${assign.type is OtherAssignType ? 'самоназначение' : assign.doctorName}',
+                    style: const TextStyle(
+                      fontFamily: AppTypography.textStyle,
+                      fontSize: 8,
+                      color: Color(0xff9B9B9B),
+                    ),
+                  ),
+                ],
               ),
-              Text(
-                '${assign.type.title}, ${assign.type is OtherAssignType ? 'самоназначение' : assign.doctorName}',
-                style: const TextStyle(
-                  fontFamily: AppTypography.textStyle,
-                  fontSize: 8,
-                  color: Color(0xff9B9B9B),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
@@ -508,8 +585,8 @@ abstract class WidgetImage {
                         user.gender == null
                             ? ''
                             : user.gender == Gender.male
-                            ? 'maleButtonTitle'.tr
-                            : 'femaleButtonTitle'.tr,
+                                ? 'maleButtonTitle'.tr
+                                : 'femaleButtonTitle'.tr,
                         style: const TextStyle(
                           fontSize: 8,
                           fontFamily: AppTypography.textStyle,
@@ -649,6 +726,94 @@ abstract class WidgetImage {
             ],
           ),
         ),
+      ],
+    );
+  }
+
+  static Future<Widget> _firstPageWidget({
+    Report report,
+    User user,
+    String iconPath,
+  }) async {
+    final calendar = await _loadImage('${iconPath}calendar.png');
+    final gender = await _loadImage('${iconPath}gender_male.png');
+
+    final genderPath = user.gender == Gender.female
+        ? '${iconPath}no_photo_woman.png'
+        : '${iconPath}no_photo_man.png';
+    final noPhoto = user.photo.isEmpty
+        ? await _loadImage(genderPath)
+        : File(user.photo).readAsBytesSync();
+    final height = await _loadImage('${iconPath}height.png');
+    final weight = await _loadImage('${iconPath}weight.png');
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 32, bottom: 8),
+          child: Text(
+            'reportSubject'.tr,
+            style: const TextStyle(
+              color: Colors.black,
+              fontFamily: AppTypography.textStyle,
+              fontSize: 24,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 24),
+          child: Text(
+            'reportDescription'.tr,
+            style: const TextStyle(
+              color: Colors.black,
+              fontFamily: AppTypography.textStyle,
+              fontSize: 14,
+            ),
+          ),
+        ),
+        _topDates(
+          calendar: calendar,
+          report: report,
+          // ttf: ttf,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 24),
+          child: _nameRow(
+            noPhoto: noPhoto,
+            height: height,
+            weight: weight,
+            gender: gender,
+            user: user,
+          ),
+        ),
+        if (report.comment != null && report.comment.isNotEmpty)
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 24),
+                child: Text(
+                  'reportComment'.tr,
+                  style: const TextStyle(
+                    fontFamily: AppTypography.textStyle,
+                    fontWeight: FontWeight.bold,
+                    // color: PdfColor.fromHex('9B9B9B'),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Text(
+                  report.comment,
+                  style: const TextStyle(
+                    fontFamily: AppTypography.textStyle,
+                    fontSize: 8,
+                  ),
+                ),
+              )
+            ],
+          ),
+        const Padding(padding: EdgeInsets.only(top: 44)),
       ],
     );
   }

@@ -7,6 +7,7 @@ import 'package:emma_mobile/bloc/report_screen/report_screen_bloc.dart';
 import 'package:emma_mobile/bloc/report_screen/report_screen_state.dart';
 import 'package:emma_mobile/models/assignment/tasks.dart';
 import 'package:emma_mobile/models/doctor/doctor.dart';
+import 'package:emma_mobile/models/pdf_models.dart';
 import 'package:emma_mobile/models/report/report.dart';
 import 'package:emma_mobile/ui/components/app_bar/small_app_bar.dart';
 import 'package:emma_mobile/ui/components/bottom_sheet.dart';
@@ -19,6 +20,7 @@ import 'package:emma_mobile/ui/components/profile/fields.dart';
 import 'package:emma_mobile/ui/screens/doctors/doctors_screen.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart' hide Image;
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
@@ -26,7 +28,6 @@ import 'package:intl/intl.dart' hide TextDirection;
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:printing/printing.dart';
 
 class ReportScreen extends StatelessWidget {
   @override
@@ -182,6 +183,7 @@ class _Fields extends StatelessWidget {
                 title: 'sendButtonText'.tr,
                 isActive: bloc.canSave,
                 onTap: () async {
+
                   final pdf = pw.Document();
                   final user = context.bloc<ProfileCubit>().currentUser;
 
@@ -200,18 +202,44 @@ class _Fields extends StatelessWidget {
                   }
 
                   File file;
-                  try {
-                    final widget = await WidgetImage.create(
-                      measurementList: measurBloc.getForDateRange(
-                        start: report.startDate,
-                        end: report.endDate,
-                      ),
+                  List<Widget> widgets = [];
+                  List<PageWidget> pageWidgets = [];
+                  int index = 0;
+                  bool isFirstWidget = true;
+                  while (index < report.difference) {
+                    final currentDay =
+                        report.startDate.add(Duration(days: index));
+                    final inDayTasks = tasks
+                        .where((e) => e.dateTime.isInDay(currentDay))
+                        .toList();
+                    final measList = measurBloc.getForDateRange(
+                      start: report.startDate,
+                      end: report.endDate,
+                    );
+                    final pageWidget = await WidgetImage.create(
+                      measurementList: measList,
                       assignBloc: assignBloc,
                       tasks: tasks,
                       user: user,
                       report: report,
+                      previousPageLastDay: pageWidgets.isEmpty
+                          ? null
+                          : pageWidgets.last.dayWidgets.last,
+                      isFirst: isFirstWidget,
                     );
-                    final image = await WidgetImage.getImage(widget: widget);
+                    isFirstWidget = false;
+                    pageWidgets.add(pageWidget);
+                    widgets.add(pageWidget.widget);
+                    index = pageWidget.dayWidgets.last.day;
+                    if (pageWidget.dayWidgets.last.endTask ==
+                            inDayTasks.length &&
+                        index == report.difference - 1) {
+                      break;
+                    }
+                  }
+
+                  isFirstWidget = true;
+                  for (var i in pageWidgets) {
                     final bytes = await CreatePdf.create(
                       measurementList: measurBloc.getForDateRange(
                         start: report.startDate,
@@ -221,49 +249,41 @@ class _Fields extends StatelessWidget {
                       tasks: tasks,
                       user: user,
                       report: report,
+                      pageWidget: i,
+                      isFirst: isFirstWidget,
                     );
-
+                    isFirstWidget = false;
                     pdf.addPage(
                       pw.Page(
-                        pageFormat: PdfPageFormat(
-                          594,
-                          image.height.toDouble() + 100,
-                          marginAll: 32,
-                        ),
+                        pageFormat: PdfPageFormat.a4,
                         build: (_) {
                           return bytes;
                         },
                       ),
                     );
-
-                    final dir = await getApplicationSupportDirectory();
-                    file = File(
-                        '${dir.path}/${DateTime.now().millisecondsSinceEpoch}.pdf');
-                    if (!file.existsSync()) {
-                      file.createSync(recursive: true);
-                    }
-                    final fileBytes = await pdf.save();
-                    file.writeAsBytesSync(fileBytes);
-                  } catch (e) {
-                    print(e);
-                    Toast.show('Ошибка формирования отчета ${e.toString()}');
-                    return;
                   }
-                  try {
-                    final Email email = Email(
-                      recipients: [
-                        report.reportType is SelfReportType
-                            ? user.email
-                            : report.email
-                      ],
-                      attachmentPaths: [file.path],
-                    );
 
-                    await FlutterEmailSender.send(email);
-                  } catch (e) {
-                    print(e);
-                    Toast.show('Ошибка отправки отчета ${e.toString()}');
+                  final dir = await getApplicationSupportDirectory();
+                  file = File(
+                      '${dir.path}/${DateTime.now().millisecondsSinceEpoch}.pdf');
+                  if (!file.existsSync()) {
+                    file.createSync(recursive: true);
                   }
+                  final fileBytes = await pdf.save();
+                  file.writeAsBytesSync(fileBytes);
+
+                  // Share.shareFiles([file.path]);
+
+                  final Email email = Email(
+                    recipients: [
+                      report.reportType is SelfReportType
+                          ? user.email
+                          : report.email
+                    ],
+                    attachmentPaths: [file.path],
+                  );
+
+                  await FlutterEmailSender.send(email);
                 },
               ),
             )
@@ -274,24 +294,3 @@ class _Fields extends StatelessWidget {
   }
 }
 
-class _PDFTestScreen extends StatelessWidget {
-  final pw.Document pdf;
-
-  const _PDFTestScreen({Key key, this.pdf}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.cF5F7FA,
-      body: Column(
-        children: [
-          Expanded(
-            child: PdfPreview(
-              build: (_) => pdf.save(),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}

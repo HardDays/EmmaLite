@@ -5,6 +5,7 @@ import 'package:emma_mobile/bloc/assign/assign_bloc.dart';
 import 'package:emma_mobile/models/assignment/assign_type.dart';
 import 'package:emma_mobile/models/assignment/tasks.dart';
 import 'package:emma_mobile/models/measurements/measurement.dart';
+import 'package:emma_mobile/models/pdf_models.dart';
 import 'package:emma_mobile/models/report/report.dart';
 import 'package:emma_mobile/models/user/user.dart';
 import 'package:emma_mobile/utils/utils.dart';
@@ -26,112 +27,68 @@ abstract class CreatePdf {
     List<RunTask> tasks,
     AssignBloc assignBloc,
     List<Measurement> measurementList,
+    PageWidget pageWidget,
+    bool isFirst,
   }) async {
     const iconPath = 'assets/pdf_icons/';
     final fontData =
         await rootBundle.load('assets/fonts/SFProDisplay-Regular.ttf');
-    final calendar = await _loadImage('${iconPath}calendar.png');
-    final genderPath = user.gender == Gender.female
-        ? '${iconPath}no_photo_woman.png'
-        : '${iconPath}no_photo_man.png';
-    final noPhoto = user.photo.isEmpty
-        ? await _loadImage(genderPath)
-        : File(user.photo).readAsBytesSync();
 
-    final gender = await _loadImage('${iconPath}gender_male.png');
-    final height = await _loadImage('${iconPath}height.png');
-    final weight = await _loadImage('${iconPath}weight.png');
     final done = await _loadImage('${iconPath}done.png');
     final donePart = await _loadImage('${iconPath}done_part.png');
     final notCompleted = await _loadImage('${iconPath}not_completed.png');
     final heart = await _loadImage('${iconPath}heart.png');
     final ttf = Font.ttf(fontData);
+
+    Widget firstPageWidget;
+
+    if (isFirst) {
+      firstPageWidget = await _firstPageWidget(
+        report: report,
+        user: user,
+        iconPath: iconPath,
+        ttf: ttf,
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 32, bottom: 8),
-          child: Text(
-            'reportSubject'.tr,
-            style: TextStyle(
-              color: PdfColor.fromInt(Colors.black.value),
-              font: ttf,
-              fontSize: 24,
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 24),
-          child: Text(
-            'reportDescription'.tr,
-            style: TextStyle(
-              color: PdfColor.fromInt(Colors.black.value),
-              font: ttf,
-              fontSize: 14,
-            ),
-          ),
-        ),
-        _topDates(
-          calendar: calendar,
-          report: report,
-          ttf: ttf,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 24),
-          child: _nameRow(
-            noPhoto: noPhoto,
-            height: height,
-            weight: weight,
-            gender: gender,
-            user: user,
-            ttf: ttf,
-          ),
-        ),
-        if (report.comment != null && report.comment.isNotEmpty)
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 24),
-                child: Text(
-                  'reportComment'.tr,
-                  style: TextStyle(
-                    font: ttf,
-                    fontWeight: FontWeight.bold,
-                    color: PdfColor.fromHex('9B9B9B'),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: Text(
-                  report.comment,
-                  style: TextStyle(
-                    font: ttf,
-                    fontSize: 8,
-                  ),
-                ),
-              )
-            ],
-          ),
-        Padding(
-          padding: const EdgeInsets.only(top: 44),
-        ),
+        if (firstPageWidget != null) firstPageWidget,
         ListView.separated(
-          itemCount: report.difference,
+          itemCount: pageWidget.dayWidgets.length,
           itemBuilder: (_, i) {
-            final currentDay = report.startDate.add(Duration(days: i));
-            final inDayTasks =
+            final currentDay = report.startDate.add(
+              Duration(days: pageWidget.dayWidgets[i].day),
+            );
+            final inDayTasksFull =
                 tasks.where((e) => e.dateTime.isInDay(currentDay)).toList();
-            inDayTasks.sort((i, j) => i.dateTime.compareTo(j.dateTime));
-            final inDayMeasurement = measurementList
+            inDayTasksFull.sort((i, j) => i.dateTime.compareTo(j.dateTime));
+            final List<RunTask> inDayTasks = [];
+            final inDayMeasurementFull = measurementList
                 .where((e) => e.dateTime.isInDay(currentDay))
                 .toList();
+            final List<Measurement> inDayMeasurement = [];
+            if (inDayTasksFull.isNotEmpty) {
+              for (var j = pageWidget.dayWidgets[i].startTask;
+                  j < pageWidget.dayWidgets[i].endTask;
+                  j++) {
+                inDayTasks.add(inDayTasksFull[j]);
+              }
+            }
+            if (inDayMeasurementFull.isNotEmpty) {
+              for (var j = pageWidget.dayWidgets[i].startMeas;
+                  j < pageWidget.dayWidgets[i].endMeas;
+                  j++) {
+                inDayMeasurement.add(inDayMeasurementFull[j]);
+              }
+            }
             return SizedBox(
               width: 530,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(bottom: 20),
@@ -149,7 +106,7 @@ abstract class CreatePdf {
                     children: [
                       Expanded(
                         child: Text(
-                          '${'prescriptionsTitleLabel'.tr}: ${inDayTasks.where((e) => e.completed).length}/${inDayTasks.length}',
+                          '${'prescriptionsTitleLabel'.tr}: ${inDayTasksFull.where((e) => e.completed).length}/${inDayTasksFull.length}',
                           style: TextStyle(
                             font: ttf,
                             fontSize: 14,
@@ -219,25 +176,8 @@ abstract class CreatePdf {
             return Padding(padding: const EdgeInsets.only(top: 40));
           },
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 50),
-          child: Row(
-            children: [
-              Image(MemoryImage(heart)),
-              Padding(
-                padding: const EdgeInsets.only(left: 12),
-                child: Text(
-                  'EMMA Lite',
-                  style: TextStyle(
-                    font: ttf,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+        Spacer(),
+        _bottom(heart: heart, ttf: ttf),
       ],
     );
   }
@@ -247,6 +187,7 @@ abstract class CreatePdf {
     Measurement measurement,
   }) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Row(
           children: [
@@ -326,6 +267,7 @@ abstract class CreatePdf {
     }
     final assign = assignBloc.getAssignById(task.assignId);
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -427,15 +369,14 @@ abstract class CreatePdf {
             Padding(
               padding: const EdgeInsets.only(right: 16),
               child: ClipRRect(
-                horizontalRadius: 30,
-                verticalRadius: 30,
-                child: Image(
-                  MemoryImage(noPhoto),
-                  width: 60,
-                  height: 60,
-                  fit: BoxFit.fill,
-                )
-              ),
+                  horizontalRadius: 30,
+                  verticalRadius: 30,
+                  child: Image(
+                    MemoryImage(noPhoto),
+                    width: 60,
+                    height: 60,
+                    fit: BoxFit.fill,
+                  )),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -608,6 +549,118 @@ abstract class CreatePdf {
             ],
           ),
         ),
+      ],
+    );
+  }
+
+  static Widget _bottom({Uint8List heart, Font ttf}) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 2),
+      child: Row(
+        children: [
+          Image(MemoryImage(heart)),
+          Padding(
+            padding: const EdgeInsets.only(left: 12),
+            child: Text(
+              'EMMA Lite',
+              style: TextStyle(
+                font: ttf,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static Future<Widget> _firstPageWidget({
+    Report report,
+    User user,
+    String iconPath,
+    Font ttf,
+  }) async {
+    final calendar = await _loadImage('${iconPath}calendar.png');
+    final gender = await _loadImage('${iconPath}gender_male.png');
+
+    final genderPath = user.gender == Gender.female
+        ? '${iconPath}no_photo_woman.png'
+        : '${iconPath}no_photo_man.png';
+    final noPhoto = user.photo.isEmpty
+        ? await _loadImage(genderPath)
+        : File(user.photo).readAsBytesSync();
+    final height = await _loadImage('${iconPath}height.png');
+    final weight = await _loadImage('${iconPath}weight.png');
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 32, bottom: 8),
+          child: Text(
+            'reportSubject'.tr,
+            style: TextStyle(
+              color: PdfColor.fromInt(Colors.black.value),
+              font: ttf,
+              fontSize: 24,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 24),
+          child: Text(
+            'reportDescription'.tr,
+            style: TextStyle(
+              color: PdfColor.fromInt(Colors.black.value),
+              font: ttf,
+              fontSize: 14,
+            ),
+          ),
+        ),
+        _topDates(
+          calendar: calendar,
+          report: report,
+          ttf: ttf,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 24),
+          child: _nameRow(
+            noPhoto: noPhoto,
+            height: height,
+            weight: weight,
+            gender: gender,
+            user: user,
+            ttf: ttf,
+          ),
+        ),
+        if (report.comment != null && report.comment.isNotEmpty)
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 24),
+                child: Text(
+                  'reportComment'.tr,
+                  style: TextStyle(
+                    font: ttf,
+                    fontWeight: FontWeight.bold,
+                    color: PdfColor.fromHex('9B9B9B'),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Text(
+                  report.comment,
+                  style: TextStyle(
+                    font: ttf,
+                    fontSize: 8,
+                  ),
+                ),
+              )
+            ],
+          ),
+        Padding(padding: const EdgeInsets.only(top: 44)),
       ],
     );
   }
