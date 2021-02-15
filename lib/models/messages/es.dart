@@ -183,6 +183,11 @@ abstract class EsMessages {
         'pressPlusButtonHintForCreateNewProfileSubmitButtonTitle': 'OK',
         'synchronization': 'Синхронизация',
         'darkTheme': 'Темная тема',
-        'whiteTheme': 'Светлая тема'
+        'whiteTheme': 'Светлая тема',
+        'ru':'Ruso',
+        'en':'Inglés',
+        'de': 'Alemán',
+        'fr': 'Francés',
+        'es': 'Español',
       };
 }

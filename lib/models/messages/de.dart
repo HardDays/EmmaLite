@@ -183,6 +183,11 @@ abstract class DeMessages {
         'pressPlusButtonHintForCreateNewProfileSubmitButtonTitle': 'Ok',
         'synchronization': 'Синхронизация',
         'darkTheme': 'Темная тема',
-        'whiteTheme': 'Светлая тема'
+        'whiteTheme': 'Светлая тема',
+        'ru': 'Russisch',
+        'en': 'Englisch',
+        'de': 'Deutsch',
+        'fr': 'Französisch',
+        'es': 'Spanisch',
       };
 }

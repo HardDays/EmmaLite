@@ -70,7 +70,7 @@ class SettingsScreen extends StatelessWidget {
                     ),
                     subtitle: languages
                         .firstWhere((e) => e.locale == Get.locale.languageCode)
-                        .localizedTitle,
+                        .locale.tr,
                     subIcon: Padding(
                       padding: EdgeInsets.only(right: 11.w),
                       child: AppIcons.languageFlag(

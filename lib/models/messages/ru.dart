@@ -209,6 +209,11 @@ abstract class RuMessages {
         'pressPlusButtonHintForCreateNewProfileSubmitButtonTitle': 'Ясно',
         'synchronization': 'Синхронизация',
         'darkTheme': 'Темная тема',
-        'whiteTheme': 'Светлая тема'
+        'whiteTheme': 'Светлая тема',
+        'ru': 'Русский',
+        'en': 'Английский',
+        'de': 'Немецкий',
+        'fr': 'Французский',
+        'es': 'Испанский',
       };
 }

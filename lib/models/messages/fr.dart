@@ -187,6 +187,11 @@ abstract class FrMessages {
         'pressPlusButtonHintForCreateNewProfileSubmitButtonTitle': 'Clairement',
         'synchronization': 'Синхронизация',
         'darkTheme': 'Темная тема',
-        'whiteTheme': 'Светлая тема'
+        'whiteTheme': 'Светлая тема',
+        'ru': 'Russe',
+        'en': 'Anglais',
+        'de': 'Allemand',
+        'fr': 'Français',
+        'es': 'Espagnol',
       };
 }

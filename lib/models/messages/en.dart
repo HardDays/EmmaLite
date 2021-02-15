@@ -210,6 +210,11 @@ abstract class EnMessages {
         'pressPlusButtonHintForCreateNewProfileSubmitButtonTitle': 'Ok',
         'synchronization': 'Synchronization',
         'darkTheme': 'Dark theme',
-        'whiteTheme': 'White theme'
+        'whiteTheme': 'White theme',
+        'ru': 'Russian',
+        'en': 'English',
+        'de': 'German',
+        'fr': 'French',
+        'es': 'Spanish',
       };
 }

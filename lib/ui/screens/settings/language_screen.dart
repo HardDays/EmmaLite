@@ -65,7 +65,7 @@ class LanguageScreen extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.only(top: 2.h),
                               child: Text(
-                                languages[i].localizedTitle,
+                                languages[i].locale.tr,
                                 style: AppTypography.font16.copyWith(
                                   color: isActive
                                       ? AppColors.cFFFFFF
