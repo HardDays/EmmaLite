@@ -104,6 +104,8 @@ abstract class RuMessages {
         'growthTitle': 'Рост',
         'weightTitle': 'Вес',
         //
+        'selectSectionHourTitleco': 'Час',
+        'selectSectionDayTitleco': 'День',
         'selectSectionWeekTitleco': 'Неделя',
         'selectSectionMonthTitleco': 'Месяц',
         'selectSectionYearTitleco': 'Год',
@@ -244,5 +246,7 @@ abstract class RuMessages {
         'personalStatus': 'Статус',
         'myProfile': 'Мой профиль',
         'new': 'Добавить профиль',
+        'yourPrescriptions': 'Здесь будут показываться ваши ближайшие назначения',
+        'yourRecentMeasurementResults': 'Здесь будут показываться ваши\nпоследние значения по всем измерениям',
       };
 }

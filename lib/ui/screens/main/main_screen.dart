@@ -68,7 +68,7 @@ class MainScreen extends StatelessWidget {
                     child: EmptyBlockMain(
                       icon: AppIcons.measurementsInactive(),
                       title:
-                          'Здесь будут показываться ваши\nпоследние значения по всем измерениям',
+                          'yourRecentMeasurementResults'.tr,
                       buttonTitle: 'addNewMeasurementLabel'.tr,
                       onTap: () => navigatorPush(
                         context,

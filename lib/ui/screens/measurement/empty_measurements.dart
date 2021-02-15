@@ -42,7 +42,7 @@ class EmptyMeasurements extends StatelessWidget {
             child: SizedBox(
               width: 256.w,
               child: Text(
-                'Здесь будут показываться ваши последние значения по всем измерениям',
+                'yourPrescriptions'.tr,
                 style: AppTypography.font14.copyWith(color: AppColors.c9B9B9B),
                 textAlign: TextAlign.center,
               ),

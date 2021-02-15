@@ -44,7 +44,7 @@ abstract class EnMessages {
         'thereWereNoReceptionsText': 'No prescriptions',
         'actualTextLabel': 'Recent',
         'archiveTextLabel': 'Archive',
-        'differenceBackTextLabel': 'late',
+        'differenceBackTextLabel': 'later',
         'differenceThroughTextLabel': 'in',
         'daysText_1': 'd.',
         'daysText_2': 'd.',
@@ -104,6 +104,8 @@ abstract class EnMessages {
         'growthTitle': 'Height',
         'weightTitle': 'Weight',
         //чч
+        'selectSectionHourTitleco': 'Hour',
+        'selectSectionDayTitleco': 'Day',
         'selectSectionWeekTitleco': 'Week',
         'selectSectionMonthTitleco': 'Month',
         'selectSectionYearTitleco': 'Year',
@@ -245,5 +247,7 @@ abstract class EnMessages {
         'personalStatus': 'Personal status',
         'myProfile': 'My profile',
         'new': 'New',
+        'yourPrescriptions': 'Your prescriptions will be displayed here',
+        'yourRecentMeasurementResults': 'Your recent measurement results will be displayed here',
       };
 }

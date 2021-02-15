@@ -42,7 +42,7 @@ class HourDateTime implements DateTimeType {
       ];
 
   @override
-  String timeValue = 'hoursText_1'.tr.capitalizeFirst;
+  String timeValue = 'selectSectionHourTitleco'.tr.capitalizeFirst;
 
   @override
   String formatter(DateTime timeFrom, DateTime timeTo) =>
@@ -76,7 +76,7 @@ class DayDateTime implements DateTimeType {
       ['0', '4', '8', '12', '16', '20', '24'];
 
   @override
-  String timeValue = 'daysText_1'.tr.capitalizeFirst;
+  String timeValue = 'selectSectionDayTitleco'.tr.capitalizeFirst;
 
   @override
   String formatter(DateTime timeFrom, DateTime timeTo) {

@@ -9,6 +9,7 @@ import 'package:emma_mobile/ui/components/measurement/linear_chart.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class ThemeScreen extends StatefulWidget {
   final Function onTap;
@@ -58,7 +59,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   ChipItem(
-                                      title: 'daysText_1'.tr.capitalizeFirst,
+                                      title: 'selectSectionDayTitleco'.tr.capitalizeFirst,
                                       isActive: false),
                                   ChipItem(
                                       title: 'selectSectionWeekTitleco'.tr,
@@ -86,25 +87,25 @@ class _ThemeScreenState extends State<ThemeScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Декабрь',
+                                    DateFormat('LLLL').format(DateTime(1970, 12)),
                                     style: AppTypography.font16.copyWith(
                                       color: AppColors.cBFBFBF,
                                     ),
                                   ),
                                   Text(
-                                    'Январь',
+                                    DateFormat('LLLL').format(DateTime(1970, 2)),
                                     style: AppTypography.font16.copyWith(
                                       color: AppColors.cBFBFBF,
                                     ),
                                   ),
                                   Text(
-                                    'Февраль',
+                                    DateFormat('LLLL').format(DateTime(1970, 2)),
                                     style: AppTypography.font16.copyWith(
                                       color: AppColors.cBFBFBF,
                                     ),
                                   ),
                                   Text(
-                                    'Март',
+                                    DateFormat('LLLL').format(DateTime(1970, 3)),
                                     style: AppTypography.font16.copyWith(
                                       fontWeight: FontWeight.w700,
                                       color: AppColors.c00ACE3,

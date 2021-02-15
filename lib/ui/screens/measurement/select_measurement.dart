@@ -29,7 +29,7 @@ class SelectMeasurement extends StatelessWidget {
           EmmaAppBar(
             title: 'titleAddMeasurementsView'.tr,
             leading: BackLeading(
-              text: 'differenceBackTextLabel'.tr.capitalizeFirst,
+              text: 'selectSectionDayTitleco'.tr.capitalizeFirst,
             ),
             trailing: ProfileTrailing(),
           ),
