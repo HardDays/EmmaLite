@@ -5,12 +5,14 @@ import 'package:emma_mobile/models/measurements/blood_sugar.dart';
 import 'package:emma_mobile/models/measurements/height_model.dart';
 import 'package:emma_mobile/models/measurements/pulse.dart';
 import 'package:emma_mobile/models/measurements/temperature.dart';
+import 'package:emma_mobile/repositories/app_local_repository.dart';
 import 'package:emma_mobile/repositories/measurement_local_repository.dart';
 import 'package:health/health.dart';
 
 class SyncCubit extends Cubit<SyncState> {
   final _health = HealthFactory();
   final _repository = MeasurementLocalRepository();
+  final _appLocalRepository = AppLocalRepository();
 
   SyncCubit() : super(SyncState());
 
@@ -34,6 +36,7 @@ class SyncCubit extends Cubit<SyncState> {
           _repository.saveArterialPressure(
               pressure: ArterialPressure(
             id: id,
+            userId: _appLocalRepository.currentUserId,
             top: data1[i].value.toInt(),
             under: data2[i].value.toInt(),
             date: data1[i].dateFrom.toString(),
@@ -58,6 +61,7 @@ class SyncCubit extends Cubit<SyncState> {
           _repository.saveBloodSugar(
             bloodSugar: BloodSugar(
               id: id,
+              userId: _appLocalRepository.currentUserId,
               date: value.dateFrom.toString(),
               sugar: value.value.toDouble(),
               eatTime: value.dateFrom.toString(),
@@ -76,13 +80,13 @@ class SyncCubit extends Cubit<SyncState> {
           DateTime.now().subtract(Duration(days: 365)), DateTime.now(), [
         HealthDataType.WEIGHT,
       ]);
-
       for (final value in data) {
         final id = value.dateFrom.millisecondsSinceEpoch;
         if (!_repository.hasHeightModel(id)) {
           _repository.saveHeightModel(
             height: HeightModel(
               id: id,
+              userId: _appLocalRepository.currentUserId,
               date: value.dateFrom.toString(),
               height: value.value.toDouble(),
             ),
@@ -107,6 +111,7 @@ class SyncCubit extends Cubit<SyncState> {
           _repository.saveTemperature(
             temperature: Temperature(
               id: id,
+              userId: _appLocalRepository.currentUserId,
               date: value.dateFrom.toString(),
               temperature: value.value.toDouble(),
             ),
@@ -134,6 +139,7 @@ class SyncCubit extends Cubit<SyncState> {
           _repository.savePulse(
             pulse: Pulse(
               id: id,
+              userId: _appLocalRepository.currentUserId,
               date: value.dateFrom.toString(),
               pulse: value.value.toInt(),
               pulseType: 1,

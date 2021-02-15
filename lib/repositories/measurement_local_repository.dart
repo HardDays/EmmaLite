@@ -13,23 +13,28 @@ class MeasurementLocalRepository {
   final _appLocalRepository = AppLocalRepository();
 
   bool  hasPressure(int id) {
-    return _hiveBoxes.arterialPressureBox.values.any((e) => e.id == id);
+    final userId = _appLocalRepository.currentUserId;
+    return _hiveBoxes.arterialPressureBox.values.any((e) => e.id == id && e.userId == userId);
   }
 
   bool  hasBloodSugar(int id) {
-    return _hiveBoxes.bloodSugarBox.values.any((e) => e.id == id);
+    final userId = _appLocalRepository.currentUserId;
+    return _hiveBoxes.bloodSugarBox.values.any((e) => e.id == id && e.userId == userId);
   }
 
   bool  hasHeightModel(int id) {
-    return _hiveBoxes.heightModelBox.values.any((e) => e.id == id);
+    final userId = _appLocalRepository.currentUserId;
+    return _hiveBoxes.heightModelBox.values.any((e) => e.id == id && e.userId == userId);
   }
 
   bool  hasPulse(int id) {
-    return _hiveBoxes.pulseBox.values.any((e) => e.id == id);
+    final userId = _appLocalRepository.currentUserId;
+    return _hiveBoxes.pulseBox.values.any((e) => e.id == id && e.userId == userId);
   }
   
   bool hasTemperature(int id) {
-    return _hiveBoxes.temperatureBox.values.any((e) => e.id == id);
+    final userId = _appLocalRepository.currentUserId;
+    return _hiveBoxes.temperatureBox.values.any((e) => e.id == id && e.userId == userId);
   }
 
   List<ArterialPressure> getArterialPressure() {

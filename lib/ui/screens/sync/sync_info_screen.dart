@@ -18,18 +18,17 @@ class SyncInfoScreen extends StatelessWidget {
     return SyncScreen(
       text: 'activateHintAppleHealthSubTitle'.tr,
       buttonTitle: 'furtherButtonTitle'.tr,
-      onNext: () {
+      onNext: () async {
         final bloc = context.read<SyncCubit>();
-        bloc.init().then((value) async {
-          final bloc = context.read<MeasurementCubit>();
-          bloc.reload();
-
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => SyncFinishScreen(),
-            ),
-          );
+        await bloc.init();
+        final measureBloc = context.read<MeasurementCubit>();
+        measureBloc.reload();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => SyncFinishScreen(),
+          ),
+        );
 
           // хз как нормально это все реализовать
           // Scaffold.of(context).showSnackBar(
@@ -68,12 +67,6 @@ class SyncInfoScreen extends StatelessWidget {
           // );
           // await Future.delayed(Duration(seconds: 2));
           // Navigator.pop(context);
-        });
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => SyncLoadingScreen(),
-          ),
-        );
       },
     );
   }
