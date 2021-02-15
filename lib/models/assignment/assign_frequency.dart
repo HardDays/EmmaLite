@@ -10,13 +10,13 @@ List<String> assignFrequency = [
 ];
 
 List<String> assignFrequencyWeekday = [
-  'Понедельник',
-  'Вторник',
-  'Среда',
-  'Четверг',
-  'Пятница',
-  'Суббота',
-  'Воскресенье',
+  'monday',
+  'tuesday',
+  'wednesday',
+  'thursday',
+  'friday',
+  'saturday',
+  'sunday',
 ];
 
 List<AssignFrequencyInWeek> assignFrequencyInWeek = [

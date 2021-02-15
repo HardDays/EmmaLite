@@ -80,7 +80,7 @@ class User extends HiveObject {
 
   String get statusWithDefault {
     if (status.isEmpty) {
-      return 'Мой профиль';
+      return 'myProfile'.tr;
     }
     return status;
   }

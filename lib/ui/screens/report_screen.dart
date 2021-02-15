@@ -110,7 +110,7 @@ class _Fields extends StatelessWidget {
                   children: [
                     Expanded(
                       child: InputTextField(
-                        label: 'Действие с отчетом',
+                        label: 'Actions'.tr,
                         enable: false,
                         value: bloc.report.reportType?.title,
                         haveFormatter: false,

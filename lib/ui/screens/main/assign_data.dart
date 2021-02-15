@@ -134,7 +134,7 @@ class AssignData extends StatelessWidget {
                               Padding(
                                 padding: EdgeInsets.only(left: 8.w),
                                 child: Text(
-                                  'История назначений',
+                                  'viewRescriptions'.tr,
                                   style: AppTypography.font12.copyWith(
                                     color: AppColors.c3B4047,
                                   ),

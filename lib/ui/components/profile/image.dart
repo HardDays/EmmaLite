@@ -114,7 +114,7 @@ class ProfilePickImage extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(top: 16.h),
                 child: Text(
-                  'Вы можете добавить свое фото. Оно будет отображаться только в отчете.',
+                  'youCanAddPhoto'.tr,
                   style: AppTypography.font14.copyWith(
                     color: AppColors.c9B9B9B,
                   ),

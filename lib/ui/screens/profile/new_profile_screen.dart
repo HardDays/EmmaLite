@@ -86,7 +86,7 @@ class _CreateProfile extends StatelessWidget {
                 DefaultContainer(
                   child: InputTextField(
                     haveFormatter: false,
-                    label: 'Статус',
+                    label: 'personalStatus'.tr,
                     type: TextInputType.text,
                     onChange: bloc.setStatus,
                   ),

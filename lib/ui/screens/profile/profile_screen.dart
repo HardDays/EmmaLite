@@ -7,6 +7,7 @@ import 'package:emma_mobile/bloc/profile/profile_cubit.dart';
 import 'package:emma_mobile/bloc/profile/profile_state.dart';
 import 'package:emma_mobile/bloc/profile_screen/profile_screen_bloc.dart';
 import 'package:emma_mobile/bloc/profile_screen/profile_screen_state.dart';
+import 'package:emma_mobile/models/user/user.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
@@ -84,7 +85,7 @@ class _CurrentProfile extends StatelessWidget {
                                     DefaultContainer(
                                       child: InputTextField(
                                         enable: bloc.user.status.isNotEmpty,
-                                        label: 'Статус',
+                                        label: 'personalStatus'.tr,
                                         onChange: bloc.setStatus,
                                         initialValue:
                                             bloc.user.statusWithDefault,
@@ -143,9 +144,14 @@ class _CurrentProfile extends StatelessWidget {
 }
 
 class _TopList extends StatelessWidget {
+  const _TopList({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final bloc = context.bloc<ProfileCubit>();
+    final List<User> users = []..addAll(bloc.users);
+    users.removeWhere((e) => e.id == bloc.currentUser.id);
+    users.insert(0, bloc.currentUser);
     return Padding(
       padding: EdgeInsets.only(top: 32.h),
       child: SingleChildScrollView(
@@ -182,7 +188,7 @@ class _TopList extends StatelessWidget {
             SizedBox(
               height: 132.w,
               child: ListView.separated(
-                itemCount: bloc.users.length,
+                itemCount: users.length,
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
                 physics: const NeverScrollableScrollPhysics(),
@@ -190,16 +196,14 @@ class _TopList extends StatelessWidget {
                 itemBuilder: (_, i) {
                   return GestureDetector(
                     onTap: () {
-                      context.bloc<ProfileCubit>().setUser(
-                            bloc.users[i],
-                          );
+                      context.bloc<ProfileCubit>().setUser(users[i]);
                       context.bloc<MeasurementCubit>().reload();
                       context.bloc<DoctorsBloc>().reload();
                       context.bloc<AssignBloc>().reload();
                     },
                     child: ProfileImage(
                       size: 120.w,
-                      user: bloc.users[i],
+                      user: users[i],
                     ),
                   );
                 },

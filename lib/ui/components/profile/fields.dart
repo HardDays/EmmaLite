@@ -59,7 +59,7 @@ class ProfileFields extends StatelessWidget {
                     context.bloc<ProfileScreenBloc>().setGender(Gender.male),
                 child: Center(
                   child: Text(
-                    'Мужской',
+                    'male'.tr,
                     style: AppTypography.font16.copyWith(
                       color: user.gender == Gender.male
                           ? Colors.white
@@ -76,7 +76,7 @@ class ProfileFields extends StatelessWidget {
                     context.bloc<ProfileScreenBloc>().setGender(Gender.female),
                 child: Center(
                   child: Text(
-                    'Женский',
+                    'female'.tr,
                     style: AppTypography.font16.copyWith(
                       color: user.gender == Gender.female
                           ? AppColors.cFFFFFF
@@ -142,7 +142,7 @@ class ProfileFields extends StatelessWidget {
         ),
         DefaultContainer(
           child: InputTextField(
-            label: 'Телефон',
+            label: 'telephoneNumber'.tr,
             initialValue: user.phone,
             formatter: PhoneTextInputFormatter(),
             onChange: (s) {

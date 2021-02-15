@@ -134,7 +134,7 @@ class _Item extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '${measurement.getFormattedDate()}, ручной ввод',
+                        '${measurement.getFormattedDate()}, ${'manual'.tr}',
                         style: AppTypography.font12.copyWith(
                           color: AppColors.c9B9B9B,
                         ),

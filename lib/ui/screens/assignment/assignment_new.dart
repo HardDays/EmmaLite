@@ -171,7 +171,7 @@ class _NewAssign extends StatelessWidget {
                     children: [
                       Expanded(
                         child: InputTextField(
-                          label: 'Кто назначил',
+                          label: 'doctorName'.tr,
                           onChange: bloc.setDoctor,
                           initialValue: bloc.assignment.doctorName,
                           formatter: LengthLimitingTextInputFormatter(27),
@@ -439,13 +439,13 @@ class _FullTypeWidgets extends StatelessWidget {
                     ),
                   ),
                   _RadioButton(
-                    title: 'Регулярно',
+                    title: 'regularly'.tr,
                     onTap: () => bloc.setIsRegular(regular: true),
                     value: bloc.assignment.isRegular,
                     enable: bloc.canChange,
                   ),
                   _RadioButton(
-                    title: 'Единоразово',
+                    title: 'oneTime'.tr,
                     onTap: () => bloc.setIsRegular(regular: false),
                     value: !bloc.assignment.isRegular,
                     enable: bloc.canChange,
@@ -468,15 +468,15 @@ class _FullTypeWidgets extends StatelessWidget {
                     padding: EdgeInsets.only(top: 20.h),
                     child: DefaultPickerField(
                       color: bloc.containerColor,
-                      title: 'День недели',
+                      title: 'day'.tr,
                       enable: bloc.canChange,
                       index: bloc.assignment.singleTasks[i].dayNumber,
-                      hintText: 'День недели',
+                      hintText: 'day'.tr,
                       onChange: (value) => bloc.setWeekday(
                         dayNumber: value,
                         taskNumber: i,
                       ),
-                      values: assignFrequencyWeekday,
+                      values: assignFrequencyWeekday.map((e) => e.tr).toList(),
                     ),
                   ),
                   _TimesGrid(
@@ -500,11 +500,11 @@ class _FullTypeWidgets extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(top: 20.h),
                 child: DefaultPickerField(
-                  title: 'Регулярность',
+                  title: 'regularity'.tr,
                   enable: bloc.canChange,
                   color: bloc.containerColor,
                   index: bloc.assignment.periodicTask.type.index,
-                  hintText: 'Регулярность',
+                  hintText: 'regularity'.tr,
                   onChange: (value) => bloc.setRegularTypeCount(
                     assignFrequencyInWeek[value],
                   ),

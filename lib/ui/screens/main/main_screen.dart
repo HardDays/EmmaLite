@@ -53,7 +53,7 @@ class MainScreen extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.only(bottom: 12.h, top: 24.h),
                         child: Text(
-                          'Текущие измерения',
+                          'recentMeasurements'.tr,
                           style: AppTypography.font16.copyWith(
                             color: AppColors.c3B4047,
                           ),

@@ -112,12 +112,12 @@ class _AppBar extends StatelessWidget {
             children: [
               ChipItem(
                 isActive: bloc.state is DoingAssignScreenState,
-                title: 'Сделать',
+                title: 'toDo'.tr,
                 onTap: bloc.addDoingState,
               ),
               ChipItem(
                 isActive: bloc.state is CompletedAssignScreenState,
-                title: 'Сделано',
+                title: 'done'.tr,
                 onTap: bloc.addCompletedState,
               ),
               ChipItem(
@@ -318,7 +318,7 @@ class _ListItem extends StatelessWidget {
     } else if (count.isEmpty) {
       text = 'thereWereNoReceptionsText'.tr;
     } else if (count.length == assignment.runTasks.length) {
-      text = '${count.length} приемов';
+      text = '${count.length} ${'quantity'.tr}';
     } else {
       final length =
           assignment.runTasks.where((e) => !e.completed && e.enable).length;
