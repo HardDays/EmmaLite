@@ -234,10 +234,7 @@ class _Data extends StatelessWidget {
         .toList();
     final now = DateTime.now();
     if (detailBloc.state is DoingAssignScreenState) {
-      stateTasks.sort(
-        (i, j) =>
-            i.dateTime.difference(now).compareTo(j.dateTime.difference(now)),
-      );
+      stateTasks.sort((i, j) => i.dateTime.compareTo(j.dateTime));
     } else {
       stateTasks.sort(
         (i, j) => i.completedDate

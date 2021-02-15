@@ -23,13 +23,7 @@ class AssignBloc extends Cubit<AssignState> {
       if (!i.isStopped)
         bufList.addAll(i.runTasks.where((e) => e.dateTime.isInDay(date)));
     }
-    final now = DateTime.now();
-    bufList.sort(
-      (i, j) => i.dateTime
-          .difference(now)
-          .abs()
-          .compareTo(j.dateTime.difference(now).abs()),
-    );
+    bufList.sort((i, j) => i.dateTime.compareTo(j.dateTime));
     return bufList;
   }
 
