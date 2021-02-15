@@ -63,7 +63,12 @@ class SmallAppBar extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                   color: AppColors.c4A4A4A,
                 ),
-              )
+              ),
+              if (trailing != null)
+                Positioned(
+                  right: 0,
+                  child: trailing,
+                )
             ],
           ),
         ),

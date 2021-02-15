@@ -6,6 +6,7 @@ import 'package:emma_mobile/models/time_range.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
 import 'package:emma_mobile/ui/components/chip.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
+import 'package:emma_mobile/ui/components/profile/image.dart';
 import 'package:emma_mobile/ui/screens/assignment/calendar_screen.dart';
 import 'package:emma_mobile/ui/screens/measurement/measurement_new.dart';
 import 'package:emma_mobile/utils/utils.dart';
@@ -114,7 +115,7 @@ class _TopRow extends StatelessWidget {
                 padding: EdgeInsets.only(
                   left: 12.w,
                   right: 8.w,
-                  top: 10.h,
+                  top: 12.h,
                   bottom: 10.h,
                 ),
                 child: AppIcons.calendarActive(),
@@ -140,12 +141,13 @@ class _TopRow extends StatelessWidget {
                 padding: EdgeInsets.only(
                   left: 8.w,
                   right: 16.w,
-                  top: 10.h,
+                  top: 12.h,
                   bottom: 10.h,
                 ),
                 child: AppIcons.plus(),
               ),
-            )
+            ),
+            ProfileTrailing()
           ],
         ),
       ),

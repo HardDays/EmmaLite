@@ -10,6 +10,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
+class ProfileTrailing extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final user = context.bloc<ProfileCubit>().currentUser;
+    if (user.isEmpty) {
+      return const SizedBox();
+    }
+    return Padding(
+      padding: EdgeInsets.only(right: 12.w, top: 5.h),
+      child: ProfileImage(
+        user: user,
+        size: 30.w,
+        showactual: false,
+        textSize: Constants.textSize10,
+      ),
+    );
+  }
+}
+
 class ProfilePickImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -112,16 +131,21 @@ class ProfilePickImage extends StatelessWidget {
 class ProfileImage extends StatelessWidget {
   final double size;
   final User user;
+  final bool showactual;
+  final double textSize;
 
   const ProfileImage({
     Key key,
     this.size,
     this.user,
+    this.showactual = true,
+    this.textSize,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Stack(
+      alignment: Alignment.center,
       children: [
         Container(
           decoration: const BoxDecoration(
@@ -137,6 +161,7 @@ class ProfileImage extends StatelessWidget {
                     child: Text(
                       user.initials,
                       style: AppTypography.font32.copyWith(
+                        fontSize: textSize,
                         color: AppColors.cFFFFFF,
                       ),
                     ),
@@ -149,13 +174,15 @@ class ProfileImage extends StatelessWidget {
                   height: size ?? 140.w,
                 ),
         ),
-        Container(
-          width: size ?? 140.w,
-          height: size ?? 140.w,
-          decoration: profileImageDecoration(),
-          clipBehavior: Clip.antiAlias,
-        ),
-        if (user.id == context.bloc<ProfileCubit>().currentUser.id)
+        if (showactual)
+          Container(
+            width: size ?? 140.w,
+            height: size ?? 140.w,
+            decoration: profileImageDecoration(),
+            clipBehavior: Clip.antiAlias,
+          ),
+        if (user.id == context.bloc<ProfileCubit>().currentUser.id &&
+            showactual)
           Positioned(
             top: 4.w,
             right: 0,
@@ -180,6 +207,7 @@ class SmallProfileImage extends StatelessWidget {
   final User user;
 
   const SmallProfileImage({Key key, this.user}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -187,30 +215,28 @@ class SmallProfileImage extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color:
-            context.bloc<ProfileCubit>().colorIfEmpty(user),
+            color: context.bloc<ProfileCubit>().colorIfEmpty(user),
           ),
           clipBehavior: Clip.antiAlias,
           width: 56.h,
           height: 56.h,
           child: user.photo.isEmpty
               ? Center(
-            child: Text(
-              user.initials,
-              style: AppTypography.font24.copyWith(
-                color: AppColors.cFFFFFF,
-              ),
-            ),
-          )
+                  child: Text(
+                    user.initials,
+                    style: AppTypography.font24.copyWith(
+                      color: AppColors.cFFFFFF,
+                    ),
+                  ),
+                )
               : Image.file(
-            File(user.photo),
-            fit: BoxFit.fill,
-            width: 56.h,
-            height: 56.h,
-          ),
+                  File(user.photo),
+                  fit: BoxFit.fill,
+                  width: 56.h,
+                  height: 56.h,
+                ),
         ),
-        if (user.id ==
-            context.bloc<ProfileCubit>().currentUser.id)
+        if (user.id == context.bloc<ProfileCubit>().currentUser.id)
           Positioned(
             top: 0,
             right: 0,
@@ -230,7 +256,6 @@ class SmallProfileImage extends StatelessWidget {
     );
   }
 }
-
 
 BoxDecoration profileImageDecoration({Color color}) {
   return BoxDecoration(

@@ -4,6 +4,7 @@ import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
 import 'package:emma_mobile/ui/components/assign/empty_or_expired.dart';
 import 'package:emma_mobile/ui/components/assign_item.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
+import 'package:emma_mobile/ui/components/profile/image.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,6 +27,7 @@ class AssignDateScreen extends StatelessWidget {
             leading: BackLeading(
               text: 'differenceBackTextLabel'.tr.capitalizeFirst,
             ),
+            trailing: ProfileTrailing(),
           ),
           Expanded(
             child: BlocBuilder<AssignBloc, AssignState>(

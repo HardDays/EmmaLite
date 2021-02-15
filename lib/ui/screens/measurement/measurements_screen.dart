@@ -1,6 +1,8 @@
 import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
 import 'package:emma_mobile/bloc/measurement/measurement_state.dart';
+import 'package:emma_mobile/bloc/profile/profile_cubit.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
+import 'package:emma_mobile/ui/components/profile/image.dart';
 import 'package:emma_mobile/ui/screens/measurement/empty_measurements.dart';
 import 'package:emma_mobile/ui/screens/measurement/measurement_list_item.dart';
 import 'package:emma_mobile/utils/utils.dart';
@@ -15,7 +17,10 @@ class MeasurementScreen extends StatelessWidget {
       backgroundColor: AppColors.cF5F7FA,
       body: Column(
         children: [
-          EmmaAppBar(title: 'mainTitleMeasurements'.tr),
+          EmmaAppBar(
+            title: 'mainTitleMeasurements'.tr,
+            trailing: ProfileTrailing(),
+          ),
           BlocBuilder<MeasurementCubit, MeasurementState>(
             builder: (_, state) {
               if (bloc.data.isNotEmpty) {

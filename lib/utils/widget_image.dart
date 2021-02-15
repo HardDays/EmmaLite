@@ -101,15 +101,13 @@ abstract class WidgetImage {
     if (previousPageLastDay != null) {
       dayWidgets.add(previousPageLastDay);
     } else {
-      dayWidgets.add(
-          DayWidget(
-            day: 0,
-            endTask: 0,
-            startTask: 0,
-            endMeas: 0,
-            startMeas: 0,
-          )
-      );
+      dayWidgets.add(DayWidget(
+        day: 0,
+        endTask: 0,
+        startTask: 0,
+        endMeas: 0,
+        startMeas: 0,
+      ));
     }
 
     int index = dayWidgets.last.day + 0;
@@ -127,12 +125,14 @@ abstract class WidgetImage {
       size += (await getImage(widget: firstPageWidget)).height;
     }
 
-    while (size < 950 && index <= report.difference) {
+    while (size < 950) {
+      print('zzzzzzz');
       final currentDay = report.startDate.add(Duration(days: index));
       final inDayTasks =
           [...tasks].where((e) => e.dateTime.isInDay(currentDay)).toList();
-      final inDayMeasurement =
-          [...measurementList].where((e) => e.dateTime.isInDay(currentDay)).toList();
+      final inDayMeasurement = [...measurementList]
+          .where((e) => e.dateTime.isInDay(currentDay))
+          .toList();
 
       final widget = await _dayItem(
         assignBloc: assignBloc,
@@ -148,15 +148,16 @@ abstract class WidgetImage {
       );
       final widgetSize = (await getImage(widget: widget.widget)).height;
       size += widgetSize;
-      if (size > 950) {
+      if (size >= 950) {
         break;
       } else {
-
         DayWidget bufDay = DayWidget();
         bufDay.day = index;
-        bufDay.startTask = dayWidgets.last.day == index ? dayWidgets.last.endTask : 0;
+        bufDay.startTask =
+            dayWidgets.last.day == index ? dayWidgets.last.endTask : 0;
         bufDay.endTask = widget.taskIndex;
-        bufDay.startMeas = dayWidgets.last.day == index ? dayWidgets.last.endMeas : 0;
+        bufDay.startMeas =
+            dayWidgets.last.day == index ? dayWidgets.last.endMeas : 0;
         bufDay.endMeas = widget.measIndex;
         if (widget.taskIndex == inDayTasks.length &&
             widget.measIndex == inDayMeasurement.length) {
@@ -174,8 +175,21 @@ abstract class WidgetImage {
         }
       }
     }
+    List<DayWidget> d = [];
+    for (var i = 0; i < dayWidgets.length; i++) {
+      var index2 = report.startDate.add(Duration(days: dayWidgets.last.day));
+      var t3 = [...tasks].where((e) => e.dateTime.isInDay(index2)).isNotEmpty;
+      var m3 = [...measurementList]
+          .where((e) => e.dateTime.isInDay(index2))
+          .isNotEmpty;
+      if ((dayWidgets[i].endTask == dayWidgets[i].startTask && dayWidgets[i].endMeas == dayWidgets[i].startMeas) &&
+          (t3 || m3)) {
+      } else {
+        d.add(dayWidgets[i]);
+      }
+    }
     return PageWidget(
-      dayWidgets: dayWidgets,
+      dayWidgets: d,
       widget: SizedBox(
         height: 846,
         child: Padding(
@@ -248,7 +262,7 @@ abstract class WidgetImage {
         haveTopPadding: taskIndex != 0,
       );
       size += (await getImage(widget: taskWidget)).height;
-      if (size + initSize > 950) {
+      if (size + initSize > 900) {
         break;
       } else {
         taskWidgets.add(taskWidget);
@@ -262,7 +276,7 @@ abstract class WidgetImage {
         measurement: inDayMeasurement[i],
       );
       measSize += (await getImage(widget: taskWidget)).height;
-      if (measSize + initSize > 950) {
+      if (measSize + initSize > 900) {
         break;
       } else {
         measWidgets.add(taskWidget);

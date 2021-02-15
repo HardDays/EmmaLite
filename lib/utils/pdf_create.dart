@@ -297,6 +297,7 @@ abstract class CreatePdf {
                   font: ttf,
                   fontSize: 10,
                 ),
+                maxLines: null,
               ),
             )
           ],
@@ -593,6 +594,7 @@ abstract class CreatePdf {
     final height = await _loadImage('${iconPath}height.png');
     final weight = await _loadImage('${iconPath}weight.png');
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
         Padding(

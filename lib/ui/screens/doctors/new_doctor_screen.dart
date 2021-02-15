@@ -6,6 +6,7 @@ import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
 import 'package:emma_mobile/ui/components/measurement/default_container.dart';
 import 'package:emma_mobile/ui/components/measurement/int_text_field.dart';
+import 'package:emma_mobile/ui/components/profile/image.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

@@ -1,6 +1,7 @@
 import 'package:emma_mobile/bloc/assign/assign_bloc.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
 import 'package:emma_mobile/ui/components/calendar.dart';
+import 'package:emma_mobile/ui/components/profile/image.dart';
 import 'package:emma_mobile/ui/screens/assignment/assign_date_screen.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class CalendarScreen extends StatelessWidget {
           EmmaAppBar(
             title: 'Выбор даты назначения',
             leading: BackLeading(text: 'prescriptionsTitleLabel'.tr),
+            trailing: ProfileTrailing(),
           ),
           Padding(
             padding: EdgeInsets.only(top: 20.h),

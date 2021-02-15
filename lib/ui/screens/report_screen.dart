@@ -24,6 +24,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:share/share.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
@@ -227,9 +228,11 @@ class _Fields extends StatelessWidget {
                           : pageWidgets.last.dayWidgets.last,
                       isFirst: isFirstWidget,
                     );
+                    if (pageWidget.dayWidgets.isNotEmpty || isFirstWidget) {
+                      pageWidgets.add(pageWidget);
+                      widgets.add(pageWidget.widget);
+                    }
                     isFirstWidget = false;
-                    pageWidgets.add(pageWidget);
-                    widgets.add(pageWidget.widget);
                     index = pageWidget.dayWidgets.last.day;
                     if (pageWidget.dayWidgets.last.endTask ==
                             inDayTasks.length &&
@@ -265,25 +268,25 @@ class _Fields extends StatelessWidget {
 
                   final dir = await getApplicationSupportDirectory();
                   file = File(
-                      '${dir.path}/${DateTime.now().millisecondsSinceEpoch}.pdf');
+                      '${dir.path}/${'reportSubject'.tr} ${user.lastName}.pdf');
                   if (!file.existsSync()) {
                     file.createSync(recursive: true);
                   }
                   final fileBytes = await pdf.save();
                   file.writeAsBytesSync(fileBytes);
 
-                  // Share.shareFiles([file.path]);
+                  Share.shareFiles([file.path]);
 
-                  final Email email = Email(
-                    recipients: [
-                      report.reportType is SelfReportType
-                          ? user.email
-                          : report.email
-                    ],
-                    attachmentPaths: [file.path],
-                  );
-
-                  await FlutterEmailSender.send(email);
+                  // final Email email = Email(
+                  //   recipients: [
+                  //     report.reportType is SelfReportType
+                  //         ? user.email
+                  //         : report.email
+                  //   ],
+                  //   attachmentPaths: [file.path],
+                  // );
+                  //
+                  // await FlutterEmailSender.send(email);
                 },
               ),
             )

@@ -5,6 +5,7 @@ import 'package:emma_mobile/models/measurements/measurement.dart';
 import 'package:emma_mobile/models/measurements/pulse.dart';
 import 'package:emma_mobile/models/measurements/temperature.dart';
 import 'package:emma_mobile/ui/components/app_bar/emm_app_bar.dart';
+import 'package:emma_mobile/ui/components/profile/image.dart';
 import 'package:emma_mobile/ui/screens/measurement/measurement_list_item.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,6 +31,7 @@ class SelectMeasurement extends StatelessWidget {
             leading: BackLeading(
               text: 'differenceBackTextLabel'.tr.capitalizeFirst,
             ),
+            trailing: ProfileTrailing(),
           ),
           Expanded(
             child: ListView.separated(

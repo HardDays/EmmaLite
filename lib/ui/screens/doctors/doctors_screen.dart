@@ -15,8 +15,13 @@ import 'package:provider/provider.dart';
 
 class DoctorsScreen extends StatelessWidget {
   final bool returnDoctor;
+  final bool haveBackButton;
 
-  const DoctorsScreen({Key key, this.returnDoctor = false}) : super(key: key);
+  const DoctorsScreen({
+    Key key,
+    this.returnDoctor = false,
+    this.haveBackButton = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +35,11 @@ class DoctorsScreen extends StatelessWidget {
           children: [
             EmmaAppBar(
               title: 'mainDoctorListTitle'.tr,
-              leading: BackLeading(
-                text: 'differenceBackTextLabel'.tr.capitalizeFirst,
-              ),
+              leading: haveBackButton
+                  ? BackLeading(
+                      text: 'differenceBackTextLabel'.tr.capitalizeFirst,
+                    )
+                  : null,
               trailing: GestureDetector(
                 onTap: () {
                   Navigator.of(context).push(

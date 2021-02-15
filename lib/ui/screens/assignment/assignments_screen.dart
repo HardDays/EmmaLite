@@ -9,6 +9,7 @@ import 'package:emma_mobile/ui/components/assign_item.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
 import 'package:emma_mobile/ui/components/chip.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
+import 'package:emma_mobile/ui/components/profile/image.dart';
 import 'package:emma_mobile/ui/screens/assignment/assignment_new.dart';
 import 'package:emma_mobile/ui/screens/assignment/calendar_screen.dart';
 import 'package:emma_mobile/utils/utils.dart';
@@ -50,7 +51,7 @@ class AssignmentsScreen extends StatelessWidget {
                                   behavior: HitTestBehavior.opaque,
                                   child: Padding(
                                     padding: EdgeInsets.only(
-                                      top: 15.h,
+                                      top: 8.h,
                                       right: 8.w,
                                       left: 16.w,
                                     ),
@@ -68,16 +69,17 @@ class AssignmentsScreen extends StatelessWidget {
                                   behavior: HitTestBehavior.opaque,
                                   child: Padding(
                                     padding: EdgeInsets.only(
-                                      top: 15.h,
+                                      top: 8.h,
                                       right: 16.w,
                                       left: 8.w,
                                     ),
                                     child: AppIcons.plus(),
                                   ),
                                 ),
+                                ProfileTrailing(),
                               ],
                             )
-                          : null,
+                          : ProfileTrailing(),
                     ),
                     Expanded(
                       child: _Data(),

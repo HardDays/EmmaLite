@@ -72,7 +72,7 @@ class BottomMenu extends StatelessWidget {
                   if (isName) {
                     navigatorPush(context, AssignmentNewScreen());
                   } else {
-                    otherTabPage?.call(DoctorsScreen());
+                    otherTabPage?.call(DoctorsScreen(haveBackButton: false));
                   }
                 },
               )

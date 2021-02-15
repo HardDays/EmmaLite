@@ -14,6 +14,7 @@ import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/components/measurement/date_time_text_field.dart';
 import 'package:emma_mobile/ui/components/measurement/default_container.dart';
 import 'package:emma_mobile/ui/components/measurement/int_text_field.dart';
+import 'package:emma_mobile/ui/components/profile/image.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/cupertino.dart'
     hide CupertinoDatePicker, CupertinoDatePickerMode, CupertinoPicker;
@@ -70,6 +71,7 @@ class MeasurementNewScreen extends StatelessWidget {
                           ),
                         ),
                       ),
+                       trailing: ProfileTrailing(),
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 20.h),
@@ -242,7 +244,7 @@ class _DoubleTextField extends StatelessWidget {
           firstStartValue: isSugar ? 2 : 32,
           secondMaxValue: 9,
           secondIndex: 0,
-          secondStartValue: isSugar ? 0 : 6,
+          secondStartValue: 0,
         );
         if (res is double) {
           onChange.call(res);

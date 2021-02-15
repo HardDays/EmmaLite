@@ -1,5 +1,6 @@
 import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
 import 'package:emma_mobile/bloc/measurement/measurement_state.dart';
+import 'package:emma_mobile/bloc/profile/profile_cubit.dart';
 import 'package:emma_mobile/ui/components/icons.dart';
 import 'package:emma_mobile/ui/routing/navigator.dart';
 import 'package:emma_mobile/ui/screens/main/assign_data.dart';
@@ -15,6 +16,7 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = context.bloc<MeasurementCubit>();
+    final profileBloc = context.bloc<ProfileCubit>();
     return Scaffold(
       backgroundColor: AppColors.cF5F7FA,
       body: BlocBuilder<MeasurementCubit, MeasurementState>(
@@ -34,7 +36,7 @@ class MainScreen extends StatelessWidget {
                         child: Padding(
                           padding: EdgeInsets.only(top: 24.h, bottom: 16.h),
                           child: Text(
-                            greetingStringBasedOn(DateTime.now()),
+                            '${greetingStringBasedOn(DateTime.now())}${profileBloc.currentUser.isEmpty ? '' : ', ${profileBloc.currentUser.firstName}'}',
                             style: AppTypography.font20.copyWith(
                               color: AppColors.c000000,
                             ),

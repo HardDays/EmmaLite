@@ -21,6 +21,7 @@ import 'package:emma_mobile/ui/components/measurement/default_container.dart';
 import 'package:emma_mobile/ui/components/measurement/default_picker_field.dart';
 import 'package:emma_mobile/ui/components/measurement/int_text_field.dart';
 import 'package:emma_mobile/ui/components/modal_widget.dart';
+import 'package:emma_mobile/ui/components/profile/image.dart';
 import 'package:emma_mobile/ui/screens/detail_photo_screen.dart';
 import 'package:emma_mobile/ui/screens/doctors/doctors_screen.dart';
 import 'package:emma_mobile/utils/utils.dart';
@@ -54,6 +55,7 @@ class AssignmentNewScreen extends StatelessWidget {
               SmallAppBar(
                 title: 'titleCreatePrescriptionsView'.tr,
                 leadingText: 'titleCancelButton'.tr,
+                trailing: ProfileTrailing(),
               )
             else
               EmmaAppBar(
