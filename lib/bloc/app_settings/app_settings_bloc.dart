@@ -85,4 +85,8 @@ class AppSettingsBloc extends Cubit<AppSettingsState> {
     _appLocalRepository.putSettings(_appSettings);
     emit(AppSettingsState());
   }
+
+  void update() {
+    emit(AppSettingsState());
+  }
 }

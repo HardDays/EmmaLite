@@ -597,7 +597,7 @@ abstract class WidgetImage {
                     Padding(
                       padding: const EdgeInsets.only(left: 4, right: 24),
                       child: Text(
-                        '${user.weight} ${'weightUnit'.tr}',
+                        '${user.weight ?? ''} ${'weightUnit'.tr}',
                         style: const TextStyle(
                           fontSize: 8,
                           fontFamily: AppTypography.textStyle,
@@ -608,7 +608,7 @@ abstract class WidgetImage {
                     Padding(
                       padding: const EdgeInsets.only(left: 4, right: 24),
                       child: Text(
-                        '${user.height} см',
+                        '${user.height ?? ''} см',
                         style: const TextStyle(
                           fontSize: 8,
                           fontFamily: AppTypography.textStyle,

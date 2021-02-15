@@ -61,6 +61,18 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(ProfileState());
   }
 
+  void deleteUser(User user) {
+    if (user.id == _currentUser.id) {
+      _currentUser = users.first;
+      final settings = _appLocalRepository.getSettings();
+      settings.currentProfileId = _currentUser.id;
+      _appLocalRepository.putSettings(settings);
+    }
+    _repository.deleteUser(_users.lastIndexWhere((e) => e.id == user.id));
+    _users.removeWhere((e) => e.id == user.id);
+    emit(ProfileState());
+  }
+
   void updateUser(User user) {
     final index = _users.lastIndexWhere((e) => e.id == user.id);
     _users[index] = user;

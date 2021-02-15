@@ -420,7 +420,7 @@ abstract class CreatePdf {
                     Padding(
                       padding: const EdgeInsets.only(left: 4, right: 24),
                       child: Text(
-                        '${user.weight} ${'weightUnit'.tr}',
+                        '${user.weight ?? ''} ${'weightUnit'.tr}',
                         style: TextStyle(
                           fontSize: 8,
                           font: ttf,
@@ -431,7 +431,7 @@ abstract class CreatePdf {
                     Padding(
                       padding: const EdgeInsets.only(left: 4, right: 24),
                       child: Text(
-                        '${user.height} см',
+                        '${user.height ?? ''} см',
                         style: TextStyle(
                           fontSize: 8,
                           font: ttf,

@@ -10,6 +10,10 @@ class ProfileLocalRepository {
     return _hiveBoxes.userBox.values.map((e) => e as User).toList();
   }
 
+  void deleteUser(int index) {
+    _hiveBoxes.userBox.deleteAt(index);
+  }
+
   User getUserById({int id}) {
     return _hiveBoxes.userBox.values
         .map((e) => e as User)

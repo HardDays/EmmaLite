@@ -91,9 +91,6 @@ class User extends HiveObject {
         lastName.isNotEmpty &&
         genderId != null &&
         birthday != null &&
-        height != null &&
-        weight != null &&
-        phone.isNotEmpty &&
         email.isNotEmpty &&
         RegExp(Constants.emailRegex).hasMatch(email)) {
       canSave = true;

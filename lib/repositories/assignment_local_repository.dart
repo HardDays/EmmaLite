@@ -21,6 +21,10 @@ class AssignmentLocalRepository {
         .toList();
   }
 
+  void delete(int index) {
+    _hiveBoxes.assignmentBox.deleteAt(index);
+  }
+
   void addAssignment(Assignment assign) =>
       _hiveBoxes.assignmentBox.add(assign.toJson());
 

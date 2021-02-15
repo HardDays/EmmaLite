@@ -81,13 +81,26 @@ class AssignBloc extends Cubit<AssignState> {
   }
 
   void reloadNotifications() {
-    final assignments = AssignmentLocalRepository().getAllAssignment();
+    final assignments = _assignmentLocalRepository.getAllAssignment();
     Static.reloadNotifications(assignments);
   }
 
   void reload() {
     _init();
     emit(AssignState());
+  }
+
+  void deleteUser(int userId) {
+    final assignments = AssignmentLocalRepository().getAllAssignment();
+    if (assignment.any((e) => e.userId == userId)) {
+      while (assignments.any((e) => e.userId == userId)) {
+        final index = assignments.lastIndexWhere((e) => e.userId == userId);
+        assignments.removeAt(index);
+        _assignmentLocalRepository.delete(index);
+      }
+    }
+    reloadNotifications();
+    reload();
   }
 
   Assignment getAssignById(int id) => _assignment.firstWhere((e) => e.id == id);

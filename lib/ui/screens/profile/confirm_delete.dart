@@ -1,9 +1,14 @@
+import 'package:emma_mobile/bloc/app_settings/app_settings_bloc.dart';
+import 'package:emma_mobile/bloc/assign/assign_bloc.dart';
+import 'package:emma_mobile/bloc/measurement/measurement_cubit.dart';
+import 'package:emma_mobile/bloc/profile/profile_cubit.dart';
 import 'package:emma_mobile/models/user/user.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_border_button.dart';
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
 import 'package:emma_mobile/ui/components/profile/image.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ConfirmDelete extends StatelessWidget {
   final User user;
@@ -76,7 +81,13 @@ class ConfirmDelete extends StatelessWidget {
               title: 'removeExecutionLabel'.tr,
               activeColor: AppColors.cFF3B30,
               haveShadow: false,
-              onTap: () {},
+              onTap: () {
+                context.bloc<ProfileCubit>().deleteUser(user);
+                context.bloc<AppSettingsBloc>().update();
+                context.bloc<MeasurementCubit>().reload();
+                context.bloc<AssignBloc>().deleteUser(user.id);
+                Navigator.of(context).pop();
+              },
             )
           ],
         ),
