@@ -207,5 +207,8 @@ abstract class RuMessages {
         'deleteProfileViewMainTitleText': 'Вы действительно хотите удалить профиль?',
         'createNewProfileNavBarTitle': 'Новый профиль',
         'pressPlusButtonHintForCreateNewProfileSubmitButtonTitle': 'Ясно',
+        'synchronization': 'Синхронизация',
+        'darkTheme': 'Темная тема',
+        'whiteTheme': 'Светлая тема'
       };
 }

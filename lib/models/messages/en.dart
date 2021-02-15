@@ -153,7 +153,7 @@ abstract class EnMessages {
         'titleSettingsAddPassword': 'Confidentiality',
         'titleUse': 'Turn Touch ID/Face ID on',
         'titleUsePassword': 'Passcode on',
-        'titleCancelButton': 'titleCancelButton',
+        'titleCancelButton': 'Cancel',
         'titleChangePassword': 'Change passcode',
         'titleInputPassword_0': 'Enter passcode',
         'wrongPasswordTitle': 'Wrong passcode',
@@ -208,5 +208,8 @@ abstract class EnMessages {
         'deleteProfileViewMainTitleText': 'Are you sure you want to delete your profile?',
         'createNewProfileNavBarTitle': 'New',
         'pressPlusButtonHintForCreateNewProfileSubmitButtonTitle': 'Ok',
+        'synchronization': 'Synchronization',
+        'darkTheme': 'Dark theme',
+        'whiteTheme': 'White theme'
       };
 }

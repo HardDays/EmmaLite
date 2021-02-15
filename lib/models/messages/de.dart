@@ -180,6 +180,9 @@ abstract class DeMessages {
         'profileManagementNavBarTitle': 'Profile',
         'deleteProfileViewMainTitleText':
             'Sind Sie sicher, dass Sie Ihr Profil löschen wollen?',
-        'pressPlusButtonHintForCreateNewProfileSubmitButtonTitle': 'Ok'
+        'pressPlusButtonHintForCreateNewProfileSubmitButtonTitle': 'Ok',
+        'synchronization': 'Синхронизация',
+        'darkTheme': 'Темная тема',
+        'whiteTheme': 'Светлая тема'
       };
 }

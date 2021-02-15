@@ -79,6 +79,9 @@ class _SplashScreenState extends State<SplashScreen>
                   );
                 } else {
                   _storePassword = settingsBloc.appSettings.password;
+                  if (settingsBloc.appSettings.useFaceId) {
+                    _localAuthentication();
+                  }
                 }
               },
             );
@@ -250,25 +253,7 @@ class _SplashScreenState extends State<SplashScreen>
                   haveFaceId:
                       context.bloc<AppSettingsBloc>().appSettings.useFaceId,
                   localAuthType: _biometricType,
-                  onFaceIdTap: () {
-                    LocalAuthentication().authenticateWithBiometrics(
-                      localizedReason: 'Вход',
-                      androidAuthStrings: AndroidAuthMessages(
-                        cancelButton: 'titleCloseButton'.tr,
-                      ),
-                      iOSAuthStrings: IOSAuthMessages(
-                        cancelButton: 'titleCloseButton'.tr,
-                      )
-                    ).then((value) {
-                      if (value) {
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (_) => NavigatorScreen(),
-                          ),
-                        );
-                      }
-                    });
-                  },
+                  onFaceIdTap: _localAuthentication,
                   onChange: _setPassword,
                 ),
               ),
@@ -277,5 +262,25 @@ class _SplashScreenState extends State<SplashScreen>
         ],
       ),
     );
+  }
+
+  void _localAuthentication() {
+    LocalAuthentication().authenticateWithBiometrics(
+        localizedReason: 'Вход',
+        androidAuthStrings: AndroidAuthMessages(
+          cancelButton: 'titleCloseButton'.tr,
+        ),
+        iOSAuthStrings: IOSAuthMessages(
+          cancelButton: 'titleCloseButton'.tr,
+        )
+    ).then((value) {
+      if (value) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (_) => NavigatorScreen(),
+          ),
+        );
+      }
+    });
   }
 }

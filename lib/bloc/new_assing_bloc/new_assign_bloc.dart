@@ -78,12 +78,12 @@ class NewAssignBloc extends Cubit<NewAssignState> {
   }
 
   void setStartTime(DateTime time) {
-    _assignment.startTime = time;
+    _assignment.startTime = time.copyWith(hour: 0, minute: 0, second: 0);
     _update();
   }
 
   void setEndTime(DateTime time) {
-    _assignment.endTime = time;
+    _assignment.endTime = time.copyWith(hour: 23, minute: 59, second: 59);
     _update();
   }
 

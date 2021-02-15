@@ -30,6 +30,9 @@ class DoctorsScreen extends StatelessWidget {
           children: [
             EmmaAppBar(
               title: 'mainDoctorListTitle'.tr,
+              leading: BackLeading(
+                text: 'differenceBackTextLabel'.tr.capitalizeFirst,
+              ),
               trailing: GestureDetector(
                 onTap: () {
                   Navigator.of(context).push(

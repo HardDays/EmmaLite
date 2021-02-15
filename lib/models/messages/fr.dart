@@ -184,6 +184,9 @@ abstract class FrMessages {
         'profileManagementNavBarTitle': 'Gestion du profil',
         'deleteProfileViewMainTitleText':
             'Voulez-vous vraiment supprimer le profil?',
-        'pressPlusButtonHintForCreateNewProfileSubmitButtonTitle': 'Clairement'
+        'pressPlusButtonHintForCreateNewProfileSubmitButtonTitle': 'Clairement',
+        'synchronization': 'Синхронизация',
+        'darkTheme': 'Темная тема',
+        'whiteTheme': 'Светлая тема'
       };
 }

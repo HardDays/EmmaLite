@@ -81,8 +81,8 @@ class Assignment extends Equatable {
       type = MedicineAssignType();
       unitId = 0;
       frequency = 0;
-      startTime = DateTime.now();
-      endTime = DateTime.now();
+      startTime = DateTime.now().copyWith(hour: 0, minute: 0, second: 0);
+      endTime = DateTime.now().copyWith(hour: 23, minute: 59, second: 59);
       otherTaskDateTime = DateTime.now();
       isRegular = true;
       periodicTask = PeriodicTask(

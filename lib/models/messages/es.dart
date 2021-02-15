@@ -180,6 +180,9 @@ abstract class EsMessages {
         'profileManagementNavBarTitle': 'Gestionar perfiles',
         'deleteProfileViewMainTitleText':
             '¿Está seguro de que quiere eliminar su perfil?',
-        'pressPlusButtonHintForCreateNewProfileSubmitButtonTitle': 'OK'
+        'pressPlusButtonHintForCreateNewProfileSubmitButtonTitle': 'OK',
+        'synchronization': 'Синхронизация',
+        'darkTheme': 'Темная тема',
+        'whiteTheme': 'Светлая тема'
       };
 }

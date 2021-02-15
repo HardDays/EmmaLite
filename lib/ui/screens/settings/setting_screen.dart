@@ -46,7 +46,7 @@ class SettingsScreen extends StatelessWidget {
                   padding: EdgeInsets.only(top: 8.h),
                   child: SettingsItem(
                     title: 'themeCellTitle'.tr,
-                    subtitle: Get.isDarkMode ? 'Темная тема' : 'Светлая тема',
+                    subtitle: Get.isDarkMode ? 'darkTheme'.tr : 'whiteTheme'.tr,
                     icon: AppIcons.design(),
                     onTap: () => onChange(
                       ThemeScreen(
@@ -86,7 +86,7 @@ class SettingsScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(top: 8.h),
                   child: SettingsItem(
-                    title: 'Синхронизация',
+                    title: 'synchronization'.tr,
                     onTap: () => onChange(
                       SettingsSyncScreen(
                         onTap: () => onChange(
