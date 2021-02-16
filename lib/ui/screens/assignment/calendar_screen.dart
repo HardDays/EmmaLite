@@ -13,6 +13,12 @@ class CalendarScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final markers = context.bloc<AssignBloc>().calendarMarkers();
+    final List<String> dates = [];
+
+    for (var i = 5; i <=11; i++) {
+      final date = DateFormat('EE').format(DateTime(1970, 1 , i));
+      dates.add(date.toUpperCase());
+    }
 
     return Scaffold(
       backgroundColor: AppColors.cF5F7FA,
@@ -32,6 +38,7 @@ class CalendarScreen extends StatelessWidget {
               ),
               child: Calendar(
                 width: 288.w,
+                weekDays: dates,
                 height: 300.h,
                 titleStyle: AppTypography.font18.copyWith(
                   color: AppColors.c4A4A4A,

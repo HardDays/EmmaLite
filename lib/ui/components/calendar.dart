@@ -34,7 +34,7 @@ class Calendar extends StatefulWidget {
   final bool isIntervalSelectable;
 
   Calendar({
-    this.weekDays = const ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'],
+    this.weekDays,
     this.viewportFraction = 1.0,
     this.daysTextStyle,
     this.nextDaysTextStyle,
