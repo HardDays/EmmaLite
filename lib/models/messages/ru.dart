@@ -255,5 +255,6 @@ abstract class RuMessages {
         'setPasscodeToHelp ': 'Вы можете настроить вход приложение через пароль, чтобы никто не мог узнать ваши данные.',
         'completeAssignment': '#NAME#, выполните назначение!',
         'familyCompleteAssignment': 'Члену вашей семьи #NAME# необходимо выполнить назначение!',
+        'signIn': 'Вход',
       };
 }

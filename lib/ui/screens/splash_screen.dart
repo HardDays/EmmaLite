@@ -266,7 +266,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   void _localAuthentication() {
     LocalAuthentication().authenticateWithBiometrics(
-        localizedReason: 'Вход',
+        localizedReason: 'signIn'.tr,
         androidAuthStrings: AndroidAuthMessages(
           cancelButton: 'titleCloseButton'.tr,
         ),

@@ -257,5 +257,6 @@ abstract class EnMessages {
         'setPasscodeToHelp ': 'Set a passcode to help protect your data.',
         'completeAssignment': '#NAME#, complete the assignment!',
         'familyCompleteAssignment': '#NAME#, complete the assignment!',
+        'signIn': 'Sign in',
       };
 }
