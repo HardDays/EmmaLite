@@ -74,8 +74,8 @@ class User extends HiveObject {
 
   String get notificationSubtitle {
     return status.isEmpty
-        ? '$firstName, выполните назначение!'
-        : 'Члену вашей семьи "$firstName" необходимо выполнить назначение!';
+        ? 'completeAssignment'.tr.replaceAll(RegExp('#NAME#'), firstName)
+        : 'familyCompleteAssignment'.tr.replaceAll(RegExp('#NAME#'), firstName);
   }
 
   String get statusWithDefault {

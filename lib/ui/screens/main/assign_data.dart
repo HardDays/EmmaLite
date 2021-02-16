@@ -167,7 +167,7 @@ class _EmptyAssign extends StatelessWidget {
           padding: EdgeInsets.only(top: 12.h, bottom: 12.h),
           child: EmptyBlockMain(
             icon: AppIcons.prescriptionsInactive(),
-            title: 'Здесь будут показываться ваши\nближайшие назначения',
+            title: 'yourPrescriptions'.tr,
             buttonTitle: 'addNewPrescriptionLabel'.tr,
             onTap: () {
               navigatorPush(context, AssignmentNewScreen());

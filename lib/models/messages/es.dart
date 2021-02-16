@@ -220,6 +220,13 @@ abstract class EsMessages {
         'new': 'New',
         'yourPrescriptions': 'Your prescriptions will be displayed here',
         'yourRecentMeasurementResults': 'Your recent measurement results will be displayed here',
-        'laterSync': 'To start sharing your EMMA Lite data with #APP#, enable ‘Activate Google Fit’ in the Settings section of EMMA Lite.'
+        'laterSync': 'To start sharing your EMMA Lite data with #APP#, enable ‘Activate Google Fit’ in the Settings section of EMMA Lite.',
+        'prescriptionStatus': 'Prescription status',
+        'history': 'History',
+        'noDataFound': 'No data found',
+        'allProfileDataWillDelete': 'All profile data will delete permanently.',
+        'setPasscodeToHelp ': 'Set a passcode to help protect your data.',
+        'completeAssignment': '#NAME#, complete the assignment!',
+        'familyCompleteAssignment': '#NAME#, complete the assignment!',
       };
 }

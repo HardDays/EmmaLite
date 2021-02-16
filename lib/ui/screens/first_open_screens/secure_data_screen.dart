@@ -1,7 +1,6 @@
 import 'package:emma_mobile/ui/components/buttons/emma_filled_button.dart';
 import 'package:emma_mobile/ui/images.dart';
 import 'package:emma_mobile/ui/screens/first_open_screens/create_password_screen.dart';
-import 'package:emma_mobile/ui/screens/navigator_screen.dart';
 import 'package:emma_mobile/ui/screens/sync/sync_start_screen.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +32,7 @@ class SecureDataScreen extends StatelessWidget {
                 bottom: 32.h,
               ),
               child: Text(
-                'Вы можете настроить вход приложение через пароль, чтобы никто не мог узнать ваши данные. ',
+                'setPasscodeToHelp'.tr,
                 style: AppTypography.font14.copyWith(
                   color: AppColors.c3B4047,
                 ),

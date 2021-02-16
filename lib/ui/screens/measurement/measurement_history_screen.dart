@@ -26,7 +26,7 @@ class MeasurementHistoryScreen extends StatelessWidget {
           return Column(
             children: [
               MeasurementDetailAppBar(
-                title: 'История измерений',
+                title: 'history'.tr,
                 arrowText: bloc.item.title.tr,
                 initialType: bloc.type,
                 item: bloc.item,

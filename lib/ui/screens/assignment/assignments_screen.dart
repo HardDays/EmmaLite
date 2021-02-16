@@ -440,7 +440,7 @@ class EmptyAssign extends StatelessWidget {
               height: 44.w,
             ),
             text:
-                'Здесь будут показываться ваши\nтекущие назначения, история\nвыполнения и список всех\nназначений ',
+                'noPrescriptionsSubTitle'.tr,
           ),
         ),
         Padding(

@@ -81,7 +81,7 @@ class MeasurementDetailScreen extends StatelessWidget {
                                 bottom: 16.h,
                               ),
                               child: Text(
-                                'Нет данных',
+                                'noDataFound'.tr,
                                 style: AppTypography.font18.copyWith(
                                   color: AppColors.c9B9B9B,
                                   fontWeight: FontWeight.w700,
@@ -260,7 +260,7 @@ class _History extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        'История измерений',
+                        'history'.tr,
                         style: AppTypography.font16.copyWith(
                           color: AppColors.c3B4047,
                         ),
