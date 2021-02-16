@@ -28,7 +28,7 @@ class ArterialPressure extends HiveObject implements Measurement {
   final int userId;
 
   @override
-  String title = 'Давление';
+  String title = 'bloodPressure';
 
   @override
   String longTitle = 'bloodPressure';
