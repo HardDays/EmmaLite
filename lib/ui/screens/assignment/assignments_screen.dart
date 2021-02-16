@@ -318,7 +318,7 @@ class _ListItem extends StatelessWidget {
     } else if (count.isEmpty) {
       text = 'thereWereNoReceptionsText'.tr;
     } else if (count.length == assignment.runTasks.length) {
-      text = '${count.length} ${'quantity'.tr}';
+      text = '${'quantity'.tr}'.replaceAll(RegExp('#COUNT#'), count.length.toString());
     } else {
       final length =
           assignment.runTasks.where((e) => !e.completed && e.enable).length;

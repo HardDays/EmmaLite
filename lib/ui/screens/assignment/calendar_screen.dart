@@ -7,17 +7,19 @@ import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class CalendarScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final markers = context.bloc<AssignBloc>().calendarMarkers();
+
     return Scaffold(
       backgroundColor: AppColors.cF5F7FA,
       body: Column(
         children: [
           EmmaAppBar(
-            title: 'Выбор даты назначения',
+            title: 'prescriptionsCalendar'.tr,
             leading: BackLeading(text: 'prescriptionsTitleLabel'.tr),
             trailing: ProfileTrailing(),
           ),

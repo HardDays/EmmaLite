@@ -17,7 +17,7 @@ class AssignHistoryScreen extends StatelessWidget {
       body: Column(
         children: [
           EmmaAppBar(
-            title: 'История назначений',
+            title: 'viewRescriptions'.tr,
             leading: BackLeading(
               text: 'differenceBackTextLabel'.tr.capitalizeFirst,
             ),

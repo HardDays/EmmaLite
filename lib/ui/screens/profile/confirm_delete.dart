@@ -61,7 +61,7 @@ class ConfirmDelete extends StatelessWidget {
               ),
             ),
             Text(
-              'При этом удаляться все данные по этому человеку. И их уже нельзя будет вернуть.',
+              'При этом удалятся все данные по этому человеку. И их уже нельзя будет вернуть.',
               style: AppTypography.font14.copyWith(
                 color: AppColors.c9B9B9B,
               ),

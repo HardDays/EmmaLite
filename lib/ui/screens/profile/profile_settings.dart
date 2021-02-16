@@ -64,7 +64,7 @@ class ProfileSettings extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: 12.h, bottom: 24.h),
             child: EmmaBorderButton(
-              text: 'Добавить профиль',
+              text: 'new'.tr,
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(

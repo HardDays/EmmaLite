@@ -249,5 +249,6 @@ abstract class EnMessages {
         'new': 'New',
         'yourPrescriptions': 'Your prescriptions will be displayed here',
         'yourRecentMeasurementResults': 'Your recent measurement results will be displayed here',
+        'laterSync': 'To start sharing your EMMA Lite data with #APP#, enable ‘Activate Google Fit’ in the Settings section of EMMA Lite.'
       };
 }

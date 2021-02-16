@@ -14,9 +14,8 @@ class SyncCancelScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SyncScreen(
-      text: Platform.isAndroid
-          ? 'Вы всегда можете перейти к Google fit позже в разделе настроек «Партнёрские приложения».'
-          : 'Вы всегда можете перейти к Apple Здоровье позже в разделе настроек «Партнёрские приложения».',
+      text: 'laterSync'.tr.replaceAll(RegExp('#APP#'),
+          Platform.isAndroid ? 'Google Fit' : 'Apple Health app'),
       buttonTitle: 'doneAppleHealthButtonTitle'.tr,
       onNext: () {
         Navigator.pushReplacement(
