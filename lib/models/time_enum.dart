@@ -196,20 +196,13 @@ class YearDateTime implements DateTimeType {
   int countOnPage = 4;
 
   @override
-  List<String> numbers({DateTime timeFrom}) => [
-        'Я',
-        'Ф',
-        'М',
-        'А',
-        'М',
-        'И',
-        'И',
-        'А',
-        'С',
-        'О',
-        'Н',
-        'Д',
-      ];
+  List<String> numbers({DateTime timeFrom}) {
+    final List<String> dates = [];
+    for (var i = 1; i <=12; i++) {
+      dates.add(i.toString());
+    }
+    return dates.toList();
+  }
 
   @override
   String timeValue = 'selectSectionYearTitleco'.tr;

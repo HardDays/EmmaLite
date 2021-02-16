@@ -14,9 +14,8 @@ class SyncStartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SyncScreen(
-      title: Platform.isAndroid
-          ? 'Активируйте Google fit'
-          : 'Активируйте Apple Health',
+      title: 'activate'.tr.replaceAll(
+          RegExp('#NAME#'), Platform.isAndroid ? 'Google fit' : 'Apple Health'),
       text: 'activateAppleHealthSubTitle'.tr,
       buttonTitle: 'activateAppleHealthButtonTitle'.tr,
       hasBack: false,

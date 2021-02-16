@@ -7,6 +7,7 @@ import 'package:emma_mobile/ui/screens/navigator_screen.dart';
 import 'package:emma_mobile/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:local_auth/auth_strings.dart';
 import 'package:local_auth/local_auth.dart';
 
@@ -222,7 +223,7 @@ class _SplashScreenState extends State<SplashScreen>
                   SizedBox(
                     width: 240.w,
                     child: Text(
-                      'Мы повышаем эффективность Вашего общения с врачом',
+                      'effective'.tr,
                       style: AppTypography.font24.copyWith(
                         color: AppColors.c000000,
                       ),

@@ -60,7 +60,7 @@ class _ProfileInfoTip extends StatelessWidget {
           return const SizedBox();
         }
         return ProfileHelpWidget(
-          text: 'Вы можете добавить к вашему аккаунту в EMMA Lite членов вашей семьи и следить за их здоровьем в одном приложении.',
+          text: 'addProfiles'.tr,
           closeTap: bloc.setShowProfileCreateHelp,
         );
       },

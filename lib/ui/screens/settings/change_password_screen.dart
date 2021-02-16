@@ -32,7 +32,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         body: Column(
           children: [
             EmmaAppBar(
-              title: 'Изменение пароля',
+              title: 'changePassword'.tr,
               leading: BackLeading(
                 text: 'differenceBackTextLabel'.tr.capitalizeFirst,
               ),
@@ -45,7 +45,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     child: SizedBox(
                       width: 180.w,
                       child: Text(
-                        'Введите текущий пароль и придумайте новый',
+                        'changePasswordTitle'.tr,
                         style: AppTypography.font16.copyWith(
                           color: AppColors.c3B4047,
                         ),
@@ -59,7 +59,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       padding: EdgeInsets.only(top: 16.h),
                       child: DefaultContainer(
                         child: InputTextField(
-                          label: 'Старый пароль',
+                          label: 'oldPassword'.tr,
                           formatter: LengthLimitingTextInputFormatter(4),
                           onChange: (s) {
                             _oldPassword = s;
@@ -71,7 +71,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     padding: EdgeInsets.symmetric(vertical: 8.h),
                     child: DefaultContainer(
                       child: InputTextField(
-                        label: 'Новый пароль',
+                        label: 'newPassword'.tr,
                         formatter: LengthLimitingTextInputFormatter(4),
                         onChange: (s) {
                           _newPassword = s;
@@ -81,7 +81,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   ),
                   DefaultContainer(
                     child: InputTextField(
-                      label: 'Повторите пароль',
+                      label: 'repeatPassword'.tr,
                       formatter: LengthLimitingTextInputFormatter(4),
                       onChange: (s) {
                         _repeatNewPassword = s;
@@ -99,7 +99,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       onTap: () {
                         if (_oldPassword != widget.oldPassword &&
                             widget.oldPassword != null) {
-                          Toast.show('Неправильный старый пароль');
+                          Toast.show('unCorrectPreviousPass'.tr);
                           return;
                         }
                         if (_repeatNewPassword != _newPassword) {

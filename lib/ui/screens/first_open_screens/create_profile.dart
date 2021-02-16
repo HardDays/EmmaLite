@@ -54,10 +54,10 @@ class _CreateProfile extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(top: 24.h, bottom: 12.h),
                   child: EmmaFilledButton(
-                    title: 'Сохранить и продолжить',
+                    title: 'saveButtonText'.tr,
                     onTap: () {
                       context.bloc<ProfileCubit>().addUser(bloc.user);
-                      Toast.show('Данные сохранены');
+                      Toast.show('saveData'.tr);
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (_) => SecureDataScreen(),

@@ -28,7 +28,7 @@ class DoctorsBloc extends Cubit<DoctorsState> {
     final index = _doctors.lastIndexWhere((e) => e.id == d.id);
     _doctors[index] = d;
     _doctorsRepository.updateDoctor(d: d);
-    Toast.show('Данные сохранены');
+    Toast.show('saveData'.tr);
     emit(DoctorsState());
   }
 
@@ -36,14 +36,14 @@ class DoctorsBloc extends Cubit<DoctorsState> {
     final index = _doctors.lastIndexWhere((e) => e.id == d.id);
     _doctors.removeAt(index);
     _doctorsRepository.removeDoctorById(d.id);
-    Toast.show('Контакт удален');
+    Toast.show('contactDelete'.tr);
     emit(DoctorsState());
   }
 
   void saveDoctor(Doctor d) {
     _doctors.add(d);
     _doctorsRepository.saveDoctor(d);
-    Toast.show('Контакт добавлен');
+    Toast.show('addContact'.tr);
     emit(DoctorsState());
   }
 }

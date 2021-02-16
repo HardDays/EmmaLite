@@ -78,7 +78,7 @@ class _Item extends StatelessWidget {
                   .lastIndexWhere((e) => e.dateTime == measurement.dateTime),
             );
             detailBloc.deleteItem(measurement: measurement);
-            Toast.show('Запись удалена');
+            Toast.show('deleteData'.tr);
           },
           child:  DecoratedBox(
             decoration: const BoxDecoration(

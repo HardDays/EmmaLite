@@ -66,7 +66,7 @@ class FirstOpenScreen extends StatelessWidget {
                     horizontal: 16.w,
                   ),
                   child: Text(
-                    'Сделаю позже',
+                    'later'.tr,
                     style: AppTypography.font14.copyWith(
                       color: AppColors.c00ACE3,
                       fontWeight: FontWeight.w500,

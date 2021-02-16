@@ -89,7 +89,7 @@ class BottomMenu extends StatelessWidget {
                     onTap();
                     navigatorPush(context, ReportScreen());
                   } else {
-                    Toast.show('Заполните профиль!');
+                    Toast.show('${'fullProfile'.tr}!');
                   }
                 } else {
                   onTap();
