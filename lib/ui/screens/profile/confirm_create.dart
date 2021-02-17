@@ -50,7 +50,7 @@ class ConfirmCreate extends StatelessWidget {
               padding: EdgeInsets.only(top: 12.h, bottom: 24.h),
               child: EmmaBorderButton(
                 color: Colors.white,
-                text: 'Отказаться',
+                text: 'decline'.tr,
                 onTap: () {
                   Navigator.of(context).pop();
                 },

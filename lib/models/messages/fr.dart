@@ -246,5 +246,6 @@ abstract class FrMessages {
         'oldPassword': 'Old password',
         'newPassword': 'New password',
         'repeatPassword': 'Repeat the password',
+        'decline': 'Decline',
       };
 }

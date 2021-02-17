@@ -271,5 +271,6 @@ abstract class RuMessages {
         'oldPassword': 'Старый пароль',
         'newPassword': 'Новый пароль',
         'repeatPassword': 'Повторите пароль',
+        'decline': 'Отклонить',
       };
 }

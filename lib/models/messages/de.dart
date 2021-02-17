@@ -242,5 +242,6 @@ abstract class DeMessages {
         'oldPassword': 'Old password',
         'newPassword': 'New password',
         'repeatPassword': 'Repeat the password',
+        'decline': 'Decline',
       };
 }
